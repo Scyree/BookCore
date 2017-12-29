@@ -1,7 +1,8 @@
 # BookCore
-##Repository made to display the current status
 
-##ToDo List:
+## Repository made to display the current status
+
+## ToDo List:
 
 - [ ] Include a .gitignore
 - [ ] Implement the project
