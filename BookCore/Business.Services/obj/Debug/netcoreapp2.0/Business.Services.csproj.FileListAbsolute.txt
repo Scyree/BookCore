@@ -1,0 +1,15 @@
+C:\Users\hsrap\Desktop\Licenta\BookCore\Business.Services\bin\Debug\netcoreapp2.0\Business.Services.deps.json
+C:\Users\hsrap\Desktop\Licenta\BookCore\Business.Services\bin\Debug\netcoreapp2.0\Business.Services.dll
+C:\Users\hsrap\Desktop\Licenta\BookCore\Business.Services\bin\Debug\netcoreapp2.0\Business.Services.pdb
+C:\Users\hsrap\Desktop\Licenta\BookCore\Business.Services\bin\Debug\netcoreapp2.0\Business.Repositories.dll
+C:\Users\hsrap\Desktop\Licenta\BookCore\Business.Services\bin\Debug\netcoreapp2.0\Data.Domain.dll
+C:\Users\hsrap\Desktop\Licenta\BookCore\Business.Services\bin\Debug\netcoreapp2.0\Data.Persistance.dll
+C:\Users\hsrap\Desktop\Licenta\BookCore\Business.Services\bin\Debug\netcoreapp2.0\Business.Repositories.pdb
+C:\Users\hsrap\Desktop\Licenta\BookCore\Business.Services\bin\Debug\netcoreapp2.0\Data.Domain.pdb
+C:\Users\hsrap\Desktop\Licenta\BookCore\Business.Services\bin\Debug\netcoreapp2.0\Data.Persistance.pdb
+C:\Users\hsrap\Desktop\Licenta\BookCore\Business.Services\obj\Debug\netcoreapp2.0\Business.Services.csprojResolveAssemblyReference.cache
+C:\Users\hsrap\Desktop\Licenta\BookCore\Business.Services\obj\Debug\netcoreapp2.0\Business.Services.csproj.CoreCompileInputs.cache
+C:\Users\hsrap\Desktop\Licenta\BookCore\Business.Services\obj\Debug\netcoreapp2.0\Business.Services.AssemblyInfoInputs.cache
+C:\Users\hsrap\Desktop\Licenta\BookCore\Business.Services\obj\Debug\netcoreapp2.0\Business.Services.AssemblyInfo.cs
+C:\Users\hsrap\Desktop\Licenta\BookCore\Business.Services\obj\Debug\netcoreapp2.0\Business.Services.dll
+C:\Users\hsrap\Desktop\Licenta\BookCore\Business.Services\obj\Debug\netcoreapp2.0\Business.Services.pdb
