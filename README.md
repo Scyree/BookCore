@@ -8,7 +8,17 @@
 - [ ] Implement the project
   - [ ] Use Unit tests
   - [ ] Front-End
+    - [ ] Register/Login
+    - [ ] User's profile
+    - [ ] BookRankings
+    - [ ] Book's profile
+    - [ ] MainPage
   - [ ] Back-End
+    - [ ] Register/Login
+    - [ ] User's profile
+    - [ ] BookRankings
+    - [ ] Book's profile
+    - [ ] MainPage
 - [ ] Deployment on Azure
 - [ ] Deployment on SonarCloud
 
