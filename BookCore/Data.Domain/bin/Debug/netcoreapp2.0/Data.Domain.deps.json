@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v2.0": {
       "Data.Domain/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore": "2.0.1",
           "Microsoft.AspNetCore.All": "2.0.3",
           "Microsoft.AspNetCore.Identity": "2.0.1"
         },

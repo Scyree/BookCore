@@ -5,7 +5,6 @@ C:\Users\hsrap\Desktop\Licenta\BookCore\Presentation\bin\Debug\netcoreapp2.0\Pre
 C:\Users\hsrap\Desktop\Licenta\BookCore\Presentation\bin\Debug\netcoreapp2.0\Presentation.pdb
 C:\Users\hsrap\Desktop\Licenta\BookCore\Presentation\obj\Debug\netcoreapp2.0\Presentation.csprojResolveAssemblyReference.cache
 C:\Users\hsrap\Desktop\Licenta\BookCore\Presentation\obj\Debug\netcoreapp2.0\Presentation.csproj.CoreCompileInputs.cache
-C:\Users\hsrap\Desktop\Licenta\BookCore\Presentation\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
 C:\Users\hsrap\Desktop\Licenta\BookCore\Presentation\obj\Debug\netcoreapp2.0\Presentation.AssemblyInfoInputs.cache
 C:\Users\hsrap\Desktop\Licenta\BookCore\Presentation\obj\Debug\netcoreapp2.0\Presentation.AssemblyInfo.cs
 C:\Users\hsrap\Desktop\Licenta\BookCore\Presentation\obj\Debug\netcoreapp2.0\Presentation.dll
@@ -18,3 +17,4 @@ C:\Users\hsrap\Desktop\Licenta\BookCore\Presentation\bin\Debug\netcoreapp2.0\Bus
 C:\Users\hsrap\Desktop\Licenta\BookCore\Presentation\bin\Debug\netcoreapp2.0\Business.Services.pdb
 C:\Users\hsrap\Desktop\Licenta\BookCore\Presentation\bin\Debug\netcoreapp2.0\Data.Domain.pdb
 C:\Users\hsrap\Desktop\Licenta\BookCore\Presentation\bin\Debug\netcoreapp2.0\Data.Persistance.pdb
+C:\Users\hsrap\Desktop\Licenta\BookCore\Presentation\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs

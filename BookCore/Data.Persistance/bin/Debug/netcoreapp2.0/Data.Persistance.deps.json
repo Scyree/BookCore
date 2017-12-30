@@ -9,6 +9,7 @@
       "Data.Persistance/1.0.0": {
         "dependencies": {
           "Data.Domain": "1.0.0",
+          "Microsoft.AspNetCore": "2.0.1",
           "Microsoft.AspNetCore.All": "2.0.3",
           "Microsoft.AspNetCore.Session": "2.0.1",
           "Microsoft.EntityFrameworkCore": "2.0.1",
@@ -3203,6 +3204,7 @@
       },
       "Data.Domain/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore": "2.0.1",
           "Microsoft.AspNetCore.All": "2.0.3",
           "Microsoft.AspNetCore.Identity": "2.0.1"
         },

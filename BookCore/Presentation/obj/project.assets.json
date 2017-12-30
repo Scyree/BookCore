@@ -5034,7 +5034,8 @@
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
           "Data.Domain": "1.0.0",
-          "Data.Persistance": "1.0.0"
+          "Data.Persistance": "1.0.0",
+          "Microsoft.AspNetCore": "2.0.1"
         },
         "compile": {
           "bin/placeholder/Business.Repositories.dll": {}
@@ -5049,7 +5050,8 @@
         "dependencies": {
           "Business.Repositories": "1.0.0",
           "Data.Domain": "1.0.0",
-          "Data.Persistance": "1.0.0"
+          "Data.Persistance": "1.0.0",
+          "Microsoft.AspNetCore": "2.0.1"
         },
         "compile": {
           "bin/placeholder/Business.Services.dll": {}
@@ -5062,6 +5064,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
+          "Microsoft.AspNetCore": "2.0.1",
           "Microsoft.AspNetCore.All": "2.0.3",
           "Microsoft.AspNetCore.Identity": "2.0.1"
         },
@@ -5077,6 +5080,7 @@
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
           "Data.Domain": "1.0.0",
+          "Microsoft.AspNetCore": "2.0.1",
           "Microsoft.AspNetCore.All": "2.0.3",
           "Microsoft.AspNetCore.Session": "2.0.1",
           "Microsoft.EntityFrameworkCore": "2.0.1",
@@ -13201,6 +13205,7 @@
       "Business.Services >= 1.0.0",
       "Data.Domain >= 1.0.0",
       "Data.Persistance >= 1.0.0",
+      "Microsoft.AspNetCore >= 2.0.1",
       "Microsoft.AspNetCore.All >= 2.0.3",
       "Microsoft.EntityFrameworkCore.Tools >= 2.0.1",
       "Microsoft.NETCore.App >= 2.0.0",
@@ -13264,6 +13269,10 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
+          "Microsoft.AspNetCore": {
+            "target": "Package",
+            "version": "2.0.1"
+          },
           "Microsoft.EntityFrameworkCore.Tools": {
             "suppressParent": "All",
             "target": "Package",
@@ -13276,7 +13285,7 @@
           },
           "Microsoft.NETCore.App": {
             "target": "Package",
-            "version": "2.0.0",
+            "version": "2.0",
             "autoReferenced": true
           },
           "Microsoft.AspNetCore.All": {
