@@ -217,7 +217,12 @@ namespace Presentation.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    Name = model.Name,
+                    Email = model.Email
+                };
+                
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -268,11 +273,12 @@ namespace Presentation.Controllers
                 return RedirectToAction(nameof(Login));
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
+           
             if (info == null)
             {
                 return RedirectToAction(nameof(Login));
             }
-
+            
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
@@ -290,7 +296,12 @@ namespace Presentation.Controllers
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
+                var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+                return View("ExternalLogin", new ExternalLoginViewModel
+                {
+                    Email = email,
+                    Name = name
+                });
             }
         }
 
@@ -307,7 +318,8 @@ namespace Presentation.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                //var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

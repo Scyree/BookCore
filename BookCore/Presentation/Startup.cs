@@ -38,7 +38,7 @@ namespace Presentation
             {
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-            });
+              });
 
             //Google service
             services.AddAuthentication().AddGoogle(googleOptions =>

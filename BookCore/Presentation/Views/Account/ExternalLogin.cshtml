@@ -3,27 +3,50 @@
     ViewData["Title"] = "Register";
 }
 
-<h2>@ViewData["Title"]</h2>
-<h4>Associate your @ViewData["LoginProvider"] account.</h4>
-<hr />
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/hrUsage.css" />
+</environment>
 
-<p class="text-info">
-    You've successfully authenticated with <strong>@ViewData["LoginProvider"]</strong>.
-    Please enter an email address for this site below and click the Register button to finish
-    logging in.
-</p>
+<h2>Connected with @ViewData["LoginProvider"]</h2>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="ExternalLoginConfirmation" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-default">Register</button>
-        </form>
+<div class="col-md-offset-4">
+    <div class="row">
+        <div class="col-md-7">
+            <p class="text-info">
+                <strong>Success!</strong>
+                <br />
+                Verify the info
+            </p>
+            <strong>Name: @Model.Name</strong>
+            <br />
+            <strong>E-mail: @Model.Email</strong>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <p>
+                <div class="horizRule">
+                    <hr class="first" />Or<hr class="second" />
+                </div>
+                <br />
+            </p>
+
+            <form asp-action="ExternalLoginConfirmation" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name">Name</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email">E-mail</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-default">Register</button>
+            </form>
+        </div>
     </div>
 </div>
 
