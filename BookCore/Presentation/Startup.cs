@@ -30,15 +30,12 @@ namespace Presentation
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            // Add application services.
-            services.AddTransient<IEmailSender, EmailSender>();
-
             //Facebook service
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-              });
+            });
 
             //Google service
             services.AddAuthentication().AddGoogle(googleOptions =>
@@ -53,6 +50,11 @@ namespace Presentation
                 twitterOptions.ConsumerKey = Configuration["Authentication:Twitter:ConsumerKey"];
                 twitterOptions.ConsumerSecret = Configuration["Authentication:Twitter:ConsumerSecret"];
             });
+            
+            // Add application services.
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IApplicationUserServices, ApplicationUserServices>();
+            
 
             services.AddMvc();
         }
