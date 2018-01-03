@@ -30,7 +30,7 @@
                                     <div>
                                         <p class="socialText">
                                             <strong>Social media like:</strong>
-                                            </p>
+                                        </p>
                                         <p>
                                             <ul>
                                                 @foreach (var provider in loginProviders)
@@ -44,7 +44,6 @@
                             }
                         </div>
                         <div class="col-md-6 second-column">
-                            <section>
                                 <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
                                     <div asp-validation-summary="All" class="text-danger"></div>
                                     <div class="form-group">
@@ -69,7 +68,6 @@
                                         <button type="submit" class="btn btn-default">Log in</button>
                                     </div>
                                 </form>
-                            </section>
                         </div>
                     </div>
                 </div>

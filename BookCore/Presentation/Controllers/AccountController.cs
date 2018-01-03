@@ -320,7 +320,7 @@ namespace Presentation.Controllers
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
                 //var name = info.Principal.FindFirstValue(ClaimTypes.Name);
-                var user = new ApplicationUser { Name = model.Name, Email = model.Email};
+                var user = new ApplicationUser { Name = model.Name, Email = model.Email, UserName = model.Email};
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
