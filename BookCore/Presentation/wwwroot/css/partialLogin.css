@@ -1,0 +1,20 @@
+﻿.drop-item {
+    width: 100%;
+    background-color: #ffffff;
+    color: #333;
+}
+
+.btn-logout {
+    margin-left: 8%;
+    background: none;
+    border: none;
+}
+
+.btn-logout:hover {
+    text-decoration: none;
+}
+
+.drop-item:hover {
+    background-color: #F5F5F5;
+    border: none;
+}
