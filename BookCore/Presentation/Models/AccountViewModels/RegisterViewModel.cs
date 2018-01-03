@@ -4,7 +4,6 @@ namespace Presentation.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
         [Display(Name = "Name")]
         public string Name { get; set; }
 

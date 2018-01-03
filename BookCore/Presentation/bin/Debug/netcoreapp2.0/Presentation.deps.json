@@ -26,11 +26,10 @@
           "Business.Repositories": "1.0.0",
           "Business.Services": "1.0.0",
           "Data.Domain": "1.0.0",
-          "Data.Persistance": "1.0.0",
+          "Data.Persistence": "1.0.0",
           "Microsoft.AspNetCore": "2.0.1",
           "Microsoft.AspNetCore.All": "2.0.3",
           "Microsoft.AspNetCore.Authentication.Twitter": "2.0.1",
-          "Microsoft.EntityFrameworkCore.Tools": "2.0.1",
           "Microsoft.NETCore.App": "2.0.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.0.1"
         },
@@ -4063,8 +4062,7 @@
       "Business.Repositories/1.0.0": {
         "dependencies": {
           "Data.Domain": "1.0.0",
-          "Data.Persistance": "1.0.0",
-          "Microsoft.AspNetCore": "2.0.1"
+          "Data.Persistence": "1.0.0"
         },
         "runtime": {
           "Business.Repositories.dll": {}
@@ -4077,7 +4075,7 @@
         "dependencies": {
           "Business.Repositories": "1.0.0",
           "Data.Domain": "1.0.0",
-          "Data.Persistance": "1.0.0",
+          "Data.Persistence": "1.0.0",
           "Microsoft.AspNetCore": "2.0.1"
         },
         "runtime": {
@@ -4100,7 +4098,7 @@
           "Data.Domain.dll": {}
         }
       },
-      "Data.Persistance/1.0.0": {
+      "Data.Persistence/1.0.0": {
         "dependencies": {
           "Data.Domain": "1.0.0",
           "Microsoft.AspNetCore": "2.0.1",
@@ -4111,10 +4109,10 @@
           "Microsoft.EntityFrameworkCore.Tools": "2.0.1"
         },
         "runtime": {
-          "Data.Persistance.dll": {}
+          "Data.Persistence.dll": {}
         },
         "compile": {
-          "Data.Persistance.dll": {}
+          "Data.Persistence.dll": {}
         }
       },
       "Microsoft.NETCore.App/2.0.0": {
@@ -6444,7 +6442,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Data.Persistance/1.0.0": {
+    "Data.Persistence/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

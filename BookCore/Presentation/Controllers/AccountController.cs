@@ -220,6 +220,7 @@ namespace Presentation.Controllers
                 var user = new ApplicationUser
                 {
                     Name = model.Name,
+                    UserName = model.Email,
                     Email = model.Email
                 };
                 
@@ -232,7 +233,7 @@ namespace Presentation.Controllers
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
                     return RedirectToLocal(returnUrl);
                 }
@@ -319,7 +320,7 @@ namespace Presentation.Controllers
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
                 //var name = info.Principal.FindFirstValue(ClaimTypes.Name);
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name };
+                var user = new ApplicationUser { Name = model.Name, Email = model.Email};
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

@@ -1,6 +1,5 @@
 ﻿using Data.Domain.Interfaces.Services;
-using Data.Persistance;
-using System;
+using Data.Persistence;
 using System.Linq;
 
 namespace Business.Services

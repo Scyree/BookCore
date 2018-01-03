@@ -9,8 +9,7 @@
       "Business.Repositories/1.0.0": {
         "dependencies": {
           "Data.Domain": "1.0.0",
-          "Data.Persistance": "1.0.0",
-          "Microsoft.AspNetCore": "2.0.1"
+          "Data.Persistence": "1.0.0"
         },
         "runtime": {
           "Business.Repositories.dll": {}
@@ -3208,7 +3207,7 @@
           "Data.Domain.dll": {}
         }
       },
-      "Data.Persistance/1.0.0": {
+      "Data.Persistence/1.0.0": {
         "dependencies": {
           "Data.Domain": "1.0.0",
           "Microsoft.AspNetCore": "2.0.1",
@@ -3219,7 +3218,7 @@
           "Microsoft.EntityFrameworkCore.Tools": "2.0.1"
         },
         "runtime": {
-          "Data.Persistance.dll": {}
+          "Data.Persistence.dll": {}
         }
       }
     }
@@ -5237,7 +5236,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Data.Persistance/1.0.0": {
+    "Data.Persistence/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -1942,7 +1942,7 @@
           "lib/netstandard2.0/Microsoft.Extensions.Configuration.UserSecrets.dll": {}
         },
         "build": {
-          "build/netstandard2.0/Microsoft.Extensions.Configuration.UserSecrets.targets": {}
+          "build/netstandard2.0/_._": {}
         }
       },
       "Microsoft.Extensions.Configuration.Xml/2.0.0": {
@@ -4762,7 +4762,7 @@
           "bin/placeholder/Data.Domain.dll": {}
         }
       },
-      "Data.Persistance/1.0.0": {
+      "Data.Persistence/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
@@ -4775,10 +4775,10 @@
           "Microsoft.EntityFrameworkCore.Tools": "2.0.1"
         },
         "compile": {
-          "bin/placeholder/Data.Persistance.dll": {}
+          "bin/placeholder/Data.Persistence.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Data.Persistance.dll": {}
+          "bin/placeholder/Data.Persistence.dll": {}
         }
       }
     }
@@ -12565,17 +12565,16 @@
       "path": "../Data.Domain/Data.Domain.csproj",
       "msbuildProject": "../Data.Domain/Data.Domain.csproj"
     },
-    "Data.Persistance/1.0.0": {
+    "Data.Persistence/1.0.0": {
       "type": "project",
-      "path": "../Data.Persistance/Data.Persistance.csproj",
-      "msbuildProject": "../Data.Persistance/Data.Persistance.csproj"
+      "path": "../Data.Persistence/Data.Persistence.csproj",
+      "msbuildProject": "../Data.Persistence/Data.Persistence.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
       "Data.Domain >= 1.0.0",
-      "Data.Persistance >= 1.0.0",
-      "Microsoft.AspNetCore >= 2.0.1",
+      "Data.Persistence >= 1.0.0",
       "Microsoft.NETCore.App >= 2.0.0"
     ]
   },
@@ -12615,8 +12614,8 @@
             "C:\\Users\\hsrap\\Desktop\\Licenta\\BookCore\\Data.Domain\\Data.Domain.csproj": {
               "projectPath": "C:\\Users\\hsrap\\Desktop\\Licenta\\BookCore\\Data.Domain\\Data.Domain.csproj"
             },
-            "C:\\Users\\hsrap\\Desktop\\Licenta\\BookCore\\Data.Persistance\\Data.Persistance.csproj": {
-              "projectPath": "C:\\Users\\hsrap\\Desktop\\Licenta\\BookCore\\Data.Persistance\\Data.Persistance.csproj"
+            "C:\\Users\\hsrap\\Desktop\\Licenta\\BookCore\\Data.Persistence\\Data.Persistence.csproj": {
+              "projectPath": "C:\\Users\\hsrap\\Desktop\\Licenta\\BookCore\\Data.Persistence\\Data.Persistence.csproj"
             }
           }
         }
@@ -12630,10 +12629,6 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "Microsoft.AspNetCore": {
-            "target": "Package",
-            "version": "2.0.1"
-          },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
             "target": "Package",
