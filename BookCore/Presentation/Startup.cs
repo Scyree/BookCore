@@ -8,6 +8,9 @@ using Data.Persistence;
 using Data.Domain.Entities;
 using Business.Services;
 using Data.Domain.Interfaces.Services;
+using Data.Persistance;
+using Data.Domain.Interfaces.Repositories;
+using Business.Repositories;
 
 namespace Presentation
 {
@@ -23,16 +26,13 @@ namespace Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             const string connection = @"Server = .\SQLEXPRESS; Database = Project.Development; Trusted_Connection = true;";
 
-            //services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
 
             //Facebook service
@@ -59,7 +59,10 @@ namespace Presentation
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IApplicationUserServices, ApplicationUserServices>();
-            
+            services.AddTransient<IDatabaseContext, DatabaseContext>();
+            services.AddTransient<IBookRepository, BookRepository>();
+            services.AddTransient<IAuthorRepository, AuthorRepository>();
+            services.AddTransient<ICharacterRepository, CharacterRepository>();
 
             services.AddMvc();
         }
