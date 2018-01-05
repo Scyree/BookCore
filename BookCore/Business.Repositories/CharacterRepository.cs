@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using Data.Domain.Entities;
-using Data.Persistance;
 using Data.Domain.Interfaces.Repositories;
+using Data.Persistence;
 
 namespace Business.Repositories
 {
     public class CharacterRepository : ICharacterRepository
     {
-        private readonly DatabaseContext _databaseService;
+        private readonly ApplicationDbContext _databaseService;
 
-        public CharacterRepository(DatabaseContext databaseService)
+        public CharacterRepository(ApplicationDbContext databaseService)
         {
             _databaseService = databaseService;
         }

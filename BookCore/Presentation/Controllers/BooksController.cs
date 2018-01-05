@@ -5,16 +5,24 @@ using Microsoft.EntityFrameworkCore;
 using Data.Domain.Entities;
 using Data.Domain.Interfaces.Repositories;
 using Presentation.Models.BookViewModels;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Data.Domain.Interfaces.Services;
 
 namespace Presentation.Controllers
 {
     public class BooksController : Controller
     {
+        private readonly IBookService _service;
         private readonly IBookRepository _repository;
+        private readonly IHostingEnvironment _env;
 
-        public BooksController(IBookRepository repository)
+        public BooksController(IBookService service, IBookRepository repository, IHostingEnvironment env)
         {
+            _service = service;
             _repository = repository;
+            _env = env;
         }
 
         // GET: Books
@@ -51,20 +59,40 @@ namespace Presentation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Title, Description")] BookCreateModel bookCreateModel)
+        public async Task<IActionResult> Create([Bind("Title, Description, Image")] BookCreateModel bookCreateModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(bookCreateModel);
             }
 
+            var value = Guid.NewGuid();
+            var path = Path.Combine(_env.WebRootPath, "Books/" + value);
+
+            if (bookCreateModel.Image.Length > 0)
+            {
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                using (var fileStream = new FileStream(Path.Combine(path, bookCreateModel.Image.FileName), FileMode.Create))
+                {
+                    await bookCreateModel.Image.CopyToAsync(fileStream);
+                }
+            }
+
+            var absolutePath = "~/Books/" + value;
+
             _repository.CreateBook(
                 Book.CreateBook(
                     bookCreateModel.Title,
-                    bookCreateModel.Description
+                    bookCreateModel.Description,
+                    absolutePath,
+                    bookCreateModel.Image.FileName
                 )
             );
-
+               
             return RedirectToAction(nameof(Index));
         }
 
@@ -95,7 +123,7 @@ namespace Presentation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, [Bind("Title, Description")] BookEditModel bookEditModel)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Title, Description, Image")] BookEditModel bookEditModel)
         {
             var bookToBeEdited = _repository.GetBookById(id);
 
@@ -114,6 +142,22 @@ namespace Presentation.Controllers
 
             try
             {
+                if (bookEditModel.Image != null)
+                {
+                    var searchedPath = bookToBeEdited.Folder.Replace("~", "");
+                    var path = _env.WebRootPath + searchedPath;
+                    
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    
+                    using (var fileStream = new FileStream(Path.Combine(path, bookToBeEdited.ImageName), FileMode.Create))
+                    {
+                        await bookEditModel.Image.CopyToAsync(fileStream);
+                    }
+                }
+                
                 _repository.EditBook(bookToBeEdited);
             }
             catch (DbUpdateConcurrencyException)
@@ -151,10 +195,7 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(Guid id)
         {
-            var book = _repository.GetBookById(id);
-
-            _repository.DeleteBook(book);
-
+            _service.DeleteFileForGivenId(id);
             return RedirectToAction(nameof(Index));
         }
 

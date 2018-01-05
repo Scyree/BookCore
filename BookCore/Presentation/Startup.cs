@@ -8,7 +8,6 @@ using Data.Persistence;
 using Data.Domain.Entities;
 using Business.Services;
 using Data.Domain.Interfaces.Services;
-using Data.Persistance;
 using Data.Domain.Interfaces.Repositories;
 using Business.Repositories;
 
@@ -31,8 +30,6 @@ namespace Presentation
                 .AddDefaultTokenProviders();
 
             const string connection = @"Server = .\SQLEXPRESS; Database = Project.Development; Trusted_Connection = true;";
-
-            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
 
             //Facebook service
@@ -59,10 +56,10 @@ namespace Presentation
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IApplicationUserServices, ApplicationUserServices>();
-            services.AddTransient<IDatabaseContext, DatabaseContext>();
             services.AddTransient<IBookRepository, BookRepository>();
             services.AddTransient<IAuthorRepository, AuthorRepository>();
             services.AddTransient<ICharacterRepository, CharacterRepository>();
+            services.AddTransient<IBookService, BookService>();
 
             services.AddMvc();
         }

@@ -8,25 +8,28 @@ namespace Data.Domain.Entities
         [Key]
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "A title is required.")]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "A description is required.")]
-        [StringLength(2000, ErrorMessage = "Maximum number of characters is 2000!")]
         public string Description { get; set; }
 
-        public static Book CreateBook(string title, string description)
+        public string Folder { get; set; }
+
+        public string ImageName { get; set; }
+
+        public static Book CreateBook(string title, string description, string folder, string imageName)
         {
             var instance = new Book { Id = Guid.NewGuid() };
-            instance.UpdateBook(title, description);
+            instance.UpdateBook(title, description, folder, imageName);
 
             return instance;
         }
 
-        private void UpdateBook(string title, string description)
+        private void UpdateBook(string title, string description, string folder, string imageName)
         {
             Title = title;
             Description = description;
+            Folder = folder;
+            ImageName = imageName;
         }
     }
 }

@@ -8,11 +8,8 @@ namespace Data.Domain.Entities
         [Key]
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "A name is required.")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "A description is required.")]
-        [StringLength(2000, ErrorMessage = "Maximum number of characters is 2000!")]
         public string Description { get; set; }
 
         public static Character CreateCharacter(string name, string description)

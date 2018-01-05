@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using Data.Domain.Entities;
-using Data.Persistance;
 using Data.Domain.Interfaces.Repositories;
+using Data.Persistence;
 
 namespace Business.Repositories
 {
     public class BookRepository : IBookRepository
     {
-        private readonly DatabaseContext _databaseService;
+        private readonly ApplicationDbContext _databaseService;
 
-        public BookRepository(DatabaseContext databaseService)
+        public BookRepository(ApplicationDbContext databaseService)
         {
             _databaseService = databaseService;
         }

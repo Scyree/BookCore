@@ -4,7 +4,7 @@
 *.userosscache
 *.sln.docstates
 
-# User-specific files
+# User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
 # Build results
@@ -81,6 +81,17 @@ StyleCopReport.xml
 # Chutzpah Test files
 _Chutzpah*
 
+# Visual C++ cache files
+ipch/
+*.aps
+*.ncb
+*.opendb
+*.opensdf
+*.sdf
+*.cachefile
+*.VC.db
+*.VC.VC.opendb
+
 # Visual Studio profiler
 *.psess
 *.vsp
@@ -133,15 +144,30 @@ AutoTest.Net/
 # Installshield output folder
 [Ee]xpress/
 
+# DocProject is a documentation generator add-in
+DocProject/buildhelp/
+DocProject/Help/*.HxT
+DocProject/Help/*.HxC
+DocProject/Help/*.hhc
+DocProject/Help/*.hhk
+DocProject/Help/*.hhp
+DocProject/Help/Html2
+DocProject/Help/html
+
 # Click-Once directory
 publish/
 
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml
+# Note: Comment the next line if you want to checkin your web deploy settings,
+# but database connection strings (with potential passwords) will be unencrypted
 *.pubxml
 *.publishproj
 
+# Microsoft Azure Web App publish settings. Comment the next line if you want to
+# checkin your Azure Web App publish settings, but sensitive information contained
+# in these scripts will be unencrypted
 PublishScripts/
 
 # NuGet Packages
@@ -282,5 +308,7 @@ OpenCover/
 
 # Azure Stream Analytics local run output 
 ASALocalRun/
-BookCore/.vscode/launch.json
-BookCore/.vscode/tasks.json
+CourseManager/.vscode/launch.json
+CourseManager/.vscode/tasks.json
+
+CourseManager/Presentation/appsettings\.json
