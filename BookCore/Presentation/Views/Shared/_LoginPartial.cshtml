@@ -1,0 +1,46 @@
+@using Microsoft.AspNetCore.Identity
+@using Data.Domain.Entities
+@using Data.Domain.Interfaces.Services
+@inject IApplicationUserServices Service
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/PartialLogin.css" />
+</environment>
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">@Service.GetNameOfTheSpecifiedId(UserManager.GetUserId(User)) <span class="glyphicon glyphicon-user"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="#">Explore</a></li>
+                <li><a href="#">Community</a></li>
+                <li><a href="#">News</a></li>
+                <li class="divider"></li>
+                <li><a asp-area="" asp-controller="Manage" asp-action="Index">Settings <span class="glyphicon glyphicon-cog"></span></a></li>
+                <li class="drop-item">
+                    <form class="form-inline" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                        <button type="submit" class="btn-logout">Log out <span class="glyphicon glyphicon-log-out"></span></button>
+                    </form>
+                </li>
+            </ul>
+        </li>
+   </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-area="" asp-controller="Account" asp-action="Register">Register <span class="glyphicon glyphicon-plus-sign"></span></a></li>
+        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in <span class="glyphicon glyphicon-log-in"></span></a></li>
+    </ul>
+}
+
+    <form class="navbar-form navbar-right searchForum">
+        <div class="form-group has-feedback">
+            <label class="control-label"></label>
+            <input type="text" class="form-control" placeholder="Search for authors, books ...">
+            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+        </div>
+    </form>

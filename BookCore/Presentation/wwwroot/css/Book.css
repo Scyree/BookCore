@@ -1,0 +1,12 @@
+﻿.container {
+    color: black;
+}
+
+img {
+    max-width: 30%;
+    max-height: 30%;
+}
+
+tbody {
+    background-color: #CFD5D5;
+}

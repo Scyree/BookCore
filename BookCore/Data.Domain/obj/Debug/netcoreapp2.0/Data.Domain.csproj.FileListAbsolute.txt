@@ -1,0 +1,9 @@
+C:\Users\hsrap\Desktop\Licenta\BookCore\Data.Domain\bin\Debug\netcoreapp2.0\Data.Domain.deps.json
+C:\Users\hsrap\Desktop\Licenta\BookCore\Data.Domain\bin\Debug\netcoreapp2.0\Data.Domain.dll
+C:\Users\hsrap\Desktop\Licenta\BookCore\Data.Domain\obj\Debug\netcoreapp2.0\Data.Domain.csproj.CoreCompileInputs.cache
+C:\Users\hsrap\Desktop\Licenta\BookCore\Data.Domain\obj\Debug\netcoreapp2.0\Data.Domain.AssemblyInfoInputs.cache
+C:\Users\hsrap\Desktop\Licenta\BookCore\Data.Domain\obj\Debug\netcoreapp2.0\Data.Domain.AssemblyInfo.cs
+C:\Users\hsrap\Desktop\Licenta\BookCore\Data.Domain\bin\Debug\netcoreapp2.0\Data.Domain.pdb
+C:\Users\hsrap\Desktop\Licenta\BookCore\Data.Domain\obj\Debug\netcoreapp2.0\Data.Domain.dll
+C:\Users\hsrap\Desktop\Licenta\BookCore\Data.Domain\obj\Debug\netcoreapp2.0\Data.Domain.pdb
+C:\Users\hsrap\Desktop\Licenta\BookCore\Data.Domain\obj\Debug\netcoreapp2.0\Data.Domain.csprojResolveAssemblyReference.cache
