@@ -29,7 +29,7 @@ namespace Presentation
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            const string connection = @"Server = .\SQLEXPRESS; Database = Project.Development; Trusted_Connection = true;";
+            const string connection = @"Server = .\SQLEXPRESS; Database = BookCore.Development; Trusted_Connection = true;";
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
 
             //Facebook service
