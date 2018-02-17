@@ -108,10 +108,10 @@ namespace Presentation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendVerificationEmail(IndexViewModel model)
         {
-            if (!ModelState.IsValid)
+            /*if (!ModelState.IsValid)
             {
                 return View(model);
-            }
+            }*/
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null)

@@ -59,7 +59,7 @@ namespace Presentation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title, Description, Image")] BookCreateModel bookCreateModel)
+        public async Task<IActionResult> Create([Bind("AuthorId, Title, Description, Details, Image")] BookCreateModel bookCreateModel)
         {
             if (!ModelState.IsValid)
             {
@@ -89,7 +89,8 @@ namespace Presentation.Controllers
                     bookCreateModel.Title,
                     bookCreateModel.Description,
                     absolutePath,
-                    bookCreateModel.Image.FileName
+                    bookCreateModel.Image.FileName,
+                    bookCreateModel.AuthorId
                 )
             );
                
@@ -111,6 +112,7 @@ namespace Presentation.Controllers
             }
 
             var bookEditModel = new BookEditModel(
+                book.AuthorId,
                 book.Title,
                 book.Description
             );
@@ -123,7 +125,7 @@ namespace Presentation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Title, Description, Image")] BookEditModel bookEditModel)
+        public async Task<IActionResult> Edit(Guid id, [Bind("AuthorId, Title, Description, Details, Image")] BookEditModel bookEditModel)
         {
             var bookToBeEdited = _repository.GetBookById(id);
 
@@ -137,6 +139,8 @@ namespace Presentation.Controllers
                 return View(bookEditModel);
             }
 
+            bookToBeEdited.AuthorId = bookEditModel.AuthorId;
+            bookToBeEdited.Details = bookEditModel.Details;
             bookToBeEdited.Title = bookEditModel.Title;
             bookToBeEdited.Description = bookEditModel.Description;
 

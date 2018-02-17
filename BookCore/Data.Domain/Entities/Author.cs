@@ -17,24 +17,26 @@ namespace Data.Domain.Entities
 
         public List<Comment> Comments { get; set; }
 
-        public static Author CreateAuthor(string name, string description, List<Book> books, List<Comment> comments)
+        public static Author CreateAuthor(string name, string description)//, List<Book> books, List<Comment> comments)
         {
             var instance = new Author
             {
-                Id = Guid.NewGuid()
+                Id = Guid.NewGuid(),
+                Books = new List<Book>(),
+                Comments = new List<Comment>()
             };
 
-            instance.UpdateAuthor(name, description, books, comments);
+            instance.UpdateAuthor(name, description);//, books, comments);
 
             return instance;
         }
 
-        private void UpdateAuthor(string name, string description, List<Book> books, List<Comment> comments)
+        private void UpdateAuthor(string name, string description)//, List<Book> books, List<Comment> comments)
         {
             Name = name;
             Description = description;
-            Books = books;
-            Comments = comments;
+            //Books = books;
+            //Comments = comments;
         }
     }
 }

@@ -23,27 +23,29 @@ namespace Data.Domain.Entities
 
         public List<Comment> Comments { get; set; }
 
-        public static Review CreateReview(string description, Guid userId, Guid bookId, DateTime date, List<Comment> comments)
+        public static Review CreateReview(double bookRating, string description, Guid userId, Guid bookId)//, DateTime date, List<Comment> comments)
         {
             var instance = new Review
             {
                 Id = Guid.NewGuid(),
-                BookRating = 0.0,
-                Likes = 0
+                Likes = 0,
+                Date = DateTime.UtcNow,
+                Comments = new List<Comment>()
             };
 
-            instance.UpdateReview(description, userId, bookId, date, comments);
+            instance.UpdateReview(bookRating, description, userId, bookId);//, date, comments);
 
             return instance;
         }
 
-        private void UpdateReview(string description, Guid userId, Guid bookId, DateTime date, List<Comment> comments)
+        private void UpdateReview(double bookRating, string description, Guid userId, Guid bookId)//, DateTime date, List<Comment> comments)
         {
+            BookRating = bookRating;
             Description = description;
             UserId = userId;
             BookId = bookId;
-            Date = date;
-            Comments = comments;
+            //Date = date;
+            //Comments = comments;
         }
     }
 }

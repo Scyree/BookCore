@@ -26,6 +26,21 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Description)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Details)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AuthorId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Genres)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ratings)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Reviews)
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -41,6 +56,26 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Details)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AuthorId)
+                    </td>
+                    <td>
+                       
+                           @*foreach (var genres in item.Genres)
+                           // {*@
+                                @Html.DisplayFor(modelItem => item.Genres)
+                            @*//}
+                        //}*@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ratings)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Reviews)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

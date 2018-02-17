@@ -1,9 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Data.Domain.Entities
 {
     public class Recommandation
     {
+        [Key]
+        public Guid Id { get; set; }
+
         public Guid BookId { get; set; }
 
         public Guid UserId { get; set; }
@@ -12,7 +16,10 @@ namespace Data.Domain.Entities
 
         public static Recommandation CreateRecommandation(Guid bookId, Guid userId, Guid bookRecommanded)
         {
-            var instance = new Recommandation();
+            var instance = new Recommandation
+            {
+                Id = Guid.NewGuid()
+            };
 
             instance.UpdateRecommandation(bookId, userId, bookRecommanded);
 

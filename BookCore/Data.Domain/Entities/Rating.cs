@@ -1,9 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Data.Domain.Entities
 {
     public class Rating
     {
+        [Key]
+        public Guid Id { get; set; }
+
         public Guid UserId { get; set; }
 
         public Guid BookId { get; set; }
@@ -14,6 +18,7 @@ namespace Data.Domain.Entities
         {
             var instance = new Rating
             {
+                Id = Guid.NewGuid(),
                 Rate = 0.0
             };
 

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace Data.Domain.Entities
 {
@@ -6,5 +8,23 @@ namespace Data.Domain.Entities
     public class ApplicationUser : IdentityUser
     {
         public string Name { get; set; }
+
+        public DateTime JoinDate { get; set; }
+
+        public string Folder { get; set; }
+
+        public string ImageName { get; set; }
+
+        public string Description { get; set; }
+
+        public List<Review> Reviews { get; set; }
+
+        public List<Recommandation> Recommandations { get; set; }
+
+        public List<BooksForMood> BooksForMoods { get; set; }
+
+        public List<ApplicationUser> Friends { get; set; }
+
+        public List<Favorite> Favorites { get; set; }
     }
 }

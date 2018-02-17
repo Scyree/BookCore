@@ -1,9 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.Models.CharacterViewModels
 {
     public class CharacterCreateModel
     {
+        [Required(ErrorMessage = "Book Id is required.")]
+        public Guid BookId { get; set; }
+
         [Required(ErrorMessage = "A name is required.")]
         public string Name { get; set; }
 

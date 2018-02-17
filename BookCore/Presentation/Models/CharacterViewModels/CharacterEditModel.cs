@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.Models.CharacterViewModels
 {
@@ -8,6 +9,10 @@ namespace Presentation.Models.CharacterViewModels
         {
         }
 
+        [Required(ErrorMessage = "BookId Id is required.")]
+        public Guid BookId { get; set; }
+
+
         [Required(ErrorMessage = "A name is required.")]
         public string Name { get; set; }
 
@@ -15,8 +20,9 @@ namespace Presentation.Models.CharacterViewModels
         [StringLength(2000, ErrorMessage = "Maximum number of characters is 2000!")]
         public string Description { get; set; }
 
-        public CharacterEditModel(string name, string description)
+        public CharacterEditModel(Guid bookId, string name, string description)
         {
+            BookId = bookId;
             Name = name;
             Description = description;
         }

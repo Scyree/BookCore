@@ -51,7 +51,7 @@ namespace Presentation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Name, Description")] CharacterCreateModel characterCreateModel)
+        public IActionResult Create([Bind("BookId, Name, Description")] CharacterCreateModel characterCreateModel)
         {
             if (!ModelState.IsValid)
             {
@@ -60,6 +60,7 @@ namespace Presentation.Controllers
 
             _repository.CreateCharacter(
                 Character.CreateCharacter(
+                    characterCreateModel.BookId,
                     characterCreateModel.Name,
                     characterCreateModel.Description
                 )
@@ -83,6 +84,7 @@ namespace Presentation.Controllers
             }
 
             var characterEditModel = new CharacterEditModel(
+                character.BookId,
                 character.Name,
                 character.Description
             );
@@ -95,7 +97,7 @@ namespace Presentation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, [Bind("Name, Description")] CharacterEditModel characterEditModel)
+        public IActionResult Edit(Guid id, [Bind("BookId, Name, Description")] CharacterEditModel characterEditModel)
         {
             var characterToBeEdited = _repository.GetCharacterById(id);
 
@@ -109,6 +111,7 @@ namespace Presentation.Controllers
                 return View(characterEditModel);
             }
 
+            characterToBeEdited.BookId = characterEditModel.BookId;
             characterToBeEdited.Name = characterEditModel.Name;
             characterToBeEdited.Description = characterEditModel.Description;
 
