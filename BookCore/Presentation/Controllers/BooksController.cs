@@ -90,7 +90,8 @@ namespace Presentation.Controllers
                     bookCreateModel.Description,
                     absolutePath,
                     bookCreateModel.Image.FileName,
-                    bookCreateModel.AuthorId
+                    bookCreateModel.AuthorId,
+                    bookCreateModel.Details
                 )
             );
                
@@ -114,7 +115,8 @@ namespace Presentation.Controllers
             var bookEditModel = new BookEditModel(
                 book.AuthorId,
                 book.Title,
-                book.Description
+                book.Description,
+                book.Details
             );
 
             return View(bookEditModel);

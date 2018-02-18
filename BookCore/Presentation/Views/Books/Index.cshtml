@@ -38,9 +38,6 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Ratings)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Reviews)
-                </th>
                 <th></th>
             </tr>
         </thead>
@@ -65,17 +62,14 @@
                     </td>
                     <td>
                        
-                           @*foreach (var genres in item.Genres)
+                        @*foreach (var genres in item.Genres)
                            // {*@
-                                @Html.DisplayFor(modelItem => item.Genres)
-                            @*//}
+                        @Html.DisplayFor(modelItem => item.Genres)
+                        @*//}
                         //}*@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Ratings)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Reviews)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -86,5 +80,24 @@
             }
         </tbody>
     </table>
-
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Reviews)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Reviews)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

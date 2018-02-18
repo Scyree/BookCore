@@ -167,5 +167,12 @@ namespace Presentation.Controllers
         {
             return _repository.GetAllReviews().Any(e => e.Id == id);
         }
+
+        public IActionResult VoteIt(Guid reviewId, Guid userId)
+        {
+            _repository.VoteIt(reviewId, userId);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

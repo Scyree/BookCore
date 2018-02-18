@@ -11,10 +11,12 @@ namespace Business.Services
     public class ReviewService : IReviewService
     {
         private readonly IReviewRepository _repository;
+        private readonly ILikeRepository _likeRepository;
 
-        public ReviewService(IReviewRepository repository)
+        public ReviewService(IReviewRepository repository, ILikeRepository likeRepository)
         {
             _repository = repository;
+            _likeRepository = likeRepository;
         }
 
         public IReadOnlyList<Review> GetAllReviews()
@@ -69,6 +71,27 @@ namespace Business.Services
             };
 
             return ratingList;
+        }
+
+        public int GetLikes(Guid reviewId)
+        {
+            return _likeRepository.GetAllLikes().Count(likes => likes.TargetId == reviewId);
+        }
+
+        public void VoteIt(Guid reviewId, Guid userId)
+        {
+            var checkIfItsPossible = _likeRepository.GetAllLikes()
+                .Count(likes => likes.UserId == userId && likes.TargetId == reviewId);
+
+            if (checkIfItsPossible == 0)
+            {
+                _likeRepository.CreateLike(
+                    Like.CreateLike(
+                        userId,
+                        reviewId
+                        )
+                    );       
+            }
         }
     }
 }

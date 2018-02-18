@@ -17,7 +17,7 @@ namespace Data.Domain.Entities
 
         public double BookRating { get; set; }
 
-        public int Likes { get; set; }
+        public List<Like> Likes { get; set; }
 
         public DateTime Date { get; set; }
 
@@ -28,7 +28,7 @@ namespace Data.Domain.Entities
             var instance = new Review
             {
                 Id = Guid.NewGuid(),
-                Likes = 0,
+                Likes = new List<Like>(),
                 Date = DateTime.UtcNow,
                 Comments = new List<Comment>()
             };

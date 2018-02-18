@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Data.Domain.Entities.Review>
+﻿@using Data.Domain.Interfaces.Services
+@model IEnumerable<Data.Domain.Entities.Review>
+@inject IReviewService Service
 
 @{
     ViewData["Title"] = "Index";
@@ -29,6 +31,9 @@
                     @Html.DisplayNameFor(model => model.Likes)
                 </th>
                 <th>
+                    Upvote/Downvote
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Date)
                 </th>
             <th></th>
@@ -47,7 +52,16 @@
                 @Html.DisplayFor(modelItem => item.BookRating)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Likes)
+                @{
+                    var likes = Service.GetLikes(item.Id);
+                    @Html.DisplayFor(modelItem => likes)
+                }
+            </td>
+            <td>
+                @using (Html.BeginForm("VoteIt", "Reviews", new { reviewId = item.Id, userId = item.UserId }, FormMethod.Post, null, new {}))
+                {
+                    <button class="btn btn-default">Vote!</button>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)

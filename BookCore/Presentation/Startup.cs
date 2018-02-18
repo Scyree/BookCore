@@ -65,13 +65,13 @@ namespace Presentation
             services.AddTransient<IBooksForMoodRepository, BooksForMoodRepository>();
             services.AddTransient<IBuyingSiteRepository, BuyingSiteRepository>();
             services.AddTransient<ICommentRepository, CommentRepository>();
-            services.AddTransient<IDetailRepository, DetailRepository>();
             services.AddTransient<IFavoriteRepository, FavoriteRepository>();
             services.AddTransient<IGenreRepository, GenreRepository>();
             services.AddTransient<IRatingRepository, RatingRepository>();
             services.AddTransient<IRecommandationRepository, RecommandationRepository>();
             services.AddTransient<IReviewRepository, ReviewRepository>();
             services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<ILikeRepository, LikeRepository>();
 
             services.AddMvc();
         }
