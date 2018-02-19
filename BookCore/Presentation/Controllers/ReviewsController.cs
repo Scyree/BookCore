@@ -20,6 +20,11 @@ namespace Presentation.Controllers
         // GET: Reviews
         public IActionResult Index()
         {
+            foreach (var review in _repository.GetAllReviews())
+            {
+                review.Comments = _repository.GetAllComments(review.Id);
+            }
+
             return View(_repository.GetReviewsByDate());
         }
 
@@ -178,6 +183,7 @@ namespace Presentation.Controllers
         public IActionResult Downvote(Guid reviewId, Guid userId)
         {
             _repository.Downvote(reviewId, userId);
+            //_repository.DeleteNegativeReviews(reviewId);
 
             return RedirectToAction(nameof(Index));
         }

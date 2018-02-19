@@ -14,13 +14,17 @@ namespace Data.Domain.Interfaces.Services
         void EditReview(Review review);
         void DeleteReview(Review review);
 
-        //New methods
+        //For LikeService
+        int GetNumberOfLikes(Guid reviewId);
+        void Upvote(Guid reviewId, Guid userId);
+        void Downvote(Guid reviewId, Guid userId);
+
+        //Review only methods
         IReadOnlyList<Review> GetReviewsByDate();
         IReadOnlyList<Review> GetReviewsBasedOnLikes();
         IReadOnlyList<Review> GetOnlyFirstNumberOfReviews(int number);
         List<SelectListItem> GetRatingList();
-        int GetNumberOfLikes(Guid reviewId);
-        void Upvote(Guid reviewId, Guid userId);
-        void Downvote(Guid reviewId, Guid userId);
+        void DeleteNegativeReviews(Guid reviewId);
+        IList<Comment> GetAllComments(Guid reviewId);
     }
 }

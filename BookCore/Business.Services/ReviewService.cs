@@ -41,7 +41,7 @@ namespace Business.Services
 
         public void DeleteReview(Review review)
         {
-            _repository.EditReview(review);
+            _repository.DeleteReview(review);
         }
 
         public IReadOnlyList<Review> GetReviewsByDate()
@@ -86,6 +86,26 @@ namespace Business.Services
         public void Downvote(Guid reviewId, Guid userId)
         {
             _likeService.Downvote(reviewId, userId);
+        }
+
+        public void DeleteNegativeReviews(Guid reviewId)
+        {
+            if (GetNumberOfLikes(reviewId) <= -20)
+            {
+                var likeList = _likeService.GetAllLikes().Where(likes => likes.TargetId == reviewId).ToList();
+
+                foreach (var like in likeList)
+                {
+                    _likeService.DeleteLike(like);
+                }
+
+                DeleteReview(GetReviewById(reviewId));
+            }
+        }
+
+        public IList<Comment> GetAllComments(Guid reviewId)
+        {
+            return _repository.GetAllComments(reviewId);
         }
     }
 }

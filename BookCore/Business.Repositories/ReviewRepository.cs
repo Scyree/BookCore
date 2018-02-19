@@ -46,5 +46,10 @@ namespace Business.Repositories
 
             _databaseService.SaveChanges();
         }
+
+        public IList<Comment> GetAllComments(Guid reviewId)
+        {
+            return _databaseService.Comments.Where(comments => comments.TargetId == reviewId).ToList();
+        }
     }
 }
