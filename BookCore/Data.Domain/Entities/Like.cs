@@ -14,23 +14,23 @@ namespace Data.Domain.Entities
 
         public bool Positivity { get; set; }
 
-        public static Like CreateLike(Guid userId, Guid targetId)
+        public static Like CreateLike(Guid userId, Guid targetId, bool positivity)
         {
             var instance = new Like
             {
-                Id = Guid.NewGuid(),
-                Positivity = false
+                Id = Guid.NewGuid()
             };
 
-            instance.UpdateLike(userId, targetId);
+            instance.UpdateLike(userId, targetId, positivity);
 
             return instance;
         }
 
-        private void UpdateLike(Guid userId, Guid targetId)
+        private void UpdateLike(Guid userId, Guid targetId, bool positivity)
         {
             UserId = userId;
             TargetId = targetId;
+            Positivity = positivity;
         }
     }
 }

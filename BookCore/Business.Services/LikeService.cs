@@ -49,7 +49,7 @@ namespace Business.Services
             return positiveLikes - negativeLikes;
         }
 
-        private void CheckIfExists(Guid targetId, Guid userId)
+        private void CheckIfExistsForUpvote(Guid targetId, Guid userId)
         {
             var check = GetAllLikes().Count(like => like.UserId == userId && like.TargetId == targetId);
 
@@ -58,7 +58,24 @@ namespace Business.Services
                 CreateLike(
                     Like.CreateLike(
                         userId,
-                        targetId
+                        targetId,
+                        true
+                    )
+                );
+            }
+        }
+
+        private void CheckIfExistsForDownvote(Guid targetId, Guid userId)
+        {
+            var check = GetAllLikes().Count(like => like.UserId == userId && like.TargetId == targetId);
+
+            if (check == 0)
+            {
+                CreateLike(
+                    Like.CreateLike(
+                        userId,
+                        targetId,
+                        false
                     )
                 );
             }
@@ -66,7 +83,6 @@ namespace Business.Services
 
         public void Upvote(Guid targetId, Guid userId)
         {
-            CheckIfExists(targetId, userId);
             var likeToBeEdited = GetAllLikes().FirstOrDefault(like => like.UserId == userId && like.TargetId == targetId);
 
             if (likeToBeEdited != null)
@@ -81,11 +97,14 @@ namespace Business.Services
                     EditLike(likeToBeEdited);
                 }
             }
+            else
+            {
+                CheckIfExistsForUpvote(targetId, userId);
+            }
         }
 
         public void Downvote(Guid targetId, Guid userId)
         {
-            CheckIfExists(targetId, userId);
             var likeToBeEdited = GetAllLikes().FirstOrDefault(like => like.UserId == userId && like.TargetId == targetId);
 
             if (likeToBeEdited != null)
@@ -99,6 +118,10 @@ namespace Business.Services
                     likeToBeEdited.Positivity = false;
                     EditLike(likeToBeEdited);
                 }
+            }
+            else
+            {
+                CheckIfExistsForDownvote(targetId, userId);
             }
         }
     }
