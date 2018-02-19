@@ -19,7 +19,8 @@ namespace Data.Domain.Interfaces.Services
         IReadOnlyList<Review> GetReviewsBasedOnLikes();
         IReadOnlyList<Review> GetOnlyFirstNumberOfReviews(int number);
         List<SelectListItem> GetRatingList();
-        int GetLikes(Guid reviewId);
-        void VoteIt(Guid reviewId, Guid userId);
+        int GetNumberOfLikes(Guid reviewId);
+        void Upvote(Guid reviewId, Guid userId);
+        void Downvote(Guid reviewId, Guid userId);
     }
 }

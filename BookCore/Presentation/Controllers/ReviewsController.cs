@@ -168,9 +168,16 @@ namespace Presentation.Controllers
             return _repository.GetAllReviews().Any(e => e.Id == id);
         }
 
-        public IActionResult VoteIt(Guid reviewId, Guid userId)
+        public IActionResult Upvote(Guid reviewId, Guid userId)
         {
-            _repository.VoteIt(reviewId, userId);
+            _repository.Upvote(reviewId, userId);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Downvote(Guid reviewId, Guid userId)
+        {
+            _repository.Downvote(reviewId, userId);
 
             return RedirectToAction(nameof(Index));
         }

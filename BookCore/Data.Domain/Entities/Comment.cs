@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Data.Domain.Entities
@@ -14,11 +15,14 @@ namespace Data.Domain.Entities
 
         public string Text { get; set; }
 
+        public List<Like> Likes { get; set; }
+
         public static Comment CreateComment(Guid userId, Guid targetId, string text)
         {
             var instance = new Comment
             {
-                Id = Guid.NewGuid()
+                Id = Guid.NewGuid(),
+                Likes = new List<Like>()
             };
 
             instance.UpdateComment(userId, targetId, text);

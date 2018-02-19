@@ -12,11 +12,14 @@ namespace Data.Domain.Entities
 
         public Guid TargetId { get; set; }
 
+        public bool Positivity { get; set; }
+
         public static Like CreateLike(Guid userId, Guid targetId)
         {
             var instance = new Like
             {
-                Id = Guid.NewGuid()
+                Id = Guid.NewGuid(),
+                Positivity = false
             };
 
             instance.UpdateLike(userId, targetId);

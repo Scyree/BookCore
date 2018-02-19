@@ -53,14 +53,18 @@
             </td>
             <td>
                 @{
-                    var likes = Service.GetLikes(item.Id);
+                    var likes = Service.GetNumberOfLikes(item.Id);
                     @Html.DisplayFor(modelItem => likes)
                 }
             </td>
             <td>
-                @using (Html.BeginForm("VoteIt", "Reviews", new { reviewId = item.Id, userId = item.UserId }, FormMethod.Post, null, new {}))
+                @using (Html.BeginForm("Upvote", "Reviews", new { reviewId = item.Id, userId = item.UserId }, FormMethod.Post, null, new {}))
                 {
-                    <button class="btn btn-default">Vote!</button>
+                    <button class="btn btn-default">Upvote</button>
+                }
+                @using (Html.BeginForm("Downvote", "Reviews", new { reviewId = item.Id, userId = item.UserId }, FormMethod.Post, null, new {}))
+                {
+                    <button class="btn btn-default">Downvote</button>
                 }
             </td>
             <td>

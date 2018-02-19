@@ -72,6 +72,7 @@ namespace Presentation
             services.AddTransient<IReviewRepository, ReviewRepository>();
             services.AddTransient<IReviewService, ReviewService>();
             services.AddTransient<ILikeRepository, LikeRepository>();
+            services.AddTransient<ILikeService, LikeService>();
 
             services.AddMvc();
         }
