@@ -103,7 +103,7 @@ namespace Business.Services
             }
         }
 
-        public IList<Comment> GetAllComments(Guid reviewId)
+        public List<Comment> GetAllComments(Guid reviewId)
         {
             return _repository.GetAllComments(reviewId);
         }

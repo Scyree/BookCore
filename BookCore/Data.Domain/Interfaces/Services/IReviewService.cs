@@ -25,6 +25,5 @@ namespace Data.Domain.Interfaces.Services
         IReadOnlyList<Review> GetOnlyFirstNumberOfReviews(int number);
         List<SelectListItem> GetRatingList();
         void DeleteNegativeReviews(Guid reviewId);
-        IList<Comment> GetAllComments(Guid reviewId);
     }
 }

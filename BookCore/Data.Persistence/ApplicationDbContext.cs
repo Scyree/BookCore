@@ -15,7 +15,7 @@ namespace Data.Persistence
         public DbSet<Domain.Entities.BooksForMood> BooksForMoods { get; set; }
         public DbSet<Domain.Entities.BuyingSite> BuyingSites { get; set; }
         public DbSet<Domain.Entities.Character> Characters { get; set; }
-        public DbSet<Domain.Entities.Comment> Comments { get; set; }
+        public DbSet<Data.Domain.Entities.Comment> Comments { get; set; }
         public DbSet<Domain.Entities.Favorite> Favorites { get; set; }
         public DbSet<Domain.Entities.Genre> Genres { get; set; }
         public DbSet<Domain.Entities.Rating> Ratings { get; set; }

@@ -1,10 +1,11 @@
-﻿using Data.Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Data.Domain.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Data.Domain.Interfaces.Repositories
+namespace Data.Domain.Interfaces.Services
 {
-    public interface ICommentRepository
+    public interface ICommentService
     {
         IReadOnlyList<Comment> GetAllComments();
         Comment GetCommentById(Guid id);
