@@ -103,9 +103,9 @@ namespace Business.Services
             }
         }
 
-        public List<Comment> GetAllComments(Guid reviewId)
-        {
-            return _repository.GetAllComments(reviewId);
-        }
+        //public List<Comment> GetAllComments(Guid reviewId)
+        //{
+        //    return _repository.GetAllComments(reviewId);
+        //}
     }
 }

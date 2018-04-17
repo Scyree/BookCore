@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Book>
+@inject IAuthorService authors
 
 @{
     ViewData["Title"] = "Index";
@@ -30,7 +31,10 @@
                     @Html.DisplayNameFor(model => model.Details)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AuthorId)
+                    @Html.DisplayNameFor(model => model.Authors)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Genres)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Genres)
@@ -46,7 +50,7 @@
             {
                 <tr>
                     <td>
-                        <img src="@Url.Content(item.Folder + "/" + item.ImageName)" />
+                        <img src="@Url.Content(item.Folder + "\\" + item.ImageName)" />
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Title)
@@ -58,15 +62,17 @@
                         @Html.DisplayFor(modelItem => item.Details)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.AuthorId)
+                        @foreach (var author in item.Authors)
+                        {
+                            var authorDisplay = authors.GetAuthorBasedOnId(author.AuthorId);
+                            @Html.DisplayFor(modelItem => authorDisplay.Name)                          
+                        }
                     </td>
                     <td>
-                       
-                        @*foreach (var genres in item.Genres)
-                           // {*@
-                        @Html.DisplayFor(modelItem => item.Genres)
-                        @*//}
-                        //}*@
+                        @foreach (var genre in item.Genres)
+                        {
+                            @Html.DisplayFor(modelItem => genre.Text)
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Ratings)

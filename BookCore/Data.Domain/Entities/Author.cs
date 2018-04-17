@@ -13,30 +13,28 @@ namespace Data.Domain.Entities
 
         public string Description { get; set; }
 
-        public List<Book> Books { get; set; }
+        public ICollection<AuthorBook> Books { get; set; }
 
-        public List<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
-        public static Author CreateAuthor(string name, string description)//, List<Book> books, List<Comment> comments)
+        public static Author CreateAuthor(string name, string description)
         {
             var instance = new Author
             {
                 Id = Guid.NewGuid(),
-                Books = new List<Book>(),
-                Comments = new List<Comment>()
+                Comments = new List<Comment>(),
+                Books = new List<AuthorBook>()
             };
 
-            instance.UpdateAuthor(name, description);//, books, comments);
+            instance.UpdateAuthor(name, description);
 
             return instance;
         }
 
-        private void UpdateAuthor(string name, string description)//, List<Book> books, List<Comment> comments)
+        private void UpdateAuthor(string name, string description)
         {
             Name = name;
             Description = description;
-            //Books = books;
-            //Comments = comments;
         }
     }
 }

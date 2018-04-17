@@ -8,6 +8,8 @@ namespace Data.Domain.Entities
         [Key]
         public Guid Id { get; set; }
 
+        public Guid BooksId { get; set; }
+
         public string Text { get; set; }
 
         public static Genre CreateGenre(string text)

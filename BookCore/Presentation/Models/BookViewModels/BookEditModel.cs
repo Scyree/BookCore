@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.Models.BookViewModels
@@ -10,11 +9,11 @@ namespace Presentation.Models.BookViewModels
         {
         }
 
-        [Required(ErrorMessage = "An author is required.")]
-        public Guid AuthorId { get; set; }
+        [Required(ErrorMessage = "At least one author is required.")]
+        public string Authors { get; set; }
 
-        [Required(ErrorMessage = "A title is required.")]
-        public string Title { get; set; }
+        [Required(ErrorMessage = "At least one genre is required.")]
+        public string Genres { get; set; }
 
         [Required(ErrorMessage = "A description is required.")]
         [StringLength(2000, ErrorMessage = "Maximum number of characters is 2000!")]
@@ -26,10 +25,10 @@ namespace Presentation.Models.BookViewModels
 
         public IFormFile Image { get; set; }
 
-        public BookEditModel(Guid authorId, string title, string description, string details)
+        public BookEditModel(string authors, string genres, string description, string details)
         {
-            AuthorId = authorId;
-            Title = title;
+            Authors = authors;
+            Genres = genres;
             Description = description;
             Details = details;
         }
