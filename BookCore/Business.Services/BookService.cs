@@ -45,17 +45,16 @@ namespace Business.Services
             var genresList = _genreService.GetGenres(genres);
             var authorList = _authorService.GetAuthors(authors);
             var value = Guid.NewGuid();
-            var folder = _fileManagement.GetPath(_folder, value);
+            var path = _folder + "\\" + value;
             
             await  _fileManagement.CreateFile(_folder, value, image);
             
             var book = Book.CreateBook(
                 title,
                 description,
-                folder,
+                path,
                 image.FileName,
-                details,
-                genresList
+                details
             );
 
             _repository.CreateBook(book);

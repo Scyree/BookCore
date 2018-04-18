@@ -10,6 +10,8 @@ namespace Data.Domain.Entities
 
         public Guid BooksId { get; set; }
 
+        public virtual Book Book { get; set; }
+
         public string Text { get; set; }
 
         public static Genre CreateGenre(string text)

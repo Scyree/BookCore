@@ -33,12 +33,13 @@ namespace Data.Domain.Entities
 
         public List<Rating> Ratings { get; set; } 
 
-        public static Book CreateBook(string title, string description, string folder, string imageName, string details, List<Genre> genres)
+        public static Book CreateBook(string title, string description, string folder, string imageName, string details)
         {
             var instance = new Book
             {
                 Id = Guid.NewGuid(),
                 Authors = new List<AuthorBook>(),
+                Genres = new List<Genre>(),
                 Reviews = new List<Review>(),
                 Recommandations = new List<Recommandation>(),
                 BuyingSites = new List<BuyingSite>(),
@@ -46,18 +47,17 @@ namespace Data.Domain.Entities
                 FinalRate = 0.0
             };
 
-            instance.UpdateBook(title, description, folder, imageName, details, genres);
+            instance.UpdateBook(title, description, folder, imageName, details);
 
             return instance;
         }
 
-        private void UpdateBook(string title, string description, string folder, string imageName, string details, List<Genre> genres)
+        private void UpdateBook(string title, string description, string folder, string imageName, string details)
         {
             Title = title;
             Description = description;
             Folder = folder;
             ImageName = imageName;
-            Genres = genres;
             Details = details;
         }
     }
