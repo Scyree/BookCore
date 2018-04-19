@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Data.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 

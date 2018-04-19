@@ -64,7 +64,7 @@
                     <td>
                         @foreach (var author in item.Authors)
                         {
-                            var authorDisplay = authors.GetAuthorBasedOnId(author.AuthorId);
+                            var authorDisplay = authors.GetAuthorById(author.AuthorId);
                             @Html.DisplayFor(modelItem => authorDisplay.Name)                          
                         }
                     </td>
@@ -83,7 +83,7 @@
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
-            }
+             }
         </tbody>
     </table>
     <table class="table">

@@ -10,5 +10,6 @@ namespace Data.Domain.Interfaces.Services
         void DeleteFolderForGivenId(string folder, Guid value);
         void DeleteFileForGivenId(string folder, Guid value, string fileName);
         string GetPath(string folder, Guid value);
+        void CopyFile(string folder, Guid value);
     }
 }

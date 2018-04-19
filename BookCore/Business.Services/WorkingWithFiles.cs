@@ -33,7 +33,7 @@ namespace Business.Services
                 }
             }
         }
-
+        
         public void DeleteFolderForGivenId(string folder, Guid value)
         {
             var searchedPath = Path.Combine(_env.WebRootPath, folder + "\\" + value);
@@ -57,6 +57,27 @@ namespace Business.Services
         public string GetPath(string folder, Guid value)
         {
             return Path.Combine(_env.WebRootPath, folder + "\\" + value);
+        }
+
+        public void CopyFile(string folder, Guid value)
+        {
+            var path = Path.Combine(_env.WebRootPath, "Default\\");
+
+            foreach (var file in Directory.GetFiles(path))
+            {
+                if (Path.GetFileNameWithoutExtension(file) == folder)
+                {
+                    var targetPath = Path.Combine(_env.WebRootPath, folder + "\\" + value);
+
+                    if (!Directory.Exists(targetPath))
+                    {
+                        Directory.CreateDirectory(targetPath);
+                    }
+
+                    targetPath = Path.Combine(targetPath, Path.GetFileName(file));
+                    File.Copy(file, targetPath);
+                }
+            }
         }
     }
 }

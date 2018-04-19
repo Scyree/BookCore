@@ -13,11 +13,15 @@ namespace Data.Domain.Entities
 
         public string Description { get; set; }
 
+        public string Folder { get; set; }
+
+        public string ImageName { get; set; }
+
         public ICollection<AuthorBook> Books { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
 
-        public static Author CreateAuthor(string name, string description)
+        public static Author CreateAuthor(string name, string description, string folder, string imageName)
         {
             var instance = new Author
             {
@@ -26,15 +30,17 @@ namespace Data.Domain.Entities
                 Books = new List<AuthorBook>()
             };
 
-            instance.UpdateAuthor(name, description);
+            instance.UpdateAuthor(name, description, folder, imageName);
 
             return instance;
         }
 
-        private void UpdateAuthor(string name, string description)
+        private void UpdateAuthor(string name, string description, string folder, string imageName)
         {
             Name = name;
             Description = description;
+            Folder = folder;
+            ImageName = imageName;
         }
     }
 }

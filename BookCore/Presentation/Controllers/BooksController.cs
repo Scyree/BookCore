@@ -1,8 +1,8 @@
 ﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using Presentation.Models.BookViewModels;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Data.Domain.Interfaces.Services;
+using Presentation.Models.BookViewModels;
 
 namespace Presentation.Controllers
 {
@@ -69,6 +69,7 @@ namespace Presentation.Controllers
             }
 
             var book = _service.GetBookById(id.Value);
+
             if (book == null)
             {
                 return NotFound();

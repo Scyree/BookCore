@@ -1,9 +1,9 @@
-﻿using Data.Domain.Interfaces.Repositories;
-using Data.Domain.Interfaces.Services;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Data.Domain.Entities;
+using Data.Domain.Interfaces.Repositories;
+using Data.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 
 namespace Business.Services
@@ -46,14 +46,24 @@ namespace Business.Services
             var authorList = _authorService.GetAuthors(authors);
             var value = Guid.NewGuid();
             var path = _folder + "\\" + value;
-            
-            await  _fileManagement.CreateFile(_folder, value, image);
+            var imageName = _folder + ".jpg";
+
+            if (image != null)
+            {
+                imageName = image.FileName;
+
+                await _fileManagement.CreateFile(_folder, value, image);
+            }
+            else
+            {
+                _fileManagement.CopyFile(_folder, value);
+            }
             
             var book = Book.CreateBook(
                 title,
                 description,
                 path,
-                image.FileName,
+                imageName,
                 details
             );
 
@@ -97,6 +107,5 @@ namespace Business.Services
         {
             return _repository.GetBookById(id);
         }
-
     }
 }
