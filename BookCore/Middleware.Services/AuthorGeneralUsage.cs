@@ -48,7 +48,7 @@ namespace Middleware.Services
         public void DeleteAuthor(Author author)
         {
             _repository.DeleteAuthor(author);
-            _fileManagement.DeleteFolderForGivenId(_folder, author.Id);
+            _fileManagement.DeleteFolder(author.Folder);
         }
         
         public Author CheckAuthor(string description)

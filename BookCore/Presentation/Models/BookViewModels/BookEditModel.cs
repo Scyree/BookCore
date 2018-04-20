@@ -25,10 +25,8 @@ namespace Presentation.Models.BookViewModels
 
         public IFormFile Image { get; set; }
 
-        public BookEditModel(string authors, string genres, string description, string details)
+        public BookEditModel(string description, string details)
         {
-            Authors = authors;
-            Genres = genres;
             Description = description;
             Details = details;
         }

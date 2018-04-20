@@ -77,8 +77,6 @@ namespace Presentation.Controllers
 
 
             var bookEditModel = new BookEditModel(
-                book.Authors.ToString(),
-                book.Genres.ToString(),
                 book.Description,
                 book.Details
             );
@@ -96,7 +94,7 @@ namespace Presentation.Controllers
                 return View(bookEditModel);
             }
 
-            await _service.EditBook(id, bookEditModel.Image, bookEditModel.Description, bookEditModel.Details);
+            await _service.EditBook(id, bookEditModel.Image, bookEditModel.Description, bookEditModel.Details, bookEditModel.Genres, bookEditModel.Authors);
 
             return RedirectToAction(nameof(Index));
         }

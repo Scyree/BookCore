@@ -58,8 +58,8 @@ namespace Business.Services
             }
 
             var author = Author.CreateAuthor(
+                name,
                 description,
-                "Momentan nu exista o descriere a acestui autor",
                 path,
                 imageName
             );
@@ -72,13 +72,30 @@ namespace Business.Services
             }
         }
 
-        public async Task EditAuthor(Guid id, IFormFile image, string name, string description)
+        public async Task EditAuthor(Guid id, IFormFile image, string name, string description, string books)
         {
             var authorToBeEdited = _authorService.GetAuthorById(id);
 
-            authorToBeEdited.Name = name;
-            authorToBeEdited.Description = description;
+            if (name != null)
+            {
+                authorToBeEdited.Name = name;
+            }
 
+            if (description != null)
+            {
+                authorToBeEdited.Description = description;
+            }
+
+            if (books != null)
+            {
+                var bookList = _bookService.GetBooks(books);
+
+                foreach (var book in bookList)
+                {
+                    _authorBookService.CheckAuthorBook(id, book.Id);
+                }
+            }
+            
             if (image != null)
             {
                 var value = Guid.NewGuid();
@@ -91,7 +108,10 @@ namespace Business.Services
 
         public void DeleteAuthor(Guid id)
         {
-            _fileManagement.DeleteFolderForGivenId(_folder, id);
+            var authorToBeDeleted = _authorService.GetAuthorById(id);
+
+            _authorService.DeleteAuthor(authorToBeDeleted);
+            _authorBookService.DeleteForAuthorId(id);
         }
 
         public Author GetAuthorById(Guid id)

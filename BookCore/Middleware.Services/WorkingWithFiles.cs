@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -34,9 +35,10 @@ namespace Middleware.Services
             }
         }
 
-        public void DeleteFolderForGivenId(string folder, Guid value)
+        public void DeleteFolder(string folder)
         {
-            var searchedPath = Path.Combine(_env.WebRootPath, folder + "\\" + value);
+            var searchedPath = Path.Combine(_env.WebRootPath, folder);
+            Debug.WriteLine("Am cerut de aici sa fie sters: " + searchedPath);
 
             if (Directory.Exists(searchedPath))
             {

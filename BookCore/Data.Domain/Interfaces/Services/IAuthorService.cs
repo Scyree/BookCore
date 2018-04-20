@@ -10,7 +10,7 @@ namespace Data.Domain.Interfaces.Services
     {
         IReadOnlyList<Author> GetAllAuthors();
         Task CreateAuthor(IFormFile image, string name, string description, string books);
-        Task EditAuthor(Guid id, IFormFile image, string name, string description);
+        Task EditAuthor(Guid id, IFormFile image, string name, string description, string books);
         void DeleteAuthor(Guid id);
         Author GetAuthorById(Guid id);
     }

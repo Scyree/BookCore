@@ -93,7 +93,7 @@ namespace Presentation.Controllers
                 return View(authorEditModel);
             }
 
-            await _service.EditAuthor(id, authorEditModel.Image, authorEditModel.Name, authorEditModel.Description);
+            await _service.EditAuthor(id, authorEditModel.Image, authorEditModel.Name, authorEditModel.Description, authorEditModel.Books);
 
             return RedirectToAction(nameof(Index));
         }

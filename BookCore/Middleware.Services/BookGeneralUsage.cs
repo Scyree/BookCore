@@ -48,7 +48,7 @@ namespace Middleware.Services
         public void DeleteBook(Book book)
         {
             _repository.DeleteBook(book);
-            _fileManagement.DeleteFolderForGivenId(_folder, book.Id);
+            _fileManagement.DeleteFolder(book.Folder);
         }
 
         public Book CheckBook(string bookTitle)

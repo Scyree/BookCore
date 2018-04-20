@@ -36,5 +36,25 @@ namespace Middleware.Services
         {
             return _repository.GetAllAuthorBooksBasedOnAuthorId(authorId);
         }
+
+        public void DeleteForAuthorId(Guid authorId)
+        {
+            var authorBooks = _repository.GetAllAuthorBooksBasedOnAuthorId(authorId);
+
+            foreach (var authorBook in authorBooks)
+            {
+                _repository.DeleteAuthorBook(authorBook);
+            }
+        }
+
+        public void DeleteForBookId(Guid bookId)
+        {
+            var authorBooks = _repository.GetAllAuthorBooksBasedOnBookId(bookId);
+
+            foreach (var authorBook in authorBooks)
+            {
+                _repository.DeleteAuthorBook(authorBook);
+            }
+        }
     }
 }

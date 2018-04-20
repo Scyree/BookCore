@@ -9,5 +9,7 @@ namespace Middleware.Interfaces
         void CheckAuthorBook(Guid authorId, Guid bookId);
         List<AuthorBook> GetAllAuthorBooksBasedOnBookId(Guid bookId);
         List<AuthorBook> GetAllAuthorBooksBasedOnAuthorId(Guid authorId);
+        void DeleteForAuthorId(Guid authorId);
+        void DeleteForBookId(Guid bookId);
     }
 }
