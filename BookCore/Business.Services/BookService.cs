@@ -2,44 +2,44 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Data.Domain.Entities;
-using Data.Domain.Interfaces.Repositories;
 using Data.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
+using Middleware.Interfaces;
 
 namespace Business.Services
 {
     public class BookService : IBookService
     {
-        private readonly IBookRepository _repository;
+        private readonly IBookGeneralUsage _bookService;
         private readonly IWorkingWithFiles _fileManagement;
         private readonly IGenreService _genreService;
-        private readonly IAuthorService _authorService;
-        private readonly IAuthorBookRepository _authorBookRepository;
+        private readonly IAuthorGeneralUsage _authorService;
+        private readonly IAuthorBookService _authorBookService;
         private readonly string _folder;
 
-        public BookService(IBookRepository repository, IWorkingWithFiles fileManagement, IGenreService genreService, IAuthorService authorService, IAuthorBookRepository authorBookRepository)
+        public BookService(IBookGeneralUsage bookService, IWorkingWithFiles fileManagement, IGenreService genreService, IAuthorGeneralUsage authorService, IAuthorBookService authorBookService)
         {
-            _repository = repository;
+            _bookService = bookService;
             _fileManagement = fileManagement;
             _genreService = genreService;
             _authorService = authorService;
-            _authorBookRepository = authorBookRepository;
+            _authorBookService = authorBookService;
             _folder = "Books";
         }
         
         public IReadOnlyList<Book> GetAllBooks()
         {
-            var books = _repository.GetAllBooks();
+            var books = _bookService.GetAllBooks();
 
             foreach (var book in books)
             {
-                book.Authors = _authorBookRepository.GetAllAuthorBooksBasedOnBookId(book.Id);
+                book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(book.Id);
                 book.Genres = _genreService.GetGenreBasedOnBookId(book.Id);
             }
 
             return books;
         }
-
+        
         public async Task CreateBook(IFormFile image, string title, string description, string details, string authors, string genres)
         {
             var genresList = _genreService.GetGenres(genres);
@@ -67,7 +67,7 @@ namespace Business.Services
                 details
             );
 
-            _repository.CreateBook(book);
+            _bookService.CreateBook(book);
 
             foreach (var genre in genresList)
             {
@@ -76,14 +76,13 @@ namespace Business.Services
 
             foreach (var author in authorList)
             {
-                var authorBook = AuthorBook.CreateAuthorBook(author.Id, book.Id);
-                _authorBookRepository.CreateAuthorBook(authorBook);
+                _authorBookService.CheckAuthorBook(author.Id, book.Id);
             }
         }
 
         public async Task EditBook(Guid id, IFormFile image, string description, string details)
         {
-            var bookToBeEdited = _repository.GetBookById(id);
+            var bookToBeEdited = _bookService.GetBookById(id);
 
             bookToBeEdited.Description = description;
             bookToBeEdited.Details = details;
@@ -95,7 +94,7 @@ namespace Business.Services
                 await _fileManagement.CreateFile(_folder, value, image);
             }
 
-            _repository.EditBook(bookToBeEdited);
+            _bookService.EditBook(bookToBeEdited);
         }
 
         public void DeleteBook(Guid id)
@@ -105,7 +104,7 @@ namespace Business.Services
 
         public Book GetBookById(Guid id)
         {
-            return _repository.GetBookById(id);
+            return _bookService.GetBookById(id);
         }
     }
 }

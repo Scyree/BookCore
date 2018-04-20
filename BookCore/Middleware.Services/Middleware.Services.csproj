@@ -5,18 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="AuthorBookService.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Business.Repositories\Business.Repositories.csproj" />
     <ProjectReference Include="..\Data.Domain\Data.Domain.csproj" />
     <ProjectReference Include="..\Middleware.Interfaces\Middleware.Interfaces.csproj" />
-    <ProjectReference Include="..\Middleware.Services\Middleware.Services.csproj" />
   </ItemGroup>
 
 </Project>

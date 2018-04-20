@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Data.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Middleware.Interfaces;
 
-namespace Business.Services
+namespace Middleware.Services
 {
     public class WorkingWithFiles : IWorkingWithFiles
     {
@@ -20,7 +20,7 @@ namespace Business.Services
         {
             var path = Path.Combine(_env.WebRootPath, folder + "\\" + value);
 
-            if (image.Length > 0)
+            if (image != null)
             {
                 if (!Directory.Exists(path))
                 {
@@ -33,7 +33,7 @@ namespace Business.Services
                 }
             }
         }
-        
+
         public void DeleteFolderForGivenId(string folder, Guid value)
         {
             var searchedPath = Path.Combine(_env.WebRootPath, folder + "\\" + value);

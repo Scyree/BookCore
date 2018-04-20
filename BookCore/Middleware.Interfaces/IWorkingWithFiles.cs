@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Data.Domain.Interfaces.Services
+namespace Middleware.Interfaces
 {
     public interface IWorkingWithFiles
     {

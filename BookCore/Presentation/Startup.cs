@@ -10,6 +10,8 @@ using Business.Services;
 using Data.Domain.Interfaces.Services;
 using Data.Domain.Interfaces.Repositories;
 using Business.Repositories;
+using Middleware.Interfaces;
+using Middleware.Services;
 
 namespace Presentation
 {
@@ -60,11 +62,14 @@ namespace Presentation
             services.AddTransient<IAuthorRepository, AuthorRepository>();
             services.AddTransient<ICharacterRepository, CharacterRepository>();
             services.AddTransient<IBookService, BookService>();
-            services.AddTransient<IWorkingWithFiles, WorkingWithFiles>();
             services.AddTransient<IAuthorService, AuthorService>();
             services.AddTransient<IGenreService, GenreService>();
             services.AddTransient<ILikeService, LikeService>();
             services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<IWorkingWithFiles, WorkingWithFiles>();
+            services.AddTransient<IAuthorGeneralUsage, AuthorGeneralUsage>();
+            services.AddTransient<IBookGeneralUsage, BookGeneralUsage>();
+            services.AddTransient<IAuthorBookService, AuthorBookService>();
 
             //Repos
             services.AddTransient<IBooksForMoodRepository, BooksForMoodRepository>();

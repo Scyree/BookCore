@@ -22,6 +22,8 @@
     <ProjectReference Include="..\Business.Services\Business.Services.csproj" />
     <ProjectReference Include="..\Data.Domain\Data.Domain.csproj" />
     <ProjectReference Include="..\Data.Persistence\Data.Persistence.csproj" />
+    <ProjectReference Include="..\Middleware.Interfaces\Middleware.Interfaces.csproj" />
+    <ProjectReference Include="..\Middleware.Services\Middleware.Services.csproj" />
   </ItemGroup>
 
 </Project>

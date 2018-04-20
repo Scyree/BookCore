@@ -48,14 +48,14 @@ namespace Presentation.Controllers
         // POST: Authors/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name, Description, Image")] AuthorCreateModel authorCreateModel)
+        public async Task<IActionResult> Create([Bind("Name, Description, Books, Image")] AuthorCreateModel authorCreateModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(authorCreateModel);
             }
 
-            await _service.CreateAuthor(authorCreateModel.Image, authorCreateModel.Name, authorCreateModel.Description);
+            await _service.CreateAuthor(authorCreateModel.Image, authorCreateModel.Name, authorCreateModel.Description, authorCreateModel.Books);
 
             return RedirectToAction(nameof(Index));
         }
@@ -86,7 +86,7 @@ namespace Presentation.Controllers
         // POST: Authors/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name, Description, Image")] AuthorEditModel authorEditModel)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name, Description, Books, Image")] AuthorEditModel authorEditModel)
         {
             if (!ModelState.IsValid)
             {

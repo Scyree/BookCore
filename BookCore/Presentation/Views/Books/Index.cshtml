@@ -65,7 +65,8 @@
                         @foreach (var author in item.Authors)
                         {
                             var authorDisplay = authors.GetAuthorById(author.AuthorId);
-                            @Html.DisplayFor(modelItem => authorDisplay.Name)                          
+                            @Html.DisplayFor(modelItem => authorDisplay.Name)    
+                            <br />
                         }
                     </td>
                     <td>

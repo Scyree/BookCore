@@ -1,83 +1,45 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Data.Domain.Entities;
-using Data.Domain.Interfaces.Repositories;
 using Data.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
+using Middleware.Interfaces;
 
 namespace Business.Services
 {
     public class AuthorService : IAuthorService
     {
         private readonly IWorkingWithFiles _fileManagement;
-        private readonly IAuthorRepository _repository;
-        private readonly IAuthorBookRepository _authorBookRepository;
+        private readonly IBookGeneralUsage _bookService;
+        private readonly IAuthorGeneralUsage _authorService;
+        private readonly IAuthorBookService _authorBookService;
         private readonly string _folder;
 
-        public AuthorService(IAuthorRepository repository, IWorkingWithFiles fileManagement, IAuthorBookRepository authorBookRepository)
+        public AuthorService(IAuthorGeneralUsage authorService, IWorkingWithFiles fileManagement, IBookGeneralUsage bookService, IAuthorBookService authorBookService)
         {
-            _repository = repository;
+            _authorService = authorService;
             _fileManagement = fileManagement;
-            _authorBookRepository = authorBookRepository;
+            _bookService = bookService;
+            _authorBookService = authorBookService;
             _folder = "Authors";
         }
 
         public IReadOnlyList<Author> GetAllAuthors()
         {
-            var authors = _repository.GetAllAuthors();
+            var authors = _authorService.GetAllAuthors();
 
             foreach (var author in authors)
             {
-                author.Books = _authorBookRepository.GetAllAuthorBooksBasedOnAuthorId(author.Id);
+                author.Books = _authorBookService.GetAllAuthorBooksBasedOnAuthorId(author.Id);
             }
 
             return authors;
         }
-
-        public Author CheckAuthor(string description)
-        {
-            var check = _repository.GetAllAuthors().SingleOrDefault(author => author.Name == description);
-
-            if (check == null)
-            {
-                var value = Guid.NewGuid();
-                var path = _folder + "\\" + value;
-                var imageName = _folder + ".jpg";
-
-                _fileManagement.CopyFile(_folder, value);
-
-                var author = Author.CreateAuthor(
-                    description, 
-                    "Momentan nu exista o descriere a acestui autor",
-                    path,
-                    imageName
-                );
-
-                _repository.CreateAuthor(author);
-
-                return author;
-            }
-
-            return check;
-        }
-
-        public List<Author> GetAuthors(string description)
-        {
-            var authors = description.Split(",");
-            var authorList = new List<Author>();
-
-            foreach (var author in authors)
-            {
-                authorList.Add(CheckAuthor(author));
-            }
-
-            return authorList;
-        }
         
-        public async Task CreateAuthor(IFormFile image, string name, string description)
+        public async Task CreateAuthor(IFormFile image, string name, string description, string books)
         {
+            var bookList = _bookService.GetBooks(books);
             var value = Guid.NewGuid();
             var path = _folder + "\\" + value;
             var imageName = _folder + ".jpg";
@@ -102,12 +64,17 @@ namespace Business.Services
                 imageName
             );
 
-            _repository.CreateAuthor(author);
+            _authorService.CreateAuthor(author);
+
+            foreach (var book in bookList)
+            {
+                _authorBookService.CheckAuthorBook(author.Id, book.Id);
+            }
         }
 
         public async Task EditAuthor(Guid id, IFormFile image, string name, string description)
         {
-            var authorToBeEdited = _repository.GetAuthorById(id);
+            var authorToBeEdited = _authorService.GetAuthorById(id);
 
             authorToBeEdited.Name = name;
             authorToBeEdited.Description = description;
@@ -119,7 +86,7 @@ namespace Business.Services
                 await _fileManagement.CreateFile(_folder, value, image);
             }
 
-            _repository.EditAuthor(authorToBeEdited);
+            _authorService.EditAuthor(authorToBeEdited);
         }
 
         public void DeleteAuthor(Guid id)
@@ -129,7 +96,7 @@ namespace Business.Services
 
         public Author GetAuthorById(Guid id)
         {
-            return _repository.GetAuthorById(id);
+            return _authorService.GetAuthorById(id);
         }
     }
 }
