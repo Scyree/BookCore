@@ -19,7 +19,7 @@ namespace Data.Domain.Entities
 
         public ICollection<AuthorBook> Authors { get; set; }
 
-        public virtual ICollection<Genre> Genres { get; set; }
+        public virtual ICollection<GenreBook> Genres { get; set; }
 
         public ICollection<Review> Reviews { get; set; }
         
@@ -31,7 +31,7 @@ namespace Data.Domain.Entities
 
         public double FinalRate { get; set; }
 
-        public List<Rating> Ratings { get; set; } 
+        public ICollection<Rating> Ratings { get; set; } 
 
         public static Book CreateBook(string title, string description, string folder, string imageName, string details)
         {
@@ -39,7 +39,7 @@ namespace Data.Domain.Entities
             {
                 Id = Guid.NewGuid(),
                 Authors = new List<AuthorBook>(),
-                Genres = new List<Genre>(),
+                Genres = new List<GenreBook>(),
                 Reviews = new List<Review>(),
                 Recommandations = new List<Recommandation>(),
                 BuyingSites = new List<BuyingSite>(),

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Data.Domain.Entities
@@ -8,9 +9,7 @@ namespace Data.Domain.Entities
         [Key]
         public Guid Id { get; set; }
 
-        public Guid BooksId { get; set; }
-
-        public virtual Book Book { get; set; }
+        public ICollection<GenreBook> Books { get; set; }
 
         public string Text { get; set; }
 
@@ -18,7 +17,8 @@ namespace Data.Domain.Entities
         {
             var instance = new Genre
             {
-                Id = Guid.NewGuid()
+                Id = Guid.NewGuid(),
+                Books = new List<GenreBook>()
             };
 
             instance.UpdateGenre(text);

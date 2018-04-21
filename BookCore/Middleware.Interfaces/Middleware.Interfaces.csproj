@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="IGenreGeneralUsage.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Business.Repositories\Business.Repositories.csproj" />
     <ProjectReference Include="..\Data.Domain\Data.Domain.csproj" />
   </ItemGroup>

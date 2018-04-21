@@ -8,6 +8,6 @@ namespace Data.Domain.Interfaces.Services
     {
         Genre CheckGenre(string description);
         List<Genre> GetGenres(string description);
-        List<Genre> GetGenreBasedOnBookId(Guid bookId);
+        Genre GetGenreById(Guid id);
     }
 }

@@ -13,15 +13,17 @@ namespace Business.Services
         private readonly IBookGeneralUsage _bookService;
         private readonly IWorkingWithFiles _fileManagement;
         private readonly IGenreService _genreService;
+        private readonly IGenreBookService _genreBookService;
         private readonly IAuthorGeneralUsage _authorService;
         private readonly IAuthorBookService _authorBookService;
         private readonly string _folder;
 
-        public BookService(IBookGeneralUsage bookService, IWorkingWithFiles fileManagement, IGenreService genreService, IAuthorGeneralUsage authorService, IAuthorBookService authorBookService)
+        public BookService(IBookGeneralUsage bookService, IWorkingWithFiles fileManagement, IGenreService genreService, IGenreBookService genreBookService, IAuthorGeneralUsage authorService, IAuthorBookService authorBookService)
         {
             _bookService = bookService;
             _fileManagement = fileManagement;
             _genreService = genreService;
+            _genreBookService = genreBookService;
             _authorService = authorService;
             _authorBookService = authorBookService;
             _folder = "Books";
@@ -34,7 +36,7 @@ namespace Business.Services
             foreach (var book in books)
             {
                 book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(book.Id);
-                book.Genres = _genreService.GetGenreBasedOnBookId(book.Id);
+                book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(book.Id);
             }
 
             return books;
@@ -71,7 +73,7 @@ namespace Business.Services
 
             foreach (var genre in genresList)
             {
-                genre.BooksId = book.Id;
+                _genreBookService.CheckGenreBook(genre.Id, book.Id);
             }
 
             foreach (var author in authorList)
@@ -100,7 +102,7 @@ namespace Business.Services
 
                 foreach (var genre in genresList)
                 {
-                    genre.BooksId = id;
+                    _genreBookService.CheckGenreBook(genre.Id, id);
                 }
             }
 
@@ -130,6 +132,7 @@ namespace Business.Services
 
             _bookService.DeleteBook(bookToBeDeleted);
             _authorBookService.DeleteForBookId(id);
+            _genreBookService.DeleteForBookId(id);
         }
 
         public Book GetBookById(Guid id)

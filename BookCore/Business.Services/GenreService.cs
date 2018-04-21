@@ -45,10 +45,9 @@ namespace Business.Services
             return genreList;
         }
 
-        public List<Genre> GetGenreBasedOnBookId(Guid bookId)
+        public Genre GetGenreById(Guid id)
         {
-            return _repository.GetAllGenres().Where(genre => genre.BooksId == bookId).ToList();
+            return _repository.GetGenreById(id);
         }
-
     }
 }

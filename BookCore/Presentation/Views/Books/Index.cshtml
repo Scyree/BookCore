@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Book>
 @inject IAuthorService authors
-
+@inject IGenreService genres
 @{
     ViewData["Title"] = "Index";
 }
@@ -72,7 +72,9 @@
                     <td>
                         @foreach (var genre in item.Genres)
                         {
-                            @Html.DisplayFor(modelItem => genre.Text)
+                            var genreDisplay = genres.GetGenreById(genre.GenreId);
+                            @Html.DisplayFor(modelItem => genreDisplay.Text)
+                            <br />
                         }
                     </td>
                     <td>

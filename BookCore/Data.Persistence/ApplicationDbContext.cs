@@ -16,8 +16,8 @@ namespace Data.Persistence
             modelBuilder.Entity<AuthorBook>()
                 .HasKey(authorBook => new { authorBook.AuthorId, authorBook.BookId });
 
-            modelBuilder.Entity<Book>()
-                .HasMany(book => book.Genres);
+            modelBuilder.Entity<GenreBook>()
+                .HasKey(genreBook => new { genreBook.GenreId, genreBook.BookId });
 
             base.OnModelCreating(modelBuilder);
         }
@@ -35,5 +35,6 @@ namespace Data.Persistence
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<AuthorBook> AuthorBooks { get; set; }
+        public DbSet<GenreBook> GenreBooks { get; set; }
     }
 }
