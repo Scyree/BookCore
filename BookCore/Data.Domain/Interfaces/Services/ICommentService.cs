@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using Data.Domain.Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Data.Domain.Interfaces.Services
 {
     public interface ICommentService
     {
-        IReadOnlyList<Comment> GetAllComments();
+        IReadOnlyList<Comment> GetAllComments(Guid targetId);
+        void CreateComment(Guid userId, Guid targetId, string text);
+        void EditComment(Guid id, string text);
+        void DeleteComment(Guid id);
         Comment GetCommentById(Guid id);
-        void CreateComment(Comment comment);
-        void EditComment(Comment comment);
-        void DeleteComment(Comment comment);
-
-        List<Comment> GetAllComments(Guid targetId);
+        void UpvoteComment(Guid commentId, Guid userId);
+        void DownvoteComment(Guid commentId, Guid userId);
     }
 }

@@ -7,23 +7,20 @@ namespace Data.Domain.Interfaces.Services
 {
     public interface IReviewService
     {
-        //From Repository
-        IReadOnlyList<Review> GetAllReviews();
-        Review GetReviewById(Guid id);
-        void CreateReview(Review review);
-        void EditReview(Review review);
-        void DeleteReview(Review review);
-
         //For LikeService
         int GetNumberOfLikes(Guid reviewId);
-        void Upvote(Guid reviewId, Guid userId);
-        void Downvote(Guid reviewId, Guid userId);
+        void UpvoteReview(Guid reviewId, Guid userId);
+        void DownvoteReview(Guid reviewId, Guid userId);
 
         //Review only methods
-        IReadOnlyList<Review> GetReviewsByDate();
-        IReadOnlyList<Review> GetReviewsBasedOnLikes();
         IReadOnlyList<Review> GetOnlyFirstNumberOfReviews(int number);
         List<SelectListItem> GetRatingList();
-        void DeleteNegativeReviews(Guid reviewId);
+
+        IReadOnlyList<Review> GetAllReviews(); 
+        void CreateReview(Guid userId, Guid bookId, string description, double bookRating);
+        void EditReview(Guid id, string description, double bookRating);
+        void DeleteReview(Guid id);
+        Review GetReviewById(Guid reviewId);
+        
     }
 }

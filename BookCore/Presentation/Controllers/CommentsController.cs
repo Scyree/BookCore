@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Data.Domain.Entities;
 using Data.Domain.Interfaces.Services;
 using Presentation.Models.CommentViewModels;
 
@@ -10,20 +7,20 @@ namespace Presentation.Controllers
 {
     public class CommentsController : Controller
     {
-        private readonly ICommentService _repository;
+        private readonly ICommentService _service;
 
-        public CommentsController(ICommentService repository)
+        public CommentsController(ICommentService service)
         {
-            _repository = repository;
+            _service = service;
         }
 
         // GET: Comments
-        public IActionResult Index()
+        public IActionResult Index(Guid targetId)
         {
-            return View(_repository.GetAllComments());
+            return View(_service.GetAllComments(targetId));
         }
 
-        // GET: Comments/Details/5
+        // GET: Comments/Details
         public IActionResult Details(Guid? id)
         {
             if (id == null)
@@ -31,7 +28,8 @@ namespace Presentation.Controllers
                 return NotFound();
             }
 
-            var comment = _repository.GetCommentById(id.Value);
+            var comment = _service.GetCommentById(id.Value);
+
             if (comment == null)
             {
                 return NotFound();
@@ -47,8 +45,6 @@ namespace Presentation.Controllers
         }
 
         // POST: Comments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("UserId, TargetId, Text")] CommentCreateModel commentCreateModel)
@@ -58,18 +54,12 @@ namespace Presentation.Controllers
                 return View(commentCreateModel);
             }
 
-            _repository.CreateComment(
-                Comment.CreateComment(
-                    commentCreateModel.UserId,
-                    commentCreateModel.TargetId,
-                    commentCreateModel.Text
-                )
-            );
+            _service.CreateComment(commentCreateModel.UserId, commentCreateModel.TargetId, commentCreateModel.Text);
 
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Comments/Edit/5
+        // GET: Comments/Edit
         public IActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -77,62 +67,36 @@ namespace Presentation.Controllers
                 return NotFound();
             }
 
-            var comment = _repository.GetCommentById(id.Value);
+            var comment = _service.GetCommentById(id.Value);
+
             if (comment == null)
             {
                 return NotFound();
             }
 
             var commentEditModel = new CommentEditModel(
-                comment.UserId,
-                comment.TargetId,
                 comment.Text
             );
 
             return View(commentEditModel);
         }
 
-        // POST: Comments/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Comments/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, [Bind("UserId, TargetId, Text")] CommentEditModel commentEditModel)
+        public IActionResult Edit(Guid id, [Bind("Text")] CommentEditModel commentEditModel)
         {
-            var commentToBeEdited = _repository.GetCommentById(id);
-
-            if (commentToBeEdited == null)
-            {
-                return NotFound();
-            }
-
             if (!ModelState.IsValid)
             {
-                return View(commentToBeEdited);
+                return View(commentEditModel);
             }
 
-            commentToBeEdited.UserId = commentEditModel.UserId;
-            commentToBeEdited.TargetId = commentEditModel.TargetId;
-            commentToBeEdited.Text = commentEditModel.Text;
-        
-            try
-            {
-                _repository.EditComment(commentToBeEdited);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CommentExists(_repository.GetCommentById(id).Id))
-                {
-                    return NotFound();
-                }
-
-                throw;
-            }
+            _service.EditComment(id, commentEditModel.Text);
 
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Comments/Delete/5
+        // GET: Comments/Delete
         public IActionResult Delete(Guid? id)
         {
             if (id == null)
@@ -140,7 +104,8 @@ namespace Presentation.Controllers
                 return NotFound();
             }
 
-            var comment = _repository.GetCommentById(id.Value);
+            var comment = _service.GetCommentById(id.Value);
+
             if (comment == null)
             {
                 return NotFound();
@@ -149,20 +114,28 @@ namespace Presentation.Controllers
             return View(comment);
         }
 
-        // POST: Comments/Delete/5
+        // POST: Comments/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(Guid id)
         {
-            var commentToBeDeleted = _repository.GetCommentById(id);
-            _repository.DeleteComment(commentToBeDeleted);
+            _service.DeleteComment(id);
 
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CommentExists(Guid id)
+        public IActionResult Upvote(Guid commentId, Guid userId)
         {
-            return _repository.GetAllComments().Any(e => e.Id == id);
+            _service.UpvoteComment(commentId, userId);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Downvote(Guid commentId, Guid userId)
+        {
+            _service.DownvoteComment(commentId, userId);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

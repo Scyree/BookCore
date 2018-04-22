@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Data.Domain.Entities;
 using Data.Domain.Interfaces.Services;
 using Presentation.Models.ReviewViewModels;
 
@@ -10,21 +7,21 @@ namespace Presentation.Controllers
 {
     public class ReviewsController : Controller
     {
-        private readonly IReviewService _repository;
+        private readonly IReviewService _service;
 
-        public ReviewsController(IReviewService repository)
+        public ReviewsController(IReviewService service)
         {
-            _repository = repository;
+            _service = service;
         }
 
         // GET: Reviews
         public IActionResult Index()
         {
         
-            return View(_repository.GetReviewsByDate());
+            return View(_service.GetAllReviews());
         }
 
-        // GET: Reviews/Details/5
+        // GET: Reviews/Details
         public IActionResult Details(Guid? id)
         {
             if (id == null)
@@ -32,7 +29,8 @@ namespace Presentation.Controllers
                 return NotFound();
             }
 
-            var review = _repository.GetReviewById(id.Value);
+            var review = _service.GetReviewById(id.Value);
+
             if (review == null)
             {
                 return NotFound();
@@ -48,8 +46,6 @@ namespace Presentation.Controllers
         }
 
         // POST: Reviews/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("UserId, BookId, Description, BookRating")] ReviewCreateModel reviewCreateModel)
@@ -58,20 +54,13 @@ namespace Presentation.Controllers
             {
                 return View(reviewCreateModel);
             }
-            
-            _repository.CreateReview(
-                Review.CreateReview(
-                    reviewCreateModel.BookRating,
-                    reviewCreateModel.Description,
-                    reviewCreateModel.UserId,
-                    reviewCreateModel.BookId
-                )
-            );
+
+            _service.CreateReview(reviewCreateModel.UserId, reviewCreateModel.BookId, reviewCreateModel.Description, reviewCreateModel.BookRating);
 
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Reviews/Edit/5
+        // GET: Reviews/Edit
         public IActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -79,15 +68,14 @@ namespace Presentation.Controllers
                 return NotFound();
             }
 
-            var review = _repository.GetReviewById(id.Value);
+            var review = _service.GetReviewById(id.Value);
+
             if (review == null)
             {
                 return NotFound();
             }
 
             var reviewEditModel = new ReviewEditModel(
-                review.UserId,
-                review.BookId,
                 review.Description,
                 review.BookRating
             );
@@ -95,48 +83,22 @@ namespace Presentation.Controllers
             return View(reviewEditModel);
         }
 
-        // POST: Reviews/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Reviews/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, [Bind("UserId, BookId, Description, BookRating")] ReviewEditModel reviewEditModel)
+        public IActionResult Edit(Guid id, [Bind("Description, BookRating")] ReviewEditModel reviewEditModel)
         {
-            var reviewToBeEdited = _repository.GetReviewById(id);
-
-            if (reviewToBeEdited == null)
-            {
-                return NotFound();
-            }
-
             if (!ModelState.IsValid)
             {
                 return View(reviewEditModel);
             }
-            
-            reviewToBeEdited.UserId = reviewEditModel.UserId;
-            reviewToBeEdited.BookId = reviewEditModel.BookId;
-            reviewToBeEdited.Description = reviewEditModel.Description;
-            reviewToBeEdited.BookRating = reviewEditModel.BookRating;
 
-            try
-            {
-                _repository.EditReview(reviewToBeEdited);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ReviewExists(_repository.GetReviewById(id).Id))
-                {
-                    return NotFound();
-                }
-
-                throw;
-            }
+            _service.EditReview(id, reviewEditModel.Description, reviewEditModel.BookRating);
 
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Reviews/Delete/5
+        // GET: Reviews/Delete
         public IActionResult Delete(Guid? id)
         {
             if (id == null)
@@ -144,7 +106,8 @@ namespace Presentation.Controllers
                 return NotFound();
             }
 
-            var review = _repository.GetReviewById(id.Value);
+            var review = _service.GetReviewById(id.Value);
+
             if (review == null)
             {
                 return NotFound();
@@ -153,33 +116,26 @@ namespace Presentation.Controllers
             return View(review);
         }
 
-        // POST: Reviews/Delete/5
+        // POST: Reviews/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(Guid id)
         {
-            var reviewToBeDeleted = _repository.GetReviewById(id);
-            _repository.DeleteReview(reviewToBeDeleted);
+            _service.DeleteReview(id);
 
             return RedirectToAction(nameof(Index));
         }
-
-        private bool ReviewExists(Guid id)
-        {
-            return _repository.GetAllReviews().Any(e => e.Id == id);
-        }
-
+        
         public IActionResult Upvote(Guid reviewId, Guid userId)
         {
-            _repository.Upvote(reviewId, userId);
+            _service.UpvoteReview(reviewId, userId);
 
             return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Downvote(Guid reviewId, Guid userId)
         {
-            _repository.Downvote(reviewId, userId);
-            //_repository.DeleteNegativeReviews(reviewId);
+            _service.DownvoteReview(reviewId, userId);
 
             return RedirectToAction(nameof(Index));
         }

@@ -71,6 +71,9 @@ namespace Presentation
             services.AddTransient<IBookGeneralUsage, BookGeneralUsage>();
             services.AddTransient<IAuthorBookService, AuthorBookService>();
             services.AddTransient<IGenreBookService, GenreBookService>();
+            services.AddTransient<IReviewGeneralUsage, ReviewGeneralUsage>();
+            services.AddTransient<ICommentGeneralUsage, CommentGeneralUsage>();
+            services.AddTransient<ICommentService, CommentService>();
 
             //Repos
             services.AddTransient<IBooksForMoodRepository, BooksForMoodRepository>();

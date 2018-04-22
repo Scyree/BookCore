@@ -1,62 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using Data.Domain.Entities;
-using Data.Domain.Interfaces.Repositories;
 using Data.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Middleware.Interfaces;
 
 namespace Business.Services
 {
     public class ReviewService : IReviewService
     {
-        private readonly IReviewRepository _repository;
+        private readonly IReviewGeneralUsage _reviewService;
         private readonly ILikeService _likeService;
+        private readonly ICommentService _commentService;
 
-        public ReviewService(IReviewRepository repository, ILikeService likeService)
+        public ReviewService(IReviewGeneralUsage reviewService, ILikeService likeService, ICommentService commentService)
         {
-            _repository = repository;
+            _reviewService = reviewService;
             _likeService = likeService;
+            _commentService = commentService;
         }
 
-        public IReadOnlyList<Review> GetAllReviews()
+        public int GetNumberOfLikes(Guid reviewId)
         {
-            return _repository.GetAllReviews();
+            return _likeService.GetNumberOfLikes(reviewId);
         }
 
-        public Review GetReviewById(Guid id)
+        public void UpvoteReview(Guid reviewId, Guid userId)
         {
-            return _repository.GetReviewById(id);
+            _likeService.Upvote(reviewId, userId);
         }
 
-        public void CreateReview(Review review)
+        public void DownvoteReview(Guid reviewId, Guid userId)
         {
-            _repository.CreateReview(review);
+            _likeService.Downvote(reviewId, userId);
         }
-
-        public void EditReview(Review review)
-        {
-            _repository.EditReview(review);
-        }
-
-        public void DeleteReview(Review review)
-        {
-            _repository.DeleteReview(review);
-        }
-
-        public IReadOnlyList<Review> GetReviewsByDate()
-        {
-            return _repository.GetAllReviews().OrderByDescending(review => review.Date).ToList();
-        }
-
-        public IReadOnlyList<Review> GetReviewsBasedOnLikes()
-        {
-            return _repository.GetAllReviews().OrderByDescending(review => review.Likes).ToList();
-        }
-
+        
         public IReadOnlyList<Review> GetOnlyFirstNumberOfReviews(int number)
         {
-            return GetReviewsBasedOnLikes().Take(number).ToList();
+            return _reviewService.GetReviewsBasedOnLikes().Take(number).ToList();
         }
 
         public List<SelectListItem> GetRatingList()
@@ -73,22 +55,63 @@ namespace Business.Services
             return ratingList;
         }
 
-        public int GetNumberOfLikes(Guid reviewId)
+        public IReadOnlyList<Review> GetAllReviews()
         {
-            return _likeService.GetNumberOfLikes(reviewId);
+            var reviews = _reviewService.GetReviewsByDate();
+
+            foreach (var review in reviews)
+            {
+                review.Comments = _commentService.GetAllComments(review.Id).ToList();
+            }
+
+            return reviews;
         }
 
-        public void Upvote(Guid reviewId, Guid userId)
+        public void CreateReview(Guid userId, Guid bookId, string description, double bookRating)
         {
-            _likeService.Upvote(reviewId, userId);
+            var review = Review.CreateReview(
+                bookRating,
+                description,
+                userId,
+                bookId
+            );
+
+            _reviewService.CreateReview(review);
         }
 
-        public void Downvote(Guid reviewId, Guid userId)
+        public void EditReview(Guid id, string description, double bookRating)
         {
-            _likeService.Downvote(reviewId, userId);
+            var reviewToBeEdited = _reviewService.GetReviewById(id);
+
+            if (reviewToBeEdited != null)
+            {
+                if (description != null)
+                {
+                    reviewToBeEdited.Description = description;
+                }
+
+                reviewToBeEdited.BookRating = bookRating;
+
+                _reviewService.EditReview(reviewToBeEdited);
+            }
         }
 
-        public void DeleteNegativeReviews(Guid reviewId)
+        public void DeleteReview(Guid id)
+        {
+            var reviewToBeDeleted = _reviewService.GetReviewById(id);
+
+            if (reviewToBeDeleted != null)
+            {
+                _reviewService.DeleteReview(reviewToBeDeleted);
+            }
+        }
+
+        public Review GetReviewById(Guid reviewId)
+        {
+            return _reviewService.GetReviewById(reviewId);
+        }
+
+        private void DeleteNegativeReviews(Guid reviewId)
         {
             if (GetNumberOfLikes(reviewId) <= -20)
             {
@@ -99,13 +122,8 @@ namespace Business.Services
                     _likeService.DeleteLike(like);
                 }
 
-                DeleteReview(GetReviewById(reviewId));
+                _reviewService.DeleteReview(_reviewService.GetReviewById(reviewId));
             }
         }
-
-        //public List<Comment> GetAllComments(Guid reviewId)
-        //{
-        //    return _repository.GetAllComments(reviewId);
-        //}
     }
 }

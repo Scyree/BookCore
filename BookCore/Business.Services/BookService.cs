@@ -86,53 +86,59 @@ namespace Business.Services
         {
             var bookToBeEdited = _bookService.GetBookById(id);
 
-            if (description != null)
+            if (bookToBeEdited != null)
             {
-                bookToBeEdited.Description = description;
-            }
-
-            if (details != null)
-            {
-                bookToBeEdited.Details = details;
-            }
-
-            if (genres != null)
-            {
-                var genresList = _genreService.GetGenres(genres);
-
-                foreach (var genre in genresList)
+                if (description != null)
                 {
-                    _genreBookService.CheckGenreBook(genre.Id, id);
+                    bookToBeEdited.Description = description;
                 }
-            }
 
-            if (authors != null)
-            {
-                var authorList = _authorService.GetAuthors(authors);
-                
-                foreach (var author in authorList)
+                if (details != null)
                 {
-                    _authorBookService.CheckAuthorBook(author.Id, id);
+                    bookToBeEdited.Details = details;
                 }
-            }
-            
-            if (image != null)
-            {
-                var value = Guid.NewGuid();
 
-                await _fileManagement.CreateFile(_folder, value, image);
-            }
+                if (genres != null)
+                {
+                    var genresList = _genreService.GetGenres(genres);
 
-            _bookService.EditBook(bookToBeEdited);
+                    foreach (var genre in genresList)
+                    {
+                        _genreBookService.CheckGenreBook(genre.Id, id);
+                    }
+                }
+
+                if (authors != null)
+                {
+                    var authorList = _authorService.GetAuthors(authors);
+
+                    foreach (var author in authorList)
+                    {
+                        _authorBookService.CheckAuthorBook(author.Id, id);
+                    }
+                }
+
+                if (image != null)
+                {
+                    var value = Guid.NewGuid();
+
+                    await _fileManagement.CreateFile(_folder, value, image);
+                }
+
+                _bookService.EditBook(bookToBeEdited);
+            }
         }
 
         public void DeleteBook(Guid id)
         {
             var bookToBeDeleted = _bookService.GetBookById(id);
 
-            _bookService.DeleteBook(bookToBeDeleted);
-            _authorBookService.DeleteForBookId(id);
-            _genreBookService.DeleteForBookId(id);
+            if (bookToBeDeleted != null)
+            {
+                _bookService.DeleteBook(bookToBeDeleted);
+                _authorBookService.DeleteForBookId(id);
+                _genreBookService.DeleteForBookId(id);
+            }
         }
 
         public Book GetBookById(Guid id)

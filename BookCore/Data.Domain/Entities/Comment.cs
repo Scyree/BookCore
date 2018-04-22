@@ -15,14 +15,17 @@ namespace Data.Domain.Entities
 
         public string Text { get; set; }
 
-        public List<Like> Likes { get; set; }
+        public ICollection<Like> Likes { get; set; }
+
+        public DateTime Date { get; set; }
 
         public static Comment CreateComment(Guid userId, Guid targetId, string text)
         {
             var instance = new Comment
             {
                 Id = Guid.NewGuid(),
-                Likes = new List<Like>()
+                Likes = new List<Like>(),
+                Date = DateTime.UtcNow
             };
 
             instance.UpdateComment(userId, targetId, text);

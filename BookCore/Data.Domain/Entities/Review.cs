@@ -21,7 +21,7 @@ namespace Data.Domain.Entities
 
         public DateTime Date { get; set; }
 
-        public List<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
         public static Review CreateReview(double bookRating, string description, Guid userId, Guid bookId)//, DateTime date, List<Comment> comments)
         {

@@ -1,52 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Data.Domain.Entities;
-using Data.Domain.Interfaces.Repositories;
 using Data.Domain.Interfaces.Services;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Middleware.Interfaces;
 
 namespace Business.Services
 {
     public class CommentService : ICommentService
     {
-        private readonly ICommentRepository _repository;
+        private readonly ICommentGeneralUsage _commentService;
         private readonly ILikeService _likeService;
 
-        public CommentService(ICommentRepository repository, ILikeService likeService)
+        public CommentService(ICommentGeneralUsage repository, ILikeService likeService)
         {
-            _repository = repository;
+            _commentService = repository;
             _likeService = likeService;
         }
 
-        public IReadOnlyList<Comment> GetAllComments()
+        public IReadOnlyList<Comment> GetAllComments(Guid targetId)
         {
-            return _repository.GetAllComments();
+            return _commentService.GetAllCommentsGivenTargetId(targetId);
+        }
+        
+        public void CreateComment(Guid userId, Guid targetId, string text)
+        {
+            var comment = Comment.CreateComment(
+                userId,
+                targetId,
+                text
+            );
+
+            _commentService.CreateComment(comment);
+        }
+
+        public void EditComment(Guid id, string text)
+        {
+            var commentToBeEdited = _commentService.GetCommentById(id);
+
+            if (commentToBeEdited != null)
+            {
+                if (text != null)
+                {
+                    commentToBeEdited.Text = text;
+                }
+
+                _commentService.EditComment(commentToBeEdited);
+            }
+        }
+
+        public void DeleteComment(Guid id)
+        {
+            var commentToBeDeleted = _commentService.GetCommentById(id);
+
+            if (commentToBeDeleted != null)
+            {
+                _commentService.DeleteComment(commentToBeDeleted);
+            }
         }
 
         public Comment GetCommentById(Guid id)
         {
-            return _repository.GetCommentById(id);
+            return _commentService.GetCommentById(id);
         }
 
-        public void CreateComment(Comment comment)
+        public void UpvoteComment(Guid commentId, Guid userId)
         {
-            _repository.CreateComment(comment);
+            _likeService.Upvote(commentId, userId);
         }
 
-        public void EditComment(Comment comment)
+        public void DownvoteComment(Guid commentId, Guid userId)
         {
-            _repository.EditComment(comment);
-        }
-
-        public void DeleteComment(Comment comment)
-        {
-            _repository.DeleteComment(comment);
-        }
-
-        public List<Comment> GetAllComments(Guid targetId)
-        {
-            return _repository.GetAllComments(targetId);
+            _likeService.Downvote(commentId, userId);
         }
     }
 }

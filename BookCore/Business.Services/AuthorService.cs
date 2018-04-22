@@ -76,42 +76,48 @@ namespace Business.Services
         {
             var authorToBeEdited = _authorService.GetAuthorById(id);
 
-            if (name != null)
+            if (authorToBeEdited != null)
             {
-                authorToBeEdited.Name = name;
-            }
-
-            if (description != null)
-            {
-                authorToBeEdited.Description = description;
-            }
-
-            if (books != null)
-            {
-                var bookList = _bookService.GetBooks(books);
-
-                foreach (var book in bookList)
+                if (name != null)
                 {
-                    _authorBookService.CheckAuthorBook(id, book.Id);
+                    authorToBeEdited.Name = name;
                 }
-            }
-            
-            if (image != null)
-            {
-                var value = Guid.NewGuid();
 
-                await _fileManagement.CreateFile(_folder, value, image);
-            }
+                if (description != null)
+                {
+                    authorToBeEdited.Description = description;
+                }
 
-            _authorService.EditAuthor(authorToBeEdited);
+                if (books != null)
+                {
+                    var bookList = _bookService.GetBooks(books);
+
+                    foreach (var book in bookList)
+                    {
+                        _authorBookService.CheckAuthorBook(id, book.Id);
+                    }
+                }
+
+                if (image != null)
+                {
+                    var value = Guid.NewGuid();
+
+                    await _fileManagement.CreateFile(_folder, value, image);
+                }
+
+                _authorService.EditAuthor(authorToBeEdited);
+            }
         }
 
         public void DeleteAuthor(Guid id)
         {
             var authorToBeDeleted = _authorService.GetAuthorById(id);
 
-            _authorService.DeleteAuthor(authorToBeDeleted);
-            _authorBookService.DeleteForAuthorId(id);
+            if (authorToBeDeleted != null)
+            {
+                _authorService.DeleteAuthor(authorToBeDeleted);
+                _authorBookService.DeleteForAuthorId(id);
+            }
         }
 
         public Author GetAuthorById(Guid id)
