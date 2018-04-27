@@ -45,16 +45,25 @@ namespace Presentation.Controllers
         }
 
         // POST: Comments/Create
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Create([Bind("UserId, TargetId, Text")] CommentCreateModel commentCreateModel)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(commentCreateModel);
+        //    }
+
+        //    _service.CreateComment(commentCreateModel.UserId, commentCreateModel.TargetId, commentCreateModel.Text);
+
+        //    return RedirectToAction(nameof(Index));
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("UserId, TargetId, Text")] CommentCreateModel commentCreateModel)
+        public IActionResult Create(Guid userId, Guid targetId, string commentText)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(commentCreateModel);
-            }
-
-            _service.CreateComment(commentCreateModel.UserId, commentCreateModel.TargetId, commentCreateModel.Text);
+            _service.CreateComment(userId, targetId, commentText);
 
             return RedirectToAction(nameof(Index));
         }

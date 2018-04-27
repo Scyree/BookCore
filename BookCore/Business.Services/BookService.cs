@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 using Data.Domain.Entities;
 using Data.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
@@ -16,9 +17,10 @@ namespace Business.Services
         private readonly IGenreBookService _genreBookService;
         private readonly IAuthorGeneralUsage _authorService;
         private readonly IAuthorBookService _authorBookService;
+        private readonly IReviewService _reviewService;
         private readonly string _folder;
 
-        public BookService(IBookGeneralUsage bookService, IWorkingWithFiles fileManagement, IGenreService genreService, IGenreBookService genreBookService, IAuthorGeneralUsage authorService, IAuthorBookService authorBookService)
+        public BookService(IBookGeneralUsage bookService, IWorkingWithFiles fileManagement, IGenreService genreService, IGenreBookService genreBookService, IAuthorGeneralUsage authorService, IAuthorBookService authorBookService, IReviewService reviewService)
         {
             _bookService = bookService;
             _fileManagement = fileManagement;
@@ -26,6 +28,7 @@ namespace Business.Services
             _genreBookService = genreBookService;
             _authorService = authorService;
             _authorBookService = authorBookService;
+            _reviewService = reviewService;
             _folder = "Books";
         }
         
@@ -37,6 +40,7 @@ namespace Business.Services
             {
                 book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(book.Id);
                 book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(book.Id);
+                book.Reviews = _reviewService.GetAllReviews().Where(review => review.BookId == book.Id).ToList();
             }
 
             return books;

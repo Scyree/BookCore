@@ -46,18 +46,27 @@ namespace Presentation.Controllers
         }
 
         // POST: Reviews/Create
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Create([Bind("UserId, BookId, Description, BookRating")] ReviewCreateModel reviewCreateModel)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(reviewCreateModel);
+        //    }
+
+        //    _service.CreateReview(reviewCreateModel.UserId, reviewCreateModel.BookId, reviewCreateModel.Description, reviewCreateModel.BookRating);
+
+        //    return RedirectToAction(nameof(Index));
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("UserId, BookId, Description, BookRating")] ReviewCreateModel reviewCreateModel)
+        public IActionResult Create(Guid userId, Guid bookId, string reviewText, double bookRating)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(reviewCreateModel);
-            }
+            _service.CreateReview(userId, bookId, reviewText, bookRating);
 
-            _service.CreateReview(reviewCreateModel.UserId, reviewCreateModel.BookId, reviewCreateModel.Description, reviewCreateModel.BookRating);
-
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Books");
         }
 
         // GET: Reviews/Edit
