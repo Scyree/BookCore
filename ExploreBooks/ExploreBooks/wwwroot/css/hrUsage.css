@@ -1,0 +1,15 @@
+﻿.horizRule {
+    text-align: center;
+}
+
+.horizRule hr {
+    width: 40%;
+}
+
+.first {
+    float: left;
+}
+
+.second {
+    float: right;
+}
