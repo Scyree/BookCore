@@ -1,34 +1,40 @@
 ﻿.drop-item {
-width: 100%;
-background-color: #ffffff;
-color: #333;
-}
-
-.btn-logout {
-margin-left: 8%;
-background: none;
-border: none;
-}
-
-.btn-logout:hover {
-text-decoration: none;
+    width: 100%;
+    background-color: #ffffff;
+    color: #333;
 }
 
 .drop-item:hover {
-background-color: #F5F5F5;
-border: none;
+    background-color: #F5F5F5;
+    border: none;
 }
 
-.searchForum input[type=text] {
-font-size: 13px;
-background-color: #D2D2D2;
-border: 2px solid #333;
+.btn-logout:hover {
+    text-decoration: none;
 }
 
-.searchForum:hover {
-opacity: .8;
+.btn-logout {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
 }
 
-.searchForum {
-color: #9C9C9C;
+.btn-logout:hover, .btn-logout:focus {
+    color: #16181b;
+    text-decoration: none;
+    background-color: #f8f9fa;
+}
+
+.btn-logout:active {
+    color: #b3b3b3;
+    text-decoration: none;
+    background-color: transparent;
+    outline: none;
 }

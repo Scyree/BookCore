@@ -5,33 +5,33 @@
     background-size: cover;
 }
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
+.searchForum input[type=text] {
+    font-size: 13px;
+    background-color: #D2D2D2;
+    border: 2px solid #333;
 }
 
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
+.searchForum:hover {
+    opacity: .8;
 }
 
-/* QR code generator */
-#qrCode {
-    margin: 15px;
+.searchForum {
+    color: #9C9C9C;
 }
 
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
-    }
+#searchIcon {
+    background-color: #D2D2D2;
+}
+
+#searchOption {
+    width: 15rem;
+}
+
+#searchOption:focus {
+    box-shadow: 0 0 0 0;
 }
