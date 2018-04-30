@@ -17,7 +17,7 @@ namespace Service.Services
         {
             _repository = repository;
             _fileManagement = fileManagement;
-            _folder = "Books";
+            _folder = "books";
         }
 
         public Book GetBookInfoByDetails(string title, string description)

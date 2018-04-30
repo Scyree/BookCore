@@ -22,7 +22,7 @@ namespace Business.Services
             _fileManagement = fileManagement;
             _bookService = bookService;
             _authorBookService = authorBookService;
-            _folder = "Authors";
+            _folder = "authors";
         }
 
         public IReadOnlyList<Author> GetAllAuthors()

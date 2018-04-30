@@ -17,7 +17,7 @@ namespace Service.Services
         {
             _repository = repository;
             _fileManagement = fileManagement;
-            _folder = "Authors";
+            _folder = "authors";
         }
 
         public Author GetAuthorInfoByDetails(string name, string description)

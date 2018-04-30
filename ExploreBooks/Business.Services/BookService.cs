@@ -29,7 +29,7 @@ namespace Business.Services
             _authorService = authorService;
             _authorBookService = authorBookService;
             _reviewService = reviewService;
-            _folder = "Books";
+            _folder = "books";
         }
         
         public IReadOnlyList<Book> GetAllBooks()

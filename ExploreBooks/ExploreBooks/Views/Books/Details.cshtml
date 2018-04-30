@@ -33,7 +33,7 @@
             @Html.DisplayNameFor(model => model.ImageName)
         </dt>
         <dd>
-            <img src="@Url.Content(Model.Folder + "/" + Model.ImageName)" />
+            <img src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
         </dd>
     </dl>
 </div>

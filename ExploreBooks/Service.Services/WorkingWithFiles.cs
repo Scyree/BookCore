@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -11,15 +10,17 @@ namespace Service.Services
     public class WorkingWithFiles : IWorkingWithFiles
     {
         private readonly IHostingEnvironment _env;
+        private readonly string _imagePath;
 
         public WorkingWithFiles(IHostingEnvironment env)
         {
             _env = env;
+            _imagePath = "images\\";
         }
 
         public async Task CreateFile(string folder, Guid value, IFormFile image)
         {
-            var path = Path.Combine(_env.WebRootPath, folder + "\\" + value);
+            var path = Path.Combine(_env.WebRootPath, _imagePath + folder + "\\" + value);
 
             if (image != null)
             {
@@ -37,8 +38,7 @@ namespace Service.Services
 
         public void DeleteFolder(string folder)
         {
-            var searchedPath = Path.Combine(_env.WebRootPath, folder);
-            Debug.WriteLine("Am cerut de aici sa fie sters: " + searchedPath);
+            var searchedPath = Path.Combine(_env.WebRootPath, _imagePath + folder);
 
             if (Directory.Exists(searchedPath))
             {
@@ -48,7 +48,7 @@ namespace Service.Services
 
         public void DeleteFileForGivenId(string folder, Guid value, string fileName)
         {
-            var searchedPath = Path.Combine(_env.WebRootPath, folder + "\\" + value + "\\" + fileName);
+            var searchedPath = Path.Combine(_env.WebRootPath, _imagePath + folder + "\\" + value + "\\" + fileName);
 
             if (File.Exists(searchedPath))
             {
@@ -58,18 +58,18 @@ namespace Service.Services
 
         public string GetPath(string folder, Guid value)
         {
-            return Path.Combine(_env.WebRootPath, folder + "\\" + value);
+            return Path.Combine(_env.WebRootPath, _imagePath + folder + "\\" + value);
         }
 
         public void CopyFile(string folder, Guid value)
         {
-            var path = Path.Combine(_env.WebRootPath, "Default\\");
-
+            var path = Path.Combine(_env.WebRootPath, _imagePath + "default");
+            
             foreach (var file in Directory.GetFiles(path))
             {
                 if (Path.GetFileNameWithoutExtension(file) == folder)
                 {
-                    var targetPath = Path.Combine(_env.WebRootPath, folder + "\\" + value);
+                    var targetPath = Path.Combine(_env.WebRootPath, _imagePath + folder + "\\" + value);
 
                     if (!Directory.Exists(targetPath))
                     {

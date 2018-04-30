@@ -9,8 +9,8 @@ namespace Business.Services
     // For more details see https://go.microsoft.com/fwlink/?LinkID=532713
     public class EmailSender : IEmailSender
     {
-        private const string Username = "coursemanager.noreply@gmail.com";
-        private const string Password = ".netproject";
+        private const string Username = "exploreBooks.noreply@gmail.com";
+        private const string Password = "exploreBooksForTheWin";
 
         // For another server provider search for the proper smtp
         private const string Server = "smtp.gmail.com";

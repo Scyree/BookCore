@@ -1,124 +1,52 @@
 ﻿@model IEnumerable<Book>
-@inject IAuthorService authors
-@inject IGenreService genres
+@inject IAuthorService Authors
+@inject IGenreService Genres
+
 @{
     ViewData["Title"] = "Index";
 }
 
 <environment include="Development">
     <link rel="stylesheet" href="~/css/Book.css" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 </environment>
 
-<h2>Books</h2>
+<br/>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <h4>
+        Browse through all books
+    </h4>
+    <a asp-action="Create">..or add a new one</a>
 </p>
+
 <div class="container">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
+    @{
+        var books = Model.ToList();
+        <div class="row">
+            @for (var index = 0; index < books.Count; ++index)
             {
-                <tr>
-                    <td>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <img src="@Url.Content(item.Folder + "/" + item.ImageName)" />
+                var checkIndex = index + 1;
+                var displayInfo = "<h4>" + books[index].Title + "</h4><p>" + books[index].Description + "</p>";
 
-                            <h5 style="font-style:italic"><strong>Genres:</strong></h5>
-                            <p>
-                                @foreach (var genre in item.Genres)
-                                {
-                                    var genreDisplay = genres.GetGenreById(genre.GenreId);
-                                    @Html.DisplayFor(modelItem => genreDisplay.Text)
-                                    <br />
-                                }
-                            </p>
+                <div class="col-md-3 col-3" id="infoBooks">
+                    <a asp-action="Details" asp-route-id="@books[index].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
+                        <img src="@Url.Content("images\\" + books[index].Folder + "\\" + books[index].ImageName)"/>
+                    </a>                   
+                </div>
 
-                            <h5 style="font-style:italic"><strong>Details:</strong></h5>
-                            <p>
-                                @Html.DisplayFor(modelItem => item.Details)
-                            </p>
-
-                            @Html.DisplayFor(modelItem => item.Ratings)
-
-                            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </div>
-                    </div>
-                    <div class="col-sm-7">
-                        <div class="row">
-                            <h2 style="font-style: italic">
-                                @item.Title by
-
-                                @foreach (var author in item.Authors)
-                                {
-                                    var authorDisplay = authors.GetAuthorById(author.AuthorId);
-                                    @Html.DisplayFor(modelItem => authorDisplay.Name)
-                                }
-                            </h2>
-                        </div>
-                    </div>
-
-                            <div class="col-sm-6">
-                                <div class="well">
-                                    @item.Description
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="well">
-                                        Write a review..
-                                        @using (Html.BeginForm("Create", "Reviews", new { userId = Guid.NewGuid(), bookId = item.Id, bookRating = 5 }, FormMethod.Post, null, new { }))
-                                        {
-                                            <input type="text" id="reviewText" name="reviewText" />
-                                            <button type="submit" class="btn btn-primary">Review!</button>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                                
-                            
-
-
-                                @foreach (var review in item.Reviews)
-                                {
-                                        <div class="col-sm-5">
-                                            <div class="well">
-                                                <p>
-                                                    @review.Description
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            @foreach (var comment in review.Comments)
-                                            {
-                                                <div class="well">
-                                                    @comment.Text
-                                                </div>
-                                            }
-                                            
-                                            <div class="well">
-                                                Write a comment...
-                                                @using (Html.BeginForm("Create", "Comments", new { userId = Guid.NewGuid(), targetId = review.Id }, FormMethod.Post, null, new { }))
-                                                {
-                                                    <input type="text" id="commentText" name="commentText" />
-                                                    <button type="submit" class="btn btn-primary">Comment!</button>
-                                                }
-                                            </div>
-                                        </div>
-                                }
-
-                    </td>
-                </tr>
+                if (checkIndex % 4 == 0)
+                {
+                    <div class="w-100"></div>
+                }
             }
-        </tbody>
-    </table>
+        </div>
+    }
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

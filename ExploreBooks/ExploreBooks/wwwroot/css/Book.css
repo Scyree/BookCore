@@ -3,10 +3,37 @@
 }
 
 img {
-    max-width: 50%;
-    max-height: 50%;
+    max-width: 90%;
+    max-height: 90%;
+    width: 90%;
+    height: 90%;
 }
 
 tbody {
     background-color: #CFD5D5;
+}
+
+p, h4, a {
+    color: #333;
+}
+
+a:hover {
+    color: #4d3333;
+    text-decoration: none;
+    opacity: 0.9;
+}
+
+.tooltip-inner {
+    background-color: #942f23;
+    color: #fff;
+}
+
+.bs-tooltip-right .arrow::before, .bs-tooltip-auto[x-placement^="right"] .arrow::before {
+    right: 0;
+    border-width: 0.4rem 0.4rem 0.4rem 0;
+    border-right-color: #824747;
+}
+
+.tooltip-data-title {
+    color: #fff;
 }

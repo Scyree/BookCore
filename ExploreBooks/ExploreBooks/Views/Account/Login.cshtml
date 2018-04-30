@@ -25,15 +25,15 @@
                             <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
                                 <div asp-validation-summary="All" class="text-danger"></div>
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-md-4 col-form-label" asp-for="Email">E-mail</label>
-                                    <div class="col-sm-8 col-md-8 ml-auto">
+                                    <label class="col-4 col-md-4 col-form-label" asp-for="Email">E-mail</label>
+                                    <div class="col-8 col-md-8 ml-auto">
                                         <input type="email" class="form-control" asp-for="Email" placeholder="explore@books.com"/>
                                         <span asp-validation-for="Email" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-md-4 col-form-label" asp-for="Password"></label>
-                                    <div class="col-sm-8 col-md-8 ml-auto">
+                                    <label class="col-4 col-md-4 col-form-label" asp-for="Password"></label>
+                                    <div class="col-8 col-md-8 ml-auto">
                                         <input asp-for="Password" class="form-control"/>
                                         <span asp-validation-for="Password" class="text-danger"></span>
                                     </div>
@@ -95,12 +95,12 @@
                 <div class="modal-footer">
                     <div class="container-fluid">
                         <div class="row text-center">
-                            <div class="col-md">
+                            <div class="col-md col">
                                 <strong>
                                     <a class="footer" asp-action="ForgotPassword">Forgot password</a>
                                 </strong>
                             </div>
-                            <div class="col-md">
+                            <div class="col-md col">
                                 <strong>
                                     <a class="footer" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Register here</a>
                                 </strong>
