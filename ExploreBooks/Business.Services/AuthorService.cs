@@ -43,8 +43,12 @@ namespace Business.Services
             var value = Guid.NewGuid();
             var path = _folder + "\\" + value;
             var imageName = _folder + ".jpg";
+            var finalDescription = "Momentan nu exista o descriere a acestui autor";
 
-            await _fileManagement.CreateFile(_folder, value, image);
+            if (description != null)
+            {
+                finalDescription = description;
+            }
 
             if (image != null)
             {
@@ -59,7 +63,7 @@ namespace Business.Services
 
             var author = Author.CreateAuthor(
                 name,
-                description,
+                finalDescription,
                 path,
                 imageName
             );
@@ -122,7 +126,10 @@ namespace Business.Services
 
         public Author GetAuthorById(Guid id)
         {
-            return _authorService.GetAuthorById(id);
+            var author = _authorService.GetAuthorById(id);
+            author.Books = _authorBookService.GetAllAuthorBooksBasedOnAuthorId(id);
+
+            return author;
         }
     }
 }

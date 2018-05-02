@@ -23,7 +23,7 @@ namespace Service.Services
 
         public IReadOnlyList<Comment> GetAllCommentsGivenTargetId(Guid targetId)
         {
-            return _repository.GetAllComments().Where(comment => comment.TargetId == targetId).OrderByDescending(comments => comments.Date).ToList();
+            return _repository.GetAllComments().Where(comment => comment.TargetId == targetId).OrderBy(comments => comments.Date).ToList();
         }
 
         public Comment GetCommentById(Guid id)

@@ -65,10 +65,10 @@ namespace Service.Services
 
                 var book = Book.CreateBook(
                     bookTitle,
-                    "Momentan nu exista nicio descriere a cartii",
+                    "Momentan nu exista o descriere a cartii",
                     path,
                     imageName,
-                    "Momentan nu exista niciun detaliu legat de carte"
+                    "Momentan nu exista detalii suplimentare ale cartii"
                 );
 
                 _repository.CreateBook(book);

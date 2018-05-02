@@ -37,3 +37,15 @@ a:hover {
 .tooltip-data-title {
     color: #fff;
 }
+
+.infoBooks img {
+    max-width: 90%;
+    max-height: 70%;
+    width: 90%;
+    height: 70%;
+}
+
+.likeAlign {
+    text-align: center;
+    margin-left: -0.8rem;
+}

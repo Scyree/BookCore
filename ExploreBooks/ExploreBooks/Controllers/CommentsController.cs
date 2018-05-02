@@ -65,7 +65,7 @@ namespace ExploreBooks.Controllers
         {
             _service.CreateComment(userId, targetId, commentText);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Books", new { @id = _service.GetBookIdForATarget(targetId) });
         }
 
         // GET: Comments/Edit

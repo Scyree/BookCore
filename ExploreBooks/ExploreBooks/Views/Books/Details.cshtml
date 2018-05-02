@@ -1,4 +1,7 @@
 ﻿@model Book
+@inject IAuthorService Authors
+@inject IGenreService Genres
+@inject ILikeService Likes
 
 @{
     ViewData["Title"] = "Details";
@@ -8,36 +11,176 @@
     <link rel="stylesheet" href="~/css/Book.css" />
 </environment>
 
-<h2>Details</h2>
+<br/>
+<br/>
 
-<div class="container">
-    <h4>Book</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageName)
-        </dt>
-        <dd>
-            <img src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-3 infoBooks">
+            <img src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)"/>          
+            <h5>Genres:</h5>
+            <p>
+                @{
+                    var genres = Model.Genres.ToList();
+
+                    for (var index = 0; index < genres.Count - 1; ++index)
+                    {
+                        var genreDisplay = Genres.GetGenreById(genres[index].GenreId);
+
+                        @genreDisplay.Text
+                        <h7>, </h7>
+                    }                 
+
+                   @Genres.GetGenreById(genres[genres.Count - 1].GenreId).Text
+                }
+            </p>
+            <h5>Details:</h5>
+            <p>
+                @Html.DisplayFor(modelItem => Model.Details)
+            </p>
+
+            <p>
+                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                <a asp-action="Index">Back to List</a>
+            </p>
+        </div>
+        <div class="col-md-6 col-6">
+            <div class="row">
+                <div class="col-md-12 col-12">
+                    <h2 style="font-style: italic">
+                        @Model.Title by
+
+                        @{
+                            var authors = Model.Authors.ToList();
+
+                            for (var index = 0; index < authors.Count - 1; ++index)
+                            {
+                                var authorDisplay = Authors.GetAuthorById(authors[index].AuthorId);
+                                @authorDisplay.Name
+                                <span>, </span>
+                            }
+
+                            <h2>
+                                @Authors.GetAuthorById(authors[authors.Count - 1].AuthorId).Name
+                            </h2>
+                        }
+                    </h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-12">
+                    <div class="card card-body bg-light">
+                        <p>
+                            @Model.Description
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <div class="row">
+                <div class="col-md-12 col-12">
+                    <div class="panel">
+                        <p>
+                            @using (Html.BeginForm("Create", "Reviews", new { userId = Guid.NewGuid(), bookId = Model.Id, bookRating = 5 }, FormMethod.Post, null, new { }))
+                            {
+                                <input type="text" id="reviewText" name="reviewText" placeholder="Write a review.." />
+                                <button type="submit" class="btn btn-primary">Review!</button>
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">                             
+                @foreach (var review in Model.Reviews)
+                {
+                    <div class="col-md-12 col-12">
+                        <div class="row">
+                            <div class="col-md-3 col-3">
+                                <div class="card card-body bg-light">
+                                    Image
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-2">
+                                <div class="card card-body bg-light likeAlign">
+                                    @using (Html.BeginForm("Upvote", "Reviews", new { reviewId = review.Id, userId = Guid.NewGuid() }, FormMethod.Post, null, new { }))
+                                    {
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-arrow-circle-up"></i></button>
+                                    }
+
+                                    @Likes.GetNumberOfLikes(review.Id)
+
+                                    @using (Html.BeginForm("Downvote", "Reviews", new { reviewId = review.Id, userId = Guid.NewGuid() }, FormMethod.Post, null, new { }))
+                                    {
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-arrow-circle-down"></i></button>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-7">
+                                <div class="card card-body bg-light">
+                                    @review.Description
+                                </div>
+                            </div>
+                        </div>
+
+                        @foreach (var comment in review.Comments)
+                        {
+                            <div class="row">
+                                <div class="col-md-3 col-3 offset-md-2 offset-2">
+                                    <div class="card card-body bg-light">
+                                        Image
+                                    </div>
+                                </div>
+                                <div class="col-md-7 col-7">
+                                    <div class="card card-body bg-light">
+                                        @comment.Text
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="row">
+                            <div class="col-md-10 col-10 offset-md-2 offset-2">
+                                <div class="panel">
+                                    <p>
+                                        @using (Html.BeginForm("Create", "Comments", new { userId = Guid.NewGuid(), targetId = review.Id }, FormMethod.Post, null, new { }))
+                                        {
+                                            <input type="text" id="commentText" name="commentText" placeholder="Write a comment.." />
+                                            <button type="submit" class="btn btn-primary">Comment!</button>
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                
+            </div>
+        </div>    
+        <div class="col-md-3 col-3">
+            <div class="row">
+                <div class="col-md-12 col-12">
+                    <div class="card card-body bg-light">
+                        <p>
+                            ----Actions----
+                        </p>
+                        <h7>Reading</h7>
+                        <h7>Plan to read</h7>
+                        <h7>Read</h7>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-md-12 col-12">
+                    <div class="card card-body bg-light">
+                        <p>
+                            More stuff..
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

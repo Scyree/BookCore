@@ -9,11 +9,13 @@ namespace Business.Services
     public class CommentService : ICommentService
     {
         private readonly ICommentGeneralUsage _commentService;
+        private readonly IReviewGeneralUsage _reviewService;
         private readonly ILikeService _likeService;
 
-        public CommentService(ICommentGeneralUsage repository, ILikeService likeService)
+        public CommentService(ICommentGeneralUsage repository, IReviewGeneralUsage reviewService, ILikeService likeService)
         {
             _commentService = repository;
+            _reviewService = reviewService;
             _likeService = likeService;
         }
 
@@ -71,6 +73,11 @@ namespace Business.Services
         public void DownvoteComment(Guid commentId, Guid userId)
         {
             _likeService.Downvote(commentId, userId);
+        }
+
+        public Guid GetBookIdForATarget(Guid id)
+        {
+            return _reviewService.GetReviewById(id).BookId;
         }
     }
 }

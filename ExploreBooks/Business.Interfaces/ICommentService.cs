@@ -13,5 +13,6 @@ namespace Business.Interfaces
         Comment GetCommentById(Guid id);
         void UpvoteComment(Guid commentId, Guid userId);
         void DownvoteComment(Guid commentId, Guid userId);
+        Guid GetBookIdForATarget(Guid id);
     }
 }

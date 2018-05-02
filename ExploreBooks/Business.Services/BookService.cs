@@ -53,6 +53,18 @@ namespace Business.Services
             var value = Guid.NewGuid();
             var path = _folder + "\\" + value;
             var imageName = _folder + ".jpg";
+            var finalDescription = "Momentan nu exista o descriere a cartii";
+            var finalDetails = "Momentan nu exista detalii suplimentare ale cartii";
+
+            if (description != null)
+            {
+                finalDescription = description;
+            }
+
+            if (details != null)
+            {
+                finalDetails = details;
+            }
 
             if (image != null)
             {
@@ -67,10 +79,10 @@ namespace Business.Services
             
             var book = Book.CreateBook(
                 title,
-                description,
+                finalDescription,
                 path,
                 imageName,
-                details
+                finalDetails
             );
 
             _bookService.CreateBook(book);
@@ -147,7 +159,12 @@ namespace Business.Services
 
         public Book GetBookById(Guid id)
         {
-            return _bookService.GetBookById(id);
+            var book = _bookService.GetBookById(id);
+            book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(id);
+            book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(id);
+            book.Reviews = _reviewService.GetAllReviews().Where(review => review.BookId == id).ToList();
+
+            return book;
         }
     }
 }

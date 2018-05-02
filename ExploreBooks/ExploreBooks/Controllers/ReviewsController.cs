@@ -66,7 +66,7 @@ namespace ExploreBooks.Controllers
         {
             _service.CreateReview(userId, bookId, reviewText, bookRating);
 
-            return RedirectToAction("Index", "Books");
+            return RedirectToAction("Details", "Books", new {@id = bookId});
         }
 
         // GET: Reviews/Edit
@@ -139,14 +139,14 @@ namespace ExploreBooks.Controllers
         {
             _service.UpvoteReview(reviewId, userId);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Books", new { @id = _service.GetReviewById(reviewId).BookId });
         }
 
         public IActionResult Downvote(Guid reviewId, Guid userId)
         {
             _service.DownvoteReview(reviewId, userId);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Books", new { @id = _service.GetReviewById(reviewId).BookId });
         }
     }
 }
