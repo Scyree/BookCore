@@ -23,19 +23,15 @@ a:hover {
     opacity: 0.9;
 }
 
-.tooltip-inner {
-    background-color: #942f23;
-    color: #fff;
+.tooltip-inner, .tooltip-inner a, .tooltip-inner p, .tooltip-inner h4 {
+    background-color: #532D2D;
+    color: #CFD5D5;
 }
 
 .bs-tooltip-right .arrow::before, .bs-tooltip-auto[x-placement^="right"] .arrow::before {
     right: 0;
     border-width: 0.4rem 0.4rem 0.4rem 0;
-    border-right-color: #824747;
-}
-
-.tooltip-data-title {
-    color: #fff;
+    border-right-color: #532D2D;
 }
 
 .infoBooks img {
@@ -48,4 +44,8 @@ a:hover {
 .likeAlign {
     text-align: center;
     margin-left: -0.8rem;
+}
+
+.textButton {
+    display: none;
 }

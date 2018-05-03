@@ -14,87 +14,54 @@
 <br/>
 <br/>
 
-<div class="container-fluid">
+<div class="container text-center">
     <div class="row">
         <div class="col-md-3 col-3 infoBooks">
-            <img src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)"/>          
-            <h5>Genres:</h5>
-            <p>
-                @{
-                    var genres = Model.Genres.ToList();
-
-                    for (var index = 0; index < genres.Count - 1; ++index)
-                    {
-                        var genreDisplay = Genres.GetGenreById(genres[index].GenreId);
-
-                        @genreDisplay.Text
-                        <h7>, </h7>
-                    }                 
-
-                   @Genres.GetGenreById(genres[genres.Count - 1].GenreId).Text
-                }
-            </p>
-            <h5>Details:</h5>
-            <p>
-                @Html.DisplayFor(modelItem => Model.Details)
-            </p>
-
-            <p>
-                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-                <a asp-action="Index">Back to List</a>
-            </p>
+            <div class="col-md-12 col-12">
+                <div class="card card-body bg-light">
+                    <img src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)"/>
+                </div>
+                <div class="card card-body bg-light">
+                    <button class="btn btn-danger">Plan to read</button>
+                    <br/>
+                    <button class="btn btn-secondary">Reading</button>
+                    <br/>
+                    <button class="btn">Read</button>
+                </div>
+            </div>
         </div>
         <div class="col-md-6 col-6">
-            <div class="row">
-                <div class="col-md-12 col-12">
+            <div class="col-md-12 col-12">
+                <div class="row">
                     <h2 style="font-style: italic">
-                        @Model.Title by
-
-                        @{
-                            var authors = Model.Authors.ToList();
-
-                            for (var index = 0; index < authors.Count - 1; ++index)
-                            {
-                                var authorDisplay = Authors.GetAuthorById(authors[index].AuthorId);
-                                @authorDisplay.Name
-                                <span>, </span>
-                            }
-
-                            <h2>
-                                @Authors.GetAuthorById(authors[authors.Count - 1].AuthorId).Name
-                            </h2>
-                        }
+                        @Model.Title
                     </h2>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 col-12">
-                    <div class="card card-body bg-light">
-                        <p>
-                            @Model.Description
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <br/>
-            <br/>
-            <div class="row">
-                <div class="col-md-12 col-12">
-                    <div class="panel">
-                        <p>
-                            @using (Html.BeginForm("Create", "Reviews", new { userId = Guid.NewGuid(), bookId = Model.Id, bookRating = 5 }, FormMethod.Post, null, new { }))
-                            {
-                                <input type="text" id="reviewText" name="reviewText" placeholder="Write a review.." />
-                                <button type="submit" class="btn btn-primary">Review!</button>
-                            }
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">                             
-                @foreach (var review in Model.Reviews)
-                {
+                <div class="row">
                     <div class="col-md-12 col-12">
+                        <div class="card card-body bg-light">
+                            <p>
+                                @Model.Description
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="card card-body bg-light">
+                    <div class="row w-100 mx-auto">
+                        <div class="panel">
+                            <p>
+                                @using (Html.BeginForm("Create", "Reviews", new { userId = Guid.NewGuid(), bookId = Model.Id, bookRating = 5 }, FormMethod.Post, null, new { }))
+                                {
+                                    <input type="text" id="reviewText" name="reviewText" placeholder="Write a review.." />
+                                    <button type="submit" id="reviewButton" class="btn textButton"></button>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                    @foreach (var review in Model.Reviews)
+                    {
                         <div class="row">
                             <div class="col-md-3 col-3">
                                 <div class="card card-body bg-light">
@@ -102,30 +69,26 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-2">
-                                <div class="card card-body bg-light likeAlign">
-                                    @using (Html.BeginForm("Upvote", "Reviews", new { reviewId = review.Id, userId = Guid.NewGuid() }, FormMethod.Post, null, new { }))
-                                    {
-                                        <button type="submit" class="btn btn-primary"><i class="fa fa-arrow-circle-up"></i></button>
-                                    }
+                                @using (Html.BeginForm("Upvote", "Reviews", new { reviewId = review.Id, userId = Guid.NewGuid() }, FormMethod.Post, null, new { }))
+                                {
+                                    <button type="submit" class="btn"><i class="fa fa-arrow-circle-up"></i></button>
+                                }
 
-                                    @Likes.GetNumberOfLikes(review.Id)
+                                @Likes.GetNumberOfLikes(review.Id)
 
-                                    @using (Html.BeginForm("Downvote", "Reviews", new { reviewId = review.Id, userId = Guid.NewGuid() }, FormMethod.Post, null, new { }))
-                                    {
-                                        <button type="submit" class="btn btn-primary"><i class="fa fa-arrow-circle-down"></i></button>
-                                    }
-                                </div>
+                                @using (Html.BeginForm("Downvote", "Reviews", new { reviewId = review.Id, userId = Guid.NewGuid() }, FormMethod.Post, null, new { }))
+                                {
+                                    <button type="submit" class="btn"><i class="fa fa-arrow-circle-down"></i></button>
+                                }
                             </div>
                             <div class="col-md-7 col-7">
                                 <div class="card card-body bg-light">
                                     @review.Description
                                 </div>
                             </div>
-                        </div>
 
-                        @foreach (var comment in review.Comments)
-                        {
-                            <div class="row">
+                            @foreach (var comment in review.Comments)
+                            {
                                 <div class="col-md-3 col-3 offset-md-2 offset-2">
                                     <div class="card card-body bg-light">
                                         Image
@@ -136,41 +99,77 @@
                                         @comment.Text
                                     </div>
                                 </div>
-                            </div>
-                        }
+                            }
 
-                        <div class="row">
                             <div class="col-md-10 col-10 offset-md-2 offset-2">
-                                <div class="panel">
+                                <div class="panel w-100 mx-auto">
                                     <p>
                                         @using (Html.BeginForm("Create", "Comments", new { userId = Guid.NewGuid(), targetId = review.Id }, FormMethod.Post, null, new { }))
                                         {
                                             <input type="text" id="commentText" name="commentText" placeholder="Write a comment.." />
-                                            <button type="submit" class="btn btn-primary">Comment!</button>
+                                            <button type="submit" id="commentButton" class="btn textButton"></button>
                                         }
                                     </p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
-                
+                    }
+                </div>
             </div>
-        </div>    
+        </div>
         <div class="col-md-3 col-3">
             <div class="row">
                 <div class="col-md-12 col-12">
                     <div class="card card-body bg-light">
+                        <h5>Authors:</h5>
+                         @{
+                                var authors = Model.Authors.ToList();
+
+                                for (var index = 0; index < authors.Count - 1; ++index)
+                                {
+                                    var authorDisplay = Authors.GetAuthorById(authors[index].AuthorId);
+
+                                    <h7>@authorDisplay.Name, </h7>
+                                }
+                            
+                                @Authors.GetAuthorById(authors[authors.Count - 1].AuthorId).Name
+                           }
+                    </div>
+                    <br />
+                    <div class="card card-body bg-light">
+                        <h5>Genres:</h5>
                         <p>
-                            ----Actions----
+                            @{
+                                var genres = Model.Genres.ToList();
+
+                                for (var index = 0; index < genres.Count - 1; ++index)
+                                {
+                                    var genreDisplay = Genres.GetGenreById(genres[index].GenreId);
+                                        
+                                    <h7>@genreDisplay.Text, </h7>
+                                }
+
+                                @Genres.GetGenreById(genres[genres.Count - 1].GenreId).Text
+                            }
                         </p>
-                        <h7>Reading</h7>
-                        <h7>Plan to read</h7>
-                        <h7>Read</h7>
+                    </div>
+                    <br/>
+                    <div class="card card-body bg-light">
+                        <h5>Details:</h5>
+                        <p>
+                            @Html.DisplayFor(modelItem => Model.Details)
+                        </p>
+                    </div>
+                    <br/>
+                    <div class="card card-body bg-light">
+                        <h5>Actions:</h5>
+                        <p>
+                            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                            <a asp-action="Index">Back to List</a>
+                        </p>
                     </div>
                 </div>
             </div>
-            <br />
             <br />
             <div class="row">
                 <div class="col-md-12 col-12">
@@ -184,3 +183,25 @@
         </div>
     </div>
 </div>
+
+<script>
+    var commentText = document.getElementById("commentText");
+    var reviewText = document.getElementById("reviewText");
+    commentText.addEventListener("keyup",
+        function(event) {
+            event.preventDefault();
+
+            if (event.keyCode == 13) {
+                document.getElementById("commentButton").click();
+            }
+        });
+
+    reviewText.addEventListener("keyup",
+        function (event) {
+            event.preventDefault();
+
+            if (event.keyCode == 13) {
+                document.getElementById("reviewButton").click();
+            }
+        });
+</script>
