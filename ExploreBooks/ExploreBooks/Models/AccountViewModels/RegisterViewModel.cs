@@ -4,9 +4,9 @@ namespace ExploreBooks.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
-        [Display(Name = "Name")]
-        public string Name { get; set; }
-
+        [Display(Name = "Username")]
+        public string User { get; set; }
+        
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

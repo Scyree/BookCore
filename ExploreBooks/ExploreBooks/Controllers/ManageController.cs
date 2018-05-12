@@ -52,7 +52,7 @@ namespace ExploreBooks.Controllers
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
+            
             var model = new IndexViewModel
             {
                 Username = user.UserName,
@@ -86,15 +86,37 @@ namespace ExploreBooks.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var email = user.Email;
-            if (model.Email != email)
+            var firstName = user.FirstName;
+            if (model.FirstName != firstName)
             {
-                var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
-                if (!setEmailResult.Succeeded)
-                {
-                    throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
-                }
+                user.FirstName = model.FirstName;
             }
+
+            var lastName = user.LastName;
+            if (model.LastName != lastName)
+            {
+                user.LastName = model.LastName;
+            }
+
+            var country = user.Country;
+            if (model.Country != country)
+            {
+                user.Country = model.Country;
+            }
+
+            var description = user.Description;
+            if (model.Description != description)
+            {
+                user.Description = model.Description;
+            }
+
+            var imageName = user.ImageName;
+            if (model.ImageName != imageName)
+            {
+                user.ImageName = model.ImageName;
+            }
+
+            await _userManager.UpdateAsync(user);
 
             var phoneNumber = user.PhoneNumber;
             if (model.PhoneNumber != phoneNumber)

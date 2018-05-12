@@ -1,28 +1,17 @@
-﻿@using ExploreBooks.Views.Manage
-@using Domain.Data
-@inject SignInManager<ApplicationUser> SignInManager
+﻿@inject SignInManager<ApplicationUser> SignInManager
+
 @{
-    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+    var activeValue = ViewContext.RouteData.Values["Action"].ToString();
 }
 
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link active">Profile</a>
+        <a class="nav-link @(activeValue == "Index" ? "active" : "")" asp-action="Index">Profile</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link">Password</a>
+        <a class="nav-link @(activeValue == "ChangePassword" ? "active" : "")" asp-action="ChangePassword">Password</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link">Notifications</a>
+        <a class="nav-link @(activeValue == "SetPassword" ? "active" : "")" asp-action="ChangePassword">Notifications</a>
     </li>
 </ul>
-
-    @*<li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">Profile</a></li>
-    <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext)"><a asp-action="ChangePassword">Password</a></li>
-    @if (hasExternalLogins)
-    {
-        <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a asp-action="ExternalLogins">External logins</a></li>
-    }
-    <li class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"><a asp-action="TwoFactorAuthentication">Two-factor authentication</a></li>*@
-
-

@@ -29,7 +29,7 @@
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
         </div>
-        <hr/>
+        <hr />
         <div class="form-group row">
             <label class="col-4 col-md-4 col-form-label" asp-for="Username"></label>
             <div class="col-8 col-md-8 ml-auto">
@@ -37,28 +37,27 @@
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group">
-            <div class="form-group row">
-                <label class="col-4 col-md-4 col-form-label" asp-for="Email"></label>
-                <div class="col-8 col-md-8 ml-auto">
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                @if (Model.IsEmailConfirmed)
-                {
-                }
-                else
-                {
-                    <button asp-action="SendVerificationEmail" class="btn btn-link">Send verification email</button>
-                }
+        <div class="form-group row">
+            <label class="col-4 col-md-4 col-form-label" asp-for="Email"></label>
+            <div class="col-8 col-md-8 ml-auto">
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+            @if (Model.IsEmailConfirmed)
+        {
+        }
+        else
+        {
+            <button asp-action="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+    }
         </div>
         <div class="form-group">
-            <label asp-for="FirstName"></label>
-            <input asp-for="PhoneNumber" class="form-control" />
-            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            <label asp-for="Description">Describe yourself in few words..</label>
+            <textarea asp-for="Description" class="form-control"></textarea>
         </div>
-        <button type="submit" class="btn btn-default">Save</button>
+        <div class="form-group">
+            <button type="submit" class="btn btn-save form-control">Update profile</button>
+        </div>
     </form>
 </div>
 

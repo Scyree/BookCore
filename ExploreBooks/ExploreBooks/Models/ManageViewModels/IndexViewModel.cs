@@ -10,6 +10,7 @@ namespace ExploreBooks.Models.ManageViewModels
 
         public string Country { get; set; }
 
+        [StringLength(2000, ErrorMessage = "Maximum number of characters is 2000!")]
         public string Description { get; set; }
 
         public string Folder { get; set; }

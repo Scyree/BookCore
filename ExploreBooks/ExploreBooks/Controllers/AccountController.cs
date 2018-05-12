@@ -219,9 +219,9 @@ namespace ExploreBooks.Controllers
             {
                 var user = new ApplicationUser
                 {
-                    Name = model.Name,
-                    UserName = model.Email,
-                    Email = model.Email
+                    UserName = model.User,
+                    Email = model.Email,
+                    FirstName = model.User
                 };
                 
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -231,7 +231,7 @@ namespace ExploreBooks.Controllers
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                   // await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
@@ -239,8 +239,7 @@ namespace ExploreBooks.Controllers
                 }
                 AddErrors(result);
             }
-
-            // If we got this far, something failed, redisplay form
+            
             return View(model);
         }
 
@@ -301,7 +300,7 @@ namespace ExploreBooks.Controllers
                 return View("ExternalLogin", new ExternalLoginViewModel
                 {
                     Email = email,
-                    Name = name
+                    User = name
                 });
             }
         }
@@ -322,8 +321,10 @@ namespace ExploreBooks.Controllers
                 //var name = info.Principal.FindFirstValue(ClaimTypes.Name);
                 var user = new ApplicationUser
                 {
-                    Name = model.Name, Email = model.Email, UserName = model.Email
+                    Email = model.Email,
+                    UserName = model.User
                 };
+
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

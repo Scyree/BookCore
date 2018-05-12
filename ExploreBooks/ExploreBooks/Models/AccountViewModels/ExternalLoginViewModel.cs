@@ -9,7 +9,7 @@ namespace ExploreBooks.Models.AccountViewModels
         public string Email { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string User { get; set; }
 
     }
 }
