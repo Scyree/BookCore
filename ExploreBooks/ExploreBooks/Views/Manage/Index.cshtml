@@ -1,9 +1,11 @@
 ﻿@using ExploreBooks.Views.Manage
 @model IndexViewModel
 @{
-    ViewData["Title"] = "Settings";
+    ViewData["Title"] = "Profile";
     ViewData.AddActivePage(ManageNavPages.Index);
 }
+
+@Html.Partial("_StatusMessage", Model.StatusMessage)
 
 <div class="row">
     <form method="post">
@@ -33,29 +35,27 @@
         <div class="form-group row">
             <label class="col-4 col-md-4 col-form-label" asp-for="Username"></label>
             <div class="col-8 col-md-8 ml-auto">
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
+                <input asp-for="Username" class="form-control" readonly />
             </div>
         </div>
         <div class="form-group row">
             <label class="col-4 col-md-4 col-form-label" asp-for="Email"></label>
             <div class="col-8 col-md-8 ml-auto">
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <input asp-for="Email" class="form-control" readonly />
             </div>
             @if (Model.IsEmailConfirmed)
-        {
-        }
-        else
-        {
-            <button asp-action="SendVerificationEmail" class="btn btn-link">Send verification email</button>
-    }
+            {
+            }
+            else
+            {
+                <button asp-action="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+            }
         </div>
-        <div class="form-group">
+        <div class="form-group row">
             <label asp-for="Description">Describe yourself in few words..</label>
             <textarea asp-for="Description" class="form-control"></textarea>
         </div>
-        <div class="form-group">
+        <div class="form-group row">
             <button type="submit" class="btn btn-save form-control">Update profile</button>
         </div>
     </form>

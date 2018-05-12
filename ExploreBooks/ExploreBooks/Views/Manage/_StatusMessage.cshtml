@@ -3,8 +3,18 @@
 @if (!String.IsNullOrEmpty(Model))
 {
     var statusMessageClass = Model.StartsWith("Error") ? "danger" : "success";
-    <div class="alert alert-@statusMessageClass alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        @Model
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="alert alert-@statusMessageClass alert-dismissible" role="alert">
+                @Model
+            </div>
+        </div>
     </div>
+
+    <script>
+        setTimeout(function () {
+            $(".alert").fadeOut("fast");
+        }, 2000);
+    </script>
 }

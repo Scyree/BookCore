@@ -1,0 +1,11 @@
+﻿.container {
+    position: relative;
+}
+
+.alert {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #333333;
+    border: 2px solid #e8e4e4;
+}
