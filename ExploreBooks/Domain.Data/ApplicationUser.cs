@@ -7,7 +7,13 @@ namespace Domain.Data
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
-        public string Name { get; set; }
+        public string User { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string Country { get; set; }
 
         public DateTime JoinDate { get; set; }
 

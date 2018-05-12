@@ -12,13 +12,14 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">@Service.GetNameOfTheSpecifiedId(UserManager.GetUserId(User)) <i class="fa fa-user"></i></a>
             <div class="dropdown-menu">
+                <a class="dropdown-item disabled" asp-area="">Profile</a>
                 <a class="dropdown-item disabled" asp-area="">Explore</a>
                 <a class="dropdown-item disabled" asp-area="">Community</a>
                 <a class="dropdown-item disabled" asp-area="">News</a>
 
                 <div class="dropdown-divider"></div>
 
-                <a class="dropdown-item" asp-area="" asp-controller="Manage" asp-action="Index">Settings <i class="fa fa-cog"></i></a>             
+                <a class="dropdown-item" asp-area="" asp-controller="Manage" asp-action="Index">Settings <i class="fa fa-cog"></i></a>
 
                 <div class="dropdown">
                     <form class="form-inline" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">

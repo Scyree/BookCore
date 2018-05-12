@@ -59,7 +59,13 @@ namespace ExploreBooks.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
+                StatusMessage = StatusMessage,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Description = user.Description,
+                Folder = user.Folder,
+                ImageName = user.ImageName,
+                Country = user.Country
             };
 
             return View(model);
