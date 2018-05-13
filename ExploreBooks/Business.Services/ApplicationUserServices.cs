@@ -15,7 +15,8 @@ namespace Business.Services
 
         public string GetNameOfTheSpecifiedId(string id)
         {
-            return _databaseService.Users.FirstOrDefault(user => user.Id == id.ToString()).FirstName;
+            var user = _databaseService.Users.FirstOrDefault(usr => usr.Id == id.ToString());
+            return user.FirstName + " " + user.LastName;
         }
 
     }
