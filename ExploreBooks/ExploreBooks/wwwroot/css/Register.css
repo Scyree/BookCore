@@ -57,7 +57,7 @@
 
 .displayOption {
     display: inline;
-    margin-left: 0.3rem;
+    margin-left: 0.1rem;
 }
 
 .form-control:focus {
@@ -66,4 +66,8 @@
 
 input {
     font-style: italic;
+}
+
+.form-control {
+    margin-left: -0.4rem;
 }

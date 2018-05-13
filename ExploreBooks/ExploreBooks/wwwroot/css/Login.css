@@ -82,3 +82,7 @@
 input {
     font-style: italic;
 }
+
+.form-control {
+    margin-left: -0.4rem;
+}

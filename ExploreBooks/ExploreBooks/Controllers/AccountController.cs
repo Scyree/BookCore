@@ -296,7 +296,7 @@ namespace ExploreBooks.Controllers
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+                var name = info.Principal.FindFirstValue(ClaimTypes.Name).Replace(" ", "");
                 return View("ExternalLogin", new ExternalLoginViewModel
                 {
                     Email = email,
@@ -321,8 +321,9 @@ namespace ExploreBooks.Controllers
                 //var name = info.Principal.FindFirstValue(ClaimTypes.Name);
                 var user = new ApplicationUser
                 {
-                    Email = model.Email,
-                    UserName = model.User
+                    FirstName = model.User,
+                    UserName = model.User,
+                    Email = model.Email
                 };
 
                 var result = await _userManager.CreateAsync(user);
