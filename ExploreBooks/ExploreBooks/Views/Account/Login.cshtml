@@ -3,7 +3,7 @@
 @inject SignInManager<ApplicationUser> SignInManager
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Login";
 }
 
 <environment include="Development">
@@ -24,9 +24,9 @@
                         <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
                             <div asp-validation-summary="All" class="text-danger"></div>
                             <div class="form-group row">
-                                <label class="col-4 col-md-4 col-form-label" asp-for="Email">Email</label>
+                                <label class="col-4 col-md-4 col-form-label" asp-for="Email"></label>
                                 <div class="col-8 col-md-8 ml-auto">
-                                    <input type="email" class="form-control" asp-for="Email" placeholder="explore@books.com"/>
+                                    <input class="form-control" asp-for="Email" placeholder="explore@books.com"/>
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
                             </div>

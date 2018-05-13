@@ -56,3 +56,9 @@ a:hover {
     color: #b3b3b3;
 }
 
+img {
+    max-width: 30%;
+    max-height: 30%;
+    width: 30%;
+    height: 30%;
+}

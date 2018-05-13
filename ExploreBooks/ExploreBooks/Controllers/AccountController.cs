@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Business.Interfaces;
@@ -21,17 +22,15 @@ namespace ExploreBooks.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly IApplicationUserServices _service;
 
-        public AccountController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender,
-            ILogger<AccountController> logger)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender, ILogger<AccountController> logger, IApplicationUserServices service)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _service = service;
         }
 
         [TempData]
@@ -56,8 +55,6 @@ namespace ExploreBooks.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
@@ -217,13 +214,21 @@ namespace ExploreBooks.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                var value = Guid.NewGuid();
+                var path = "profile\\" + value;
+                var imageName = "profile.jpg";
+
                 var user = new ApplicationUser
                 {
-                    UserName = model.User,
+                    User = model.User,
+                    UserName = model.Email,
                     Email = model.Email,
-                    FirstName = model.User
+                    FirstName = model.User,
+                    ImageName = imageName,
+                    Folder = path
                 };
-                
+
+                _service.CreatePicture(value);
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -318,14 +323,22 @@ namespace ExploreBooks.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                //var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+
+                var value = Guid.NewGuid();
+                var path = "profile\\" + value;
+                var imageName = "profile.jpg";
+
                 var user = new ApplicationUser
                 {
+                    User = model.User,
                     FirstName = model.User,
-                    UserName = model.User,
-                    Email = model.Email
+                    UserName = model.Email,
+                    Email = model.Email,
+                    ImageName = imageName,
+                    Folder = path
                 };
 
+                _service.CreatePicture(value);
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -426,7 +439,6 @@ namespace ExploreBooks.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                // Don't reveal that the user does not exist
                 return RedirectToAction(nameof(ResetPasswordConfirmation));
             }
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);

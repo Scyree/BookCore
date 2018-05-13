@@ -13,10 +13,6 @@ namespace ExploreBooks.Models.ManageViewModels
         [StringLength(2000, ErrorMessage = "Maximum number of characters is 2000!")]
         public string Description { get; set; }
 
-        public string Folder { get; set; }
-
-        public string ImageName { get; set; }
-
         public string Username { get; set; }
 
         public bool IsEmailConfirmed { get; set; }

@@ -4,6 +4,7 @@
     var activeValue = ViewContext.RouteData.Values["Action"].ToString();
     var indexValue = "nav-link";
     var passwordValue = "nav-link";
+    var pictureValue = "nav-link";
 
     if (activeValue == "Index")
     {
@@ -14,6 +15,11 @@
     {
         passwordValue += " active";
     }
+
+    if (activeValue == "ChangePicture")
+    {
+        pictureValue += " active";
+    }
 }
 
 <ul class="nav nav-tabs">
@@ -22,6 +28,9 @@
     </li>
     <li class="nav-item">
         <a class="@passwordValue" asp-action="ChangePassword">Password</a>
+    </li>
+    <li class="nav-item">
+        <a class="@pictureValue" asp-action="ChangePicture">Picture</a>
     </li>
     <li class="nav-item">
         <a class="nav-link disabled">Notifications</a>

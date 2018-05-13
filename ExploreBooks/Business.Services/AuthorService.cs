@@ -54,7 +54,7 @@ namespace Business.Services
             {
                 imageName = image.FileName;
 
-                await _fileManagement.CreateFile(_folder, value, image);
+                await _fileManagement.CreateFile(path, image);
             }
             else
             {
@@ -104,9 +104,10 @@ namespace Business.Services
 
                 if (image != null)
                 {
-                    var value = Guid.NewGuid();
+                    var path = authorToBeEdited.Folder;
+                    authorToBeEdited.ImageName = image.FileName;
 
-                    await _fileManagement.CreateFile(_folder, value, image);
+                    await _fileManagement.CreateFile(path, image);
                 }
 
                 _authorService.EditAuthor(authorToBeEdited);

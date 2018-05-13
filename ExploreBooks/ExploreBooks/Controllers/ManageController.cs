@@ -24,21 +24,20 @@ namespace ExploreBooks.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly IApplicationUserServices _service;
+        private readonly string _folder;
 
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
-        public ManageController(
-          UserManager<ApplicationUser> userManager,
-          SignInManager<ApplicationUser> signInManager,
-          IEmailSender emailSender,
-          ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+        public ManageController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender, ILogger<ManageController> logger, UrlEncoder urlEncoder, IApplicationUserServices service)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _service = service;
+            _folder = "profile";
         }
 
         [TempData]
@@ -55,7 +54,7 @@ namespace ExploreBooks.Controllers
             
             var model = new IndexViewModel
             {
-                Username = user.UserName,
+                Username = user.User,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
@@ -63,8 +62,6 @@ namespace ExploreBooks.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Description = user.Description,
-                Folder = user.Folder,
-                ImageName = user.ImageName,
                 Country = user.Country
             };
 
@@ -109,13 +106,7 @@ namespace ExploreBooks.Controllers
             {
                 user.Description = model.Description;
             }
-
-            var imageName = user.ImageName;
-            if (model.ImageName != imageName)
-            {
-                user.ImageName = model.ImageName;
-            }
-
+            
             await _userManager.UpdateAsync(user);
 
             var phoneNumber = user.PhoneNumber;
@@ -130,6 +121,56 @@ namespace ExploreBooks.Controllers
 
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChangePicture()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            
+            var model = new ChangePictureViewModel()
+            {
+                Folder = user.Folder,
+                ImageName = user.ImageName,
+                StatusMessage = StatusMessage
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePicture(ChangePictureViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            if (model.Image != null)
+            {
+                var path = user.Folder;
+                user.ImageName = model.Image.FileName;
+
+                await _service.UpdatePicture(path, model.Image);
+            }
+            
+            await _userManager.UpdateAsync(user);
+
+            _logger.LogInformation("User changed his profile picture successfully.");
+            StatusMessage = "Your profile picture has been changed.";
+
+            return RedirectToAction(nameof(ChangePicture));
         }
 
         [HttpPost]

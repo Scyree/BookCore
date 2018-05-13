@@ -18,21 +18,19 @@ namespace Service.Services
             _imagePath = "images\\";
         }
 
-        public async Task CreateFile(string folder, Guid value, IFormFile image)
+        public async Task CreateFile(string folder, IFormFile image)
         {
-            var path = Path.Combine(_env.WebRootPath, _imagePath + folder + "\\" + value);
+            DeleteFolder(folder);
+            var path = Path.Combine(_env.WebRootPath, _imagePath + folder);
 
-            if (image != null)
+            if (!Directory.Exists(path))
             {
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
+                Directory.CreateDirectory(path);
+            }
 
-                using (var fileStream = new FileStream(Path.Combine(path, image.FileName), FileMode.Create))
-                {
-                    await image.CopyToAsync(fileStream);
-                }
+            using (var fileStream = new FileStream(Path.Combine(path, image.FileName), FileMode.Create))
+            {
+                await image.CopyToAsync(fileStream);
             }
         }
 
