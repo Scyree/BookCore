@@ -36,3 +36,22 @@
 #searchOption:focus {
     box-shadow: 0 0 0 0;
 }
+
+input[type="file"] {
+    display: none;
+}
+
+.fileUpload {
+    cursor: pointer;
+    display: inline-block;
+    color: #e8e4e4;
+    background-color: #6b4747;
+    padding: 4px 8px;
+    font-style: italic;
+}
+
+.fileUpload:hover {
+    background-color: #b3b3b3;
+    text-decoration: none;
+    opacity: 0.5;
+}
