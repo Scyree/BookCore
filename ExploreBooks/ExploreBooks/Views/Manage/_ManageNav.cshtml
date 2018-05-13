@@ -2,14 +2,26 @@
 
 @{
     var activeValue = ViewContext.RouteData.Values["Action"].ToString();
+    var indexValue = "nav-link";
+    var passwordValue = "nav-link";
+
+    if (activeValue == "Index")
+    {
+        indexValue += " active";
+    }
+
+    if (activeValue == "ChangePassword")
+    {
+        passwordValue += " active";
+    }
 }
 
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link @(activeValue == "Index" ? "active" : "")" asp-action="Index">Profile</a>
+        <a class="@indexValue" asp-action="Index">Profile</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link @(activeValue == "ChangePassword" ? "active" : "")" asp-action="ChangePassword">Password</a>
+        <a class="@passwordValue" asp-action="ChangePassword">Password</a>
     </li>
     <li class="nav-item">
         <a class="nav-link disabled">Notifications</a>
