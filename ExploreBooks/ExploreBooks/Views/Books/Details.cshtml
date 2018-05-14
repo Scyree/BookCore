@@ -1,8 +1,11 @@
-﻿@model Book
+﻿@using System.Diagnostics
+@model Book
 @inject IAuthorService Authors
 @inject IGenreService Genres
 @inject ILikeService Likes
-
+@inject IApplicationUserServices Service
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Details";
 }
@@ -11,21 +14,21 @@
     <link rel="stylesheet" href="~/css/Book.css" />
 </environment>
 
-<br/>
-<br/>
+<br />
+<br />
 
 <div class="container text-center">
     <div class="row">
         <div class="col-md-3 col-3 infoBooks">
             <div class="col-md-12 col-12">
                 <div class="card card-body bg-light">
-                    <img src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)"/>
+                    <img class="rounded" id="imageDetails" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
                 </div>
                 <div class="card card-body bg-light">
                     <button class="btn btn-danger">Plan to read</button>
-                    <br/>
+                    <br />
                     <button class="btn btn-secondary">Reading</button>
-                    <br/>
+                    <br />
                     <button class="btn">Read</button>
                 </div>
             </div>
@@ -48,27 +51,59 @@
                 </div>
                 <br />
                 <br />
-                <div class="card card-body bg-light">
-                    <div class="row w-100 mx-auto">
-                        <div class="panel">
-                            <p>
-                                @using (Html.BeginForm("Create", "Reviews", new { userId = Guid.NewGuid(), bookId = Model.Id, bookRating = 5 }, FormMethod.Post, null, new { }))
+                <div class="container border">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        var userId = UserManager.GetUserId(User);
+                        <div class="media p-3">
+                            <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
+                            <div class="media-body textAlign">
+                                @using (Html.BeginForm("Create", "Reviews", new {userId = Guid.Parse(userId), bookId = Model.Id, bookRating = 5}, FormMethod.Post, null, new {}))
                                 {
-                                    <input type="text" id="reviewText" name="reviewText" placeholder="Write a review.." />
+                                    <input type="text" id="reviewText" name="reviewText" placeholder="Write a review.."/>
                                     <button type="submit" id="reviewButton" class="btn textButton"></button>
                                 }
-                            </p>
+                            </div>
                         </div>
-                    </div>
+                    }
+
                     @foreach (var review in Model.Reviews)
                     {
-                        <div class="row">
-                            <div class="col-md-3 col-3">
-                                <div class="card card-body bg-light">
-                                    Image
-                                </div>
+                        var userReviewId = review.UserId.ToString();
+                        <div class="media p-3">
+                            <img class="mr-3 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userReviewId))" />                               
+                            <div class="media-body textAlign">
+                                <h5>@Service.GetNameOfTheSpecifiedId(userReviewId) <small>on @review.Date.ToShortDateString()</small></h5>
+                                <p>@review.Description</p>
+
+                                @foreach (var comment in review.Comments)
+                                {
+                                    var userCommentId = comment.UserId.ToString();
+                                    <div class="media p-2">
+                                        <img class="mr-3 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userCommentId))" />                               
+                                        <div class="media-body textAlign">
+                                            <h5>@Service.GetNameOfTheSpecifiedId(userCommentId) <small>on @review.Date.ToShortDateString()</small></h5>
+                                            <p>@comment.Text</p>
+                                        </div>
+                                    </div>
+                                }
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    var userId = UserManager.GetUserId(User);
+                                    <div class="media p-2">
+                                        <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
+                                        <div class="media-body textAlign">
+                                            @using (Html.BeginForm("Create", "Comments", new { userId = Guid.Parse(userId), targetId = review.Id }, FormMethod.Post, null, new { }))
+                                            {
+                                                <input type="text" id="commentText" name="commentText" placeholder="Write a comment.." />
+                                                <button type="submit" id="commentButton" class="btn textButton"></button>
+                                            }
+                                        </div>
+                                    </div>
+                                }
                             </div>
-                            <div class="col-md-2 col-2">
+                        </div>
+                            @*<div class="col-md-2 col-2">
                                 @using (Html.BeginForm("Upvote", "Reviews", new { reviewId = review.Id, userId = Guid.NewGuid() }, FormMethod.Post, null, new { }))
                                 {
                                     <button type="submit" class="btn"><i class="fa fa-arrow-circle-up"></i></button>
@@ -80,39 +115,13 @@
                                 {
                                     <button type="submit" class="btn"><i class="fa fa-arrow-circle-down"></i></button>
                                 }
-                            </div>
-                            <div class="col-md-7 col-7">
+                            </div>*@
+                            @*<div class="col-md-7 col-7">
                                 <div class="card card-body bg-light">
                                     @review.Description
                                 </div>
-                            </div>
-
-                            @foreach (var comment in review.Comments)
-                            {
-                                <div class="col-md-3 col-3 offset-md-2 offset-2">
-                                    <div class="card card-body bg-light">
-                                        Image
-                                    </div>
-                                </div>
-                                <div class="col-md-7 col-7">
-                                    <div class="card card-body bg-light">
-                                        @comment.Text
-                                    </div>
-                                </div>
-                            }
-
-                            <div class="col-md-10 col-10 offset-md-2 offset-2">
-                                <div class="panel w-100 mx-auto">
-                                    <p>
-                                        @using (Html.BeginForm("Create", "Comments", new { userId = Guid.NewGuid(), targetId = review.Id }, FormMethod.Post, null, new { }))
-                                        {
-                                            <input type="text" id="commentText" name="commentText" placeholder="Write a comment.." />
-                                            <button type="submit" id="commentButton" class="btn textButton"></button>
-                                        }
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                            </div>*@
+    
                     }
                 </div>
             </div>
@@ -122,18 +131,18 @@
                 <div class="col-md-12 col-12">
                     <div class="card card-body bg-light">
                         <h5>Authors:</h5>
-                         @{
-                                var authors = Model.Authors.ToList();
+                        @{
+                            var authors = Model.Authors.ToList();
 
-                                for (var index = 0; index < authors.Count - 1; ++index)
-                                {
-                                    var authorDisplay = Authors.GetAuthorById(authors[index].AuthorId);
+                            for (var index = 0; index < authors.Count - 1; ++index)
+                            {
+                                var authorDisplay = Authors.GetAuthorById(authors[index].AuthorId);
 
-                                    <h7>@authorDisplay.Name, </h7>
-                                }
-                            
-                                @Authors.GetAuthorById(authors[authors.Count - 1].AuthorId).Name
-                           }
+                                <h7>@authorDisplay.Name, </h7>
+                            }
+
+                            @Authors.GetAuthorById(authors[authors.Count - 1].AuthorId).Name
+                        }
                     </div>
                     <br />
                     <div class="card card-body bg-light">
@@ -145,7 +154,7 @@
                                 for (var index = 0; index < genres.Count - 1; ++index)
                                 {
                                     var genreDisplay = Genres.GetGenreById(genres[index].GenreId);
-                                        
+
                                     <h7>@genreDisplay.Text, </h7>
                                 }
 
@@ -153,14 +162,14 @@
                             }
                         </p>
                     </div>
-                    <br/>
+                    <br />
                     <div class="card card-body bg-light">
                         <h5>Details:</h5>
                         <p>
                             @Html.DisplayFor(modelItem => Model.Details)
                         </p>
                     </div>
-                    <br/>
+                    <br />
                     <div class="card card-body bg-light">
                         <h5>Actions:</h5>
                         <p>
@@ -188,7 +197,7 @@
     var commentText = document.getElementById("commentText");
     var reviewText = document.getElementById("reviewText");
     commentText.addEventListener("keyup",
-        function(event) {
+        function (event) {
             event.preventDefault();
 
             if (event.keyCode == 13) {

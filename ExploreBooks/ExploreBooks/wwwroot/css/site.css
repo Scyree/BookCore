@@ -60,3 +60,7 @@ input[type="file"] {
     width: 30px;
     height: 30px;
 }
+
+input {
+    font-style: italic;
+}
