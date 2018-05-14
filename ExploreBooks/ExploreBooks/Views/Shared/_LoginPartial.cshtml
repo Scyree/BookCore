@@ -10,7 +10,22 @@
 {
     <ul class="navbar-nav">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">@Service.GetNameOfTheSpecifiedId(UserManager.GetUserId(User)) <i class="fa fa-user"></i></a>
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                @{
+                    var userId = UserManager.GetUserId(User);
+
+                    if (Service.CheckIfHasProfilePicture(userId))
+                    {
+                        <i class="fa fa-user"></i>
+                    }
+                    else
+                    {
+                        <img id="navigationPicture" src="@Url.Content("..\\" + Service.GetFolderWithFile(userId))" />
+                    }
+
+                    <span>@Service.GetNameOfTheSpecifiedId(userId)</span> 
+                }
+            </a>
             <div class="dropdown-menu">
                 <a class="dropdown-item disabled" asp-area="">Profile</a>
                 <a class="dropdown-item disabled" asp-area="">Explore</a>

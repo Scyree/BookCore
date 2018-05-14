@@ -21,9 +21,9 @@ namespace Business.Services
             _folder = "profile";
         }
 
-        public string GetNameOfTheSpecifiedId(string id)
+        public string GetNameOfTheSpecifiedId(string userId)
         {
-            var user = _databaseService.Users.FirstOrDefault(usr => usr.Id == id.ToString());
+            var user = _databaseService.Users.FirstOrDefault(usr => usr.Id == userId.ToString());
             return user.FirstName + " " + user.LastName;
         }
 
@@ -38,6 +38,21 @@ namespace Business.Services
             {
                 await _fileManagement.CreateFile(path, image);
             }
+        }
+
+        public string GetFolderWithFile(string userId)
+        {
+            var user = _databaseService.Users.FirstOrDefault(usr => usr.Id == userId.ToString());
+            var path = "images" + "\\" + user.Folder + "\\" + user.ImageName;
+
+            return path;
+        }
+
+        public bool CheckIfHasProfilePicture(string userId)
+        {
+            var user = _databaseService.Users.FirstOrDefault(usr => usr.Id == userId.ToString());
+
+            return user.ImageName == "profile.jpg";
         }
     }
 }

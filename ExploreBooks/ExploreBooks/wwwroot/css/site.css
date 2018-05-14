@@ -55,3 +55,8 @@ input[type="file"] {
     text-decoration: none;
     opacity: 0.5;
 }
+
+#navigationPicture {
+    width: 30px;
+    height: 30px;
+}

@@ -6,8 +6,10 @@ namespace Business.Interfaces
 {
     public interface IApplicationUserServices
     {
-        string GetNameOfTheSpecifiedId(string id);
+        string GetNameOfTheSpecifiedId(string userId);
         void CreatePicture(Guid value);
         Task UpdatePicture(string path, IFormFile image);
+        string GetFolderWithFile(string userId);
+        bool CheckIfHasProfilePicture(string userId);
     }
 }
