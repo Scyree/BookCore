@@ -61,7 +61,7 @@
                                 @using (Html.BeginForm("Create", "Reviews", new {userId = Guid.Parse(userId), bookId = Model.Id, bookRating = 5}, FormMethod.Post, null, new {}))
                                 {
                                     <input type="text" id="reviewText" name="reviewText" placeholder="Write a review.."/>
-                                    <button type="submit" id="reviewButton" class="btn textButton"></button>
+                                    <button type="button" id="reviewButton" class="btn textButton"></button>
                                 }
                             </div>
                         </div>
@@ -96,7 +96,7 @@
                                             @using (Html.BeginForm("Create", "Comments", new { userId = Guid.Parse(userId), targetId = review.Id }, FormMethod.Post, null, new { }))
                                             {
                                                 <input type="text" id="commentText" name="commentText" placeholder="Write a comment.." />
-                                                <button type="submit" id="commentButton" class="btn textButton"></button>
+                                                <button type="button" id="commentButton" class="btn textButton"></button>
                                             }
                                         </div>
                                     </div>
@@ -196,6 +196,7 @@
 <script>
     var commentText = document.getElementById("commentText");
     var reviewText = document.getElementById("reviewText");
+
     commentText.addEventListener("keyup",
         function (event) {
             event.preventDefault();
