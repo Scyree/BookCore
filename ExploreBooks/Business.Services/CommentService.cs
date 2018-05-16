@@ -10,13 +10,11 @@ namespace Business.Services
     {
         private readonly ICommentGeneralUsage _commentService;
         private readonly IReviewGeneralUsage _reviewService;
-        private readonly ILikeService _likeService;
 
-        public CommentService(ICommentGeneralUsage repository, IReviewGeneralUsage reviewService, ILikeService likeService)
+        public CommentService(ICommentGeneralUsage repository, IReviewGeneralUsage reviewService)
         {
             _commentService = repository;
             _reviewService = reviewService;
-            _likeService = likeService;
         }
 
         public IReadOnlyList<Comment> GetAllComments(Guid targetId)
@@ -64,17 +62,7 @@ namespace Business.Services
         {
             return _commentService.GetCommentById(id);
         }
-
-        public void UpvoteComment(Guid commentId, Guid userId)
-        {
-            _likeService.Upvote(commentId, userId);
-        }
-
-        public void DownvoteComment(Guid commentId, Guid userId)
-        {
-            _likeService.Downvote(commentId, userId);
-        }
-
+        
         public Guid GetBookIdForATarget(Guid id)
         {
             return _reviewService.GetReviewById(id).BookId;

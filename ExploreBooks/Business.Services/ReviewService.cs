@@ -11,29 +11,12 @@ namespace Business.Services
     public class ReviewService : IReviewService
     {
         private readonly IReviewGeneralUsage _reviewService;
-        private readonly ILikeService _likeService;
         private readonly ICommentService _commentService;
 
-        public ReviewService(IReviewGeneralUsage reviewService, ILikeService likeService, ICommentService commentService)
+        public ReviewService(IReviewGeneralUsage reviewService, ICommentService commentService)
         {
             _reviewService = reviewService;
-            _likeService = likeService;
             _commentService = commentService;
-        }
-
-        public int GetNumberOfLikes(Guid reviewId)
-        {
-            return _likeService.GetNumberOfLikes(reviewId);
-        }
-
-        public void UpvoteReview(Guid reviewId, Guid userId)
-        {
-            _likeService.Upvote(reviewId, userId);
-        }
-
-        public void DownvoteReview(Guid reviewId, Guid userId)
-        {
-            _likeService.Downvote(reviewId, userId);
         }
         
         public IReadOnlyList<Review> GetOnlyFirstNumberOfReviews(int number)
@@ -111,19 +94,19 @@ namespace Business.Services
             return _reviewService.GetReviewById(reviewId);
         }
 
-        private void DeleteNegativeReviews(Guid reviewId)
-        {
-            if (GetNumberOfLikes(reviewId) <= -20)
-            {
-                var likeList = _likeService.GetAllLikes().Where(likes => likes.TargetId == reviewId).ToList();
+        //private void DeleteNegativeReviews(Guid reviewId)
+        //{
+        //    if (GetNumberOfLikes(reviewId) <= -20)
+        //    {
+        //        var likeList = _likeService.GetAllLikes().Where(likes => likes.TargetId == reviewId).ToList();
 
-                foreach (var like in likeList)
-                {
-                    _likeService.DeleteLike(like);
-                }
+        //        foreach (var like in likeList)
+        //        {
+        //            _likeService.DeleteLike(like);
+        //        }
 
-                _reviewService.DeleteReview(_reviewService.GetReviewById(reviewId));
-            }
-        }
+        //        _reviewService.DeleteReview(_reviewService.GetReviewById(reviewId));
+        //    }
+        //}
     }
 }

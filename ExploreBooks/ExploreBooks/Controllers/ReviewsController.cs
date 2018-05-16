@@ -134,19 +134,5 @@ namespace ExploreBooks.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        
-        public IActionResult Upvote(Guid reviewId, Guid userId)
-        {
-            _service.UpvoteReview(reviewId, userId);
-
-            return RedirectToAction("Details", "Books", new { @id = _service.GetReviewById(reviewId).BookId });
-        }
-
-        public IActionResult Downvote(Guid reviewId, Guid userId)
-        {
-            _service.DownvoteReview(reviewId, userId);
-
-            return RedirectToAction("Details", "Books", new { @id = _service.GetReviewById(reviewId).BookId });
-        }
     }
 }

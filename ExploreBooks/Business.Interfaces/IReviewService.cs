@@ -7,11 +7,6 @@ namespace Business.Interfaces
 {
     public interface IReviewService
     {
-        //For LikeService
-        int GetNumberOfLikes(Guid reviewId);
-        void UpvoteReview(Guid reviewId, Guid userId);
-        void DownvoteReview(Guid reviewId, Guid userId);
-
         //Review only methods
         IReadOnlyList<Review> GetOnlyFirstNumberOfReviews(int number);
         List<SelectListItem> GetRatingList();
