@@ -74,7 +74,30 @@
                             <img class="mr-3 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userReviewId))" />                               
                             <div class="media-body textAlign">
                                 <h5>@Service.GetNameOfTheSpecifiedId(userReviewId) <small>on @review.Date.ToShortDateString()</small></h5>
-                                <p>@review.Description</p>
+                                <p>
+                                    @review.Description
+                                </p>
+                                
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    var userId = UserManager.GetUserId(User);
+                                    var comment = "commentOption" + @review.Id;
+                                    <div class="btn-group">
+                                        @using (Html.BeginForm("Upvote", "Reviews", new {reviewId = review.Id, userId = Guid.Parse(userId)}, FormMethod.Post, null, new {}))
+                                        {
+                                            <button type="submit" class="btn btn-outline-dark"><i class="fa fa-arrow-up"></i></button>
+                                        }
+
+                                        <button class="btn btn-outline-dark disabled">@Likes.GetNumberOfLikes(review.Id)</button>
+
+                                        @using (Html.BeginForm("Downvote", "Reviews", new {reviewId = review.Id, userId = Guid.Parse(userId)}, FormMethod.Post, null, new {}))
+                                        {
+                                            <button type="submit" class="btn btn-outline-dark"><i class="fa fa-arrow-down"></i></button>
+                                        }
+
+                                        <button type="button" class="btn btn-outline-dark" value="@comment" onclick="displayComment(this.value)"><i class="fa fa-comment"></i></button>
+                                    </div>
+                                 }
 
                                 @foreach (var comment in review.Comments)
                                 {
@@ -86,42 +109,40 @@
                                             <p>@comment.Text</p>
                                         </div>
                                     </div>
-                                }
+                                 }
+
                                 @if (SignInManager.IsSignedIn(User))
                                 {
                                     var userId = UserManager.GetUserId(User);
-                                    <div class="media p-2">
-                                        <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
-                                        <div class="media-body textAlign">
-                                            @using (Html.BeginForm("Create", "Comments", new { userId = Guid.Parse(userId), targetId = review.Id }, FormMethod.Post, null, new { }))
-                                            {
-                                                <input type="text" id="commentText" name="commentText" placeholder="Write a comment.." />
-                                                <button type="button" id="commentButton" class="btn textButton"></button>
-                                            }
+                                    var comment = "commentOption" + @review.Id;
+                                    
+                                    <div id="@comment" style="display: none;">
+                                        <div class="media p-2">
+                                            <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
+                                            <div class="media-body textAlign">
+                                                @using (Html.BeginForm("Create", "Comments", new { userId = Guid.Parse(userId), targetId = review.Id }, FormMethod.Post, null, new { }))
+                                                {
+                                                    <input type="text" id="commentText" name="commentText" placeholder="Write a comment.." />
+                                                    <button type="button" id="commentButton" class="btn textButton"></button>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
-                                }
+                                    
+                                    <script>
+                                        function displayComment(element) {
+                                            var target = document.getElementById(element);
+
+                                            if (target.style.display === "none") {
+                                                target.style.display = "block";
+                                            } else {
+                                                target.style.display = "none";
+                                            }
+                                        }
+                                    </script>
+                                 }
                             </div>
                         </div>
-                            @*<div class="col-md-2 col-2">
-                                @using (Html.BeginForm("Upvote", "Reviews", new { reviewId = review.Id, userId = Guid.NewGuid() }, FormMethod.Post, null, new { }))
-                                {
-                                    <button type="submit" class="btn"><i class="fa fa-arrow-circle-up"></i></button>
-                                }
-
-                                @Likes.GetNumberOfLikes(review.Id)
-
-                                @using (Html.BeginForm("Downvote", "Reviews", new { reviewId = review.Id, userId = Guid.NewGuid() }, FormMethod.Post, null, new { }))
-                                {
-                                    <button type="submit" class="btn"><i class="fa fa-arrow-circle-down"></i></button>
-                                }
-                            </div>*@
-                            @*<div class="col-md-7 col-7">
-                                <div class="card card-body bg-light">
-                                    @review.Description
-                                </div>
-                            </div>*@
-    
                     }
                 </div>
             </div>
@@ -194,24 +215,32 @@
 </div>
 
 <script>
-    var commentText = document.getElementById("commentText");
-    var reviewText = document.getElementById("reviewText");
+    var checkUser = "@SignInManager.IsSignedIn(User)";
 
-    commentText.addEventListener("keyup",
-        function (event) {
-            event.preventDefault();
+    if (checkUser) {
+        var commentText = document.getElementById("commentText");
+        var reviewText = document.getElementById("reviewText");
 
-            if (event.keyCode == 13) {
-                document.getElementById("commentButton").click();
-            }
-        });
+        if (commentText) {
+            commentText.addEventListener("keyup",
+                function (event) {
+                    event.preventDefault();
 
-    reviewText.addEventListener("keyup",
-        function (event) {
-            event.preventDefault();
+                    if (event.keyCode == 13) {
+                        document.getElementById("commentButton").click();
+                    }
+                });
+        }
 
-            if (event.keyCode == 13) {
-                document.getElementById("reviewButton").click();
-            }
-        });
+        if (reviewText) {
+            reviewText.addEventListener("keyup",
+                function (event) {
+                    event.preventDefault();
+
+                    if (event.keyCode == 13) {
+                        document.getElementById("reviewButton").click();
+                    }
+                });
+        }
+    }
 </script>

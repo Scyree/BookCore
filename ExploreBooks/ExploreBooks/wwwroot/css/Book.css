@@ -64,3 +64,17 @@ a:hover {
 .textAlign {
     text-align: left;
 }
+
+.likeButton {
+    float: left;
+    display: inline-block;
+    border-right: 1px outset grey;
+    border: 1px outset grey;
+}
+
+.dislikeButton {
+    float: right;
+    display: inline-block;
+    border-right: 1px outset grey;
+    border-top: 1px outset grey;
+}
