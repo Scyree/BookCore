@@ -35,7 +35,7 @@
         </div>
         <div class="col-md-6 col-6">
             <div class="col-md-12 col-12">
-                <div class="row">
+                <div class="row-fluid">
                     <h2 style="font-style: italic">
                         @Model.Title
                     </h2>
@@ -107,6 +107,24 @@
                                         <div class="media-body textAlign">
                                             <h5>@Service.GetNameOfTheSpecifiedId(userCommentId) <small>on @review.Date.ToShortDateString()</small></h5>
                                             <p>@comment.Text</p>
+                                            
+                                            @if (SignInManager.IsSignedIn(User))
+                                            {
+                                                var userId = UserManager.GetUserId(User);
+                                                <div class="btn-group">
+                                                    @using (Html.BeginForm("Upvote", "Comments", new { commentId = comment.Id, userId = Guid.Parse(userId)}, FormMethod.Post, null, new {}))
+                                                    {
+                                                        <button type="submit" class="btn btn-outline-dark"><i class="fa fa-arrow-up"></i></button>
+                                                    }
+
+                                                    <button class="btn btn-outline-dark disabled">@Likes.GetNumberOfLikes(comment.Id)</button>
+
+                                                    @using (Html.BeginForm("Downvote", "Comments", new { commentId = comment.Id, userId = Guid.Parse(userId)}, FormMethod.Post, null, new {}))
+                                                    {
+                                                        <button type="submit" class="btn btn-outline-dark"><i class="fa fa-arrow-down"></i></button>
+                                                    }
+                                                </div>
+                                            }
                                         </div>
                                     </div>
                                  }
