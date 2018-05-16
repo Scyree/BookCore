@@ -1,5 +1,9 @@
 ﻿@model Author
-
+@inject IBookService Books
+@inject ILikeService Likes
+@inject IApplicationUserServices Service
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Details";
 }
@@ -8,27 +12,107 @@
     <link rel="stylesheet" href="~/css/Author.css" />
 </environment>
 
-<h2>Details</h2>
+<br />
+<br />
 
 <div class="container">
-    <h4>Author</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
+    <div class="row">
+        <div class="col-md-3 col-3 infoAuthors">
+            <div class="col-md-12 col-12">
+                <div class="card card-body bg-light">
+                    <img class="rounded" id="imageDetails" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+                </div>
+                <div class="card card-body bg-light">
+                    <button class="btn btn-secondary">Add to favorites</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-9">
+            <div class="col-md-12 col-12">
+                <div class="row justify-content-center">
+                    <h2 style="font-style: italic">
+                        @Model.Name
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-12">
+                        <div class="card card-body bg-light">
+                            <p>
+                                @Model.Description
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="container border">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        var userId = UserManager.GetUserId(User);
+                        <div class="media p-3">
+                            <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
+                            <div class="media-body textAlign">
+                                @using (Html.BeginForm("Create", "Comments", new { userId = Guid.Parse(userId), targetId = Model.Id }, FormMethod.Post, null, new { }))
+                                {
+                                    <input type="text" id="commentText" name="commentText" placeholder="Write a comment.." />
+                                    <button type="button" id="commentButton" class="btn textButton"></button>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    @foreach (var comment in Model.Comments)
+                    {
+                        var userCommentId = comment.UserId.ToString();
+                        <div class="media p-3">
+                            <img class="mr-3 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userCommentId))" />
+                            <div class="media-body textAlign">
+                                <h5>@Service.GetNameOfTheSpecifiedId(userCommentId) <small>on @comment.Date.ToShortDateString()</small></h5>
+                                <p>
+                                    @comment.Text
+                                </p>
+
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    var userId = UserManager.GetUserId(User);
+                                    <div class="btn-group">
+                                        @using (Html.BeginForm("Upvote", "Comments", new { commentId = comment.Id, userId = Guid.Parse(userId) }, FormMethod.Post, null, new { }))
+                                        {
+                                            <button type="submit" class="btn btn-outline-dark"><i class="fa fa-arrow-up"></i></button>
+                                        }
+
+                                        <button class="btn btn-outline-dark disabled">@Likes.GetNumberOfLikes(comment.Id)</button>
+
+                                        @using (Html.BeginForm("Downvote", "Comments", new { commentId = comment.Id, userId = Guid.Parse(userId) }, FormMethod.Post, null, new { }))
+                                        {
+                                            <button type="submit" class="btn btn-outline-dark"><i class="fa fa-arrow-down"></i></button>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<script>
+    var checkUser = "@SignInManager.IsSignedIn(User)";
+
+    if (checkUser) {
+        var commentText = document.getElementById("commentText");
+
+        if (commentText) {
+            commentText.addEventListener("keyup",
+                function (event) {
+                    event.preventDefault();
+
+                    if (event.keyCode == 13) {
+                        document.getElementById("commentButton").click();
+                    }
+                });
+        }
+    }
+</script>

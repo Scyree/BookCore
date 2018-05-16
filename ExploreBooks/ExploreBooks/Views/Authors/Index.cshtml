@@ -1,66 +1,49 @@
 ﻿@model IEnumerable<Author>
-@inject IBookService books
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <environment include="Development">
-    <link rel="stylesheet" href="~/css/Author.css" />
+    <link rel="stylesheet" href="~/css/Book.css" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 </environment>
 
-<h2>Authors</h2>
+<br />
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <h4>
+        Discover all authors
+    </h4>
+    <a asp-action="Create">..or add a new one</a>
 </p>
 <div class="container">
-    <table class="table">
-        <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Books)
-            </th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
+    @{
+        var authors = Model.ToList();
+        <div class="row">
+            @for (var index = 0; index < authors.Count; ++index)
             {
-                <tr>
-                    <td>
-                        <img src="@Url.Content("images\\" + item.Folder + "\\" + item.ImageName)" />
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @foreach (var book in item.Books)
-                        {
-                            var bookDisplay = books.GetBookById(book.BookId);
-                            @Html.DisplayFor(modelItem => bookDisplay.Title)
-                            <br/>
-                        }
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
-             }
-        </tbody>
-    </table>
+                var checkIndex = index + 1;
+                var displayInfo = "<h4>" + authors[index].Name + "</h4><p>" + authors[index].Description + "</p>";
+
+                <div class="col-md-3 col-3">
+                    <a asp-action="Details" asp-route-id="@authors[index].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
+                        <img class="rounded" src="@Url.Content("images\\" + authors[index].Folder + "\\" + authors[index].ImageName)" />
+                    </a>
+                </div>
+
+                if (checkIndex % 4 == 0)
+                {
+                    <div class="w-100"></div>
+                }
+            }
+        </div>
+    }
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

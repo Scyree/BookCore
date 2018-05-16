@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 using Business.Interfaces;
 using Domain.Data;
 using Microsoft.AspNetCore.Http;
@@ -14,14 +15,16 @@ namespace Business.Services
         private readonly IBookGeneralUsage _bookService;
         private readonly IAuthorGeneralUsage _authorService;
         private readonly IAuthorBookService _authorBookService;
+        private readonly ICommentService _commentService;
         private readonly string _folder;
 
-        public AuthorService(IAuthorGeneralUsage authorService, IWorkingWithFiles fileManagement, IBookGeneralUsage bookService, IAuthorBookService authorBookService)
+        public AuthorService(IAuthorGeneralUsage authorService, IWorkingWithFiles fileManagement, IBookGeneralUsage bookService, IAuthorBookService authorBookService, ICommentService commentService)
         {
             _authorService = authorService;
             _fileManagement = fileManagement;
             _bookService = bookService;
             _authorBookService = authorBookService;
+            _commentService = commentService;
             _folder = "authors";
         }
 
@@ -129,6 +132,7 @@ namespace Business.Services
         {
             var author = _authorService.GetAuthorById(id);
             author.Books = _authorBookService.GetAllAuthorBooksBasedOnAuthorId(id);
+            author.Comments = _commentService.GetAllComments(author.Id).ToList();
 
             return author;
         }

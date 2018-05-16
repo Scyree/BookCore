@@ -82,21 +82,54 @@
                                 {
                                     var userId = UserManager.GetUserId(User);
                                     var comment = "commentOption" + @review.Id;
+                                    var reviewButton = "reviewOption" + @review.Id;
                                     <div class="btn-group">
-                                        @using (Html.BeginForm("Upvote", "Reviews", new {reviewId = review.Id, userId = Guid.Parse(userId)}, FormMethod.Post, null, new {}))
-                                        {
-                                            <button type="submit" class="btn btn-outline-dark"><i class="fa fa-arrow-up"></i></button>
-                                        }
-
-                                        <button class="btn btn-outline-dark disabled">@Likes.GetNumberOfLikes(review.Id)</button>
-
-                                        @using (Html.BeginForm("Downvote", "Reviews", new {reviewId = review.Id, userId = Guid.Parse(userId)}, FormMethod.Post, null, new {}))
-                                        {
-                                            <button type="submit" class="btn btn-outline-dark"><i class="fa fa-arrow-down"></i></button>
-                                        }
-
+                                        <button type="submit" class="btn btn-outline-dark" onclick="Upvote(this.value)" value="@review.Id"><i class="fa fa-arrow-up"></i></button>
+                                        <input type="button" class="btn btn-outline-dark disabled" id="@reviewButton"/>
+                                        <button type="submit" class="btn btn-outline-dark" onclick="Downvote(this.value)" value="@review.Id"><i class="fa fa-arrow-down"></i></button>                                       
                                         <button type="button" class="btn btn-outline-dark" value="@comment" onclick="displayComment(this.value)"><i class="fa fa-comment"></i></button>
                                     </div>
+
+                                    <script>
+                                        function Upvote(target) {
+                                            var user = "@Guid.Parse(userId)";
+                                            $.ajax({
+                                                url: "/Like/Upvote",
+                                                data: { targetId: target, userId: user},
+                                                type: "POST",
+                                                success: function () {
+                                                    $.ajax({
+                                                        url: "/Like/GetNumberOfLikes?targetId=" + target,
+                                                        type: "GET",
+                                                        success: function(response) {
+                                                            var targetInput = "#reviewOption" + target;
+                                                            $(targetInput).val(response);
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+
+                                        function Downvote(target) {
+                                            var user = "@Guid.Parse(userId)";
+                                            $.ajax({
+                                                url: "/Like/Downvote",
+                                                data: { targetId: target, userId: user},
+                                                type: "POST",
+                                                success: function() {
+                                                    $.ajax({
+                                                        url: "/Like/GetNumberOfLikes",
+                                                        data: { targetId: target },
+                                                        type: "GET",
+                                                        success: function (response) {
+                                                            var targetInput = "#reviewOption" + target;
+                                                            $(targetInput).val(response);
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    </script>
                                  }
 
                                 @foreach (var comment in review.Comments)
@@ -112,7 +145,7 @@
                                             {
                                                 var userId = UserManager.GetUserId(User);
                                                 <div class="btn-group">
-                                                    @using (Html.BeginForm("Upvote", "Comments", new { commentId = comment.Id, userId = Guid.Parse(userId)}, FormMethod.Post, null, new {}))
+                                                    @using (Html.BeginForm("Upvote", "Like", new { commentId = comment.Id, userId = Guid.Parse(userId)}, FormMethod.Post, null, new {}))
                                                     {
                                                         <button type="submit" class="btn btn-outline-dark"><i class="fa fa-arrow-up"></i></button>
                                                     }
