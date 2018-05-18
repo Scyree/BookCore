@@ -28,7 +28,7 @@ namespace Domain.Persistence
         public DbSet<BuyingSite> BuyingSites { get; set; }
         public DbSet<Character> Characters { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<Favorite> Favorites { get; set; }
+        public DbSet<BookState> BookStates { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Recommandation> Recommandations { get; set; }

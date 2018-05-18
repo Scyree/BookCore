@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Profile.css" />
+    <link rel="stylesheet" href="~/css/StatusMessage.css" />
+</environment>
+
+<br />
+<div class="container">
+    <img src="../images/default/coverPhoto.jpg"/>
+</div>
+
+<div class="row">
+    <div class="col-md-12 justify-content-center">
+        @await Html.PartialAsync("_ProfileNav")
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    @RenderBody()
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

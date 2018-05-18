@@ -23,14 +23,14 @@ namespace Domain.Data
 
         public string Description { get; set; }
 
-        public List<Review> Reviews { get; set; }
+        public ICollection<Review> Reviews { get; set; }
 
-        public List<Recommandation> Recommandations { get; set; }
+        public ICollection<Recommandation> Recommandations { get; set; }
 
-        public List<BooksForMood> BooksForMoods { get; set; }
+        public ICollection<BooksForMood> BooksForMoods { get; set; }
 
-        public List<ApplicationUser> Friends { get; set; }
+        public ICollection<ApplicationUser> Friends { get; set; }
 
-        public List<Favorite> Favorites { get; set; }
+        public ICollection<BookState> Books { get; set; }
     }
 }

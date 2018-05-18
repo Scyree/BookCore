@@ -1,0 +1,26 @@
+﻿@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    var activeValue = ViewContext.RouteData.Values["Action"].ToString();
+    var indexValue = "nav-link";
+    var libraryValue = "nav-link";
+
+    if (activeValue == "Index")
+    {
+        indexValue += " active";
+    }
+
+    if (activeValue == "Library")
+    {
+        libraryValue += " active";
+    }
+}
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="@indexValue" asp-action="Index">Activity</a>
+    </li>
+    <li class="nav-item">
+        <a class="@libraryValue" asp-action="Library">Library</a>
+    </li>
+</ul>

@@ -64,13 +64,14 @@ namespace ExploreBooks
             services.AddTransient<IBuyingSiteRepository, BuyingSiteRepository>();
             services.AddTransient<ICharacterRepository, CharacterRepository>();
             services.AddTransient<ICommentRepository, CommentRepository>();
-            services.AddTransient<IFavoriteRepository, FavoriteRepository>();
+            services.AddTransient<IBookStateRepository, BookStateRepository>();
             services.AddTransient<IGenreBookRepository, GenreBookRepository>();
             services.AddTransient<IGenreRepository, GenreRepository>();
             services.AddTransient<ILikeRepository, LikeRepository>();
             services.AddTransient<IRatingRepository, RatingRepository>();
             services.AddTransient<IRecommandationRepository, RecommandationRepository>();
             services.AddTransient<IReviewRepository, ReviewRepository>();
+            services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
 
 
             // Application's services within service layer
@@ -81,6 +82,7 @@ namespace ExploreBooks
             services.AddTransient<IGenreBookService, GenreBookService>();
             services.AddTransient<IReviewGeneralUsage, ReviewGeneralUsage>();
             services.AddTransient<IWorkingWithFiles, WorkingWithFiles>();
+            services.AddTransient<IBookStateGeneralUsage, BookStateGeneralUsage>();
 
 
             // Application's services within business layer
