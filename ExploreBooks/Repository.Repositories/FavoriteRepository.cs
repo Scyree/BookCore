@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Domain.Data;
 using Domain.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 
 namespace Repository.Repositories
@@ -16,35 +17,35 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<Favorite> GetAllFavorites()
+        public async Task<IReadOnlyList<Favorite>> GetAllFavorites()
         {
-            return _databaseService.Favorites.ToList();
+            return await _databaseService.Favorites.ToListAsync();
         }
 
-        public Favorite GetFavoriteById(Guid id)
+        public async Task<Favorite> GetFavoriteById(Guid id)
         {
-            return _databaseService.Favorites.SingleOrDefault(favorite => favorite.Id == id);
+            return await _databaseService.Favorites.SingleOrDefaultAsync(favorite => favorite.Id == id);
         }
 
-        public void CreateFavorite(Favorite favorite)
+        public async Task CreateFavorite(Favorite favorite)
         {
             _databaseService.Favorites.Add(favorite);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void EditFavorite(Favorite favorite)
+        public async Task EditFavorite(Favorite favorite)
         {
             _databaseService.Favorites.Update(favorite);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void DeleteFavorite(Favorite favorite)
+        public async Task DeleteFavorite(Favorite favorite)
         {
             _databaseService.Favorites.Remove(favorite);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
     }
 }

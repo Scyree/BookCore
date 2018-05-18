@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Domain.Data;
 using Domain.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 
 namespace Repository.Repositories
@@ -16,35 +17,35 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<Like> GetAllLikes()
+        public async Task<IReadOnlyList<Like>> GetAllLikes()
         {
-            return _databaseService.Likes.ToList();
+            return await _databaseService.Likes.ToListAsync();
         }
 
-        public Like GetLikeById(Guid id)
+        public async Task<Like> GetLikeById(Guid id)
         {
-            return _databaseService.Likes.SingleOrDefault(like => like.Id == id);
+            return await _databaseService.Likes.SingleOrDefaultAsync(like => like.Id == id);
         }
 
-        public void CreateLike(Like like)
+        public async Task CreateLike(Like like)
         {
             _databaseService.Likes.Add(like);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void EditLike(Like like)
+        public async Task EditLike(Like like)
         {
             _databaseService.Likes.Update(like);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void DeleteLike(Like like)
+        public async Task DeleteLike(Like like)
         {
             _databaseService.Likes.Remove(like);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Domain.Data;
 using Domain.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 
 namespace Repository.Repositories
@@ -16,35 +17,35 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<Genre> GetAllGenres()
+        public async Task<IReadOnlyList<Genre>> GetAllGenres()
         {
-            return _databaseService.Genres.ToList();
+            return await _databaseService.Genres.ToListAsync();
         }
 
-        public Genre GetGenreById(Guid id)
+        public async Task<Genre> GetGenreById(Guid id)
         {
-            return _databaseService.Genres.SingleOrDefault(genre => genre.Id == id);
+            return await _databaseService.Genres.SingleOrDefaultAsync(genre => genre.Id == id);
         }
 
-        public void CreateGenre(Genre genre)
+        public async Task CreateGenre(Genre genre)
         {
             _databaseService.Genres.Add(genre);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void EditGenre(Genre genre)
+        public async Task EditGenre(Genre genre)
         {
             _databaseService.Genres.Update(genre);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void DeleteGenre(Genre genre)
+        public async Task DeleteGenre(Genre genre)
         {
             _databaseService.Genres.Remove(genre);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
     }
 }

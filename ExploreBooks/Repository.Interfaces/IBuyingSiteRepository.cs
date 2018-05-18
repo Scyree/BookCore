@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Domain.Data;
 
 namespace Repository.Interfaces
 {
     public interface IBuyingSiteRepository
     {
-        IReadOnlyList<BuyingSite> GetAllBuyingSites();
-        BuyingSite GetBuyingSiteById(Guid id);
-        void CreateBuyingSite(BuyingSite buyingSite);
-        void EditBuyingSite(BuyingSite buyingSite);
-        void DeleteBuyingSite(BuyingSite buyingSite);
+        Task<IReadOnlyList<BuyingSite>> GetAllBuyingSites();
+        Task<BuyingSite> GetBuyingSiteById(Guid id);
+        Task CreateBuyingSite(BuyingSite buyingSite);
+        Task EditBuyingSite(BuyingSite buyingSite);
+        Task DeleteBuyingSite(BuyingSite buyingSite);
     }
 }

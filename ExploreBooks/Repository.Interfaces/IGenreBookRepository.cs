@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Domain.Data;
 
 namespace Repository.Interfaces
 {
     public interface IGenreBookRepository
     {
-        List<GenreBook> GetAllGenreBooksBasedOnBookId(Guid bookId);
-        List<GenreBook> GetAllGenreBooksBasedOnGenreId(Guid genreId);
-        GenreBook GetGenreBookById(Guid genreId, Guid bookId);
-        void CreateGenreBook(GenreBook genreBook);
-        void EditGenreBook(GenreBook genreBook);
-        void DeleteGenreBook(GenreBook genreBook);
+        Task<IReadOnlyList<GenreBook>> GetAllGenreBooksBasedOnBookId(Guid bookId);
+        Task<IReadOnlyList<GenreBook>> GetAllGenreBooksBasedOnGenreId(Guid genreId);
+        Task<GenreBook> GetGenreBookById(Guid genreId, Guid bookId);
+        Task CreateGenreBook(GenreBook genreBook);
+        Task EditGenreBook(GenreBook genreBook);
+        Task DeleteGenreBook(GenreBook genreBook);
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Domain.Data;
 using Domain.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 
 namespace Repository.Repositories
@@ -16,40 +17,40 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public Character GetCharacterInfoByDetails(string name, string description)
+        public async Task<Character> GetCharacterInfoByDetails(string name, string description)
         {
-            return _databaseService.Characters.SingleOrDefault(character => character.Name == name && character.Description == description);
+            return await _databaseService.Characters.SingleOrDefaultAsync(character => character.Name == name && character.Description == description);
         }
 
-        public IReadOnlyList<Character> GetAllCharacters()
+        public async Task<IReadOnlyList<Character>> GetAllCharacters()
         {
-            return _databaseService.Characters.ToList();
+            return await _databaseService.Characters.ToListAsync();
         }
 
-        public Character GetCharacterById(Guid id)
+        public async Task<Character> GetCharacterById(Guid id)
         {
-            return _databaseService.Characters.SingleOrDefault(character => character.Id == id);
+            return await _databaseService.Characters.SingleOrDefaultAsync(character => character.Id == id);
         }
 
-        public void CreateCharacter(Character character)
+        public async Task CreateCharacter(Character character)
         {
             _databaseService.Characters.Add(character);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void EditCharacter(Character character)
+        public async Task EditCharacter(Character character)
         {
             _databaseService.Characters.Update(character);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void DeleteCharacter(Character character)
+        public async Task DeleteCharacter(Character character)
         {
             _databaseService.Characters.Remove(character);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
     }
 }

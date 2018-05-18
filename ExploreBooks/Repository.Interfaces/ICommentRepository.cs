@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Domain.Data;
 
 namespace Repository.Interfaces
 {
     public interface ICommentRepository
     {
-        IReadOnlyList<Comment> GetAllComments();
-        Comment GetCommentById(Guid id);
-        void CreateComment(Comment comment);
-        void EditComment(Comment comment);
-        void DeleteComment(Comment comment);
+        Task<IReadOnlyList<Comment>> GetAllComments();
+        Task<Comment> GetCommentById(Guid id);
+        Task CreateComment(Comment comment);
+        Task EditComment(Comment comment);
+        Task DeleteComment(Comment comment);
 
-        List<Comment> GetAllComments(Guid targetId);
+        Task<IReadOnlyList<Comment>> GetAllComments(Guid targetId);
     }
 }

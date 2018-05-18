@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Domain.Data;
 using Domain.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 
 namespace Repository.Repositories
@@ -16,40 +17,40 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public Author GetAuthorInfoByDetails(string name, string description)
+        public async Task<Author> GetAuthorInfoByDetails(string name, string description)
         {
-            return _databaseService.Authors.SingleOrDefault(author => author.Name == name && author.Description == description);
+            return await _databaseService.Authors.SingleOrDefaultAsync(author => author.Name == name && author.Description == description);
         }
 
-        public IReadOnlyList<Author> GetAllAuthors()
+        public async Task<IReadOnlyList<Author>> GetAllAuthors()
         {
-            return _databaseService.Authors.ToList();
+            return await _databaseService.Authors.ToListAsync();
         }
 
-        public Author GetAuthorById(Guid id)
+        public async Task<Author> GetAuthorById(Guid id)
         {
-            return _databaseService.Authors.SingleOrDefault(author => author.Id == id);
+            return await _databaseService.Authors.SingleOrDefaultAsync(author => author.Id == id);
         }
 
-        public void CreateAuthor(Author author)
+        public async Task CreateAuthor(Author author)
         {
             _databaseService.Authors.Add(author);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void EditAuthor(Author author)
+        public async Task EditAuthor(Author author)
         {
             _databaseService.Authors.Update(author);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void DeleteAuthor(Author author)
+        public async Task DeleteAuthor(Author author)
         {
             _databaseService.Authors.Remove(author);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
     }
 }

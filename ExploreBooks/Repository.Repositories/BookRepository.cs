@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Domain.Data;
 using Domain.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 
 namespace Repository.Repositories
@@ -16,40 +17,40 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public Book GetBookInfoByDetails(string title, string description)
+        public async Task<Book> GetBookInfoByDetails(string title, string description)
         {
-            return _databaseService.Books.SingleOrDefault(book => book.Title == title && book.Description == description);
+            return await _databaseService.Books.SingleOrDefaultAsync(book => book.Title == title && book.Description == description);
         }
 
-        public IReadOnlyList<Book> GetAllBooks()
+        public async Task<IReadOnlyList<Book>> GetAllBooks()
         {
-            return _databaseService.Books.ToList();
+            return await _databaseService.Books.ToListAsync();
         }
 
-        public Book GetBookById(Guid id)
+        public async Task<Book> GetBookById(Guid id)
         {
-            return _databaseService.Books.SingleOrDefault(book => book.Id == id);
+            return await _databaseService.Books.SingleOrDefaultAsync(book => book.Id == id);
         }
 
-        public void CreateBook(Book book)
+        public async Task CreateBook(Book book)
         {
             _databaseService.Books.Add(book);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void EditBook(Book book)
+        public async Task EditBook(Book book)
         {
             _databaseService.Books.Update(book);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void DeleteBook(Book book)
+        public async Task DeleteBook(Book book)
         {
             _databaseService.Books.Remove(book);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
     }
 }

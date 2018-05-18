@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Domain.Data;
 using Domain.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 
 namespace Repository.Repositories
@@ -16,40 +18,40 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<Comment> GetAllComments()
+        public async Task<IReadOnlyList<Comment>> GetAllComments()
         {
-            return _databaseService.Comments.ToList();
+            return await _databaseService.Comments.ToListAsync();
         }
 
-        public Comment GetCommentById(Guid id)
+        public async Task<Comment> GetCommentById(Guid id)
         {
-            return _databaseService.Comments.SingleOrDefault(comment => comment.Id == id);
+            return await _databaseService.Comments.SingleOrDefaultAsync(comment => comment.Id == id);
         }
 
-        public void CreateComment(Comment comment)
+        public async Task CreateComment(Comment comment)
         {
             _databaseService.Comments.Add(comment);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void EditComment(Comment comment)
+        public async Task EditComment(Comment comment)
         {
             _databaseService.Comments.Update(comment);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void DeleteComment(Comment comment)
+        public async Task DeleteComment(Comment comment)
         {
             _databaseService.Comments.Remove(comment);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public List<Comment> GetAllComments(Guid targetId)
+        public async Task<IReadOnlyList<Comment>> GetAllComments(Guid targetId)
         {
-            return _databaseService.Comments.Where(comments => comments.TargetId == targetId).ToList();
+            return await _databaseService.Comments.Where(comments => comments.TargetId == targetId).ToListAsync();
         }
     }
 }

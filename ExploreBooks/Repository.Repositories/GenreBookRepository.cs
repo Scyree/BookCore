@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Domain.Data;
 using Domain.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 
 namespace Repository.Repositories
@@ -16,40 +18,40 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public List<GenreBook> GetAllGenreBooksBasedOnBookId(Guid bookId)
+        public async Task<IReadOnlyList<GenreBook>> GetAllGenreBooksBasedOnBookId(Guid bookId)
         {
-            return _databaseService.GenreBooks.Where(genre => genre.BookId == bookId).ToList();
+            return await _databaseService.GenreBooks.Where(genre => genre.BookId == bookId).ToListAsync();
         }
 
-        public List<GenreBook> GetAllGenreBooksBasedOnGenreId(Guid genreId)
+        public async Task<IReadOnlyList<GenreBook>> GetAllGenreBooksBasedOnGenreId(Guid genreId)
         {
-            return _databaseService.GenreBooks.Where(book => book.GenreId == genreId).ToList();
+            return await _databaseService.GenreBooks.Where(book => book.GenreId == genreId).ToListAsync();
         }
 
-        public GenreBook GetGenreBookById(Guid genreId, Guid bookId)
+        public async Task<GenreBook> GetGenreBookById(Guid genreId, Guid bookId)
         {
-            return _databaseService.GenreBooks.SingleOrDefault(genreBook => genreBook.GenreId == genreId && genreBook.BookId == bookId);
+            return await _databaseService.GenreBooks.SingleOrDefaultAsync(genreBook => genreBook.GenreId == genreId && genreBook.BookId == bookId);
         }
 
-        public void CreateGenreBook(GenreBook genreBook)
+        public async Task CreateGenreBook(GenreBook genreBook)
         {
             _databaseService.GenreBooks.Add(genreBook);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void EditGenreBook(GenreBook genreBook)
+        public async Task EditGenreBook(GenreBook genreBook)
         {
             _databaseService.GenreBooks.Update(genreBook);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void DeleteGenreBook(GenreBook genreBook)
+        public async Task DeleteGenreBook(GenreBook genreBook)
         {
             _databaseService.GenreBooks.Remove(genreBook);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
     }
 }

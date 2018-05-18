@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Domain.Data;
 
 namespace Repository.Interfaces
 {
     public interface IBookRepository
     {
-        IReadOnlyList<Book> GetAllBooks();
-        Book GetBookById(Guid id);
-        Book GetBookInfoByDetails(string title, string description);
-        void CreateBook(Book book);
-        void EditBook(Book book);
-        void DeleteBook(Book book);
+        Task<IReadOnlyList<Book>> GetAllBooks();
+        Task<Book> GetBookById(Guid id);
+        Task<Book> GetBookInfoByDetails(string title, string description);
+        Task CreateBook(Book book);
+        Task EditBook(Book book);
+        Task DeleteBook(Book book);
     }
 }

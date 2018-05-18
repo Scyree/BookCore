@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Domain.Data;
 using Domain.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 
 namespace Repository.Repositories
@@ -16,35 +17,35 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<Recommandation> GetAllRecommandations()
+        public async Task<IReadOnlyList<Recommandation>> GetAllRecommandations()
         {
-            return _databaseService.Recommandations.ToList();
+            return await _databaseService.Recommandations.ToListAsync();
         }
 
-        public Recommandation GetRecommandationById(Guid id)
+        public async Task<Recommandation> GetRecommandationById(Guid id)
         {
-            return _databaseService.Recommandations.SingleOrDefault(recommandation => recommandation.Id == id);
+            return await _databaseService.Recommandations.SingleOrDefaultAsync(recommandation => recommandation.Id == id);
         }
 
-        public void CreateRecommandation(Recommandation recommandation)
+        public async Task CreateRecommandation(Recommandation recommandation)
         {
             _databaseService.Recommandations.Add(recommandation);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void EditRecommandation(Recommandation recommandation)
+        public async Task EditRecommandation(Recommandation recommandation)
         {
             _databaseService.Recommandations.Update(recommandation);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void DeleteRecommandation(Recommandation recommandation)
+        public async Task DeleteRecommandation(Recommandation recommandation)
         {
             _databaseService.Recommandations.Remove(recommandation);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
     }
 }

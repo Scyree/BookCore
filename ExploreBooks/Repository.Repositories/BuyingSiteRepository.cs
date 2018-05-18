@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Domain.Data;
 using Domain.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 
 namespace Repository.Repositories
@@ -16,35 +17,35 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<BuyingSite> GetAllBuyingSites()
+        public async Task<IReadOnlyList<BuyingSite>> GetAllBuyingSites()
         {
-            return _databaseService.BuyingSites.ToList();
+            return await _databaseService.BuyingSites.ToListAsync();
         }
 
-        public BuyingSite GetBuyingSiteById(Guid id)
+        public async Task<BuyingSite> GetBuyingSiteById(Guid id)
         {
-            return _databaseService.BuyingSites.SingleOrDefault(buyingSite => buyingSite.Id == id);
+            return await _databaseService.BuyingSites.SingleOrDefaultAsync(buyingSite => buyingSite.Id == id);
         }
 
-        public void CreateBuyingSite(BuyingSite buyingSite)
+        public async Task CreateBuyingSite(BuyingSite buyingSite)
         {
             _databaseService.BuyingSites.Add(buyingSite);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void EditBuyingSite(BuyingSite buyingSite)
+        public async Task EditBuyingSite(BuyingSite buyingSite)
         {
             _databaseService.BuyingSites.Update(buyingSite);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void DeleteBuyingSite(BuyingSite buyingSite)
+        public async Task DeleteBuyingSite(BuyingSite buyingSite)
         {
             _databaseService.BuyingSites.Remove(buyingSite);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
     }
 }

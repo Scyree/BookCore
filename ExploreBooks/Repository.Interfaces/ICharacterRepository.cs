@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Domain.Data;
 
 namespace Repository.Interfaces
 {
     public interface ICharacterRepository
     {
-        IReadOnlyList<Character> GetAllCharacters();
-        Character GetCharacterById(Guid id);
-        Character GetCharacterInfoByDetails(string name, string description);
-        void CreateCharacter(Character character);
-        void EditCharacter(Character character);
-        void DeleteCharacter(Character character);
+        Task<IReadOnlyList<Character>> GetAllCharacters();
+        Task<Character> GetCharacterById(Guid id);
+        Task<Character> GetCharacterInfoByDetails(string name, string description);
+        Task CreateCharacter(Character character);
+        Task EditCharacter(Character character);
+        Task DeleteCharacter(Character character);
     }
 }

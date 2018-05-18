@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Domain.Data;
 
 namespace Repository.Interfaces
 {
     public interface IGenreRepository
     {
-        IReadOnlyList<Genre> GetAllGenres();
-        Genre GetGenreById(Guid id);
-        void CreateGenre(Genre genre);
-        void EditGenre(Genre genre);
-        void DeleteGenre(Genre genre);
+        Task<IReadOnlyList<Genre>> GetAllGenres();
+        Task<Genre> GetGenreById(Guid id);
+        Task CreateGenre(Genre genre);
+        Task EditGenre(Genre genre);
+        Task DeleteGenre(Genre genre);
     }
 }

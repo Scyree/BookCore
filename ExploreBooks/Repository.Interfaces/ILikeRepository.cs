@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Domain.Data;
 
 namespace Repository.Interfaces
 {
     public interface ILikeRepository
     {
-        IReadOnlyList<Like> GetAllLikes();
-        Like GetLikeById(Guid id);
-        void CreateLike(Like like);
-        void EditLike(Like like);
-        void DeleteLike(Like like);
+        Task<IReadOnlyList<Like>> GetAllLikes();
+        Task<Like> GetLikeById(Guid id);
+        Task CreateLike(Like like);
+        Task EditLike(Like like);
+        Task DeleteLike(Like like);
     }
 }

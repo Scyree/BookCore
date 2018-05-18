@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Domain.Data;
 using Domain.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 
 namespace Repository.Repositories
@@ -16,35 +17,35 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<BooksForMood> GetAllBooksForMoods()
+        public async Task<IReadOnlyList<BooksForMood>> GetAllBooksForMoods()
         {
-            return _databaseService.BooksForMoods.ToList();
+            return await _databaseService.BooksForMoods.ToListAsync();
         }
 
-        public BooksForMood GetBooksForMoodById(Guid id)
+        public async Task<BooksForMood> GetBooksForMoodById(Guid id)
         {
-            return _databaseService.BooksForMoods.SingleOrDefault(booksForMood => booksForMood.Id == id);
+            return await _databaseService.BooksForMoods.SingleOrDefaultAsync(booksForMood => booksForMood.Id == id);
         }
 
-        public void CreateBooksForMood(BooksForMood booksForMood)
+        public async Task CreateBooksForMood(BooksForMood booksForMood)
         {
             _databaseService.BooksForMoods.Add(booksForMood);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void EditBooksForMood(BooksForMood booksForMood)
+        public async Task EditBooksForMood(BooksForMood booksForMood)
         {
             _databaseService.BooksForMoods.Update(booksForMood);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void DeleteBooksForMood(BooksForMood booksForMood)
+        public async Task DeleteBooksForMood(BooksForMood booksForMood)
         {
             _databaseService.BooksForMoods.Remove(booksForMood);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
     }
 }

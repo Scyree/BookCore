@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Domain.Data;
 using Domain.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 
 namespace Repository.Repositories
@@ -16,35 +17,35 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<Rating> GetAllRatings()
+        public async Task<IReadOnlyList<Rating>> GetAllRatings()
         {
-            return _databaseService.Ratings.ToList();
+            return await _databaseService.Ratings.ToListAsync();
         }
 
-        public Rating GetRatingById(Guid id)
+        public async Task<Rating> GetRatingById(Guid id)
         {
-            return _databaseService.Ratings.SingleOrDefault(rating => rating.Id == id);
+            return await _databaseService.Ratings.SingleOrDefaultAsync(rating => rating.Id == id);
         }
 
-        public void CreateRating(Rating rating)
+        public async Task CreateRating(Rating rating)
         {
             _databaseService.Ratings.Add(rating);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void EditRating(Rating rating)
+        public async Task EditRating(Rating rating)
         {
             _databaseService.Ratings.Update(rating);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void DeleteRating(Rating rating)
+        public async Task DeleteRating(Rating rating)
         {
             _databaseService.Ratings.Remove(rating);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
     }
 }

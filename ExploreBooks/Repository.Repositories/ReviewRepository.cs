@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Domain.Data;
 using Domain.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 
 namespace Repository.Repositories
@@ -16,35 +17,35 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<Review> GetAllReviews()
+        public async Task<IReadOnlyList<Review>> GetAllReviews()
         {
-            return _databaseService.Reviews.ToList();
+            return await _databaseService.Reviews.ToListAsync();
         }
 
-        public Review GetReviewById(Guid id)
+        public async Task<Review> GetReviewById(Guid id)
         {
-            return _databaseService.Reviews.SingleOrDefault(review => review.Id == id);
+            return await _databaseService.Reviews.SingleOrDefaultAsync(review => review.Id == id);
         }
 
-        public void CreateReview(Review review)
+        public async Task CreateReview(Review review)
         {
             _databaseService.Reviews.Add(review);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void EditReview(Review review)
+        public async Task EditReview(Review review)
         {
             _databaseService.Reviews.Update(review);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void DeleteReview(Review review)
+        public async Task DeleteReview(Review review)
         {
             _databaseService.Reviews.Remove(review);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
     }
 }

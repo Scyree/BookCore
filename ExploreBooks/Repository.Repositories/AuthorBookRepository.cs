@@ -4,6 +4,8 @@ using Domain.Persistence;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Repositories
 {
@@ -16,40 +18,40 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public List<AuthorBook> GetAllAuthorBooksBasedOnBookId(Guid bookId)
+        public async Task<IReadOnlyList<AuthorBook>> GetAllAuthorBooksBasedOnBookId(Guid bookId)
         {
-            return _databaseService.AuthorBooks.Where(author => author.BookId == bookId).ToList();
+            return await _databaseService.AuthorBooks.Where(author => author.BookId == bookId).ToListAsync();
         }
 
-        public List<AuthorBook> GetAllAuthorBooksBasedOnAuthorId(Guid authorId)
+        public async Task<IReadOnlyList<AuthorBook>> GetAllAuthorBooksBasedOnAuthorId(Guid authorId)
         {
-            return _databaseService.AuthorBooks.Where(book => book.AuthorId == authorId).ToList();
+            return await _databaseService.AuthorBooks.Where(book => book.AuthorId == authorId).ToListAsync();
         }
 
-        public AuthorBook GetAuthorBookById(Guid authorId, Guid bookId)
+        public async Task<AuthorBook> GetAuthorBookById(Guid authorId, Guid bookId)
         {
-            return _databaseService.AuthorBooks.SingleOrDefault(authorBook => authorBook.AuthorId == authorId && authorBook.BookId == bookId);
+            return await _databaseService.AuthorBooks.SingleOrDefaultAsync(authorBook => authorBook.AuthorId == authorId && authorBook.BookId == bookId);
         }
 
-        public void CreateAuthorBook(AuthorBook authorBook)
+        public async Task CreateAuthorBook(AuthorBook authorBook)
         {
             _databaseService.AuthorBooks.Add(authorBook);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void EditAuthorBook(AuthorBook authorBook)
+        public async Task EditAuthorBook(AuthorBook authorBook)
         {
             _databaseService.AuthorBooks.Update(authorBook);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
 
-        public void DeleteAuthorBook(AuthorBook authorBook)
+        public async Task DeleteAuthorBook(AuthorBook authorBook)
         {
             _databaseService.AuthorBooks.Remove(authorBook);
 
-            _databaseService.SaveChanges();
+            await _databaseService.SaveChangesAsync();
         }
     }
 }
