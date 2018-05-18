@@ -161,11 +161,17 @@ namespace Business.Services
         public Book GetBookById(Guid id)
         {
             var book = _bookService.GetBookById(id);
-            book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(id);
-            book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(id);
-            book.Reviews = _reviewService.GetAllReviews().Where(review => review.BookId == id).ToList();
 
-            return book;
+            if (book != null)
+            {
+                book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(id);
+                book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(id);
+                book.Reviews = _reviewService.GetAllReviews().Where(review => review.BookId == id).ToList();
+
+                return book;
+            }
+
+            return null;
         }
     }
 }

@@ -111,7 +111,8 @@ namespace ExploreBooks
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Errors");
+                app.UseStatusCodePagesWithReExecute("/Errors/Error/{0}");
             }
 
             app.UseStaticFiles();

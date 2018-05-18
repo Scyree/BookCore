@@ -131,10 +131,16 @@ namespace Business.Services
         public Author GetAuthorById(Guid id)
         {
             var author = _authorService.GetAuthorById(id);
-            author.Books = _authorBookService.GetAllAuthorBooksBasedOnAuthorId(id);
-            author.Comments = _commentService.GetAllComments(author.Id).ToList();
 
-            return author;
+            if (author != null)
+            {
+                author.Books = _authorBookService.GetAllAuthorBooksBasedOnAuthorId(id);
+                author.Comments = _commentService.GetAllComments(author.Id).ToList();
+
+                return author;
+            }
+
+            return null;
         }
     }
 }
