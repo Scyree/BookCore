@@ -62,7 +62,6 @@ namespace ExploreBooks
             services.AddTransient<IBookRepository, BookRepository>();
             services.AddTransient<IBooksForMoodRepository, BooksForMoodRepository>();
             services.AddTransient<IBuyingSiteRepository, BuyingSiteRepository>();
-            services.AddTransient<ICharacterRepository, CharacterRepository>();
             services.AddTransient<ICommentRepository, CommentRepository>();
             services.AddTransient<IBookStateRepository, BookStateRepository>();
             services.AddTransient<IGenreBookRepository, GenreBookRepository>();
@@ -70,19 +69,19 @@ namespace ExploreBooks
             services.AddTransient<ILikeRepository, LikeRepository>();
             services.AddTransient<IRatingRepository, RatingRepository>();
             services.AddTransient<IRecommandationRepository, RecommandationRepository>();
-            services.AddTransient<IReviewRepository, ReviewRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
 
 
             // Application's services within service layer
-            services.AddTransient<IAuthorBookService, AuthorBookService>();
-            services.AddTransient<IAuthorGeneralUsage, AuthorGeneralUsage>();
-            services.AddTransient<IBookGeneralUsage, BookGeneralUsage>();
-            services.AddTransient<ICommentGeneralUsage, CommentGeneralUsage>();
-            services.AddTransient<IGenreBookService, GenreBookService>();
-            services.AddTransient<IReviewGeneralUsage, ReviewGeneralUsage>();
+            services.AddTransient<IAuthorBookMiddleware, AuthorBookMiddleware>();
+            services.AddTransient<IAuthorMiddleware, AuthorMiddleware>();
+            services.AddTransient<IBookMiddleware, BookMiddleware>();
+            services.AddTransient<ICommentMiddleware, CommentMiddleware>();
+            services.AddTransient<IGenreBookMiddleware, GenreBookMiddleware>();
+            services.AddTransient<IPostMiddleware, PostMiddleware>();
             services.AddTransient<IWorkingWithFiles, WorkingWithFiles>();
-            services.AddTransient<IBookStateGeneralUsage, BookStateGeneralUsage>();
+            services.AddTransient<IBookStateMiddleware, BookStateMiddleware>();
 
 
             // Application's services within business layer
@@ -93,8 +92,8 @@ namespace ExploreBooks
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IGenreService, GenreService>();
             services.AddTransient<ILikeService, LikeService>();
-            services.AddTransient<IReviewService, ReviewService>();
-            services.AddTransient<IUserHistoryService, UserHistoryService>();
+            services.AddTransient<IPostService, PostService>();
+            services.AddTransient<IUtilityService, UtilityService>();
 
 
             services.AddMvc();

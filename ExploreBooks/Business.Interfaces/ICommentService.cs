@@ -6,11 +6,10 @@ namespace Business.Interfaces
 {
     public interface ICommentService
     {
-        IReadOnlyList<Comment> GetAllComments(Guid targetId);
-        void CreateComment(Guid userId, Guid targetId, string text);
+        IReadOnlyList<Comment> GetAllComments(Guid postId);
+        void CreateComment(Guid userId, Guid postId, string text);
         void EditComment(Guid id, string text);
         void DeleteComment(Guid id);
         Comment GetCommentById(Guid id);
-        Guid GetBookIdForATarget(Guid id);
     }
 }

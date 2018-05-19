@@ -14,7 +14,7 @@ namespace Business.Interfaces
         string GetFolderWithFile(string userId);
         bool CheckIfHasProfilePicture(string userId);
 
-        List<ApplicationUser> GetAllApplicationUsers();
+        IReadOnlyList<ApplicationUser> GetAllApplicationUsers();
         ApplicationUser GetApplicationUserById(Guid id);
         void CreateApplicationUser(ApplicationUser applicationUser);
         void EditApplicationUser(ApplicationUser applicationUser);

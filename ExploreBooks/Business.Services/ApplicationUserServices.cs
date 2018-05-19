@@ -13,14 +13,16 @@ namespace Business.Services
     public class ApplicationUserServices : IApplicationUserServices
     {
         private readonly IApplicationUserRepository _applicationRepository;
-        private readonly IBookStateGeneralUsage _stateService;
+        private readonly IBookStateRepository _bookStateRepository;
+        private readonly IBookStateMiddleware _stateService;
         private readonly IBookService _bookService;
         private readonly IWorkingWithFiles _fileManagement;
         private readonly string _folder;
 
-        public ApplicationUserServices(IApplicationUserRepository applicationRepository, IBookStateGeneralUsage stateService, IBookService bookService, IWorkingWithFiles fileManagement)
+        public ApplicationUserServices(IApplicationUserRepository applicationRepository, IBookStateRepository bookStateRepository, IBookStateMiddleware stateService, IBookService bookService, IWorkingWithFiles fileManagement)
         {
             _applicationRepository = applicationRepository;
+            _bookStateRepository = bookStateRepository;
             _stateService = stateService;
             _bookService = bookService;
             _fileManagement = fileManagement;
@@ -61,7 +63,7 @@ namespace Business.Services
             return user.ImageName == "profile.jpg";
         }
 
-        public List<ApplicationUser> GetAllApplicationUsers()
+        public IReadOnlyList<ApplicationUser> GetAllApplicationUsers()
         {
             return _applicationRepository.GetAllApplicationUsers();
         }
@@ -124,19 +126,19 @@ namespace Business.Services
                     );
 
                     searchedBook.State = value;
-                    _stateService.CreateBookState(searchedBook);
+                    _bookStateRepository.CreateBookState(searchedBook);
                 }
                 else
                 {
                     searchedBook.State = value;
-                    _stateService.EditBookState(searchedBook);
+                    _bookStateRepository.EditBookState(searchedBook);
                 }
             }
         }
 
         public IEnumerable<Book> GetBooksOfAUser(string userId)
         {
-            var books = _stateService.GetAllBookStates().Where(state => state.UserId.ToString() == userId);
+            var books = _bookStateRepository.GetAllBookStates().Where(state => state.UserId.ToString() == userId);
             var searchedBooks = new List<Book>();
 
             foreach (var book in books)
@@ -165,12 +167,12 @@ namespace Business.Services
 
                     searchedBook.State = 2;
                     searchedBook.IsFavorite = true;
-                    _stateService.CreateBookState(searchedBook);
+                    _bookStateRepository.CreateBookState(searchedBook);
                 }
                 else
                 {
                     searchedBook.IsFavorite = true;
-                    _stateService.EditBookState(searchedBook);
+                    _bookStateRepository.EditBookState(searchedBook);
                 }
             }
         }
@@ -187,7 +189,7 @@ namespace Business.Services
                 if (searchedBook != null)
                 {
                     searchedBook.IsFavorite = false;
-                    _stateService.EditBookState(searchedBook);
+                    _bookStateRepository.EditBookState(searchedBook);
                 }
             }
         }

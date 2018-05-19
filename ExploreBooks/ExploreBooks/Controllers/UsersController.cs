@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Interfaces;
@@ -14,11 +13,11 @@ namespace ExploreBooks.Controllers
     public class UsersController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IBookStateGeneralUsage _stateService;
-        private readonly IUserHistoryService _activityService;
+        private readonly IBookStateMiddleware _stateService;
+        private readonly IUtilityService _activityService;
         private readonly IApplicationUserServices _service;
         
-        public UsersController(UserManager<ApplicationUser> userManager, IUserHistoryService activityService, IBookStateGeneralUsage stateService, IApplicationUserServices service)
+        public UsersController(UserManager<ApplicationUser> userManager, IUtilityService activityService, IBookStateMiddleware stateService, IApplicationUserServices service)
         {
             _userManager = userManager;
             _activityService = activityService;

@@ -15,7 +15,7 @@ namespace Repository.Repositories
         {
             _databaseService = databaseService;
         }
-
+        
         public IReadOnlyList<Comment> GetAllComments()
         {
             return _databaseService.Comments.ToList();
@@ -45,11 +45,6 @@ namespace Repository.Repositories
             _databaseService.Comments.Remove(comment);
 
             _databaseService.SaveChanges();
-        }
-
-        public List<Comment> GetAllComments(Guid targetId)
-        {
-            return _databaseService.Comments.Where(comments => comments.TargetId == targetId).ToList();
         }
     }
 }

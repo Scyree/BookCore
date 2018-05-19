@@ -18,15 +18,15 @@ namespace Domain.Data
         public string ImageName { get; set; }
 
         public ICollection<AuthorBook> Books { get; set; }
-
-        public ICollection<Comment> Comments { get; set; }
+        
+        public ICollection<Post> Posts { get; set; }
 
         public static Author CreateAuthor(string name, string description, string folder, string imageName)
         {
             var instance = new Author
             {
                 Id = Guid.NewGuid(),
-                Comments = new List<Comment>(),
+                Posts = new List<Post>(),
                 Books = new List<AuthorBook>()
             };
 

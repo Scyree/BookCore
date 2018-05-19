@@ -17,9 +17,9 @@ namespace Domain.Data
 
         public int Likes { get; set; }
 
-        public List<Book> Books { get; set; }
+        public ICollection<Book> Books { get; set; }
 
-        public List<Comment> Comments { get; set; }
+        public ICollection<Post> Posts { get; set; }
 
         public static BooksForMood CreateBooksForMood(Guid userId, string title, string description)//, int likes, List<Book> books, List<Comment> comments)
         {
@@ -28,7 +28,7 @@ namespace Domain.Data
                 Id = Guid.NewGuid(),
                 Likes = 0,
                 Books = new List<Book>(),
-                Comments = new List<Comment>()
+                Posts = new List<Post>()
             };
 
             instance.UpdateBooksForMood(userId, title, description);//, likes, books, comments);

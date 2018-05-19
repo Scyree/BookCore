@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Data
 {
-    // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
         public string User { get; set; }
@@ -23,7 +22,7 @@ namespace Domain.Data
 
         public string Description { get; set; }
 
-        public ICollection<Review> Reviews { get; set; }
+        public ICollection<Post> Posts { get; set; }
 
         public ICollection<Recommandation> Recommandations { get; set; }
 

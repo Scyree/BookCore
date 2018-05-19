@@ -5,42 +5,43 @@ using System.Linq;
 using Business.Interfaces;
 using Domain.Data;
 using Microsoft.AspNetCore.Http;
+using Repository.Interfaces;
 using Service.Interfaces;
 
 namespace Business.Services
 {
     public class BookService : IBookService
     {
-        private readonly IBookGeneralUsage _bookService;
+        private readonly IBookRepository _bookRepository;
+        private readonly IAuthorMiddleware _authorService;
+        private readonly IAuthorBookMiddleware _authorBookService;
+        private readonly IGenreBookMiddleware _genreBookService;
         private readonly IWorkingWithFiles _fileManagement;
         private readonly IGenreService _genreService;
-        private readonly IGenreBookService _genreBookService;
-        private readonly IAuthorGeneralUsage _authorService;
-        private readonly IAuthorBookService _authorBookService;
-        private readonly IReviewService _reviewService;
+        private readonly IPostService _postService;
         private readonly string _folder;
 
-        public BookService(IBookGeneralUsage bookService, IWorkingWithFiles fileManagement, IGenreService genreService, IGenreBookService genreBookService, IAuthorGeneralUsage authorService, IAuthorBookService authorBookService, IReviewService reviewService)
+        public BookService(IBookRepository bookRepository, IWorkingWithFiles fileManagement, IGenreService genreService, IGenreBookMiddleware genreBookService, IAuthorMiddleware authorService, IAuthorBookMiddleware authorBookService, IPostService postService)
         {
-            _bookService = bookService;
+            _bookRepository = bookRepository;
             _fileManagement = fileManagement;
             _genreService = genreService;
             _genreBookService = genreBookService;
             _authorService = authorService;
             _authorBookService = authorBookService;
-            _reviewService = reviewService;
+            _postService = postService;
             _folder = "books";
         }
         
         public IReadOnlyList<Book> GetAllBooks()
         {
-            var books = _bookService.GetAllBooks();
+            var books = _bookRepository.GetAllBooks();
 
             foreach (var book in books)
             {
-                book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(book.Id);
-                book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(book.Id);
-                book.Reviews = _reviewService.GetAllReviews().Where(review => review.BookId == book.Id).ToList();
+                book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(book.Id).ToList();
+                book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(book.Id).ToList();
+                book.Posts = _postService.GetAllPosts().Where(post => post.TargetId == book.Id).ToList();
             }
 
             return books;
@@ -53,8 +54,8 @@ namespace Business.Services
             var value = Guid.NewGuid();
             var path = _folder + "\\" + value;
             var imageName = _folder + ".jpg";
-            var finalDescription = "Momentan nu exista o descriere a cartii";
-            var finalDetails = "Momentan nu exista detalii suplimentare ale cartii";
+            var finalDescription = "No description for this book at the moment..";
+            var finalDetails = "There are mysteries surrounding this book..";
 
             if (description != null)
             {
@@ -85,7 +86,7 @@ namespace Business.Services
                 finalDetails
             );
 
-            _bookService.CreateBook(book);
+            _bookRepository.CreateBook(book);
 
             foreach (var genre in genresList)
             {
@@ -100,7 +101,7 @@ namespace Business.Services
 
         public async Task EditBook(Guid id, IFormFile image, string description, string details, string genres, string authors)
         {
-            var bookToBeEdited = _bookService.GetBookById(id);
+            var bookToBeEdited = _bookRepository.GetBookById(id);
 
             if (bookToBeEdited != null)
             {
@@ -142,17 +143,18 @@ namespace Business.Services
                     await _fileManagement.CreateFile(path, image);
                 }
 
-                _bookService.EditBook(bookToBeEdited);
+                _bookRepository.EditBook(bookToBeEdited);
             }
         }
 
         public void DeleteBook(Guid id)
         {
-            var bookToBeDeleted = _bookService.GetBookById(id);
+            var bookToBeDeleted = _bookRepository.GetBookById(id);
 
             if (bookToBeDeleted != null)
             {
-                _bookService.DeleteBook(bookToBeDeleted);
+                _fileManagement.DeleteFolder(bookToBeDeleted.Folder);
+                _bookRepository.DeleteBook(bookToBeDeleted);
                 _authorBookService.DeleteForBookId(id);
                 _genreBookService.DeleteForBookId(id);
             }
@@ -160,13 +162,13 @@ namespace Business.Services
 
         public Book GetBookById(Guid id)
         {
-            var book = _bookService.GetBookById(id);
+            var book = _bookRepository.GetBookById(id);
 
             if (book != null)
             {
-                book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(id);
-                book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(id);
-                book.Reviews = _reviewService.GetAllReviews().Where(review => review.BookId == id).ToList();
+                book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(id).ToList();
+                book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(id).ToList();
+                book.Posts = _postService.GetAllPosts().Where(post => post.TargetId == id).ToList();
 
                 return book;
             }

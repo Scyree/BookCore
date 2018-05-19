@@ -5,6 +5,7 @@ using System.Linq;
 using Business.Interfaces;
 using Domain.Data;
 using Microsoft.AspNetCore.Http;
+using Repository.Interfaces;
 using Service.Interfaces;
 
 namespace Business.Services
@@ -12,29 +13,29 @@ namespace Business.Services
     public class AuthorService : IAuthorService
     {
         private readonly IWorkingWithFiles _fileManagement;
-        private readonly IBookGeneralUsage _bookService;
-        private readonly IAuthorGeneralUsage _authorService;
-        private readonly IAuthorBookService _authorBookService;
-        private readonly ICommentService _commentService;
+        private readonly IBookMiddleware _bookService;
+        private readonly IAuthorBookMiddleware _authorBookService;
+        private readonly IAuthorRepository _authorRepository;
+        private readonly IPostService _postService;
         private readonly string _folder;
 
-        public AuthorService(IAuthorGeneralUsage authorService, IWorkingWithFiles fileManagement, IBookGeneralUsage bookService, IAuthorBookService authorBookService, ICommentService commentService)
+        public AuthorService(IWorkingWithFiles fileManagement, IBookMiddleware bookService, IAuthorBookMiddleware authorBookService, IAuthorRepository authorRepository, IPostService postService)
         {
-            _authorService = authorService;
             _fileManagement = fileManagement;
             _bookService = bookService;
             _authorBookService = authorBookService;
-            _commentService = commentService;
+            _authorRepository = authorRepository;
+            _postService = postService;
             _folder = "authors";
         }
 
         public IReadOnlyList<Author> GetAllAuthors()
         {
-            var authors = _authorService.GetAllAuthors();
+            var authors = _authorRepository.GetAllAuthors();
 
             foreach (var author in authors)
             {
-                author.Books = _authorBookService.GetAllAuthorBooksBasedOnAuthorId(author.Id);
+                author.Books = _authorBookService.GetAllAuthorBooksBasedOnAuthorId(author.Id).ToList();
             }
 
             return authors;
@@ -46,7 +47,7 @@ namespace Business.Services
             var value = Guid.NewGuid();
             var path = _folder + "\\" + value;
             var imageName = _folder + ".jpg";
-            var finalDescription = "Momentan nu exista o descriere a acestui autor";
+            var finalDescription = "No description for this author..";
 
             if (description != null)
             {
@@ -71,7 +72,7 @@ namespace Business.Services
                 imageName
             );
 
-            _authorService.CreateAuthor(author);
+            _authorRepository.CreateAuthor(author);
 
             foreach (var book in bookList)
             {
@@ -81,7 +82,7 @@ namespace Business.Services
 
         public async Task EditAuthor(Guid id, IFormFile image, string name, string description, string books)
         {
-            var authorToBeEdited = _authorService.GetAuthorById(id);
+            var authorToBeEdited = _authorRepository.GetAuthorById(id);
 
             if (authorToBeEdited != null)
             {
@@ -113,29 +114,30 @@ namespace Business.Services
                     await _fileManagement.CreateFile(path, image);
                 }
 
-                _authorService.EditAuthor(authorToBeEdited);
+                _authorRepository.EditAuthor(authorToBeEdited);
             }
         }
 
         public void DeleteAuthor(Guid id)
         {
-            var authorToBeDeleted = _authorService.GetAuthorById(id);
+            var authorToBeDeleted = _authorRepository.GetAuthorById(id);
 
             if (authorToBeDeleted != null)
             {
-                _authorService.DeleteAuthor(authorToBeDeleted);
+                _fileManagement.DeleteFolder(authorToBeDeleted.Folder);
+                _authorRepository.DeleteAuthor(authorToBeDeleted);
                 _authorBookService.DeleteForAuthorId(id);
             }
         }
 
         public Author GetAuthorById(Guid id)
         {
-            var author = _authorService.GetAuthorById(id);
+            var author = _authorRepository.GetAuthorById(id);
 
             if (author != null)
             {
-                author.Books = _authorBookService.GetAllAuthorBooksBasedOnAuthorId(id);
-                author.Comments = _commentService.GetAllComments(author.Id).ToList();
+                author.Books = _authorBookService.GetAllAuthorBooksBasedOnAuthorId(id).ToList();
+                author.Posts = _postService.GetAllPosts().Where(post => post.TargetId == author.Id).ToList();
 
                 return author;
             }

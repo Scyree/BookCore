@@ -83,7 +83,7 @@
                         <div class="media p-3">
                             <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
                             <div class="media-body textAlign">
-                                @using (Html.BeginForm("Create", "Reviews", new {userId = Guid.Parse(userId), bookId = Model.Id, bookRating = 5}, FormMethod.Post, null, new {}))
+                                @using (Html.BeginForm("Create", "Posts", new {userId = Guid.Parse(userId), targetId = Model.Id, bookRating = 5}, FormMethod.Post, null, new {}))
                                 {
                                     <input type="text" id="reviewText" name="reviewText" placeholder="Write a review.."/>
                                     <button type="button" id="reviewButton" class="btn textButton"></button>
@@ -92,7 +92,7 @@
                         </div>
                     }
                     
-                    @Html.Partial("_ReviewsDisplay", Model.Reviews)
+                    @Html.Partial("..\\PartialViews\\_PostsDisplay", Model.Posts)
                    
                 </div>
             </div>
@@ -165,9 +165,7 @@
 </div>
 
 <script>
-    var checkUser = "@SignInManager.IsSignedIn(User)";
-
-    if (checkUser) {
+    if (@SignInManager.IsSignedIn(User)) {
         var commentText = document.getElementById("commentText");
         var reviewText = document.getElementById("reviewText");
 

@@ -9,6 +9,7 @@ namespace ExploreBooks.Controllers
     {
         private readonly ICommentService _service;
 
+
         public CommentsController(ICommentService service)
         {
             _service = service;
@@ -44,28 +45,13 @@ namespace ExploreBooks.Controllers
             return View();
         }
 
-        // POST: Comments/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Create([Bind("UserId, TargetId, Text")] CommentCreateModel commentCreateModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(commentCreateModel);
-        //    }
-
-        //    _service.CreateComment(commentCreateModel.UserId, commentCreateModel.TargetId, commentCreateModel.Text);
-
-        //    return RedirectToAction(nameof(Index));
-        //}
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Guid userId, Guid targetId, string commentText)
+        public IActionResult Create(Guid userId, Guid postId, string commentText)
         {
-            _service.CreateComment(userId, targetId, commentText);
+            _service.CreateComment(userId, postId, commentText);
 
-            return RedirectToAction("Details", "Books", new { @id = _service.GetBookIdForATarget(targetId) });
+            return RedirectToAction("Index", "Books");//, new { @id = _service.GetBookIdForATarget(targetId) });
         }
 
         // GET: Comments/Edit

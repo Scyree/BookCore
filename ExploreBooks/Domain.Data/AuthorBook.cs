@@ -7,7 +7,9 @@ namespace Domain.Data
     {
         [Key]
         public Guid Id { get; set; }
+
         public Guid AuthorId { get; set; }
+
         public Guid BookId { get; set; }
 
         public static AuthorBook CreateAuthorBook(Guid authorId, Guid bookId)

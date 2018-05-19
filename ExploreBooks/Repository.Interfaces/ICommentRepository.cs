@@ -11,7 +11,5 @@ namespace Repository.Interfaces
         void CreateComment(Comment comment);
         void EditComment(Comment comment);
         void DeleteComment(Comment comment);
-
-        List<Comment> GetAllComments(Guid targetId);
     }
 }

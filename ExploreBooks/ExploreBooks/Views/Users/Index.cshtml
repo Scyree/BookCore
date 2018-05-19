@@ -1,5 +1,5 @@
 ﻿@model ExploreBooks.Models.UserViewModels.IndexViewModel
-@inject IUserHistoryService BookService
+@inject IUtilityService Service
 
 @{
     ViewData["Title"] = "Profile";
@@ -8,7 +8,7 @@
 @{
     foreach (var activity in Model.BookActivity)
     {
-        var book = BookService.ConvertFromBookStateToBook(activity.TargetId);
+        var book = Service.GetBookById(activity.TargetId);
         <h3>@activity.DateModified.Date</h3>
         if (@book != null)
         {

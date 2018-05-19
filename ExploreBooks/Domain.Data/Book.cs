@@ -21,7 +21,7 @@ namespace Domain.Data
 
         public virtual ICollection<GenreBook> Genres { get; set; }
 
-        public ICollection<Review> Reviews { get; set; }
+        public ICollection<Post> Posts { get; set; }
         
         public string Details { get; set; }
 
@@ -40,7 +40,7 @@ namespace Domain.Data
                 Id = Guid.NewGuid(),
                 Authors = new List<AuthorBook>(),
                 Genres = new List<GenreBook>(),
-                Reviews = new List<Review>(),
+                Posts = new List<Post>(),
                 Recommandations = new List<Recommandation>(),
                 BuyingSites = new List<BuyingSite>(),
                 Ratings = new List<Rating>(),

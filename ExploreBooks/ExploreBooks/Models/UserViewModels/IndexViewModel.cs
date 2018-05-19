@@ -17,7 +17,7 @@ namespace ExploreBooks.Models.UserViewModels
         
         public IEnumerable<BookState> BookActivity { get; set; }
 
-        public IEnumerable<Review> ReviewActivity { get; set; }
+        public IEnumerable<Post> PostActivity { get; set; }
 
         public string StatusMessage { get; set; }
     }

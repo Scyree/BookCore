@@ -16,12 +16,12 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public List<AuthorBook> GetAllAuthorBooksBasedOnBookId(Guid bookId)
+        public IReadOnlyList<AuthorBook> GetAllAuthorBooksBasedOnBookId(Guid bookId)
         {
             return _databaseService.AuthorBooks.Where(author => author.BookId == bookId).ToList();
         }
 
-        public List<AuthorBook> GetAllAuthorBooksBasedOnAuthorId(Guid authorId)
+        public IReadOnlyList<AuthorBook> GetAllAuthorBooksBasedOnAuthorId(Guid authorId)
         {
             return _databaseService.AuthorBooks.Where(book => book.AuthorId == authorId).ToList();
         }

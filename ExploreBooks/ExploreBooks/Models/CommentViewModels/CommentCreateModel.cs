@@ -6,7 +6,7 @@ namespace ExploreBooks.Models.CommentViewModels
     public class CommentCreateModel
     {
         [Required(ErrorMessage = "Inser a target id")]
-        public Guid TargetId { get; set; }
+        public Guid PostId { get; set; }
 
         [Required(ErrorMessage = "An user is required.")]
         public Guid UserId { get; set; }

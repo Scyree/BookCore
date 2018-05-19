@@ -1,41 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Business.Interfaces;
 using Domain.Data;
+using Repository.Interfaces;
 using Service.Interfaces;
 
 namespace Business.Services
 {
     public class CommentService : ICommentService
     {
-        private readonly ICommentGeneralUsage _commentService;
-        private readonly IReviewGeneralUsage _reviewService;
+        private readonly ICommentMiddleware _commentService;
+        private readonly ICommentRepository _commentRepository;
 
-        public CommentService(ICommentGeneralUsage repository, IReviewGeneralUsage reviewService)
+        public CommentService(ICommentMiddleware repository, ICommentRepository commentRepository)
         {
             _commentService = repository;
-            _reviewService = reviewService;
+            _commentRepository = commentRepository;
         }
 
-        public IReadOnlyList<Comment> GetAllComments(Guid targetId)
+        public IReadOnlyList<Comment> GetAllComments(Guid postId)
         {
-            return _commentService.GetAllCommentsGivenTargetId(targetId);
+            return _commentService.GetAllCommentsGivenPostIdSortedByDate(postId);
         }
         
-        public void CreateComment(Guid userId, Guid targetId, string text)
+        public void CreateComment(Guid userId, Guid postId, string text)
         {
+            Debug.WriteLine("AICI : " + postId);
             var comment = Comment.CreateComment(
                 userId,
-                targetId,
+                postId,
                 text
             );
 
-            _commentService.CreateComment(comment);
+            _commentRepository.CreateComment(comment);
         }
 
         public void EditComment(Guid id, string text)
         {
-            var commentToBeEdited = _commentService.GetCommentById(id);
+            var commentToBeEdited = _commentRepository.GetCommentById(id);
 
             if (commentToBeEdited != null)
             {
@@ -44,28 +47,23 @@ namespace Business.Services
                     commentToBeEdited.Text = text;
                 }
 
-                _commentService.EditComment(commentToBeEdited);
+                _commentRepository.EditComment(commentToBeEdited);
             }
         }
 
         public void DeleteComment(Guid id)
         {
-            var commentToBeDeleted = _commentService.GetCommentById(id);
+            var commentToBeDeleted = _commentRepository.GetCommentById(id);
 
             if (commentToBeDeleted != null)
             {
-                _commentService.DeleteComment(commentToBeDeleted);
+                _commentRepository.DeleteComment(commentToBeDeleted);
             }
         }
 
         public Comment GetCommentById(Guid id)
         {
-            return _commentService.GetCommentById(id);
-        }
-        
-        public Guid GetBookIdForATarget(Guid id)
-        {
-            return _reviewService.GetReviewById(id).BookId;
+            return _commentRepository.GetCommentById(id);
         }
     }
 }

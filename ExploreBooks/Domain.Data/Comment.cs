@@ -11,7 +11,7 @@ namespace Domain.Data
 
         public Guid UserId { get; set; }
 
-        public Guid TargetId { get; set; }
+        public Guid PostId { get; set; }
 
         public string Text { get; set; }
 
@@ -19,7 +19,7 @@ namespace Domain.Data
 
         public DateTime Date { get; set; }
 
-        public static Comment CreateComment(Guid userId, Guid targetId, string text)
+        public static Comment CreateComment(Guid userId, Guid postId, string text)
         {
             var instance = new Comment
             {
@@ -28,15 +28,15 @@ namespace Domain.Data
                 Date = DateTime.UtcNow
             };
 
-            instance.UpdateComment(userId, targetId, text);
+            instance.UpdateComment(userId, postId, text);
 
             return instance;
         }
 
-        private void UpdateComment(Guid userId, Guid targetId, string text)
+        private void UpdateComment(Guid userId, Guid postId, string text)
         {
             UserId = userId;
-            TargetId = targetId;
+            PostId = postId;
             Text = text;
         }
     }
