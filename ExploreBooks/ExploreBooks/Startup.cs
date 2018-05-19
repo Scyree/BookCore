@@ -94,8 +94,9 @@ namespace ExploreBooks
             services.AddTransient<IGenreService, GenreService>();
             services.AddTransient<ILikeService, LikeService>();
             services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<IUserHistoryService, UserHistoryService>();
 
-            
+
             services.AddMvc();
         }
 

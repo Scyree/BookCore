@@ -16,13 +16,16 @@ namespace Domain.Data
 
         public bool IsFavorite { get; set; }
 
+        public DateTime DateModified { get; set; }
+
         public static BookState CreateBookState(Guid userId, Guid targetId)
         {
             var instance = new BookState
             {
                 Id = Guid.NewGuid(),
                 State = 0,
-                IsFavorite = false
+                IsFavorite = false,
+                DateModified = DateTime.UtcNow
             };
 
             instance.UpdateBookState(userId, targetId);

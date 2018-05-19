@@ -4,6 +4,12 @@
     ViewData["Title"] = "Profile";
 }
 
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Profile.css" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+</environment>
+
 <div class="container">
     @{
         var books = Model.Books.ToList();
@@ -18,16 +24,15 @@
                         Start browsing <a asp-controller="Books" asp-action="Index"> here</a> !
                     </h4>
                 }
-                <p>@books.Count</p>
             }
-            @*@for (var index = 0; index < books.Count; ++index)
+           @for (var index = 0; index < books.Count; ++index)
             {
                 var checkIndex = index + 1;
-                var displayInfo = "<h4>" + books[index]. + "</h4><p>" + books[index].Description + "</p>";
+                var displayInfo = "<h4>" + books[index].Title + "</h4><p>" + books[index].Description + "</p>";
 
                 <div class="col-md-3 col-3">
                     <a asp-controller="Books" asp-action="Details" asp-route-id="@books[index].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
-                        <img class="rounded" src="@Url.Content("images\\" + books[index].Folder + "\\" + books[index].ImageName)"/>
+                        <img class="rounded" src="@Url.Content("..\\images\\" + books[index].Folder + "\\" + books[index].ImageName)"/>
                     </a>
                 </div>
 
@@ -35,10 +40,16 @@
                 {
                     <div class="w-100"></div>
                 }
-            }*@
+            }
         </div>
     }
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

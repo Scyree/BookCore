@@ -21,5 +21,8 @@ namespace Business.Interfaces
         void DeleteApplicationUser(ApplicationUser applicationUser);
 
         void ReadActions(Guid bookId, string userId, string actionName);
+        IEnumerable<Book> GetBooksOfAUser(string userId);
+        void AddToFavorites(Guid bookId, string userId);
+        void RemoveFromFavorites(Guid bookId, string userId);
     }
 }

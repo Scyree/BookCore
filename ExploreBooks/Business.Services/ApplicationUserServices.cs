@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Business.Interfaces;
 using Domain.Data;
@@ -128,6 +129,64 @@ namespace Business.Services
                 else
                 {
                     searchedBook.State = value;
+                    _stateService.EditBookState(searchedBook);
+                }
+            }
+        }
+
+        public IEnumerable<Book> GetBooksOfAUser(string userId)
+        {
+            var books = _stateService.GetAllBookStates().Where(state => state.UserId.ToString() == userId);
+            var searchedBooks = new List<Book>();
+
+            foreach (var book in books)
+            {
+                searchedBooks.Add(_bookService.GetBookById(book.TargetId));
+            }
+
+            return searchedBooks;
+        }
+
+        public void AddToFavorites(Guid bookId, string userId)
+        {
+            var book = _bookService.GetBookById(bookId);
+            var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
+
+            if (book != null && user != null)
+            {
+                var searchedBook = _stateService.CheckIfBookAlreadyExists(bookId, Guid.Parse(userId));
+
+                if (searchedBook == null)
+                {
+                    searchedBook = BookState.CreateBookState(
+                        Guid.Parse(userId),
+                        bookId
+                    );
+
+                    searchedBook.State = 2;
+                    searchedBook.IsFavorite = true;
+                    _stateService.CreateBookState(searchedBook);
+                }
+                else
+                {
+                    searchedBook.IsFavorite = true;
+                    _stateService.EditBookState(searchedBook);
+                }
+            }
+        }
+
+        public void RemoveFromFavorites(Guid bookId, string userId)
+        {
+            var book = _bookService.GetBookById(bookId);
+            var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
+
+            if (book != null && user != null)
+            {
+                var searchedBook = _stateService.CheckIfBookAlreadyExists(bookId, Guid.Parse(userId));
+
+                if (searchedBook != null)
+                {
+                    searchedBook.IsFavorite = false;
                     _stateService.EditBookState(searchedBook);
                 }
             }

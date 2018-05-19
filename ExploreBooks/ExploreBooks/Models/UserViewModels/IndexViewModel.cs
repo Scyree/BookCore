@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using Domain.Data;
 
 namespace ExploreBooks.Models.UserViewModels
 {
@@ -9,21 +10,14 @@ namespace ExploreBooks.Models.UserViewModels
         public string LastName { get; set; }
 
         public string Country { get; set; }
-
-        [StringLength(2000, ErrorMessage = "Maximum number of characters is 2000!")]
+        
         public string Description { get; set; }
 
         public string Username { get; set; }
+        
+        public IEnumerable<BookState> BookActivity { get; set; }
 
-        public bool IsEmailConfirmed { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Phone]
-        [Display(Name = "Phone number")]
-        public string PhoneNumber { get; set; }
+        public IEnumerable<Review> ReviewActivity { get; set; }
 
         public string StatusMessage { get; set; }
     }

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Interfaces;
@@ -14,14 +14,14 @@ namespace ExploreBooks.Controllers
     public class UsersController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IBookStateGeneralUsage _stateService;
+        private readonly IUserHistoryService _activityService;
         private readonly IApplicationUserServices _service;
         
-        public UsersController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IBookStateGeneralUsage stateService, IApplicationUserServices service)
+        public UsersController(UserManager<ApplicationUser> userManager, IUserHistoryService activityService, IBookStateGeneralUsage stateService, IApplicationUserServices service)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
+            _activityService = activityService;
             _stateService = stateService;
             _service = service;
         }
@@ -38,13 +38,11 @@ namespace ExploreBooks.Controllers
             var model = new IndexViewModel
             {
                 Username = user.User,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                IsEmailConfirmed = user.EmailConfirmed,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Description = user.Description,
-                Country = user.Country
+                Country = user.Country,
+                BookActivity = _activityService.GetAllBooksForUserId(user.Id)
             };
 
             return View(model);
@@ -68,14 +66,27 @@ namespace ExploreBooks.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            user.Books = _stateService.GetAllBookStates().Where(state => state.UserId.ToString() == user.Id).ToList();
-
             var model = new LibraryViewModel
             {
-                Books = user.Books
+                Books = _service.GetBooksOfAUser(user.Id).ToList()
             };
 
             return View(model);
         }
+
+        public IActionResult AddToFavorites(Guid bookId, string userId)
+        {
+            _service.AddToFavorites(bookId, userId);
+
+            return RedirectToAction("Details", "Books", new {@id = bookId});
+        }
+
+        public IActionResult RemoveFromFavorites(Guid bookId, string userId)
+        {
+            _service.RemoveFromFavorites(bookId, userId);
+
+            return RedirectToAction("Details", "Books", new { @id = bookId });
+        }
+        
     }
 }

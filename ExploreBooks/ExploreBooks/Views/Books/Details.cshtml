@@ -50,6 +50,20 @@
                     <h2 style="font-style: italic">
                         @Model.Title
                     </h2>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        var user = UserManager.GetUserId(User);
+                        <h4>
+                            @using (Html.BeginForm("AddToFavorites", "Users", new {bookId = Model.Id, userId = user}, FormMethod.Post, null, new {}))
+                            {
+                                <button type="submit" class="btn btn-danger"><i class="fa fa-heart"></i></button>
+                            }
+                            @using (Html.BeginForm("RemoveFromFavorites", "Users", new {bookId = Model.Id, userId = user}, FormMethod.Post, null, new {}))
+                            {
+                                <button type="submit" class="btn btn-danger"><i class="fa fa-heart-o"></i></button>
+                            }
+                        </h4>
+                    }
                 </div>
                 <div class="row">
                     <div class="col-md-12 col-12">
