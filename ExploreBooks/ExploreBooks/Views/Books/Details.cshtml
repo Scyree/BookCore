@@ -92,8 +92,7 @@
                         </div>
                     }
                     
-                    @Html.Partial("..\\PartialViews\\_PostsDisplay", Model.Posts)
-                   
+                    @Html.Partial("~/Views/PartialViews/_PostsDisplay.cshtml", Model.Posts)
                 </div>
             </div>
         </div>
@@ -165,21 +164,8 @@
 </div>
 
 <script>
-    if (@SignInManager.IsSignedIn(User)) {
-        var commentText = document.getElementById("commentText");
         var reviewText = document.getElementById("reviewText");
-
-        if (commentText) {
-            commentText.addEventListener("keyup",
-                function (event) {
-                    event.preventDefault();
-
-                    if (event.keyCode == 13) {
-                        document.getElementById("commentButton").click();
-                    }
-                });
-        }
-
+        
         if (reviewText) {
             reviewText.addEventListener("keyup",
                 function (event) {
@@ -200,6 +186,5 @@
         //        }
         //    });
         //});
-
-    } 
+    
 </script>

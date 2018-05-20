@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Comment>
+@inject IApplicationUserServices Service
+@inject ILikeService Likes
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@foreach (var comment in Model)
+{
+    var userCommentId = comment.UserId.ToString();
+    var userId = UserManager.GetUserId(User);
+    <div class="media p-2">
+        <img class="mr-3 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userCommentId))" />
+        <div class="media-body textAlign">
+            <h5>@Service.GetNameOfTheSpecifiedId(userCommentId) <small>on @comment.Date.ToShortDateString()</small></h5>
+            <p>@comment.Text</p>
+
+            @if (SignInManager.IsSignedIn(User))
+            {
+                var likes = "likes" + @comment.Id;
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-outline-dark" onclick="Upvote(this.value, '@Guid.Parse(userId)')" value="@comment.Id"><i class="fa fa-arrow-up"></i></button>
+                    <input type="button" class="btn btn-outline-dark disabled" id="@likes" value="@Likes.GetNumberOfLikes(comment.Id)" />
+                    <button type="submit" class="btn btn-outline-dark" onclick="Downvote(this.value, '@Guid.Parse(userId)')" value="@comment.Id"><i class="fa fa-arrow-down"></i></button>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+<script>
+    function Upvote(target, user) {
+        $.ajax({
+            url: "/Like/Upvote",
+            data: { targetId: target, userId: user },
+            type: "POST",
+            success: function() {
+                $.ajax({
+                    url: "/Like/GetNumberOfLikes?targetId=" + target,
+                    type: "GET",
+                    success: function(response) {
+                        var targetInput = "#likes" + target;
+                        $(targetInput).val(response);
+                    }
+                });
+            }
+        });
+    }
+
+    function Downvote(target, user) {
+        $.ajax({
+            url: "/Like/Downvote",
+            data: { targetId: target, userId: user },
+            type: "POST",
+            success: function() {
+                $.ajax({
+                    url: "/Like/GetNumberOfLikes",
+                    data: { targetId: target },
+                    type: "GET",
+                    success: function(response) {
+                        var targetInput = "#likes" + target;
+                        $(targetInput).val(response);
+                    }
+                });
+            }
+        });
+    }
+</script>
