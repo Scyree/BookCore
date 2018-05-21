@@ -9,6 +9,9 @@
     var userPostId = post.UserId.ToString();
     var userId = UserManager.GetUserId(User);
     var comment = "commentOption" + @post.Id;
+    var submitComment = "commentForm" + @post.Id;
+    var inputComment = "commentText" + @post.Id;
+    var displayComments = "displayComments" + @post.Id;
     var checkUser = SignInManager.IsSignedIn(User);
     <div class="media p-3">
         <img class="mr-3 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userPostId))" />
@@ -20,7 +23,7 @@
 
             @if (checkUser)
             {
-                var likes = "likes" + @post.Id;
+                var likes = "likes" + post.Id;
                 <div class="btn-group">
                     <button type="submit" class="btn btn-outline-dark" onclick="Upvote(this.value, '@Guid.Parse(userId)')" value="@post.Id"><i class="fa fa-arrow-up"></i></button>
                     <input type="button" class="btn btn-outline-dark disabled" id="@likes" value="@Likes.GetNumberOfLikes(post.Id)" />
@@ -29,53 +32,49 @@
                 </div>
             }
            
-            @Html.Partial("~/Views/PartialViews/_CommentsDisplay.cshtml", post.Comments)
-            
+            <div id="@displayComments">
+                @Html.Partial("PartialViews/_CommentsDisplay", post.Comments)
+            </div>
+
             @if (checkUser)
             {
                 <div id="@comment" style="display: none;">
                     <div class="media p-2">
                         <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
                         <div class="media-body textAlign">
-                            @using (Html.BeginForm("Create", "Comments", new { userId = Guid.Parse(userId), postId = post.Id }, FormMethod.Post, null, new { }))
-                            {
-                                <input type="text" id="commentText" name="commentText" placeholder="Write a comment.." />
+                            <form asp-controller="Comments" asp-action="Create" method="post" id="@submitComment" role="form">
+                                @Html.Hidden("userId", Guid.Parse(userId))
+                                @Html.Hidden("postId", post.Id)
+                                <input type="text" id="@inputComment" name="@inputComment" placeholder="Write a comment.."/>
                                 <button type="button" id="commentButton" class="btn textButton"></button>
-                            }
+                            </form>
                         </div>
                     </div>
                 </div>
             }
         </div>
     </div>
+    <script>
+        $("#@submitComment").submit(function (e) {
+            e.preventDefault();
+            var user = "@Guid.Parse(UserManager.GetUserId(User))";
+            var target = "@post.Id";
+            var post = $("#@inputComment").val();
+            $.ajax({
+                url: "/Comments/Create",
+                data: { userId: user, postId: target, commentText: post },
+                type: "POST",
+                success: function() {
+                    var result = "@Url.Action("GetAllCommentsForUserId", "Comments")?postId=" + target;
+                    $("#@displayComments").load(result);
+                    $("#@inputComment").val("");
+                }
+            });
+        });
+    </script>
 }
 
 <script>
-    var postText = document.getElementById("reviewText");
-    var commentText = document.getElementById("commentText");
-
-    if (commentText) {
-        commentText.addEventListener("keyup",
-            function (event) {
-                event.preventDefault();
-
-                if (event.keyCode == 13) {
-                    document.getElementById("commentButton").click();
-                }
-            });
-    }
-
-    if (postText) {
-        postText.addEventListener("keyup",
-            function (event) {
-                event.preventDefault();
-
-                if (event.keyCode == 13) {
-                    document.getElementById("reviewButton").click();
-                }
-            });
-    }
-        
     function displayComment(element) {
         var target = document.getElementById(element);
 
@@ -93,7 +92,8 @@
             type: "POST",
             success: function () {
                 $.ajax({
-                    url: "/Like/GetNumberOfLikes?targetId=" + target,
+                    url: "/Like/GetNumberOfLikes",
+                    data: { targetId: target },
                     type: "GET",
                     success: function (response) {
                         var targetInput = "#likes" + target;

@@ -39,19 +39,15 @@ namespace ExploreBooks.Controllers
             return View(comment);
         }
 
-        // GET: Comments/Create
-        public IActionResult Create()
+        public IActionResult GetAllCommentsForUserId(Guid postId)
         {
-            return View();
+            return PartialView("PartialViews/_CommentsDisplay", _service.GetAllComments(postId));
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Guid userId, Guid postId, string commentText)
+        public void Create(Guid userId, Guid postId, string commentText)
         {
             _service.CreateComment(userId, postId, commentText);
-
-            return RedirectToAction("Index", "Books");//, new { @id = _service.GetBookIdForATarget(targetId) });
         }
 
         // GET: Comments/Edit

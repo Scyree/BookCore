@@ -10,6 +10,7 @@ namespace Business.Interfaces
         IReadOnlyList<Post> GetOnlyFirstNumberOfPosts(int number);
         List<SelectListItem> GetRatingList();
 
+        IReadOnlyList<Post> GetAllPostsForTargetId(Guid targetId);
         IReadOnlyList<Post> GetAllPosts(); 
         void CreatePost(Guid userId, Guid targetId, string description);
         void EditPost(Guid id, string description);

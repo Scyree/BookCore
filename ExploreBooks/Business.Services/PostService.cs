@@ -41,6 +41,18 @@ namespace Business.Services
             return ratingList;
         }
 
+        public IReadOnlyList<Post> GetAllPostsForTargetId(Guid targetId)
+        {
+            var posts = _postService.GetPostsByDate().Where(post => post.TargetId == targetId).ToList();
+
+            foreach (var post in posts)
+            {
+                post.Comments = _commentService.GetAllComments(post.Id).ToList();
+            }
+
+            return posts;
+        }
+
         public IReadOnlyList<Post> GetAllPosts()
         {
             var posts = _postService.GetPostsByDate();

@@ -10,6 +10,7 @@
 
 <environment include="Development">
     <link rel="stylesheet" href="~/css/Book.css" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
 </environment>
 
 <br />
@@ -83,16 +84,19 @@
                         <div class="media p-3">
                             <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
                             <div class="media-body textAlign">
-                                @using (Html.BeginForm("Create", "Posts", new {userId = Guid.Parse(userId), targetId = Model.Id, bookRating = 5}, FormMethod.Post, null, new {}))
-                                {
-                                    <input type="text" id="reviewText" name="reviewText" placeholder="Write a review.."/>
+                                <form asp-controller="Posts" asp-action="Create" method="post" id="postForm" role="form">
+                                    @Html.Hidden("userId", @Guid.Parse(userId))
+                                    @Html.Hidden("targetId", Model.Id)
+                                    <input type="text" id="postText" name="postText" placeholder="Write a review.."/>
                                     <button type="button" id="reviewButton" class="btn textButton"></button>
-                                }
+                                </form>
                             </div>
                         </div>
                     }
-                    
-                    @Html.Partial("~/Views/PartialViews/_PostsDisplay.cshtml", Model.Posts)
+
+                    <div id="displayPosts">
+                        @Html.Partial("PartialViews/_PostsDisplay", Model.Posts)
+                    </div>
                 </div>
             </div>
         </div>
@@ -164,27 +168,20 @@
 </div>
 
 <script>
-        var reviewText = document.getElementById("reviewText");
-        
-        if (reviewText) {
-            reviewText.addEventListener("keyup",
-                function (event) {
-                    event.preventDefault();
-
-                    if (event.keyCode == 13) {
-                        document.getElementById("reviewButton").click();
-                    }
-                });
-        }
-
-        //$("#reviewButton").click(function () {
-        //    $.ajax({
-        //        url: "~/Views/Shared/_ReviewsDisplay.cshtml",
-        //        type: "GET",
-        //        success: function () {
-        //            $("#displayReviews").html("BAKA");
-        //        }
-        //    });
-        //});
-    
+    $("#postForm").submit(function(e) {
+        var user = "@Guid.Parse(UserManager.GetUserId(User))";
+        var target = "@Model.Id";
+        var post = $("#postText").val();
+        e.preventDefault();
+        $.ajax({
+            url: "/Posts/Create",
+            data: { userId: user, targetId: target, postText: post },
+            type: "POST",
+            success: function() {
+                var result = "@Url.Action("GetAllPostsForUserId", "Posts")?targetId=" + target;
+                $("#displayPosts").load(result);
+                $("#postText").val("");
+            }
+        });
+    });
 </script>

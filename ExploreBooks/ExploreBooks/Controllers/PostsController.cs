@@ -39,34 +39,15 @@ namespace ExploreBooks.Controllers
             return View(review);
         }
 
-        // GET: Reviews/Create
-        public IActionResult Create()
+        public IActionResult GetAllPostsForUserId(Guid targetId)
         {
-            return View();
+            return PartialView("PartialViews/_PostsDisplay", _service.GetAllPostsForTargetId(targetId));
         }
 
-        // POST: Reviews/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Create([Bind("UserId, BookId, Description, BookRating")] ReviewCreateModel reviewCreateModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(reviewCreateModel);
-        //    }
-
-        //    _service.CreateReview(reviewCreateModel.UserId, reviewCreateModel.BookId, reviewCreateModel.Description, reviewCreateModel.BookRating);
-
-        //    return RedirectToAction(nameof(Index));
-        //}
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Guid userId, Guid targetId, string reviewText)
+        public void Create(Guid userId, Guid targetId, string postText)
         {
-            _service.CreatePost(userId, targetId, reviewText);
-
-            return RedirectToAction("Details", "Books", new {@id = targetId });
+            _service.CreatePost(userId, targetId, postText);
         }
 
         // GET: Reviews/Edit
