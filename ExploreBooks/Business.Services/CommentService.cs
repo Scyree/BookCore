@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Business.Interfaces;
 using Domain.Data;
 using Repository.Interfaces;
@@ -26,7 +25,6 @@ namespace Business.Services
         
         public void CreateComment(Guid userId, Guid postId, string text)
         {
-            Debug.WriteLine("AICI : " + postId);
             var comment = Comment.CreateComment(
                 userId,
                 postId,

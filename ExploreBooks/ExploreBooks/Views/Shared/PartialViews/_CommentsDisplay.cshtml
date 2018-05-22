@@ -4,15 +4,27 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/PartialPosts.css" />
+</environment>
+
 @foreach (var comment in Model)
 {
     var userCommentId = comment.UserId.ToString();
     var userId = UserManager.GetUserId(User);
+    var displayComment = comment.Id;
+    var inputComment = "inputComment" + comment.Id;
     <div class="media p-2">
         <img class="mr-3 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userCommentId))" />
         <div class="media-body textAlign">
             <h5>@Service.GetNameOfTheSpecifiedId(userCommentId) <small>on @comment.Date.ToShortDateString()</small></h5>
-            <p>@comment.Text</p>
+            <p>
+                @comment.Text
+            </p> 
+            @*<form asp-controller="Comments" asp-action="Edit" method="post" role="form" id="@displayComment">
+                <input type="text" class="displayComment" id="@inputComment" name="@inputComment" value="@comment.Text" />
+                <button type="button" id="commentButton" class="btn textButton"></button>
+            </form>*@
 
             @if (SignInManager.IsSignedIn(User))
             {
@@ -21,6 +33,12 @@
                     <button type="submit" class="btn btn-outline-dark" onclick="Upvote(this.value, '@Guid.Parse(userId)')" value="@comment.Id"><i class="fa fa-arrow-up"></i></button>
                     <input type="button" class="btn btn-outline-dark disabled" id="@likes" value="@Likes.GetNumberOfLikes(comment.Id)" />
                     <button type="submit" class="btn btn-outline-dark" onclick="Downvote(this.value, '@Guid.Parse(userId)')" value="@comment.Id"><i class="fa fa-arrow-down"></i></button>
+                    
+                    @*@if (userId == comment.UserId.ToString())
+                    {
+                        <button type="button" class="btn btn-outline-dark" onclick="Edit(this.value, '@inputComment')" value="@displayComment"><i class="fa fa-arrow-down"></i></button>                   
+                    }*@
+
                 </div>
             }
         </div>
@@ -28,6 +46,25 @@
 }
 
 <script>
+    @*function Edit(target, text) {
+            $(target).submit(function (e) {
+                e.preventDefault();
+                @*var user = "@Guid.Parse(UserManager.GetUserId(User))";
+                var target = "@post.Id";
+                var post = $("#@inputComment").val();
+                $.ajax({
+                    url: "/Comments/Create",
+                    data: { userId: user, postId: target, commentText: post },
+                    type: "POST",
+                    success: function() {
+                        var result = "@Url.Action("GetAllCommentsForUserId", "Comments")?postId=" + target;
+                        $("#@displayComments").load(result);
+                        $("#@inputComment").val("");
+                    }
+                });
+            });
+    }*@
+
     function Upvote(target, user) {
         $.ajax({
             url: "/Like/Upvote",

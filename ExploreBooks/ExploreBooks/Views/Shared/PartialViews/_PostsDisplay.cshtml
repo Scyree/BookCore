@@ -9,9 +9,7 @@
     var userPostId = post.UserId.ToString();
     var userId = UserManager.GetUserId(User);
     var comment = "commentOption" + @post.Id;
-    var submitComment = "commentForm" + @post.Id;
-    var inputComment = "commentText" + @post.Id;
-    var displayComments = "displayComments" + @post.Id;
+    var displayComments = @post.Id;
     var checkUser = SignInManager.IsSignedIn(User);
     <div class="media p-3">
         <img class="mr-3 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userPostId))" />
@@ -42,10 +40,10 @@
                     <div class="media p-2">
                         <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
                         <div class="media-body textAlign">
-                            <form asp-controller="Comments" asp-action="Create" method="post" id="@submitComment" role="form">
+                            <form asp-controller="Comments" asp-action="Create" method="post" class="submitComment" role="form">
                                 @Html.Hidden("userId", Guid.Parse(userId))
                                 @Html.Hidden("postId", post.Id)
-                                <input type="text" id="@inputComment" name="@inputComment" placeholder="Write a comment.."/>
+                                <input type="text" name="commentText" placeholder="Write a comment.."/>
                                 <button type="button" id="commentButton" class="btn textButton"></button>
                             </form>
                         </div>
@@ -54,72 +52,26 @@
             }
         </div>
     </div>
-    <script>
-        $("#@submitComment").submit(function (e) {
-            e.preventDefault();
-            var user = "@Guid.Parse(UserManager.GetUserId(User))";
-            var target = "@post.Id";
-            var post = $("#@inputComment").val();
-            $.ajax({
-                url: "/Comments/Create",
-                data: { userId: user, postId: target, commentText: post },
-                type: "POST",
-                success: function() {
-                    var result = "@Url.Action("GetAllCommentsForUserId", "Comments")?postId=" + target;
-                    $("#@displayComments").load(result);
-                    $("#@inputComment").val("");
-                }
-            });
-        });
-    </script>
 }
 
-<script>
-    function displayComment(element) {
-        var target = document.getElementById(element);
-
-        if (target.style.display === "none") {
-            target.style.display = "block";
-        } else {
-            target.style.display = "none";
-        }
-    }
-    
-    function Upvote(target, user) {
+<environment include="Development">
+    <script>
+    $(".submitComment").submit(function (e) {
+        e.preventDefault();
+        var user = this.userId.value;
+        var target = this.postId.value;
+        var comment = $(this).find("input[name='commentText']").val();
         $.ajax({
-            url: "/Like/Upvote",
-            data: { targetId: target, userId: user },
+            url: "/Comments/Create",
+            data: { userId: user, postId: target, commentText: comment },
             type: "POST",
             success: function () {
-                $.ajax({
-                    url: "/Like/GetNumberOfLikes",
-                    data: { targetId: target },
-                    type: "GET",
-                    success: function (response) {
-                        var targetInput = "#likes" + target;
-                        $(targetInput).val(response);
-                    }
-                });
+                var result = "@Url.Action("GetAllCommentsForUserId", "Comments")?postId=" + target;
+                $("#" + target).load(result);
+                $(".submitComment").trigger("reset");
             }
         });
-    }
-
-    function Downvote(target, user) {
-        $.ajax({
-            url: "/Like/Downvote",
-            data: { targetId: target, userId: user },
-            type: "POST",
-            success: function () {
-                $.ajax({
-                    url: "/Like/GetNumberOfLikes",
-                    data: { targetId: target },
-                    type: "GET",
-                    success: function (response) {
-                        var targetInput = "#likes" + target;
-                        $(targetInput).val(response);
-                    }
-                });
-            }
-        });
-    }
-</script>
+    });
+    </script>
+    <script src="~/js/PostsDisplay.js"></script>
+</environment>

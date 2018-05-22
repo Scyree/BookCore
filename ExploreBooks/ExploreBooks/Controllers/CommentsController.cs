@@ -49,42 +49,28 @@ namespace ExploreBooks.Controllers
         {
             _service.CreateComment(userId, postId, commentText);
         }
+        
 
-        // GET: Comments/Edit
-        public IActionResult Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //[HttpPost]
+        //public void Edit(Guid? id)
+        //{
+        //    if (id != null)
+        //    {
+        //        var comment = _service.GetCommentById(id.Value);
 
-            var comment = _service.GetCommentById(id.Value);
-
-            if (comment == null)
-            {
-                return NotFound();
-            }
-
-            var commentEditModel = new CommentEditModel(
-                comment.Text
-            );
-
-            return View(commentEditModel);
-        }
-
-        // POST: Comments/Edit
+        //        if (comment != null)
+        //        {
+        //            var commentEditModel = new CommentEditModel(
+        //                comment.Text
+        //            );
+        //        }
+        //    }
+        //}
+        
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, [Bind("Text")] CommentEditModel commentEditModel)
+        public void Edit(Guid postId, string commentEdited)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(commentEditModel);
-            }
-
-            _service.EditComment(id, commentEditModel.Text);
-
-            return RedirectToAction(nameof(Index));
+            _service.EditComment(postId, commentEdited);
         }
 
         // GET: Comments/Delete
