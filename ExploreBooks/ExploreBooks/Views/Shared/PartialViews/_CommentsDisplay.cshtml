@@ -17,22 +17,9 @@
         <div class="media-body textAlign">
             <h5>@Service.GetNameOfTheSpecifiedId(userCommentId) <small>on @comment.Date.ToShortDateString()</small></h5>
             
-            @if (userId == comment.UserId.ToString())
-            {
-                <form asp-controller="Comments" asp-action="Edit" method="post" role="form" id="@comment.Id">
-                    @Html.Hidden("postId", comment.PostId)
-                    <span type="text" class="displayComment" name="commentEdited">
-                        @comment.Text
-                    </span>
-                    <button type="button" id="commentButton" class="btn textButton"></button>
-                </form>
-            }
-            else
-            {
-                <p>
-                    @comment.Text
-                </p>
-            }
+            <p id="@comment.Id">
+                @comment.Text
+            </p>
 
             @if (SignInManager.IsSignedIn(User))
             {
@@ -45,6 +32,7 @@
                     @if (userId == comment.UserId.ToString())
                     {
                         <button type="button" class="btn btn-outline-dark" onclick="DeleteComment(this.value, '@comment.PostId')" value="@comment.Id"><i class="fa fa-times"></i></button>                   
+                       // <button type="button" class="btn btn-outline-dark" onclick="EditComment(this.value, '@comment.PostId')" value="@comment.Id"><i class="fa fa-edit"></i></button>                   
                     }
 
                 </div>
@@ -66,6 +54,11 @@
                 }
             });
         }
+        //function EditComment(target, post) {
+        //    $("#" + target).empty();
+        //    $("#baka").prop("display", "block");
+        //    $("#baka").appendTo($("#" + target));
+        //}
         //function Edit(target) {
         //    var comment = "#" + target;
         //    var commentContent = $(comment).find("span[name='commentEdited']");
