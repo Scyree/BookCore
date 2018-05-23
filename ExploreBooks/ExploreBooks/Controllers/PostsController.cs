@@ -13,32 +13,7 @@ namespace ExploreBooks.Controllers
         {
             _service = service;
         }
-
-        // GET: Reviews
-        public IActionResult Index()
-        {
         
-            return View(_service.GetAllPosts());
-        }
-
-        // GET: Reviews/Details
-        public IActionResult Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var review = _service.GetPostById(id.Value);
-
-            if (review == null)
-            {
-                return NotFound();
-            }
-
-            return View(review);
-        }
-
         public IActionResult GetAllPostsForUserId(Guid targetId)
         {
             return PartialView("PartialViews/_PostsDisplay", _service.GetAllPostsForTargetId(targetId));
@@ -49,8 +24,7 @@ namespace ExploreBooks.Controllers
         {
             _service.CreatePost(userId, targetId, postText);
         }
-
-        // GET: Reviews/Edit
+        
         public IActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -73,46 +47,24 @@ namespace ExploreBooks.Controllers
         }
 
         // POST: Reviews/Edit
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Edit(Guid id, PostEditModel reviewEditModel)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(reviewEditModel);
+        //    }
+
+        //    _service.EditPost(id, reviewEditModel.Description);
+
+        //    return RedirectToAction();
+        //}
+        
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, PostEditModel reviewEditModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(reviewEditModel);
-            }
-
-            _service.EditPost(id, reviewEditModel.Description);
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        // GET: Reviews/Delete
-        public IActionResult Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var review = _service.GetPostById(id.Value);
-
-            if (review == null)
-            {
-                return NotFound();
-            }
-
-            return View(review);
-        }
-
-        // POST: Reviews/Delete
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(Guid id)
+        public void Delete(Guid id)
         {
             _service.DeletePost(id);
-
-            return RedirectToAction(nameof(Index));
         }
     }
 }

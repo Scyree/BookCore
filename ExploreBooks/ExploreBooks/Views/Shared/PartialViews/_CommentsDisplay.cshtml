@@ -12,19 +12,27 @@
 {
     var userCommentId = comment.UserId.ToString();
     var userId = UserManager.GetUserId(User);
-    var displayComment = comment.Id;
-    var inputComment = "inputComment" + comment.Id;
     <div class="media p-2">
         <img class="mr-3 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userCommentId))" />
         <div class="media-body textAlign">
             <h5>@Service.GetNameOfTheSpecifiedId(userCommentId) <small>on @comment.Date.ToShortDateString()</small></h5>
-            <p>
-                @comment.Text
-            </p> 
-            @*<form asp-controller="Comments" asp-action="Edit" method="post" role="form" id="@displayComment">
-                <input type="text" class="displayComment" id="@inputComment" name="@inputComment" value="@comment.Text" />
-                <button type="button" id="commentButton" class="btn textButton"></button>
-            </form>*@
+            
+            @if (userId == comment.UserId.ToString())
+            {
+                <form asp-controller="Comments" asp-action="Edit" method="post" role="form" id="@comment.Id">
+                    @Html.Hidden("postId", comment.PostId)
+                    <span type="text" class="displayComment" name="commentEdited">
+                        @comment.Text
+                    </span>
+                    <button type="button" id="commentButton" class="btn textButton"></button>
+                </form>
+            }
+            else
+            {
+                <p>
+                    @comment.Text
+                </p>
+            }
 
             @if (SignInManager.IsSignedIn(User))
             {
@@ -34,10 +42,10 @@
                     <input type="button" class="btn btn-outline-dark disabled" id="@likes" value="@Likes.GetNumberOfLikes(comment.Id)" />
                     <button type="submit" class="btn btn-outline-dark" onclick="Downvote(this.value, '@Guid.Parse(userId)')" value="@comment.Id"><i class="fa fa-arrow-down"></i></button>
                     
-                    @*@if (userId == comment.UserId.ToString())
+                    @if (userId == comment.UserId.ToString())
                     {
-                        <button type="button" class="btn btn-outline-dark" onclick="Edit(this.value, '@inputComment')" value="@displayComment"><i class="fa fa-arrow-down"></i></button>                   
-                    }*@
+                        <button type="button" class="btn btn-outline-dark" onclick="DeleteComment(this.value, '@comment.PostId')" value="@comment.Id"><i class="fa fa-times"></i></button>                   
+                    }
 
                 </div>
             }
@@ -45,60 +53,43 @@
     </div>
 }
 
-<script>
-    @*function Edit(target, text) {
-            $(target).submit(function (e) {
-                e.preventDefault();
-                @*var user = "@Guid.Parse(UserManager.GetUserId(User))";
-                var target = "@post.Id";
-                var post = $("#@inputComment").val();
-                $.ajax({
-                    url: "/Comments/Create",
-                    data: { userId: user, postId: target, commentText: post },
-                    type: "POST",
-                    success: function() {
-                        var result = "@Url.Action("GetAllCommentsForUserId", "Comments")?postId=" + target;
-                        $("#@displayComments").load(result);
-                        $("#@inputComment").val("");
-                    }
-                });
+<environment include="Development">
+    <script>
+        function DeleteComment(target, post) {
+            $.ajax({
+                url: "/Comments/Delete",
+                data: { id: target },
+                type: "POST",
+                success: function () {
+                    var result = "@Url.Action("GetAllCommentsForUserId", "Comments")?postId=" + post;
+                    $("#" + post).load(result);
+                }
             });
-    }*@
+        }
+        //function Edit(target) {
+        //    var comment = "#" + target;
+        //    var commentContent = $(comment).find("span[name='commentEdited']");
 
-    function Upvote(target, user) {
-        $.ajax({
-            url: "/Like/Upvote",
-            data: { targetId: target, userId: user },
-            type: "POST",
-            success: function() {
-                $.ajax({
-                    url: "/Like/GetNumberOfLikes?targetId=" + target,
-                    type: "GET",
-                    success: function(response) {
-                        var targetInput = "#likes" + target;
-                        $(targetInput).val(response);
-                    }
-                });
-            }
-        });
-    }
-
-    function Downvote(target, user) {
-        $.ajax({
-            url: "/Like/Downvote",
-            data: { targetId: target, userId: user },
-            type: "POST",
-            success: function() {
-                $.ajax({
-                    url: "/Like/GetNumberOfLikes",
-                    data: { targetId: target },
-                    type: "GET",
-                    success: function(response) {
-                        var targetInput = "#likes" + target;
-                        $(targetInput).val(response);
-                    }
-                });
-            }
-        });
-    }
-</script>
+        //    if (commentContent.prop("contenteditable") == true) {
+        //        console.log("baka");
+        //        commentContent.contentEditable = false;
+        //    } else {
+        //        commentContent.prop("contenteditable", true);
+        //    }
+            
+        //    $(comment).submit(function (e) {
+        //        e.preventDefault();
+        //        var target = this.postId.value;
+        //        var comment = $(this).find("span[name='commentEdited']").val();
+        //        $.ajax({
+        //            url: "/Comments/Edit",
+        //            data: { postId: target, commentEdited: comment },
+        //            type: "POST",
+        //            success: function () {
+        //                commentContent.prop("contenteditable", false);
+        //            }
+        //        });
+        //    });
+        //}
+    </script>
+</environment>

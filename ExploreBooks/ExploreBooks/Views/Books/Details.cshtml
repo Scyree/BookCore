@@ -84,17 +84,17 @@
                         <div class="media p-3">
                             <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
                             <div class="media-body textAlign">
-                                <form asp-controller="Posts" asp-action="Create" method="post" id="postForm" role="form">
-                                    @Html.Hidden("userId", @Guid.Parse(userId))
+                                <form asp-controller="Posts" asp-action="Create" method="post" class="submitPost" role="form">
+                                    @Html.Hidden("userId", Guid.Parse(userId))
                                     @Html.Hidden("targetId", Model.Id)
-                                    <input type="text" id="postText" name="postText" placeholder="Write a review.."/>
+                                    <input type="text" name="postText" placeholder="Write a review.."/>
                                     <button type="button" id="reviewButton" class="btn textButton"></button>
                                 </form>
                             </div>
                         </div>
                     }
 
-                    <div id="displayPosts">
+                    <div id="@Model.Id">
                         @Html.Partial("PartialViews/_PostsDisplay", Model.Posts)
                     </div>
                 </div>
@@ -167,21 +167,25 @@
     </div>
 </div>
 
-<script>
-    $("#postForm").submit(function(e) {
-        var user = "@Guid.Parse(UserManager.GetUserId(User))";
-        var target = "@Model.Id";
-        var post = $("#postText").val();
+<environment include="Development">
+    <script>
+    $(".submitPost").submit(function (e) {
         e.preventDefault();
+        var user = this.userId.value;
+        var target = this.targetId.value;
+        var post = $(this).find("input[name='postText']").val();
         $.ajax({
             url: "/Posts/Create",
             data: { userId: user, targetId: target, postText: post },
             type: "POST",
             success: function() {
                 var result = "@Url.Action("GetAllPostsForUserId", "Posts")?targetId=" + target;
-                $("#displayPosts").load(result);
-                $("#postText").val("");
+                $("#" + target).load(result);
+                $(".submitPost").trigger("reset");
+                $(":focus").blur();
             }
         });
     });
-</script>
+    </script>
+    <script src="~/js/PostsDisplay.js"></script>
+</environment>

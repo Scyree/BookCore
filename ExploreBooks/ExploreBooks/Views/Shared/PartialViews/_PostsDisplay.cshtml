@@ -27,6 +27,12 @@
                     <input type="button" class="btn btn-outline-dark disabled" id="@likes" value="@Likes.GetNumberOfLikes(post.Id)" />
                     <button type="submit" class="btn btn-outline-dark" onclick="Downvote(this.value, '@Guid.Parse(userId)')" value="@post.Id"><i class="fa fa-arrow-down"></i></button>
                     <button type="button" class="btn btn-outline-dark" value="@comment" onclick="displayComment(this.value)"><i class="fa fa-comment"></i></button>
+                
+                    @if (userId == post.UserId.ToString())
+                    {
+                        <button type="button" class="btn btn-outline-dark" onclick="DeletePost(this.value, '@post.TargetId')" value="@post.Id"><i class="fa fa-times"></i></button>                   
+                    }
+
                 </div>
             }
            
@@ -56,22 +62,35 @@
 
 <environment include="Development">
     <script>
-    $(".submitComment").submit(function (e) {
-        e.preventDefault();
-        var user = this.userId.value;
-        var target = this.postId.value;
-        var comment = $(this).find("input[name='commentText']").val();
-        $.ajax({
-            url: "/Comments/Create",
-            data: { userId: user, postId: target, commentText: comment },
-            type: "POST",
-            success: function () {
-                var result = "@Url.Action("GetAllCommentsForUserId", "Comments")?postId=" + target;
-                $("#" + target).load(result);
-                $(".submitComment").trigger("reset");
-            }
+        function DeletePost(post, target) {
+            $.ajax({
+                url: "/Posts/Delete",
+                data: { id: post },
+                type: "POST",
+                success: function () {
+                    var result = "@Url.Action("GetAllPostsForUserId", "Posts")?targetId=" + target;
+                    $("#" + target).load(result);
+                }
+            });
+        }
+
+        $(".submitComment").submit(function (e) {
+            e.preventDefault();
+            var user = this.userId.value;
+            var target = this.postId.value;
+            var comment = $(this).find("input[name='commentText']").val();
+            $.ajax({
+                url: "/Comments/Create",
+                data: { userId: user, postId: target, commentText: comment },
+                type: "POST",
+                success: function () {
+                    var result = "@Url.Action("GetAllCommentsForUserId", "Comments")?postId=" + target;
+                    $("#" + target).load(result);
+                    $(".submitComment").trigger("reset");
+                    $(":focus").blur();
+                }
+            });
         });
-    });
+
     </script>
-    <script src="~/js/PostsDisplay.js"></script>
 </environment>
