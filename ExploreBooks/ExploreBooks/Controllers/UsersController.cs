@@ -48,10 +48,11 @@ namespace ExploreBooks.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Create(Guid bookId, string userId, string actionName)
         {
             _service.ReadActions(bookId, userId, actionName);
+
+            TempData["ReadAction"] = "Added the book to your " + actionName;
 
             return RedirectToAction("Details", "Books", new { @id = bookId });
         }

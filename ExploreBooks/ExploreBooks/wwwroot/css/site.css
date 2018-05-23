@@ -61,13 +61,13 @@ input {
     font-style: italic;
 }
 
-.dropdown-menu {
-    background-color: #592a1b;
+/*.dropdown-menu {
+    background-color: #D2D2D2;
 }
 
 .dropdown-item {
     color: #e8e4e4;
-}
+}*/
 
 .dropdown-item:hover, .dropdown-item:focus {
     background-color: #B9B1B1;
