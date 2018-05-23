@@ -9,7 +9,7 @@
     foreach (var activity in Model.BookActivity)
     {
         var book = Service.GetBookById(activity.TargetId);
-        <h3>@activity.DateModified.Date</h3>
+        <h3>@activity.DateModified.Date.ToShortDateString()</h3>
         if (@book != null)
         {
             <h4>@book.Title</h4>

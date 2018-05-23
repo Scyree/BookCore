@@ -12,6 +12,7 @@ using Repository.Interfaces;
 using Repository.Repositories;
 using Service.Interfaces;
 using Service.Services;
+using IdentityErrorDescriber = ExploreBooks.Extensions.IdentityErrorDescriber;
 
 namespace ExploreBooks
 {
@@ -29,7 +30,8 @@ namespace ExploreBooks
         {
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddErrorDescriber<IdentityErrorDescriber>();
 
             const string connection = @"Server = .\SQLEXPRESS; Database = ExploreBooks.Development; Trusted_Connection = true;";
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
@@ -94,7 +96,7 @@ namespace ExploreBooks
             services.AddTransient<ILikeService, LikeService>();
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IUtilityService, UtilityService>();
-
+            
 
             services.AddMvc();
         }

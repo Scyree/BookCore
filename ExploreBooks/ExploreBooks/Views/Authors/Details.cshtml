@@ -22,9 +22,6 @@
                 <div class="card card-body bg-light">
                     <img class="rounded" id="imageDetails" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
                 </div>
-                <div class="card card-body bg-light">
-                    <button class="btn btn-secondary">Add to favorites</button>
-                </div>
             </div>
         </div>
         <div class="col-md-9 col-9">
@@ -46,6 +43,9 @@
                 <br />
                 <br />
                 <div class="container border">
+                   
+                </div>
+                <div class="container border">
                     @if (SignInManager.IsSignedIn(User))
                     {
                         var userId = UserManager.GetUserId(User);
@@ -60,38 +60,7 @@
                             </div>
                         </div>
                     }
-
-                    @foreach (var comment in Model.Comments)
-                    {
-                        var userCommentId = comment.UserId.ToString();
-                        <div class="media p-3">
-                            <img class="mr-3 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userCommentId))" />
-                            <div class="media-body textAlign">
-                                <h5>@Service.GetNameOfTheSpecifiedId(userCommentId) <small>on @comment.Date.ToShortDateString()</small></h5>
-                                <p>
-                                    @comment.Text
-                                </p>
-
-                                @if (SignInManager.IsSignedIn(User))
-                                {
-                                    var userId = UserManager.GetUserId(User);
-                                    <div class="btn-group">
-                                        @using (Html.BeginForm("Upvote", "Comments", new { commentId = comment.Id, userId = Guid.Parse(userId) }, FormMethod.Post, null, new { }))
-                                        {
-                                            <button type="submit" class="btn btn-outline-dark"><i class="fa fa-arrow-up"></i></button>
-                                        }
-
-                                        <button class="btn btn-outline-dark disabled">@Likes.GetNumberOfLikes(comment.Id)</button>
-
-                                        @using (Html.BeginForm("Downvote", "Comments", new { commentId = comment.Id, userId = Guid.Parse(userId) }, FormMethod.Post, null, new { }))
-                                        {
-                                            <button type="submit" class="btn btn-outline-dark"><i class="fa fa-arrow-down"></i></button>
-                                        }
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    }
+                    
                 </div>
             </div>
         </div>
