@@ -29,10 +29,6 @@
     background-color: #D2D2D2;
 }
 
-#searchOption {
-    width: 15rem;
-}
-
 #searchOption:focus {
     box-shadow: 0 0 0 0;
 }
@@ -63,4 +59,16 @@ input[type="file"] {
 
 input {
     font-style: italic;
+}
+
+.dropdown-menu {
+    background-color: #592a1b;
+}
+
+.dropdown-item {
+    color: #e8e4e4;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: #B9B1B1;
 }
