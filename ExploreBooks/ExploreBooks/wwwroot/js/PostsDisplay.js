@@ -19,6 +19,7 @@ function Upvote(target, user) {
                 data: { targetId: target },
                 type: "GET",
                 success: function (response) {
+                    console.log(target);
                     var targetInput = "#likes" + target;
                     $(targetInput).val(response);
                 }

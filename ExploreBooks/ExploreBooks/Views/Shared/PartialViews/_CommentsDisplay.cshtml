@@ -5,38 +5,44 @@
 @inject UserManager<ApplicationUser> UserManager
 
 <environment include="Development">
-    <link rel="stylesheet" href="~/css/PartialPosts.css" />
+    <link rel="stylesheet" href="~/css/PartialComments.css" />
 </environment>
 
 @foreach (var comment in Model)
 {
     var userCommentId = comment.UserId.ToString();
     var userId = UserManager.GetUserId(User);
+    var likes = "likes" + @comment.Id;
     <div class="media p-2">
-        <img class="mr-3 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userCommentId))" />
-        <div class="media-body textAlign">
-            <h5>@Service.GetNameOfTheSpecifiedId(userCommentId) <small>on @comment.Date.ToShortDateString()</small></h5>
-            
-            <p id="@comment.Id">
+        <figure class="profile">
+            <img class="mr-0 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userCommentId))"/>
+            <figcaption class="mr-3 btn disabled voteStats">
+                <input type="button" class="btn btn-outline-dark disabled border-0 numberOfVotes" id="@likes" value="@Likes.GetNumberOfLikes(comment.Id)"/>votes
+            </figcaption>
+        </figure>
+        <div class="media-body textAlign commentContent">
+            <h5>@Service.GetNameOfTheSpecifiedId(userCommentId) <small><i>on @comment.Date.ToShortDateString()</i></small></h5>
+            <div>
                 @comment.Text
-            </p>
+            
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <div class="dropdown dropright displayedPosts">
+                        <button type="button" class="btn commentOptions rounded-circle" data-toggle="dropdown"><i class="fa fa-paper-plane"></i></button>
+                        <div class="dropdown-menu">
+                            <button type="submit" class="dropdown-item btn btn-outline-dark" onclick="Upvote(this.value, '@Guid.Parse(userId)')" value="@comment.Id"><i class="fa fa-arrow-up"></i> Upvote</button>
+                            <button type="submit" class="dropdown-item btn btn-outline-dark" onclick="Downvote(this.value, '@Guid.Parse(userId)')" value="@comment.Id"><i class="fa fa-arrow-down"></i> Downvote</button>
 
-            @if (SignInManager.IsSignedIn(User))
-            {
-                var likes = "likes" + @comment.Id;
-                <div class="btn-group">
-                    <button type="submit" class="btn btn-outline-dark" onclick="Upvote(this.value, '@Guid.Parse(userId)')" value="@comment.Id"><i class="fa fa-arrow-up"></i></button>
-                    <input type="button" class="btn btn-outline-dark disabled" id="@likes" value="@Likes.GetNumberOfLikes(comment.Id)" />
-                    <button type="submit" class="btn btn-outline-dark" onclick="Downvote(this.value, '@Guid.Parse(userId)')" value="@comment.Id"><i class="fa fa-arrow-down"></i></button>
-                    
-                    @if (userId == comment.UserId.ToString())
-                    {
-                        <button type="button" class="btn btn-outline-dark" onclick="DeleteComment(this.value, '@comment.PostId')" value="@comment.Id"><i class="fa fa-times"></i></button>                   
-                       // <button type="button" class="btn btn-outline-dark" onclick="EditComment(this.value, '@comment.PostId')" value="@comment.Id"><i class="fa fa-edit"></i></button>                   
-                    }
+                            @if (userId == comment.UserId.ToString())
+                            {
+                                <div class="dropdown-divider"></div>
+                                <button type="button" class="dropdown-item btn btn-outline-dark" onclick="DeleteComment(this.value, '@comment.PostId')" value="@comment.Id"><i class="fa fa-times"></i> Delete</button>
+                            }
 
-                </div>
-            }
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 }

@@ -4,6 +4,11 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+<environment include="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+</environment>
+
 @foreach (var post in Model)
 {
     var userPostId = post.UserId.ToString();
@@ -11,31 +16,40 @@
     var comment = "commentOption" + @post.Id;
     var displayComments = @post.Id;
     var checkUser = SignInManager.IsSignedIn(User);
-    <div class="media p-3">
-        <img class="mr-3 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userPostId))" />
-        <div class="media-body textAlign">
-            <h5>@Service.GetNameOfTheSpecifiedId(userPostId) <small>on @post.Date.ToShortDateString()</small></h5>
-            <p>
+    var likes = "likes" + post.Id;
+    <div class="media p-3 border">
+        <figure class="profile">
+            <img class="mr-0 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userPostId))" />           
+            <figcaption class="mr-3 btn disabled voteStats">
+                <input type="button" class="btn btn-outline-dark disabled border-0 numberOfVotes" id="@likes" value="@Likes.GetNumberOfLikes(post.Id)" />votes
+            </figcaption>
+        </figure>
+        <div class="media-body textAlign postContent">
+            <h5>@Service.GetNameOfTheSpecifiedId(userPostId) <small><i>on @post.Date.ToShortDateString()</i></small></h5>
+            <div>
                 @post.Description
-            </p>
 
-            @if (checkUser)
-            {
-                var likes = "likes" + post.Id;
-                <div class="btn-group">
-                    <button type="submit" class="btn btn-outline-dark" onclick="Upvote(this.value, '@Guid.Parse(userId)')" value="@post.Id"><i class="fa fa-arrow-up"></i></button>
-                    <input type="button" class="btn btn-outline-dark disabled" id="@likes" value="@Likes.GetNumberOfLikes(post.Id)" />
-                    <button type="submit" class="btn btn-outline-dark" onclick="Downvote(this.value, '@Guid.Parse(userId)')" value="@post.Id"><i class="fa fa-arrow-down"></i></button>
-                    <button type="button" class="btn btn-outline-dark" value="@comment" onclick="displayComment(this.value)"><i class="fa fa-comment"></i></button>
-                
-                    @if (userId == post.UserId.ToString())
-                    {
-                        <button type="button" class="btn btn-outline-dark" onclick="DeletePost(this.value, '@post.TargetId')" value="@post.Id"><i class="fa fa-times"></i></button>                   
-                    }
+                @if (checkUser)
+                {
+                    <div class="dropdown dropright displayedPosts">
+                        <button type="button" class="btn postOptions rounded-circle" data-toggle="dropdown"><i class="fa fa-location-arrow"></i></button>
+                        <div class="dropdown-menu">
+                            <button type="submit" class="dropdown-item btn btn-outline-dark" onclick="Upvote(this.value, '@Guid.Parse(userId)')" value="@post.Id"><i class="fa fa-arrow-up"></i> Upvote</button>
+                            <button type="submit" class="dropdown-item btn btn-outline-dark" onclick="Downvote(this.value, '@Guid.Parse(userId)')" value="@post.Id"><i class="fa fa-arrow-down"></i> Downvote</button>
+                            <button type="button" class="dropdown-item btn btn-outline-dark" value="@comment" onclick="displayComment(this.value)"><i class="fa fa-comment"></i> Comment</button>
 
-                </div>
-            }
-           
+                            @if (userId == post.UserId.ToString())
+                            {
+                                <div class="dropdown-divider"></div>
+                                <button type="button" class="dropdown-item btn btn-outline-dark" onclick="DeletePost(this.value, '@post.TargetId')" value="@post.Id"><i class="fa fa-times"></i> Delete</button>
+                            }
+
+                        </div>
+                    </div>
+                }
+            </div>
+            <br/>
+
             <div id="@displayComments">
                 @Html.Partial("PartialViews/_CommentsDisplay", post.Comments)
             </div>
@@ -44,7 +58,7 @@
             {
                 <div id="@comment" style="display: none;">
                     <div class="media p-2">
-                        <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
+                        <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))"/>
                         <div class="media-body textAlign">
                             <form asp-controller="Comments" asp-action="Create" method="post" class="submitComment" role="form">
                                 @Html.Hidden("userId", Guid.Parse(userId))
@@ -58,6 +72,7 @@
             }
         </div>
     </div>
+    <br/>
 }
 
 <environment include="Development">
@@ -94,3 +109,7 @@
 
     </script>
 </environment>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

@@ -11,15 +11,23 @@
     float: right;
 }
 
-.postOptions {
+.commentOptions {
     background: #bfbfbf;
     display: none;
-    font-size: large;
+    font-size: small;
 }
 
-.postContent {
+.commentContent {
     font-size: 1rem;
     font-family: sans-serif;
+}
+
+.commentContent:hover .commentOptions, .commentOptions:hover {
+    display: inline-block;
+}
+
+.commentOptions:focus {
+    display: block;
 }
 
 .profile {
