@@ -28,7 +28,7 @@
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <div class="dropdown dropright displayedPosts">
-                        <button type="button" class="btn commentOptions rounded-circle" data-toggle="dropdown"><i class="fa fa-paper-plane"></i></button>
+                        <button type="button" class="btn commentOptions rounded-circle" data-toggle="dropdown"><i class="fa fa-reply"></i></button>
                         <div class="dropdown-menu">
                             <button type="submit" class="dropdown-item btn btn-outline-dark" onclick="Upvote(this.value, '@Guid.Parse(userId)')" value="@comment.Id"><i class="fa fa-arrow-up"></i> Upvote</button>
                             <button type="submit" class="dropdown-item btn btn-outline-dark" onclick="Downvote(this.value, '@Guid.Parse(userId)')" value="@comment.Id"><i class="fa fa-arrow-down"></i> Downvote</button>
