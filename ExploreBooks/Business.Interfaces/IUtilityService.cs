@@ -14,5 +14,6 @@ namespace Business.Interfaces
         Author GetAuthorById(Guid id);
         Post GetPostById(Guid id);
         Comment GetCommentById(Guid commentId);
+        BookState GetBookStateById(Guid bookId, Guid userId);
     }
 }

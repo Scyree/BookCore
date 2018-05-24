@@ -4,6 +4,8 @@
 @inject IApplicationUserServices Service
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IUtilityService UtilityService
+
 @{
     ViewData["Title"] = "Details";
     var save = TempData["ReadAction"];
@@ -19,7 +21,7 @@
 
 @Html.Partial("_StatusMessage", save)
 
-<div class="container-fluid text-center">
+<div class="container text-center">
     <div class="row">
         <div class="col-md-3 col-3 infoBooks">
             <div class="col-md-12 col-12">
@@ -43,23 +45,24 @@
         <div class="col-md-6 col-6">
             <div class="col-md-12 col-12">
                 <div class="row">
-                    <h2 style="font-style: italic">
+                    <h2 class="col-8" style="font-style: italic">
                         @Model.Title
                     </h2>
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        var user = UserManager.GetUserId(User);
-                        <h4>
-                            @using (Html.BeginForm("AddToFavorites", "Users", new { bookId = Model.Id, userId = user }, FormMethod.Post, null, new { }))
+                    
+                    <div class="col-4">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            var user = UserManager.GetUserId(User);
+                            if (UtilityService.GetBookStateById(Model.Id, Guid.Parse(user)).IsFavorite)
                             {
-                                <button type="submit" class="btn btn-danger"><i class="fa fa-heart"></i></button>
+                                <button type="submit" class="btn btn-secondary" onclick="RemoveFavorite('@Model.Id', '@user')"><i class="fa fa-heart-o"></i></button>
                             }
-                            @using (Html.BeginForm("RemoveFromFavorites", "Users", new { bookId = Model.Id, userId = user }, FormMethod.Post, null, new { }))
+                            else
                             {
-                                <button type="submit" class="btn btn-danger"><i class="fa fa-heart-o"></i></button>
+                                <button type="submit" class="btn btn-danger" onclick="AddFavorite('@Model.Id', '@user')"><i class="fa fa-heart"></i></button>
                             }
-                        </h4>
-                    }
+                        }
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 col-12">
@@ -72,50 +75,58 @@
                 </div>
                 <br />
                 <br />
-                <div class="container border">
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        var userId = UserManager.GetUserId(User);
-                        <div class="media p-3">
-                            <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
-                            <div class="media-body textAlign">
-                                <form asp-controller="Posts" asp-action="Create" method="post" class="submitPost" role="form">
-                                    @Html.Hidden("userId", Guid.Parse(userId))
-                                    @Html.Hidden("targetId", Model.Id)
-                                    <input type="text" name="postText" placeholder="Write a review.." />
-                                    <button type="button" id="reviewButton" class="btn textButton"></button>
-                                </form>
+                @*<div class="container border">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            var userId = UserManager.GetUserId(User);
+                            <div class="media p-3">
+                                <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
+                                <div class="media-body textAlign">
+                                    <form asp-controller="Posts" asp-action="Create" method="post" class="submitPost" role="form">
+                                        @Html.Hidden("userId", Guid.Parse(userId))
+                                        @Html.Hidden("targetId", Model.Id)
+                                        <input type="text" name="postText" placeholder="Write a review.." />
+                                        <button type="button" id="reviewButton" class="btn textButton"></button>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                    }
+                        }
 
-                    <div id="@Model.Id">
-                        @Html.Partial("PartialViews/_PostsDisplay", Model.Posts)
-                    </div>
-                </div>
+                        <div id="@Model.Id">
+                            @Html.Partial("PartialViews/_PostsDisplay", Model.Posts)
+                        </div>
+                    </div>*@
             </div>
         </div>
         <div class="col-md-3 col-3">
             <div class="row">
                 <div class="col-md-12 col-12">
                     <div class="card card-body bg-light">
-                        <h5>Authors:</h5>
+                        <div class="row">
+                            <div class="col"><hr /></div>
+                            <div class="col-auto"><h6>Authors</h6></div>
+                            <div class="col"><hr /></div>
+                        </div>
                         @{
                             var authors = Model.Authors.ToList();
-
+                            var lastAuthor = Authors.GetAuthorById(authors[authors.Count - 1].AuthorId);
                             for (var index = 0; index < authors.Count - 1; ++index)
                             {
                                 var authorDisplay = Authors.GetAuthorById(authors[index].AuthorId);
 
-                                <h7>@authorDisplay.Name, </h7>
+                                <a asp-controller="Authors" asp-action="Details" asp-route-id="@authorDisplay.Id"><h7>@authorDisplay.Name, </h7></a>
                             }
 
-                            @Authors.GetAuthorById(authors[authors.Count - 1].AuthorId).Name
+                            <a asp-controller="Authors" asp-action="Details" asp-route-id="@lastAuthor.Id">@lastAuthor.Name</a>
                         }
                     </div>
                     <br />
                     <div class="card card-body bg-light">
-                        <h5>Genres:</h5>
+                        <div class="row">
+                            <div class="col"><hr /></div>
+                            <div class="col-auto"><h6>Genres</h6></div>
+                            <div class="col"><hr /></div>
+                        </div>
                         <p>
                             @{
                                 var genres = Model.Genres.ToList();
@@ -133,14 +144,22 @@
                     </div>
                     <br />
                     <div class="card card-body bg-light">
-                        <h5>Details:</h5>
+                        <div class="row">
+                            <div class="col"><hr /></div>
+                            <div class="col-auto"><h6>Details</h6></div>
+                            <div class="col"><hr /></div>
+                        </div>
                         <p>
                             @Html.DisplayFor(modelItem => Model.Details)
                         </p>
                     </div>
                     <br />
                     <div class="card card-body bg-light">
-                        <h5>Actions:</h5>
+                        <div class="row">
+                            <div class="col"><hr /></div>
+                            <div class="col-auto"><h6>Actions</h6></div>
+                            <div class="col"><hr /></div>
+                        </div>
                         <p>
                             <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
                             <a asp-action="Index">Back to List</a>
@@ -168,17 +187,6 @@
 
 <environment include="Development">
     <script>
-        function ReadAction(book, user, action) {
-            $.ajax({
-                url: "/Users/Create",
-                data: { bookId: book, userId: user, actionName: action },
-                type: "POST",
-                success: function () {
-                }
-            });
-        }
-    </script>
-    <script>
         $(".submitPost").submit(function(e) {
             e.preventDefault();
             var user = this.userId.value;
@@ -198,4 +206,5 @@
         });
     </script>
     <script src="~/js/PostsDisplay.js"></script>
+    <script src="~/js/Books.js"></script>
 </environment>

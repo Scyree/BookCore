@@ -78,3 +78,16 @@ a:hover {
     border-right: 1px outset grey;
     border-top: 1px outset grey;
 }
+
+hr {
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+}
+
+.titleDisplay {
+    display: inline-block;
+}
+
+/*.actionButton {
+    font-size: 1vw;
+}*/

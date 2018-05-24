@@ -113,5 +113,12 @@ namespace Business.Services
 
             return comment;
         }
+
+        public BookState GetBookStateById(Guid bookId, Guid userId)
+        {
+            var bookState = _stateRepository.GetAllBookStates().SingleOrDefault(bookstate => bookstate.UserId == userId && bookstate.TargetId == bookId);
+
+            return bookState;
+        }
     }
 }
