@@ -42,4 +42,6 @@
 .numberOfVotes {
     border: 0;
     font-style: normal !important;
+    padding-top: 0.1rem;
+    padding-right: 0.2rem;
 }
