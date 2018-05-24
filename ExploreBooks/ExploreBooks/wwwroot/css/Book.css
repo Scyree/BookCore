@@ -2,6 +2,10 @@
     color: black;
 }
 
+.container-fluid {
+    min-height: 100%;
+}
+
 img {
     max-width: 90%;
     max-height: 90%;
@@ -50,10 +54,6 @@ a:hover {
     display: none;
 }
 
-#imageDetails {
-    margin-left: 0.3rem;
-}
-
 #reviewPicture {
     max-width: 60px;
     max-height: 60px;
@@ -86,6 +86,24 @@ hr {
 
 .titleDisplay {
     display: inline-block;
+}
+
+.badge {
+    margin-top: 1rem;
+    width: 5rem;
+    height: 2rem;
+    text-align: center;
+    line-height: 1.3rem;
+}
+
+.progress {
+    height: 2rem;
+    font-size: 0.8vw;
+}
+
+.genreBadge {
+    background-color: #532D2D;
+    color: #C0B2B2;
 }
 
 /*.actionButton {

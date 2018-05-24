@@ -25,37 +25,107 @@
     <div class="row">
         <div class="col-md-3 col-3 infoBooks">
             <div class="col-md-12 col-12">
-                <div class="card card-body bg-light">
-                    <img class="rounded" id="imageDetails" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
-                </div>
+                <img class="rounded" id="imageDetails" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+
                 @if (SignInManager.IsSignedIn(User))
                 {
                     var user = UserManager.GetUserId(User);
-                    <div class="card card-body bg-light">
-                        <button type="submit" class="btn btn-danger" onclick="ReadAction('@Model.Id', '@user', 'Plan to read')">Plan to read</button>
-                        <br />
-                        <button type="submit" class="btn btn-secondary" onclick="ReadAction('@Model.Id', '@user', 'Reading')">Reading</button>
-                        <br />
-                        <button type="submit" class="btn" onclick="ReadAction('@Model.Id', '@user', 'Read')">Read</button>
-                        <br />
-                    </div>
+                    var checkBookState = UtilityService.GetBookStateById(Model.Id, Guid.Parse(user));
+
+                    if (checkBookState != null)
+                    {
+                        if (checkBookState.State == 1)
+                        {
+                            <div class="card card-body bg-light">
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" style="width: 25%">                                        
+                                        <i>On your <a href="#">plan to read</a></i>
+                                    </div>
+                                </div>
+                                <br />
+                                <button type="submit" class="btn btn-info" onclick="ReadAction('@Model.Id', '@user', 'Reading')">Reading</button>
+                                <br />
+                                <button type="submit" class="btn btn-success" onclick="ReadAction('@Model.Id', '@user', 'Read')">Read</button>
+                                <br />
+                            </div>
+                        }
+                        else if (checkBookState.State == 2)
+                        {
+                            <div class="card card-body bg-light">
+                                <button type="submit" class="btn btn-danger" onclick="ReadAction('@Model.Id', '@user', 'Plan to read')">Plan to read</button>
+                                <br />
+                                <div class="progress">
+                                    <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width: 70%">
+                                        <i>On your <a href="#">reading</a> list..</i>
+                                    </div>
+                                </div>
+                                <br />
+                                <button type="submit" class="btn btn-success" onclick="ReadAction('@Model.Id', '@user', 'Read')">Read</button>
+                                <br />
+                            </div>
+                        }
+                        else if (checkBookState.State == 3)
+                        {
+                            <div class="card card-body bg-light">
+                                <button type="submit" class="btn btn-danger" onclick="ReadAction('@Model.Id', '@user', 'Plan to read')">Plan to read</button>
+                                <br />
+                                <button type="submit" class="btn btn-info" onclick="ReadAction('@Model.Id', '@user', 'Reading')">Reading</button>
+                                <br />
+                                <div class="progress">
+                                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%">                                        
+                                        <i>On your <a href="#">read</a> list..</i>
+                                    </div>
+                                </div>
+                                <br />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="card card-body bg-light">
+                                <button type="submit" class="btn btn-danger" onclick="ReadAction('@Model.Id', '@user', 'Plan to read')">Plan to read</button>
+                                <br />
+                                <button type="submit" class="btn btn-info" onclick="ReadAction('@Model.Id', '@user', 'Reading')">Reading</button>
+                                <br />
+                                <button type="submit" class="btn btn-success" onclick="ReadAction('@Model.Id', '@user', 'Read')">Read</button>
+                                <br />
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="card card-body bg-light">
+                            <button type="submit" class="btn btn-danger" onclick="ReadAction('@Model.Id', '@user', 'Plan to read')">Plan to read</button>
+                            <br />
+                            <button type="submit" class="btn btn-info" onclick="ReadAction('@Model.Id', '@user', 'Reading')">Reading</button>
+                            <br />
+                            <button type="submit" class="btn btn-success" onclick="ReadAction('@Model.Id', '@user', 'Read')">Read</button>
+                            <br />
+                        </div>
+                    }
                 }
             </div>
         </div>
         <div class="col-md-6 col-6">
             <div class="col-md-12 col-12">
                 <div class="row">
-                    <h2 class="col-8" style="font-style: italic">
+                    <h2 class="col-8 text-left" style="font-style: italic">
                         @Model.Title
                     </h2>
-                    
                     <div class="col-4">
                         @if (SignInManager.IsSignedIn(User))
                         {
                             var user = UserManager.GetUserId(User);
-                            if (UtilityService.GetBookStateById(Model.Id, Guid.Parse(user)).IsFavorite)
+                            var checkFavorite = UtilityService.GetBookStateById(Model.Id, Guid.Parse(user));
+                            if (checkFavorite != null)
                             {
-                                <button type="submit" class="btn btn-secondary" onclick="RemoveFavorite('@Model.Id', '@user')"><i class="fa fa-heart-o"></i></button>
+                                if (checkFavorite.IsFavorite)
+                                {
+                                    <button type="submit" class="btn btn-secondary" onclick="RemoveFavorite('@Model.Id', '@user')"><i class="fa fa-heart-o"></i></button>
+                                }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-danger" onclick="AddFavorite('@Model.Id', '@user')"><i class="fa fa-heart"></i></button>
+                                }
                             }
                             else
                             {
@@ -65,17 +135,42 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-md-12 col-12 text-left">
+                        <p>
+                            @Model.Description
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    @{
+                        var genres = Model.Genres.ToList();
+                        for (var index = 0; index < genres.Count; ++index)
+                        {
+                            var genreDisplay = Genres.GetGenreById(genres[index].GenreId);
+                            var checkIndex = index + 1;
+
+                            <div class="col-md-2 col-2">
+                                <span class="badge badge-pill genreBadge">@genreDisplay.Text</span>
+                            </div>
+
+                            if (checkIndex % 6 == 0)
+                            {
+                                <div class="w-100"></div>
+                            }
+                        }
+                    }
+                </div>
+                <br />
+                <div class="row text-center">
                     <div class="col-md-12 col-12">
-                        <div class="card card-body bg-light">
-                            <p>
-                                @Model.Description
-                            </p>
-                        </div>
+                        <h4 style="font-style: italic">
+                            Recommendations
+                        </h4>
                     </div>
                 </div>
                 <br />
                 <br />
-                @*<div class="container border">
+                <div class="container border">
                         @if (SignInManager.IsSignedIn(User))
                         {
                             var userId = UserManager.GetUserId(User);
@@ -95,7 +190,7 @@
                         <div id="@Model.Id">
                             @Html.Partial("PartialViews/_PostsDisplay", Model.Posts)
                         </div>
-                    </div>*@
+                </div>
             </div>
         </div>
         <div class="col-md-3 col-3">
@@ -121,27 +216,6 @@
                         }
                     </div>
                     <br />
-                    <div class="card card-body bg-light">
-                        <div class="row">
-                            <div class="col"><hr /></div>
-                            <div class="col-auto"><h6>Genres</h6></div>
-                            <div class="col"><hr /></div>
-                        </div>
-                        <p>
-                            @{
-                                var genres = Model.Genres.ToList();
-
-                                for (var index = 0; index < genres.Count - 1; ++index)
-                                {
-                                    var genreDisplay = Genres.GetGenreById(genres[index].GenreId);
-
-                                    <h7>@genreDisplay.Text, </h7>
-                                }
-
-                                @Genres.GetGenreById(genres[genres.Count - 1].GenreId).Text
-                            }
-                        </p>
-                    </div>
                     <br />
                     <div class="card card-body bg-light">
                         <div class="row">
@@ -154,6 +228,7 @@
                         </p>
                     </div>
                     <br />
+                    <br />
                     <div class="card card-body bg-light">
                         <div class="row">
                             <div class="col"><hr /></div>
@@ -161,18 +236,30 @@
                             <div class="col"><hr /></div>
                         </div>
                         <p>
-                            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-                            <a asp-action="Index">Back to List</a>
+                            <a asp-action="Edit" asp-route-id="@Model.Id"><i class="fa fa-edit"></i>"Edit</a>
+                            <br />
+                            <a asp-action="Index"><i class="fa fa-book"></i> Search for others books</a>
+                            <br />
+                            <a asp-controller="Authors" asp-action="Index"><i class="fa fa-users"></i> Search through authors..</a>
                         </p>
                     </div>
                 </div>
             </div>
             <br />
+            <br />
             <div class="row">
                 <div class="col-md-12 col-12">
                     <div class="card card-body bg-light">
+                        <div class="row">
+                            <div class="col"><hr /></div>
+                            <div class="col-auto"><h6>Buy this book</h6></div>
+                            <div class="col"><hr /></div>
+                        </div>
                         <p>
-                            More stuff..
+                            <a href="#"><i class="fa fa-amazon"></i> amazon</a>
+                            <br />
+                            <a href="#"><i class="fa fa-google"></i> google</a>
+                            <br />
                         </p>
                     </div>
                 </div>

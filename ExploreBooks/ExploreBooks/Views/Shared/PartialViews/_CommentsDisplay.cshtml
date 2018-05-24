@@ -36,7 +36,7 @@
                             @if (userId == comment.UserId.ToString())
                             {
                                 <div class="dropdown-divider"></div>
-                                <button type="button" class="dropdown-item btn btn-outline-dark" onclick="DeleteComment(this.value, '@comment.PostId')" value="@comment.Id"><i class="fa fa-times"></i> Delete</button>
+                                <button type="button" class="dropdown-item btn btn-outline-dark" onclick="DeleteComment(this.value, '@comment.PostId')" value="@comment.Id"><i class="fa fa-eraser"></i> Delete</button>
                             }
 
                         </div>
