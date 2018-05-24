@@ -16,13 +16,15 @@ namespace ExploreBooks.Controllers
         private readonly IBookStateMiddleware _stateService;
         private readonly IUtilityService _activityService;
         private readonly IApplicationUserServices _service;
-        
-        public UsersController(UserManager<ApplicationUser> userManager, IUtilityService activityService, IBookStateMiddleware stateService, IApplicationUserServices service)
+        private readonly IPostService _postService;
+
+        public UsersController(UserManager<ApplicationUser> userManager, IUtilityService activityService, IBookStateMiddleware stateService, IApplicationUserServices service, IPostService postService)
         {
             _userManager = userManager;
             _activityService = activityService;
             _stateService = stateService;
             _service = service;
+            _postService = postService;
         }
 
         [HttpGet]
@@ -69,6 +71,28 @@ namespace ExploreBooks.Controllers
             var model = new LibraryViewModel
             {
                 Books = _service.GetBooksOfAUser(user.Id).ToList()
+            };
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> About()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var model = new AboutViewModel
+            {
+                UserId = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Country = user.Country,
+                Description = user.Description,
+                Posts = _postService.GetAllPostsForTargetId(Guid.Parse(user.Id))
             };
 
             return View(model);

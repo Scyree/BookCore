@@ -17,15 +17,17 @@ namespace Business.Services
         private readonly IBookStateMiddleware _stateService;
         private readonly IBookService _bookService;
         private readonly IWorkingWithFiles _fileManagement;
+        private readonly IPostService _postService;
         private readonly string _folder;
 
-        public ApplicationUserServices(IApplicationUserRepository applicationRepository, IBookStateRepository bookStateRepository, IBookStateMiddleware stateService, IBookService bookService, IWorkingWithFiles fileManagement)
+        public ApplicationUserServices(IApplicationUserRepository applicationRepository, IBookStateRepository bookStateRepository, IBookStateMiddleware stateService, IBookService bookService, IWorkingWithFiles fileManagement, IPostService postService)
         {
             _applicationRepository = applicationRepository;
             _bookStateRepository = bookStateRepository;
             _stateService = stateService;
             _bookService = bookService;
             _fileManagement = fileManagement;
+            _postService = postService;
             _folder = "profile";
         }
 
@@ -65,12 +67,28 @@ namespace Business.Services
 
         public IReadOnlyList<ApplicationUser> GetAllApplicationUsers()
         {
+            var applicationUsers = _applicationRepository.GetAllApplicationUsers();
+
+            foreach (var applicationUser in applicationUsers)
+            {
+                applicationUser.Posts = _postService.GetAllPostsForTargetId(Guid.Parse(applicationUser.Id)).ToList();
+            }
+
             return _applicationRepository.GetAllApplicationUsers();
         }
 
         public ApplicationUser GetApplicationUserById(Guid id)
         {
-            return _applicationRepository.GetApplicationUserById(id);
+            var applicationUser = _applicationRepository.GetApplicationUserById(id);
+
+            if (applicationUser != null)
+            {
+                applicationUser.Posts = _postService.GetAllPostsForTargetId(Guid.Parse(applicationUser.Id)).ToList();
+
+                return _applicationRepository.GetApplicationUserById(id);
+            }
+
+            return null;
         }
 
         public void CreateApplicationUser(ApplicationUser applicationUser)

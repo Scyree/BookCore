@@ -1,0 +1,79 @@
+﻿@model ExploreBooks.Models.UserViewModels.AboutViewModel
+@inject IApplicationUserServices Service
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IUtilityService UtilityService
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/About.css" />
+</environment>
+
+<div class="row justify-content-center">
+    <h3>
+        @Model.FirstName @Model.LastName
+    </h3>
+</div>
+<br />
+<br />
+<div class="row text-left">
+    <h5>
+        @Model.Description
+    </h5>
+</div>
+<br />
+<div class="row text-left">
+    <h7>
+        <i>
+            Country: @Model.Country
+        </i>
+    </h7>
+</div>
+<div class="container border">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var userId = UserManager.GetUserId(User);
+        <div class="media p-3">
+            <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
+            <div class="media-body textAlign">
+                <form asp-controller="Posts" asp-action="Create" method="post" class="submitPost" role="form">
+                    @Html.Hidden("userId", Guid.Parse(userId))
+                    @Html.Hidden("targetId", Model.UserId)
+                    <input type="text" name="postText" placeholder="Do you have something to say about him.." />
+                    <button type="button" id="reviewButton" class="btn textButton"></button>
+                </form>
+            </div>
+        </div>
+    }
+
+    <div id="@Model.UserId">
+        @Html.Partial("PartialViews/_PostsDisplay", Model.Posts)
+    </div>
+</div>
+
+<environment include="Development">
+    <script>
+        $(".submitPost").submit(function(e) {
+            e.preventDefault();
+            var user = this.userId.value;
+            var target = this.targetId.value;
+            var post = $(this).find("input[name='postText']").val();
+            $.ajax({
+                url: "/Posts/Create",
+                data: { userId: user, targetId: target, postText: post },
+                type: "POST",
+                success: function() {
+                    var result = "@Url.Action("GetAllPostsForUserId", "Posts")?targetId=" + target;
+                    $("#" + target).load(result);
+                    $(".submitPost").trigger("reset");
+                    $(":focus").blur();
+                }
+            });
+        });
+    </script>
+    <script src="~/js/PostsDisplay.js"></script>
+</environment>

@@ -25,7 +25,7 @@
     <div class="row">
         <div class="col-md-3 col-3 infoBooks">
             <div class="col-md-12 col-12">
-                <img class="rounded" id="imageDetails" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+                <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
 
                 @if (SignInManager.IsSignedIn(User))
                 {
