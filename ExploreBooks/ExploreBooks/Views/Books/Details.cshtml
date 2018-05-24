@@ -161,35 +161,100 @@
                     }
                 </div>
                 <br />
+                <br />
+                <div class="row text-center">
+                    <div class="col-md-12 col-12">
+                        <h4 style="font-style: italic">
+                            Statistics
+                        </h4>
+                        <span style="float: left;">
+                            87.3% found this book good
+                        </span>
+                        <span style="float: right;">
+                            Your rating: Very Good
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <br />
                 <div class="row text-center">
                     <div class="col-md-12 col-12">
                         <h4 style="font-style: italic">
                             Recommendations
                         </h4>
                     </div>
+                    <div id="recommandation" class="carousel" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="row">
+                                    <div class="col-md-3 col-3">
+                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+                                    </div>
+                                    <div class="col-md-3 col-3">
+                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+                                    </div>
+                                    <div class="col-md-3 col-3">
+                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+                                    </div>
+                                    <div class="col-md-3 col-3">
+                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="row">
+                                    <div class="col-md-3 col-3">
+                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+                                    </div>
+                                    <div class="col-md-3 col-3">
+                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+                                    </div>
+                                    <div class="col-md-3 col-3">
+                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+                                    </div>
+                                    <div class="col-md-3 col-3">
+                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#recommandation" data-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#recommandation" data-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </a>
+                    </div>
                 </div>
                 <br />
                 <br />
+                <div class="row text-center">
+                    <div class="col-md-12 col-12">
+                        <h4 style="font-style: italic">
+                            Community's feedback
+                        </h4>
+                    </div>
+                </div>
                 <div class="container border">
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            var userId = UserManager.GetUserId(User);
-                            <div class="media p-3">
-                                <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
-                                <div class="media-body textAlign">
-                                    <form asp-controller="Posts" asp-action="Create" method="post" class="submitPost" role="form">
-                                        @Html.Hidden("userId", Guid.Parse(userId))
-                                        @Html.Hidden("targetId", Model.Id)
-                                        <input type="text" name="postText" placeholder="Write a review.." />
-                                        <button type="button" id="reviewButton" class="btn textButton"></button>
-                                    </form>
-                                </div>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        var userId = UserManager.GetUserId(User);
+                        <div class="media p-3">
+                            <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))"/>
+                            <div class="media-body textAlign">
+                                <form asp-controller="Posts" asp-action="Create" method="post" class="submitPost" role="form">
+                                    @Html.Hidden("userId", Guid.Parse(userId))
+                                    @Html.Hidden("targetId", Model.Id)
+                                    <input type="text" name="postText" placeholder="Write a review.."/>
+                                    <button type="button" id="reviewButton" class="btn textButton"></button>
+                                </form>
                             </div>
-                        }
-
-                        <div id="@Model.Id">
-                            @Html.Partial("PartialViews/_PostsDisplay", Model.Posts)
                         </div>
+                    }
+
+                    <div id="@Model.Id">
+                        @Html.Partial("PartialViews/_PostsDisplay", Model.Posts)
+                    </div>
                 </div>
             </div>
         </div>
@@ -236,11 +301,13 @@
                             <div class="col"><hr /></div>
                         </div>
                         <p>
-                            <a asp-action="Edit" asp-route-id="@Model.Id"><i class="fa fa-edit"></i>"Edit</a>
+                            <a href="#"><i class="fa fa-book"></i>"Recommend a book</a>
                             <br />
-                            <a asp-action="Index"><i class="fa fa-book"></i> Search for others books</a>
+                            <a asp-action="Index"><i class="fa fa-undo"></i> Search for others books</a>
                             <br />
                             <a asp-controller="Authors" asp-action="Index"><i class="fa fa-users"></i> Search through authors..</a>
+                            <a asp-action="Edit" asp-route-id="@Model.Id"><i class="fa fa-edit"></i>"Edit</a>
+                            <br />
                         </p>
                     </div>
                 </div>
