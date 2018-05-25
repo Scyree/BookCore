@@ -1,7 +1,6 @@
 ﻿using System;
 using Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using ExploreBooks.Models.PostViewModels;
 
 namespace ExploreBooks.Controllers
 {
@@ -14,7 +13,7 @@ namespace ExploreBooks.Controllers
             _service = service;
         }
         
-        public IActionResult GetAllPostsForUserId(Guid targetId)
+        public IActionResult GetAllPostsForTargetId(Guid targetId)
         {
             return PartialView("PartialViews/_PostsDisplay", _service.GetAllPostsForTargetId(targetId));
         }
@@ -24,42 +23,12 @@ namespace ExploreBooks.Controllers
         {
             _service.CreatePost(userId, targetId, postText);
         }
-        
-        public IActionResult Edit(Guid? id)
+
+        [HttpPost]
+        public void Edit(Guid postId, string postEdited)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var review = _service.GetPostById(id.Value);
-
-            if (review == null)
-            {
-                return NotFound();
-            }
-
-            var reviewEditModel = new PostEditModel(
-                review.Description
-            );
-
-            return View(reviewEditModel);
+            _service.EditPost(postId, postEdited);
         }
-
-        // POST: Reviews/Edit
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Edit(Guid id, PostEditModel reviewEditModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(reviewEditModel);
-        //    }
-
-        //    _service.EditPost(id, reviewEditModel.Description);
-
-        //    return RedirectToAction();
-        //}
         
         [HttpPost]
         public void Delete(Guid id)

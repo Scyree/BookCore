@@ -18,6 +18,18 @@ namespace Business.Services
             _commentRepository = commentRepository;
         }
 
+        public IReadOnlyList<Comment> GetAllComentsForThePostGivenCommentId(Guid commentId)
+        {
+            var post = _commentRepository.GetCommentById(commentId);
+
+            if (post != null)
+            {
+                return _commentService.GetAllCommentsGivenPostIdSortedByDate(post.PostId);
+            }
+
+            return null;
+        }
+
         public IReadOnlyList<Comment> GetAllComments(Guid postId)
         {
             return _commentService.GetAllCommentsGivenPostIdSortedByDate(postId);

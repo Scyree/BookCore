@@ -5,7 +5,7 @@
 @inject IUtilityService UtilityService
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "About";
     Layout = "_Layout";
 }
 
@@ -43,7 +43,7 @@
                 <form asp-controller="Posts" asp-action="Create" method="post" class="submitPost" role="form">
                     @Html.Hidden("userId", Guid.Parse(userId))
                     @Html.Hidden("targetId", Model.UserId)
-                    <input type="text" name="postText" placeholder="Do you have something to say about him.." />
+                    <input type="text" name="postText" placeholder="Do you have something?" />
                     <button type="button" id="reviewButton" class="btn textButton"></button>
                 </form>
             </div>
@@ -54,26 +54,3 @@
         @Html.Partial("PartialViews/_PostsDisplay", Model.Posts)
     </div>
 </div>
-
-<environment include="Development">
-    <script>
-        $(".submitPost").submit(function(e) {
-            e.preventDefault();
-            var user = this.userId.value;
-            var target = this.targetId.value;
-            var post = $(this).find("input[name='postText']").val();
-            $.ajax({
-                url: "/Posts/Create",
-                data: { userId: user, targetId: target, postText: post },
-                type: "POST",
-                success: function() {
-                    var result = "@Url.Action("GetAllPostsForUserId", "Posts")?targetId=" + target;
-                    $("#" + target).load(result);
-                    $(".submitPost").trigger("reset");
-                    $(":focus").blur();
-                }
-            });
-        });
-    </script>
-    <script src="~/js/PostsDisplay.js"></script>
-</environment>

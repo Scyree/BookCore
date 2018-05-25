@@ -13,8 +13,13 @@ namespace ExploreBooks.Controllers
         {
             _service = service;
         }
-        
-        public IActionResult GetAllCommentsForUserId(Guid postId)
+
+        public IActionResult GetAllCommentsForPostGivenCommentId(Guid commentId)
+        {
+            return PartialView("PartialViews/_CommentsDisplay", _service.GetAllComentsForThePostGivenCommentId(commentId));
+        }
+
+        public IActionResult GetAllCommentsForPostId(Guid postId)
         {
             return PartialView("PartialViews/_CommentsDisplay", _service.GetAllComments(postId));
         }
@@ -26,9 +31,9 @@ namespace ExploreBooks.Controllers
         }
         
         [HttpPost]
-        public void Edit(Guid postId, string commentEdited)
+        public void Edit(Guid commentId, string commentEdited)
         {
-            _service.EditComment(postId, commentEdited);
+            _service.EditComment(commentId, commentEdited);
         }
         
         [HttpPost]

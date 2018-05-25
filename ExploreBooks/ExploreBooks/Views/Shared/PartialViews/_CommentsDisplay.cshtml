@@ -4,27 +4,25 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<environment include="Development">
-    <link rel="stylesheet" href="~/css/PartialComments.css" />
-</environment>
-
 @foreach (var comment in Model)
 {
     var userCommentId = comment.UserId.ToString();
     var userId = UserManager.GetUserId(User);
     var likes = "likes" + @comment.Id;
+    var editModal = "editModal" + @comment.Id;
+    var deleteModal = "deleteModal" + @comment.Id;
     <div class="media p-2">
         <figure class="profile">
-            <img class="mr-0 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userCommentId))"/>
+            <img class="mr-0 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userCommentId))" />
             <figcaption class="mr-3 btn disabled voteStats">
-                <input type="button" class="btn btn-outline-dark disabled border-0 numberOfVotes" id="@likes" value="@Likes.GetNumberOfLikes(comment.Id)"/>votes
+                <input type="button" class="btn btn-outline-dark disabled border-0 numberOfVotes" id="@likes" value="@Likes.GetNumberOfLikes(comment.Id)" />votes
             </figcaption>
         </figure>
         <div class="media-body textAlign commentContent">
             <h5>@Service.GetNameOfTheSpecifiedId(userCommentId) <small><i>on @comment.Date.ToShortDateString()</i></small></h5>
             <div>
                 @comment.Text
-            
+
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <div class="dropdown dropright displayedPosts">
@@ -36,59 +34,23 @@
                             @if (userId == comment.UserId.ToString())
                             {
                                 <div class="dropdown-divider"></div>
-                                <button type="button" class="dropdown-item btn btn-outline-dark" onclick="DeleteComment(this.value, '@comment.PostId')" value="@comment.Id"><i class="fa fa-eraser"></i> Delete</button>
+                                <button type="button" class="dropdown-item btn btn-outline-dark" data-toggle="modal" data-target="#@deleteModal"><i class="fa fa-eraser"></i> Delete</button>
+                                <button type="button" class="dropdown-item btn btn-outline-dark" data-toggle="modal" data-target="#@editModal"><i class="fa fa-edit"></i> Edit</button>
                             }
-
                         </div>
                     </div>
                 }
             </div>
         </div>
     </div>
+
+    if (userId == comment.UserId.ToString())
+    {
+        @Html.Partial("PartialViews/_EditComment", comment.Id)
+    }
+
+    if (userId == comment.UserId.ToString())
+    {
+        @Html.Partial("PartialViews/_ConfirmDeleteComment", comment.Id)
+    }
 }
-
-<environment include="Development">
-    <script>
-        function DeleteComment(target, post) {
-            $.ajax({
-                url: "/Comments/Delete",
-                data: { id: target },
-                type: "POST",
-                success: function () {
-                    var result = "@Url.Action("GetAllCommentsForUserId", "Comments")?postId=" + post;
-                    $("#" + post).load(result);
-                }
-            });
-        }
-        //function EditComment(target, post) {
-        //    $("#" + target).empty();
-        //    $("#baka").prop("display", "block");
-        //    $("#baka").appendTo($("#" + target));
-        //}
-        //function Edit(target) {
-        //    var comment = "#" + target;
-        //    var commentContent = $(comment).find("span[name='commentEdited']");
-
-        //    if (commentContent.prop("contenteditable") == true) {
-        //        console.log("baka");
-        //        commentContent.contentEditable = false;
-        //    } else {
-        //        commentContent.prop("contenteditable", true);
-        //    }
-            
-        //    $(comment).submit(function (e) {
-        //        e.preventDefault();
-        //        var target = this.postId.value;
-        //        var comment = $(this).find("span[name='commentEdited']").val();
-        //        $.ajax({
-        //            url: "/Comments/Edit",
-        //            data: { postId: target, commentEdited: comment },
-        //            type: "POST",
-        //            success: function () {
-        //                commentContent.prop("contenteditable", false);
-        //            }
-        //        });
-        //    });
-        //}
-    </script>
-</environment>

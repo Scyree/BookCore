@@ -8,18 +8,15 @@
 
 @{
     ViewData["Title"] = "Details";
-    var save = TempData["ReadAction"];
 }
 
 <environment include="Development">
     <link rel="stylesheet" href="~/css/Book.css" />
-    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <link rel="stylesheet" href="~/css/PartialPosts.css" />
 </environment>
 
 <br />
 <br />
-
-@Html.Partial("_StatusMessage", save)
 
 <div class="container text-center">
     <div class="row">
@@ -29,79 +26,7 @@
 
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    var user = UserManager.GetUserId(User);
-                    var checkBookState = UtilityService.GetBookStateById(Model.Id, Guid.Parse(user));
-
-                    if (checkBookState != null)
-                    {
-                        if (checkBookState.State == 1)
-                        {
-                            <div class="card card-body bg-light">
-                                <div class="progress">
-                                    <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" style="width: 25%">                                        
-                                        <i>On your <a href="#">plan to read</a></i>
-                                    </div>
-                                </div>
-                                <br />
-                                <button type="submit" class="btn btn-info" onclick="ReadAction('@Model.Id', '@user', 'Reading')">Reading</button>
-                                <br />
-                                <button type="submit" class="btn btn-success" onclick="ReadAction('@Model.Id', '@user', 'Read')">Read</button>
-                                <br />
-                            </div>
-                        }
-                        else if (checkBookState.State == 2)
-                        {
-                            <div class="card card-body bg-light">
-                                <button type="submit" class="btn btn-danger" onclick="ReadAction('@Model.Id', '@user', 'Plan to read')">Plan to read</button>
-                                <br />
-                                <div class="progress">
-                                    <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width: 70%">
-                                        <i>On your <a href="#">reading</a> list..</i>
-                                    </div>
-                                </div>
-                                <br />
-                                <button type="submit" class="btn btn-success" onclick="ReadAction('@Model.Id', '@user', 'Read')">Read</button>
-                                <br />
-                            </div>
-                        }
-                        else if (checkBookState.State == 3)
-                        {
-                            <div class="card card-body bg-light">
-                                <button type="submit" class="btn btn-danger" onclick="ReadAction('@Model.Id', '@user', 'Plan to read')">Plan to read</button>
-                                <br />
-                                <button type="submit" class="btn btn-info" onclick="ReadAction('@Model.Id', '@user', 'Reading')">Reading</button>
-                                <br />
-                                <div class="progress">
-                                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%">                                        
-                                        <i>On your <a href="#">read</a> list..</i>
-                                    </div>
-                                </div>
-                                <br />
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="card card-body bg-light">
-                                <button type="submit" class="btn btn-danger" onclick="ReadAction('@Model.Id', '@user', 'Plan to read')">Plan to read</button>
-                                <br />
-                                <button type="submit" class="btn btn-info" onclick="ReadAction('@Model.Id', '@user', 'Reading')">Reading</button>
-                                <br />
-                                <button type="submit" class="btn btn-success" onclick="ReadAction('@Model.Id', '@user', 'Read')">Read</button>
-                                <br />
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        <div class="card card-body bg-light">
-                            <button type="submit" class="btn btn-danger" onclick="ReadAction('@Model.Id', '@user', 'Plan to read')">Plan to read</button>
-                            <br />
-                            <button type="submit" class="btn btn-info" onclick="ReadAction('@Model.Id', '@user', 'Reading')">Reading</button>
-                            <br />
-                            <button type="submit" class="btn btn-success" onclick="ReadAction('@Model.Id', '@user', 'Read')">Read</button>
-                            <br />
-                        </div>
-                    }
+                    @Html.Partial("PartialViews/_BookReadActions", Model);
                 }
             </div>
         </div>
@@ -335,30 +260,6 @@
     </div>
 </div>
 
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-}
-
 <environment include="Development">
-    <script>
-        $(".submitPost").submit(function(e) {
-            e.preventDefault();
-            var user = this.userId.value;
-            var target = this.targetId.value;
-            var post = $(this).find("input[name='postText']").val();
-            $.ajax({
-                url: "/Posts/Create",
-                data: { userId: user, targetId: target, postText: post },
-                type: "POST",
-                success: function() {
-                    var result = "@Url.Action("GetAllPostsForUserId", "Posts")?targetId=" + target;
-                    $("#" + target).load(result);
-                    $(".submitPost").trigger("reset");
-                    $(":focus").blur();
-                }
-            });
-        });
-    </script>
-    <script src="~/js/PostsDisplay.js"></script>
     <script src="~/js/Books.js"></script>
 </environment>

@@ -81,8 +81,107 @@
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/PostsDisplay.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script>
+        function DeletePost(post, target) {
+            $.ajax({
+                url: "/Posts/Delete",
+                data: { id: post },
+                type: "POST",
+                success: function () {
+                    var result = "@Url.Action("GetAllPostsForTargetId", "Posts")?targetId=" + target;
+                    var deleteModal = "#deleteModal" + post;
+                    $("#" + target).load(result);
+                    $(".modal-backdrop").remove();
+                    $("body").removeClass("modal-open");
+                    $(deleteModal).hide();
+                }
+            });
+        }
+
+        function DeleteComment(target, post) {
+            $.ajax({
+                url: "/Comments/Delete",
+                data: { id: target },
+                type: "POST",
+                success: function () {
+                    var result = "@Url.Action("GetAllCommentsForPostId", "Comments")?postId=" + post;
+                    var deleteModal = "#deleteModal" + target;
+                    $("#" + post).load(result);
+                    $(".modal-backdrop").remove();
+                    $("body").removeClass("modal-open");
+                    $(deleteModal).hide();
+                }
+            });
+        }
+
+        $(".submitComment").submit(function (e) {
+            e.preventDefault();
+            var user = this.userId.value;
+            var target = this.postId.value;
+            var comment = $(this).find("input[name='commentText']").val();
+            $.ajax({
+                url: "/Comments/Create",
+                data: { userId: user, postId: target, commentText: comment },
+                type: "POST",
+                success: function () {
+                    var result = "@Url.Action("GetAllCommentsForPostId", "Comments")?postId=" + target;
+                    $("#" + target).load(result);
+                    $(".submitComment").trigger("reset");
+                    $(":focus").blur();
+                }
+            });
+        });
+
+        $(".submitCommentEdit").submit(function (e) {
+            e.preventDefault();
+            var target = this.commentId.value;
+            var comment = $(this).find("textarea[name='commentText']").val();
+            $.ajax({
+                url: "/Comments/Edit",
+                data: { commentId: target, commentEdited: comment },
+                type: "POST",
+                success: function () {
+                    location.reload();
+                }
+            });
+        });
+
+        $(".submitPostEdit").submit(function (e) {
+            e.preventDefault();
+            var target = this.postId.value;
+            var post = $(this).find("textarea[name='postText']").val();
+            $.ajax({
+                url: "/Posts/Edit",
+                data: { postId: target, postEdited: post },
+                type: "POST",
+                success: function () {
+                    location.reload();
+                }
+            });
+        });
+
+        $(".submitPost").submit(function(e) {
+            e.preventDefault();
+            var user = this.userId.value;
+            var target = this.targetId.value;
+            var post = $(this).find("input[name='postText']").val();
+            $.ajax({
+                url: "/Posts/Create",
+                data: { userId: user, targetId: target, postText: post },
+                type: "POST",
+                success: function() {
+                    var result = "@Url.Action("GetAllPostsForTargetId", "Posts")?targetId=" + target;
+                    $("#" + target).load(result);
+                    $(".submitPost").trigger("reset");
+                    $(":focus").blur();
+                }
+            });
+        });
+        </script>
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"

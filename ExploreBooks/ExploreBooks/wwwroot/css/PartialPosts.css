@@ -1,37 +1,11 @@
-﻿.displayComment {
-    background-color: #ffffff;
-    border: none;
-}
-
-.dropdown-menu {
-    width: 20px !important;
-}
-
-.displayedPosts {
-    float: right;
-}
-
-.postOptions {
-    background: #bfbfbf;
-    display: none;
-    font-size: large;
-}
-
-.postContent {
+﻿.postContent {
     font-size: 1rem;
     font-family: sans-serif;
 }
 
-.profile {
-    display: inline-block;
-    text-align: center;
-}
-
-.voteStats {
-    display: block;
-}
-
-.numberOfVotes {
-    border: 0;
-    font-style: normal !important;
+#reviewPicture {
+    max-width: 60px;
+    max-height: 60px;
+    width: 60px;
+    height: 60px;
 }

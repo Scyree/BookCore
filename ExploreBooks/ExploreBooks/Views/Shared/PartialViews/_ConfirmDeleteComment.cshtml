@@ -1,0 +1,31 @@
+﻿@model Guid
+@inject IUtilityService UtilityService
+
+@{
+    var deleteModal = "deleteModal" + Model;
+    var post = UtilityService.GetCommentById(Model).PostId;
+}
+
+<div class="modal fade" id="@deleteModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <p class="modal-title mx-auto mw-100">
+                    <strong>
+                        Are you sure about this?
+                    </strong>
+                </p>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-6 text-right">
+                        <button type="button" onclick="DeleteComment('@Model', '@post')" class="btn btn-success deleteButton">Yes</button>
+                    </div>
+                    <div class="col-md-6 col-6 text-left">
+                        <button type="button" data-dismiss="modal" class="btn btn-danger deleteButton">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

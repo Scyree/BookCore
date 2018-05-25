@@ -1,0 +1,79 @@
+﻿@model Book
+@inject UserManager<ApplicationUser> UserManager
+@inject IUtilityService UtilityService
+
+@{
+    var user = UserManager.GetUserId(User);
+    var checkBookState = UtilityService.GetBookStateById(Model.Id, Guid.Parse(user));
+}
+
+@if (checkBookState != null)
+{
+    if (checkBookState.State == 1)
+    {
+        <div class="card card-body bg-light">
+            <div class="progress">
+                <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" style="width: 25%">
+                    <i>On your <a href="#">plan to read</a></i>
+                </div>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-info" onclick="ReadAction('@Model.Id', '@user', 'Reading')">Reading</button>
+            <br />
+            <button type="submit" class="btn btn-success" onclick="ReadAction('@Model.Id', '@user', 'Read')">Read</button>
+            <br />
+        </div>
+    }
+    else if (checkBookState.State == 2)
+    {
+        <div class="card card-body bg-light">
+            <button type="submit" class="btn btn-danger" onclick="ReadAction('@Model.Id', '@user', 'Plan to read')">Plan to read</button>
+            <br />
+            <div class="progress">
+                <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width: 70%">
+                    <i>On your <a href="#">reading</a> list..</i>
+                </div>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-success" onclick="ReadAction('@Model.Id', '@user', 'Read')">Read</button>
+            <br />
+        </div>
+    }
+    else if (checkBookState.State == 3)
+    {
+        <div class="card card-body bg-light">
+            <button type="submit" class="btn btn-danger" onclick="ReadAction('@Model.Id', '@user', 'Plan to read')">Plan to read</button>
+            <br />
+            <button type="submit" class="btn btn-info" onclick="ReadAction('@Model.Id', '@user', 'Reading')">Reading</button>
+            <br />
+            <div class="progress">
+                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%">
+                    <i>On your <a href="#">read</a> list..</i>
+                </div>
+            </div>
+            <br />
+        </div>
+    }
+    else
+    {
+        <div class="card card-body bg-light">
+            <button type="submit" class="btn btn-danger" onclick="ReadAction('@Model.Id', '@user', 'Plan to read')">Plan to read</button>
+            <br />
+            <button type="submit" class="btn btn-info" onclick="ReadAction('@Model.Id', '@user', 'Reading')">Reading</button>
+            <br />
+            <button type="submit" class="btn btn-success" onclick="ReadAction('@Model.Id', '@user', 'Read')">Read</button>
+            <br />
+        </div>
+    }
+}
+else
+{
+    <div class="card card-body bg-light">
+        <button type="submit" class="btn btn-danger" onclick="ReadAction('@Model.Id', '@user', 'Plan to read')">Plan to read</button>
+        <br />
+        <button type="submit" class="btn btn-info" onclick="ReadAction('@Model.Id', '@user', 'Reading')">Reading</button>
+        <br />
+        <button type="submit" class="btn btn-success" onclick="ReadAction('@Model.Id', '@user', 'Read')">Read</button>
+        <br />
+    </div>
+}
