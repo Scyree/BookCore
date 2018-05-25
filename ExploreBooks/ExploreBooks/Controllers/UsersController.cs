@@ -85,17 +85,19 @@ namespace ExploreBooks.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var model = new AboutViewModel
-            {
-                UserId = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Country = user.Country,
-                Description = user.Description,
-                Posts = _postService.GetAllPostsForTargetId(Guid.Parse(user.Id))
-            };
+            user.Posts = _postService.GetAllPostsForTargetId(Guid.Parse(user.Id)).ToList();
+            user.Books = _stateService.GetAllBookStatesByUserId(Guid.Parse(user.Id)).ToList();
+            //var model = new AboutViewModel
+            //{
+            //    UserId = user.Id,
+            //    FirstName = user.FirstName,
+            //    LastName = user.LastName,
+            //    Country = user.Country,
+            //    Description = user.Description,
+            //    Posts = 
+            //};
 
-            return View(model);
+            return View(user);
         }
 
         public IActionResult AddToFavorites(Guid bookId, string userId)
