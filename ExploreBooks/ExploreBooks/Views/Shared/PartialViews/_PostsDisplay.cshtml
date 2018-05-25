@@ -8,6 +8,7 @@
 <environment include="Development">
     <link rel="stylesheet" href="~/css/ModalStyle.css" />
     <link rel="stylesheet" href="~/css/PartialComments.css" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
 </environment>
 
 @foreach (var post in Model)
@@ -63,7 +64,7 @@
                     <div class="media p-2">
                         <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
                         <div class="media-body textAlign">
-                            <form asp-controller="Comments" asp-action="Create" method="post" class="submitComment" role="form">
+                            <form asp-controller="Comments" asp-action="Create" class="submitComment" role="form">
                                 @Html.Hidden("userId", Guid.Parse(userId))
                                 @Html.Hidden("postId", post.Id)
                                 <input type="text" name="commentText" placeholder="Write a comment.." />
@@ -87,3 +88,37 @@
         @Html.Partial("PartialViews/_ConfirmDeletePost", post.Id)
     }
 }
+
+<script>
+    $(".submitComment").submit(function (e) {
+        e.preventDefault();
+        var user = this.userId.value;
+        var target = this.postId.value;
+        var comment = $(this).find("input[name='commentText']").val();
+        $.ajax({
+            url: "/Comments/Create",
+            data: { userId: user, postId: target, commentText: comment },
+            type: "POST",
+            success: function () {
+                var result = "@Url.Action("GetAllCommentsForPostId", "Comments")?postId=" + target;
+                $("#" + target).load(result);
+                $(".submitComment").trigger("reset");
+                $(":focus").blur();
+            }
+        });
+    });
+
+    $(".submitPostEdit").submit(function (e) {
+        e.preventDefault();
+        var target = this.postId.value;
+        var post = $(this).find("textarea[name='postText']").val();
+        $.ajax({
+            url: "/Posts/Edit",
+            data: { postId: target, postEdited: post },
+            type: "POST",
+            success: function () {
+                location.reload();
+            }
+        });
+    });
+</script>

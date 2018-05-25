@@ -167,7 +167,7 @@
                         <div class="media p-3">
                             <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))"/>
                             <div class="media-body textAlign">
-                                <form asp-controller="Posts" asp-action="Create" method="post" class="submitPost" role="form">
+                                <form asp-controller="Posts" asp-action="Create" class="submitPost" role="form">
                                     @Html.Hidden("userId", Guid.Parse(userId))
                                     @Html.Hidden("targetId", Model.Id)
                                     <input type="text" name="postText" placeholder="Write a review.."/>

@@ -54,3 +54,19 @@
         @Html.Partial("PartialViews/_ConfirmDeleteComment", comment.Id)
     }
 }
+
+<script>
+    $(".submitCommentEdit").submit(function (e) {
+        e.preventDefault();
+        var target = this.commentId.value;
+        var comment = $(this).find("textarea[name='commentText']").val();
+        $.ajax({
+            url: "/Comments/Edit",
+            data: { commentId: target, commentEdited: comment },
+            type: "POST",
+            success: function () {
+                location.reload();
+            }
+        });
+    });
+</script>

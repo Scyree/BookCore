@@ -117,53 +117,7 @@
                 }
             });
         }
-
-        $(".submitComment").submit(function (e) {
-            e.preventDefault();
-            var user = this.userId.value;
-            var target = this.postId.value;
-            var comment = $(this).find("input[name='commentText']").val();
-            $.ajax({
-                url: "/Comments/Create",
-                data: { userId: user, postId: target, commentText: comment },
-                type: "POST",
-                success: function () {
-                    var result = "@Url.Action("GetAllCommentsForPostId", "Comments")?postId=" + target;
-                    $("#" + target).load(result);
-                    $(".submitComment").trigger("reset");
-                    $(":focus").blur();
-                }
-            });
-        });
-
-        $(".submitCommentEdit").submit(function (e) {
-            e.preventDefault();
-            var target = this.commentId.value;
-            var comment = $(this).find("textarea[name='commentText']").val();
-            $.ajax({
-                url: "/Comments/Edit",
-                data: { commentId: target, commentEdited: comment },
-                type: "POST",
-                success: function () {
-                    location.reload();
-                }
-            });
-        });
-
-        $(".submitPostEdit").submit(function (e) {
-            e.preventDefault();
-            var target = this.postId.value;
-            var post = $(this).find("textarea[name='postText']").val();
-            $.ajax({
-                url: "/Posts/Edit",
-                data: { postId: target, postEdited: post },
-                type: "POST",
-                success: function () {
-                    location.reload();
-                }
-            });
-        });
-
+            
         $(".submitPost").submit(function(e) {
             e.preventDefault();
             var user = this.userId.value;
