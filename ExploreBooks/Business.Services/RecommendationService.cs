@@ -30,6 +30,13 @@ namespace Business.Services
             return recommendations;
         }
 
+        public Recommendation GetRecommendation(Guid bookId, Guid recommendedBook, Guid userId)
+        {
+            var recommendation = _repository.GetAllRecommendations().SingleOrDefault(recom => recom.BookRecommended == recommendedBook && recom.BookId == bookId && recom.UserId == userId);
+
+            return recommendation;
+        }
+
         public void MakeARecommendation(Guid bookId, Guid userId, Guid recommendedBook, string reason)
         {
             if (reason != null)

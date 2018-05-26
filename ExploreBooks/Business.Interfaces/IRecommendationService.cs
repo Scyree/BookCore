@@ -8,6 +8,7 @@ namespace Business.Interfaces
     {
         IReadOnlyList<Recommendation> GetAllRecommendationsForBookId(Guid bookId);
         IReadOnlyList<Recommendation> GetAllRecommendationsMadeByUser(Guid userId);
+        Recommendation GetRecommendation(Guid bookId, Guid recommendedBook, Guid userId);
         void MakeARecommendation(Guid bookId, Guid userId, Guid recommendedBook, string reason);
     }
 }

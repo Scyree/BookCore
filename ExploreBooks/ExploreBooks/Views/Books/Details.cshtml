@@ -111,50 +111,13 @@
                 <div class="row text-center">
                     <div class="col-md-12 col-12">
                         <h4 style="font-style: italic">
-                            Recommendations
+                            <a asp-controller="Recommendations" asp-action="GetAllRecommendations" asp-route-bookId="@Model.Id">
+                                Recommendations
+                            </a>
                         </h4>
                     </div>
-                    <div id="recommandation" class="carousel" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="row">
-                                    <div class="col-md-3 col-3">
-                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
-                                    </div>
-                                    <div class="col-md-3 col-3">
-                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
-                                    </div>
-                                    <div class="col-md-3 col-3">
-                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
-                                    </div>
-                                    <div class="col-md-3 col-3">
-                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="row">
-                                    <div class="col-md-3 col-3">
-                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
-                                    </div>
-                                    <div class="col-md-3 col-3">
-                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
-                                    </div>
-                                    <div class="col-md-3 col-3">
-                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
-                                    </div>
-                                    <div class="col-md-3 col-3">
-                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#recommandation" data-slide="prev">
-                            <span class="carousel-control-prev-icon"></span>
-                        </a>
-                        <a class="carousel-control-next" href="#recommandation" data-slide="next">
-                            <span class="carousel-control-next-icon"></span>
-                        </a>
+                    <div>
+                        @Html.Partial("PartialViews/_RecommendedBooks", Model)
                     </div>
                 </div>
                 <br />
@@ -283,7 +246,7 @@
             var recommendation = $(this).find("input[name='recommendedBookId']").val();
             var reasonText = $(this).find("textarea[name='reason']").val();
             $.ajax({
-                url: "/Books/RecommendABook",
+                url: "/Recommendations/RecommendABook",
                 data: { bookId: book, userId: user, recommendedBookId: recommendation, reason: reasonText },
                 type: "POST",
                 success: function () {

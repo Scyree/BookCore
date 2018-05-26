@@ -10,13 +10,11 @@ namespace ExploreBooks.Controllers
     {
         private readonly IBookService _service;
         private readonly IGenreService _genreService;
-        private readonly IRecommendationService _recommendationService;
 
-        public BooksController(IBookService service, IGenreService genreService, IRecommendationService recommendationService)
+        public BooksController(IBookService service, IGenreService genreService)
         {
             _service = service;
             _genreService = genreService;
-            _recommendationService = recommendationService;
         }
 
         //public IActionResult Index(string number)
@@ -152,12 +150,6 @@ namespace ExploreBooks.Controllers
             _service.DeleteBook(id);
 
             return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        public void RecommendABook(Guid bookId, Guid userId, Guid recommendedBookId, string reason)
-        {
-            _recommendationService.MakeARecommendation(bookId, userId, recommendedBookId, reason);
         }
     }
 }

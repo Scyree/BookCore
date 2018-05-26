@@ -15,6 +15,7 @@ namespace Business.Services
         private readonly ICommentRepository _commentRepository;
         private readonly IBookStateRepository _stateRepository;
 
+
         public UtilityService(IBookRepository bookRepository, IAuthorRepository authorRepository, IPostRepository postRepository, ICommentRepository commentRepository, IBookStateRepository stateRepository)
         {
             _bookRepository = bookRepository;
