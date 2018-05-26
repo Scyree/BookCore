@@ -234,14 +234,20 @@
                             <div class="col"><hr /></div>
                         </div>
                         <p>
-                            <a href="#"><i class="fa fa-book"></i>Recommend a book</a>
-                            <br />
-                            <a asp-action="Index"><i class="fa fa-undo"></i> Search for others books</a>
-                            <br />
-                            <a asp-controller="Authors" asp-action="Index"><i class="fa fa-users"></i> Search through authors..</a>
+                            @{
+                                var recommendBook = "recommendBook" + @Model.Id;
+                            }
                             <a asp-action="Edit" asp-route-id="@Model.Id"><i class="fa fa-edit"></i>Edit</a>
-                            <br />
+                            <br/>
+                            <a href="#" data-toggle="modal" data-target="#@recommendBook">
+                                <i class="fa fa-book"></i>Recommend a book
+                            </a>
+                            <br/>
+                            <a asp-action="Index"><i class="fa fa-undo"></i> Search for others books</a>
+                            <br/>
+                            <a asp-controller="Authors" asp-action="Index"><i class="fa fa-users"></i> Search through authors..</a>
                         </p>
+                        @Html.Partial("PartialViews/_RecommendABook", Model.Id)
                     </div>
                 </div>
             </div>
@@ -269,5 +275,22 @@
 </div>
 
 <environment include="Development">
+    <script>
+        $(".submitRecommendation").submit(function (e) {
+            e.preventDefault();
+            var book = this.bookId.value;
+            var user = this.userId.value;
+            var recommendation = $(this).find("input[name='recommendedBookId']").val();
+            var reasonText = $(this).find("textarea[name='reason']").val();
+            $.ajax({
+                url: "/Books/RecommendABook",
+                data: { bookId: book, userId: user, recommendedBookId: recommendation, reason: reasonText },
+                type: "POST",
+                success: function () {
+                    location.reload();
+                }
+            });
+        });
+    </script>
     <script src="~/js/Books.js"></script>
 </environment>

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain.Data\Domain.Data.csproj" />
+    <ProjectReference Include="..\Repository.Interfaces\Repository.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

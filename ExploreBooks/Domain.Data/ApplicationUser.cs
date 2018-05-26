@@ -24,7 +24,7 @@ namespace Domain.Data
 
         public ICollection<Post> Posts { get; set; }
 
-        public ICollection<Recommandation> Recommandations { get; set; }
+        public ICollection<Recommendation> Recommandations { get; set; }
 
         public ICollection<BooksForMood> BooksForMoods { get; set; }
 

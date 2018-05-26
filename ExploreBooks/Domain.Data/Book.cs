@@ -25,7 +25,7 @@ namespace Domain.Data
         
         public string Details { get; set; }
 
-        public ICollection<Recommandation> Recommandations { get; set; }
+        public ICollection<Recommendation> Recommandations { get; set; }
 
         public ICollection<BuyingSite> BuyingSites { get; set; }
 
@@ -41,7 +41,7 @@ namespace Domain.Data
                 Authors = new List<AuthorBook>(),
                 Genres = new List<GenreBook>(),
                 Posts = new List<Post>(),
-                Recommandations = new List<Recommandation>(),
+                Recommandations = new List<Recommendation>(),
                 BuyingSites = new List<BuyingSite>(),
                 Ratings = new List<Rating>(),
                 FinalRate = 0.0

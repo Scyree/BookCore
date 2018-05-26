@@ -70,7 +70,7 @@ namespace ExploreBooks
             services.AddTransient<IGenreRepository, GenreRepository>();
             services.AddTransient<ILikeRepository, LikeRepository>();
             services.AddTransient<IRatingRepository, RatingRepository>();
-            services.AddTransient<IRecommandationRepository, RecommandationRepository>();
+            services.AddTransient<IRecommendationRepository, RecommendationRepository>();
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
 
@@ -96,7 +96,8 @@ namespace ExploreBooks
             services.AddTransient<ILikeService, LikeService>();
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IUtilityService, UtilityService>();
-            
+            services.AddTransient<IRecommendationService, RecommendationService>();
+
 
             services.AddMvc();
         }

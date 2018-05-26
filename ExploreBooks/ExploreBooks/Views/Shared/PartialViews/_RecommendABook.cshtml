@@ -1,0 +1,47 @@
+﻿@model Guid
+@inject IApplicationUserServices Service
+@inject IUtilityService UtilityService
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var recommendBook = "recommendBook" + @Model;
+    var user = UserManager.GetUserId(User);
+}
+
+<div class="modal fade" id="@recommendBook">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <p class="modal-title mx-auto mw-100">
+                    <strong>
+                        Make a recommendation
+                    </strong>
+                </p>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <form asp-controller="Books" asp-action="RecommendABook" class="submitRecommendation" role="form">
+                        @Html.Hidden("bookId", Model)
+                        @Html.Hidden("userId", Guid.Parse(user))
+                        <div class="form-group row">
+                            <div class="col-8 col-md-8">
+                                <input name="recommendedBookId" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-4 col-md-4">
+                                <img class="rounded" id="editPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(user))" />
+                            </div>
+                            <div class="col-8 col-md-8">
+                                <textarea type="text" class="form-control" name="reason"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn editButton">Recommend</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
