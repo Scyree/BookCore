@@ -1,7 +1,24 @@
-﻿@{
+﻿@inject IGenreService GenreService
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
+<br/>
 <div class="container">
-
+    @{
+        var genres = GenreService.GetAllGenres();
+    }
+    <div class="row">
+        <div class="offset-10 col-2 col-md-2 border">
+            @foreach (var genre in genres)
+            {
+                <h6>
+                    <a asp-controller="Books" asp-action="GetAllBooksForSpecifiedGenre" asp-route-genre="@genre.Text">
+                        @genre.Text [@GenreService.GetNumberOfBooksForSpecifiedGenre(genre.Text)]
+                    </a>
+                </h6>
+            }
+        </div>
+    </div>
 </div>

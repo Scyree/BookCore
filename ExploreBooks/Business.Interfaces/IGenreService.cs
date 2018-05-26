@@ -7,7 +7,10 @@ namespace Business.Interfaces
     public interface IGenreService
     {
         Genre CheckGenre(string description);
-        List<Genre> GetGenres(string description);
+        IReadOnlyList<Genre> GetGenres(string description);
         Genre GetGenreById(Guid id);
+        IReadOnlyList<Book> GetBooksForSpecifiedGenre(string text);
+        int GetNumberOfBooksForSpecifiedGenre(string text);
+        IReadOnlyList<Genre> GetAllGenres();
     }
 }

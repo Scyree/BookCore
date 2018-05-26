@@ -9,16 +9,41 @@ namespace ExploreBooks.Controllers
     public class BooksController : Controller
     {
         private readonly IBookService _service;
+        private readonly IGenreService _genreService;
 
-        public BooksController(IBookService service)
+        public BooksController(IBookService service, IGenreService genreService)
         {
             _service = service;
+            _genreService = genreService;
         }
+
+        //public IActionResult Index(string number)
+        //{
+        //    if (number != null)
+        //    {
+        //        var value = Int32.Parse(number);
+
+        //        return View(_service.GetNextBooks(number));
+        //    }
+
+        //    return View(_service.GetNextBooks(0));
+        //}
 
         // GET: Books
         public IActionResult Index()
         {
             return View(_service.GetAllBooks());
+        }
+
+        [HttpGet]
+        public IActionResult GetAllBooksForSpecifiedGenre(string genre)
+        {
+            if (genre == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(_genreService.GetBooksForSpecifiedGenre(genre));
         }
 
         // GET: Books/Details

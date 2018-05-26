@@ -8,5 +8,6 @@ namespace Service.Interfaces
     {
         BookState CheckIfBookAlreadyExists(Guid bookId, Guid userId);
         IReadOnlyList<BookState> GetAllBookStatesByUserId(Guid userId);
+        IReadOnlyList<BookState> GetFavoriteBookStatesByUserId(Guid userId);
     }
 }

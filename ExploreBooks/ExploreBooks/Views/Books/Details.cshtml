@@ -20,14 +20,16 @@
 
 <div class="container text-center">
     <div class="row">
-        <div class="col-md-3 col-3 infoBooks">
-            <div class="col-md-12 col-12">
-                <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+        <div class="col-md-3 col-3">        
+            <div class="container">
+                <div class="col-md-12 col-12">
+                    <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
 
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    @Html.Partial("PartialViews/_BookReadActions", Model);
-                }
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        @Html.Partial("PartialViews/_BookReadActions", Model);
+                    }
+                </div>
             </div>
         </div>
         <div class="col-md-6 col-6">
@@ -75,7 +77,11 @@
                             var checkIndex = index + 1;
 
                             <div class="col-md-2 col-2">
-                                <span class="badge badge-pill genreBadge">@genreDisplay.Text</span>
+                                <a asp-controller="Books" asp-action="GetAllBooksForSpecifiedGenre" asp-route-genre="@genreDisplay.Text">                                       
+                                    <span class="badge badge-pill genreBadge">
+                                        @genreDisplay.Text
+                                    </span>
+                                </a>
                             </div>
 
                             if (checkIndex % 6 == 0)
@@ -228,12 +234,12 @@
                             <div class="col"><hr /></div>
                         </div>
                         <p>
-                            <a href="#"><i class="fa fa-book"></i>"Recommend a book</a>
+                            <a href="#"><i class="fa fa-book"></i>Recommend a book</a>
                             <br />
                             <a asp-action="Index"><i class="fa fa-undo"></i> Search for others books</a>
                             <br />
                             <a asp-controller="Authors" asp-action="Index"><i class="fa fa-users"></i> Search through authors..</a>
-                            <a asp-action="Edit" asp-route-id="@Model.Id"><i class="fa fa-edit"></i>"Edit</a>
+                            <a asp-action="Edit" asp-route-id="@Model.Id"><i class="fa fa-edit"></i>Edit</a>
                             <br />
                         </p>
                     </div>

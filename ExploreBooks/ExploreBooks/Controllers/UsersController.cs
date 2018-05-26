@@ -86,7 +86,7 @@ namespace ExploreBooks.Controllers
             }
 
             user.Posts = _postService.GetAllPostsForTargetId(Guid.Parse(user.Id)).ToList();
-            user.Books = _stateService.GetAllBookStatesByUserId(Guid.Parse(user.Id)).ToList();
+            user.Books = _stateService.GetFavoriteBookStatesByUserId(Guid.Parse(user.Id)).ToList();
             //var model = new AboutViewModel
             //{
             //    UserId = user.Id,

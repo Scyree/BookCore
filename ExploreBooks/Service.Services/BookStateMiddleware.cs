@@ -25,5 +25,12 @@ namespace Service.Services
         {
             return _repository.GetAllBookStates().Where(state => state.UserId == userId).ToList();
         }
+
+        public IReadOnlyList<BookState> GetFavoriteBookStatesByUserId(Guid userId)
+        {
+            var bookStates = _repository.GetAllBookStates().Where(state => state.UserId == userId && state.IsFavorite).ToList();
+
+            return bookStates;
+        }
     }
 }
