@@ -1,0 +1,11 @@
+﻿@model string
+@inject IApplicationUserServices Service
+
+<div class="col-md-3 col-3">
+    <div class="col-12 col-md-12">
+        @{
+            var userId = Service.GetApplicationUserByUsername(Model).Id;
+            <img class="rounded" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
+        }
+    </div>
+</div>

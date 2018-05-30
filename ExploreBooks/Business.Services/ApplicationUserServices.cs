@@ -77,6 +77,20 @@ namespace Business.Services
             return _applicationRepository.GetAllApplicationUsers();
         }
 
+        public ApplicationUser GetApplicationUserByUsername(string username)
+        {
+            var applicationUser = _applicationRepository.GetAllApplicationUsers().SingleOrDefault(user => user.User == username);
+
+            if (applicationUser != null)
+            {
+                applicationUser.Posts = _postService.GetAllPostsForTargetId(Guid.Parse(applicationUser.Id)).ToList();
+
+                return applicationUser;
+            }
+
+            return null;
+        }
+
         public ApplicationUser GetApplicationUserById(Guid id)
         {
             var applicationUser = _applicationRepository.GetApplicationUserById(id);
@@ -85,7 +99,7 @@ namespace Business.Services
             {
                 applicationUser.Posts = _postService.GetAllPostsForTargetId(Guid.Parse(applicationUser.Id)).ToList();
 
-                return _applicationRepository.GetApplicationUserById(id);
+                return applicationUser;
             }
 
             return null;
@@ -208,6 +222,27 @@ namespace Business.Services
                 {
                     searchedBook.IsFavorite = false;
                     _bookStateRepository.EditBookState(searchedBook);
+                }
+            }
+        }
+
+        public void FollowUser(string userId, string followedId)
+        {
+            if (userId != followedId)
+            {
+                var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
+                var followed = _applicationRepository.GetApplicationUserById(Guid.Parse(followedId));
+
+                if (user != null && followed != null)
+                {
+                    var checkIfAlreadyFollowed = user.Following.Any(follower => follower.Id == followed.Id);
+
+                    if (!checkIfAlreadyFollowed)
+                    {
+                        user.Following.Add(followed);
+
+                        _applicationRepository.EditApplicationUser(user);
+                    }
                 }
             }
         }

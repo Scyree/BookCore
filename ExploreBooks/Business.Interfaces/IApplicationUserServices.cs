@@ -15,6 +15,7 @@ namespace Business.Interfaces
         bool CheckIfHasProfilePicture(string userId);
 
         IReadOnlyList<ApplicationUser> GetAllApplicationUsers();
+        ApplicationUser GetApplicationUserByUsername(string username);
         ApplicationUser GetApplicationUserById(Guid id);
         void CreateApplicationUser(ApplicationUser applicationUser);
         void EditApplicationUser(ApplicationUser applicationUser);
@@ -24,5 +25,6 @@ namespace Business.Interfaces
         IEnumerable<Book> GetBooksOfAUser(string userId);
         void AddToFavorites(Guid bookId, string userId);
         void RemoveFromFavorites(Guid bookId, string userId);
+        void FollowUser(string userId, string followedId);
     }
 }

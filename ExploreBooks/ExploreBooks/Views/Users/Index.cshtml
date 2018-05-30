@@ -5,17 +5,27 @@
     ViewData["Title"] = "Profile";
 }
 
-@{
-    foreach (var activity in Model.BookActivity)
-    {
-        var book = Service.GetBookById(activity.TargetId);
-        <h3>@activity.DateModified.Date.ToShortDateString()</h3>
-        if (@book != null)
-        {
-            <h4>@book.Title</h4>
-        }
-    }
-}
+<div class="container">
+    <div class="row">
+        @Html.Partial("_ProfilePositioning", Model.Username)
+
+        <div class="col-md-9 col-9 justify-content-center">
+            @await Html.PartialAsync("_ProfileNav", Model.Username)
+
+            @{
+                foreach (var activity in Model.BookActivity)
+                {
+                    var book = Service.GetBookById(activity.TargetId);
+                    <h3>@activity.DateModified.Date.ToShortDateString()</h3>
+                    if (@book != null)
+                    {
+                        <h4>@book.Title</h4>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

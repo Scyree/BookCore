@@ -25,11 +25,16 @@
         <figure class="profile">
             <img class="mr-0 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userPostId))" />
             <figcaption class="mr-3 btn disabled voteStats">
-                <input type="button" class="btn btn-outline-dark disabled border-0 numberOfVotes" id="@likes" value="@Likes.GetNumberOfLikes(post.Id)" />votes
+                <input type="button" class="btn btn-outline-dark disabled border-0 numberOfVotes" id="@likes" value="@Likes.GetNumberOfLikes(post.Id)"/>votes
             </figcaption>
         </figure>
         <div class="media-body textAlign postContent">
-            <h5>@Service.GetNameOfTheSpecifiedId(userPostId) <small><i>on @post.Date.ToShortDateString()</i></small></h5>
+            <h5>
+                @Service.GetNameOfTheSpecifiedId(userPostId)
+                <small>
+                    <i>on @post.Date.ToShortDateString()</i>
+                </small>
+            </h5>
             <div>
                 @post.Description
 

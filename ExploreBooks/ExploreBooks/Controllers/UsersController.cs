@@ -10,6 +10,7 @@ using Service.Interfaces;
 
 namespace ExploreBooks.Controllers
 {
+    [Route("users")]
     public class UsersController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -26,8 +27,8 @@ namespace ExploreBooks.Controllers
             _service = service;
             _postService = postService;
         }
-
-        [HttpGet]
+        
+        [HttpGet("")]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -49,20 +50,42 @@ namespace ExploreBooks.Controllers
             return View(model);
         }
 
+        [HttpGet("{username}")]
+        public IActionResult Index(string username)
+        {
+            var user = _service.GetApplicationUserByUsername(username);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            
+            var model = new IndexViewModel
+            {
+                Username = user.User,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Description = user.Description,
+                Country = user.Country,
+                BookActivity = _activityService.GetAllBooksForUserId(user.Id)
+            };
+
+            return View(model);
+        }
+
         [HttpPost]
         public IActionResult Create(Guid bookId, string userId, string actionName)
         {
             _service.ReadActions(bookId, userId, actionName);
 
-            TempData["ReadAction"] = "Added the book to your " + actionName;
+            //TempData["ReadAction"] = "Added the book to your " + actionName;
 
             return RedirectToAction("Details", "Books", new { @id = bookId });
         }
-
-        [HttpGet]
-        public async Task<IActionResult> Library()
+        
+        [HttpGet("{username}/library")]
+        public IActionResult Library(string username)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = _service.GetApplicationUserByUsername(username);
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -70,16 +93,17 @@ namespace ExploreBooks.Controllers
 
             var model = new LibraryViewModel
             {
+                Username = user.User,
                 Books = _service.GetBooksOfAUser(user.Id).ToList()
             };
 
             return View(model);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> About()
+        [HttpGet("{username}/about")]
+        public IActionResult About(string username)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = _service.GetApplicationUserByUsername(username);
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");

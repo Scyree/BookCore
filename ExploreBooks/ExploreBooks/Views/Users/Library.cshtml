@@ -11,38 +11,46 @@
 </environment>
 
 <div class="container">
-    @{
-        var books = Model.Books.ToList();
-        <div class="row justify-content-center">
-            @{
-                if (books.Count == 0)
-                {
-                    <h4>
-                        Ops! Seems like it's nothing here yet..
-                    </h4>
-                    <h4>
-                        Start browsing <a asp-controller="Books" asp-action="Index"> here</a> !
-                    </h4>
-                }
-            }
-           @for (var index = 0; index < books.Count; ++index)
-            {
-                var checkIndex = index + 1;
-                var displayInfo = "<h4>" + books[index].Title + "</h4><p>" + books[index].Description + "</p>";
+    <div class="row">
+            @Html.Partial("_ProfilePositioning", Model.Username)
 
-                <div class="col-md-3 col-3">
-                    <a asp-controller="Books" asp-action="Details" asp-route-id="@books[index].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
-                        <img class="rounded" src="@Url.Content("..\\images\\" + books[index].Folder + "\\" + books[index].ImageName)"/>
-                    </a>
-                </div>
+            <div class="col-md-9 col-9 justify-content-center">
+                @await Html.PartialAsync("_ProfileNav", Model.Username)
 
-                if (checkIndex % 4 == 0)
-                {
-                    <div class="w-100"></div>
+                @{
+                    var books = Model.Books.ToList();
+                    <div class="row justify-content-center">
+                        @{
+                            if (books.Count == 0)
+                            {
+                                <h4>
+                                    Ops! Seems like it's nothing here yet..
+                                </h4>
+                                <h4>
+                                    Start browsing <a asp-controller="Books" asp-action="Index"> here</a> !
+                                </h4>
+                            }
+                        }
+                        @for (var index = 0; index < books.Count; ++index)
+                        {
+                            var checkIndex = index + 1;
+                            var displayInfo = "<h4>" + books[index].Title + "</h4><p>" + books[index].Description + "</p>";
+
+                            <div class="col-md-3 col-3">
+                                <a asp-controller="Books" asp-action="Details" asp-route-id="@books[index].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
+                                    <img class="rounded" src="@Url.Content("..\\images\\" + books[index].Folder + "\\" + books[index].ImageName)"/>
+                                </a>
+                            </div>
+
+                            if (checkIndex % 4 == 0)
+                            {
+                                <div class="w-100"></div>
+                            }
+                        }
+                    </div>
                 }
-            }
-        </div>
-    }
+            </div>
+    </div>
 </div>
 
 <script>

@@ -1,4 +1,5 @@
-﻿@inject SignInManager<ApplicationUser> SignInManager
+﻿@model string
+@inject SignInManager<ApplicationUser> SignInManager
 
 @{
     var activeValue = ViewContext.RouteData.Values["Action"].ToString();
@@ -24,12 +25,12 @@
 
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="@indexValue" asp-action="Index">Activity</a>
+        <a class="@indexValue" asp-route-username="@Model" asp-action="Index">Activity</a>
     </li>
     <li class="nav-item">
-        <a class="@libraryValue" asp-action="Library">Library</a>
+        <a class="@libraryValue" asp-route-username="@Model" asp-action="Library">Library</a>
     </li>
     <li class="nav-item">
-        <a class="@aboutValue" asp-action="About">About</a>
+        <a class="@aboutValue" asp-route-username="@Model" asp-action="About">About</a>
     </li>
 </ul>
