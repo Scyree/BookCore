@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Data;
@@ -28,28 +27,6 @@ namespace ExploreBooks.Controllers
             _postService = postService;
         }
         
-        [HttpGet("")]
-        public async Task<IActionResult> Index()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            var model = new IndexViewModel
-            {
-                Username = user.User,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Description = user.Description,
-                Country = user.Country,
-                BookActivity = _activityService.GetAllBooksForUserId(user.Id)
-            };
-
-            return View(model);
-        }
-
         [HttpGet("{username}")]
         public IActionResult Index(string username)
         {

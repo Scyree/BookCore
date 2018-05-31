@@ -8,12 +8,12 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
+    var userId = UserManager.GetUserId(User);
+
     <ul class="navbar-nav">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                 @{
-                    var userId = UserManager.GetUserId(User);
-
                     if (Service.CheckIfHasProfilePicture(userId))
                     {
                         <i class="fa fa-user"></i>
@@ -27,7 +27,7 @@
                 }
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Profile</a>
+                <a class="dropdown-item" asp-area="" asp-controller="Users" asp-route-username="@Service.GetApplicationUserById(Guid.Parse(userId)).User" asp-action="Index">Profile</a>
                 <a class="dropdown-item" asp-area="" asp-controller="Books" asp-action="Index">Explore</a>
                 <a class="dropdown-item disabled" asp-area="">Community</a>
                 <a class="dropdown-item disabled" asp-area="">News</a>
