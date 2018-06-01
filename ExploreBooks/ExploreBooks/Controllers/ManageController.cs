@@ -25,10 +25,11 @@ namespace ExploreBooks.Controllers
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
         private readonly IApplicationUserServices _service;
-        
+        private readonly IApplicationPictureLogic _pictureLogic;
+
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
-        public ManageController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender, ILogger<ManageController> logger, UrlEncoder urlEncoder, IApplicationUserServices service)
+        public ManageController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender, ILogger<ManageController> logger, UrlEncoder urlEncoder, IApplicationUserServices service, IApplicationPictureLogic pictureLogic)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -36,6 +37,7 @@ namespace ExploreBooks.Controllers
             _logger = logger;
             _urlEncoder = urlEncoder;
             _service = service;
+            _pictureLogic = pictureLogic;
         }
 
         [TempData]
@@ -160,7 +162,7 @@ namespace ExploreBooks.Controllers
                 var path = user.Folder;
                 user.ImageName = model.Image.FileName;
 
-                await _service.UpdatePicture(path, model.Image);
+                await _pictureLogic.UpdatePicture(path, model.Image);
             }
             
             await _userManager.UpdateAsync(user);

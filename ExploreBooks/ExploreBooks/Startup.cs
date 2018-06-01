@@ -73,6 +73,7 @@ namespace ExploreBooks
             services.AddTransient<IRecommendationRepository, RecommendationRepository>();
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
+            services.AddTransient<IFollowUserRepository, FollowUserRepository>();
 
 
             // Application's services within service layer
@@ -84,10 +85,10 @@ namespace ExploreBooks
             services.AddTransient<IPostMiddleware, PostMiddleware>();
             services.AddTransient<IWorkingWithFiles, WorkingWithFiles>();
             services.AddTransient<IBookStateMiddleware, BookStateMiddleware>();
+            services.AddTransient<IFollowUserMiddleware, FollowUserMiddleware>();
 
 
             // Application's services within business layer
-            services.AddTransient<IApplicationUserServices, ApplicationUserServices>();
             services.AddTransient<IAuthorService, AuthorService>();
             services.AddTransient<IBookService, BookService>();
             services.AddTransient<ICommentService, CommentService>();
@@ -98,6 +99,10 @@ namespace ExploreBooks
             services.AddTransient<IUtilityService, UtilityService>();
             services.AddTransient<IRecommendationService, RecommendationService>();
 
+            services.AddTransient<IApplicationUserServices, ApplicationUserServices>();
+            services.AddTransient<IApplicationBookLogic, ApplicationBookLogic>();
+            services.AddTransient<IApplicationPictureLogic, ApplicationPictureLogic>();
+            services.AddTransient<IApplicationFollowLogic, ApplicationFollowLogic>();
 
             services.AddMvc();
         }

@@ -1,4 +1,5 @@
-@inject IApplicationUserServices Service
+@inject IApplicationPictureLogic Service
+@inject IApplicationUserServices UserService
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -23,11 +24,11 @@
                         <img class="rounded" id="navigationPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
                     }
 
-                    <span>@Service.GetNameOfTheSpecifiedId(userId)</span> 
+                    <span>@Service.GetNameOfTheSpecifiedId(userId)</span>
                 }
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" asp-area="" asp-controller="Users" asp-route-username="@Service.GetApplicationUserById(Guid.Parse(userId)).User" asp-action="Index">Profile</a>
+                <a class="dropdown-item" asp-area="" asp-controller="Users" asp-route-username="@UserService.GetApplicationUserById(Guid.Parse(userId)).User" asp-action="Index">Profile</a>
                 <a class="dropdown-item" asp-area="" asp-controller="Books" asp-action="Index">Explore</a>
                 <a class="dropdown-item disabled" asp-area="">Community</a>
                 <a class="dropdown-item disabled" asp-area="">News</a>
@@ -43,7 +44,7 @@
                 </div>
             </div>
         </li>
-   </ul>
+    </ul>
 }
 else
 {

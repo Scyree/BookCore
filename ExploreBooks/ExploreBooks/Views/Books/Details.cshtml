@@ -1,7 +1,7 @@
 ﻿@model Book
 @inject IAuthorService Authors
 @inject IGenreService Genres
-@inject IApplicationUserServices Service
+@inject IApplicationPictureLogic Service
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject IUtilityService UtilityService
@@ -202,15 +202,21 @@
                             }
                             <a asp-action="Edit" asp-route-id="@Model.Id"><i class="fa fa-edit"></i>Edit</a>
                             <br/>
-                            <a href="#" data-toggle="modal" data-target="#@recommendBook">
-                                <i class="fa fa-book"></i>Recommend a book
-                            </a>
-                            <br/>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <a href="#" data-toggle="modal" data-target="#@recommendBook">
+                                    <i class="fa fa-book"></i>Recommend a book
+                                </a>
+                                <br/>
+                            }
                             <a asp-action="Index"><i class="fa fa-undo"></i> Search for others books</a>
                             <br/>
                             <a asp-controller="Authors" asp-action="Index"><i class="fa fa-users"></i> Search through authors..</a>
                         </p>
-                        @Html.Partial("PartialViews/_RecommendABook", Model.Id)
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                           @Html.Partial("PartialViews/_RecommendABook", Model.Id)
+                        }
                     </div>
                 </div>
             </div>

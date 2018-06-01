@@ -1,0 +1,15 @@
+﻿.imageContent {
+    max-width: 180px;
+    max-height: 180px;
+    width: 180px;
+    height: 180px;
+}
+
+.displayContent {
+    margin-left: 5px;
+    color: #0d0d0d;
+}
+
+.sticky-top {
+    top: 7.5rem;
+}

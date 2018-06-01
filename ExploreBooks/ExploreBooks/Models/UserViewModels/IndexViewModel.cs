@@ -5,6 +5,8 @@ namespace ExploreBooks.Models.UserViewModels
 {
     public class IndexViewModel
     {
+        public string Id { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

@@ -18,5 +18,11 @@ namespace ExploreBooks.Controllers
         {
             return View(_recommendationService.GetAllRecommendationsForBookId(bookId));
         }
-    }
+
+        [HttpPost]
+        public void RecommendABook(Guid bookId, Guid userId, Guid recommendedBookId, string reason)
+        {
+            _recommendationService.MakeARecommendation(bookId, userId, recommendedBookId, reason);
+        }
+}
 }

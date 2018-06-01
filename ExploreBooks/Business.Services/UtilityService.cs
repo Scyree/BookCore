@@ -14,15 +14,16 @@ namespace Business.Services
         private readonly IPostRepository _postRepository;
         private readonly ICommentRepository _commentRepository;
         private readonly IBookStateRepository _stateRepository;
+        private readonly IApplicationUserRepository _applicationUserRepository;
 
-
-        public UtilityService(IBookRepository bookRepository, IAuthorRepository authorRepository, IPostRepository postRepository, ICommentRepository commentRepository, IBookStateRepository stateRepository)
+        public UtilityService(IBookRepository bookRepository, IAuthorRepository authorRepository, IPostRepository postRepository, ICommentRepository commentRepository, IBookStateRepository stateRepository, IApplicationUserRepository applicationUserRepository)
         {
             _bookRepository = bookRepository;
             _authorRepository = authorRepository;
             _postRepository = postRepository;
             _commentRepository = commentRepository;
             _stateRepository = stateRepository;
+            _applicationUserRepository = applicationUserRepository;
         }
 
         public IReadOnlyList<BookState> GetAllBooksForUserId(string userId)
@@ -86,7 +87,7 @@ namespace Business.Services
 
             return postActivity.Take(number).ToList();
         }
-
+        
         public Book GetBookById(Guid bookId)
         {
             var book = _bookRepository.GetBookById(bookId);
@@ -120,6 +121,13 @@ namespace Business.Services
             var bookState = _stateRepository.GetAllBookStates().SingleOrDefault(bookstate => bookstate.UserId == userId && bookstate.TargetId == bookId);
 
             return bookState;
+        }
+
+        public ApplicationUser GetApplicationUser(string userId)
+        {
+            var applicationUser = _applicationUserRepository.GetAllApplicationUsers().SingleOrDefault(user => user.Id == userId);
+
+            return applicationUser;
         }
     }
 }

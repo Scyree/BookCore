@@ -3,7 +3,8 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject IUtilityService UtilityService
-
+@inject IApplicationFollowLogic FollowService
+@inject IApplicationPictureLogic PictureLogic
 @{
     ViewBag.Title = "About";
     Layout = "_Layout";
@@ -13,11 +14,11 @@
     <link rel="stylesheet" href="~/css/About.css" />
 </environment>
 
-<br />
 <div class="container">
     <div class="row">
-        @Html.Partial("_ProfilePositioning", Model.User)
-
+        <div class="col-md-3 col-3">
+            @Html.Partial("_LeftContent", Model.Id)
+        </div>
         <div class="col-md-9 col-9 justify-content-center">
             @await Html.PartialAsync("_ProfileNav", Model.User)
 
@@ -31,9 +32,6 @@
                         </i>
                     </h7>
                 </div>
-                <div class="col-4 col-md-4 text-left">
-                    <h6>Following:</h6>
-                </div>
             </div>
             <div class="row">
                 <div class="offset-1 col-md-4 col-4">
@@ -42,7 +40,7 @@
                     </h3>
                 </div>
             </div>
-            <br />
+            <br/>
             <div class="container border">
                 <div class="row">
                     <div class="offset-8 col-4 col-md-4 text-right">
@@ -60,9 +58,9 @@
                         @Model.Description
                     </h5>
                 </div>
-                <br />
+                <br/>
             </div>
-            <br />
+            <br/>
             <div class="container border">
                 <div class="row text-left">
                     <div class="col-md-12 col-12">
@@ -76,31 +74,31 @@
                 <div class="row">
                     <div class="offset-1 col-10 col-md-10 favoritesDiv">
                         @{
-                        var books = Model.Books.ToList();
-                        if (books.Count == 0)
-                        {
-                            <h4>
-                                Ops! Seems like it's nothing here yet..
-                            </h4>
-                            <h4>
-                                Start browsing <a asp-controller="Books" asp-action="Index"> here</a> !
-                            </h4>
-                    }
-                    else
-                    {
-                        <div class="row">
-                            @for (var index = 0; index < books.Count; ++index)
-                        {
-                            var book = UtilityService.GetBookById(books[index].TargetId);
-                            var displayInfo = "<h4>" + book.Title + "</h4><p>" + book.Description + "</p>";
+                            var books = Model.Books.ToList();
+                            if (books.Count == 0)
+                            {
+                                <h4>
+                                    Ops! Seems like it's nothing here yet..
+                                </h4>
+                                <h4>
+                                    Start browsing <a asp-controller="Books" asp-action="Index"> here</a> !
+                                </h4>
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    @for (var index = 0; index < books.Count; ++index)
+                                    {
+                                        var book = UtilityService.GetBookById(books[index].TargetId);
+                                        var displayInfo = "<h4>" + book.Title + "</h4><p>" + book.Description + "</p>";
 
-                            <div class="col-md-3 col-3 favoriteBooks">
-                                <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
-                                    <img class="rounded" src="@Url.Content("..\\..\\images\\" + book.Folder + "\\" + book.ImageName)" />
-                                </a>
-                            </div>
-                    }
-                        </div>
+                                        <div class="col-md-3 col-3 favoriteBooks">
+                                            <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
+                                                <img class="rounded" src="@Url.Content("..\\..\\images\\" + book.Folder + "\\" + book.ImageName)"/>
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
 
                         @*<div class="row ">
                             <div id="favoriteBooks" class="carousel" data-ride="carousel">
@@ -142,12 +140,12 @@
                                 <span class="sr-only">Next</span>
                             </a>
                         </div>*@
-                }
+                            }
                         }
                     </div>
                 </div>
             </div>
-            <br />
+            <br/>
             <div class="row text-left">
                 <div class="col-md-12 col-12">
                     <h4 class="text-left">
@@ -159,20 +157,20 @@
             </div>
             <div class="container border">
                 @if (SignInManager.IsSignedIn(User))
-            {
-                var userId = UserManager.GetUserId(User);
-                <div class="media p-3">
-                    <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
-                    <div class="media-body textAlign">
-                        <form asp-controller="Posts" asp-action="Create" class="submitPost" role="form">
-                            @Html.Hidden("userId", Guid.Parse(userId))
-                            @Html.Hidden("targetId", Model.Id)
-                            <input type="text" name="postText" placeholder="Say something.." />
-                            <button type="button" id="reviewButton" class="btn textButton"></button>
-                        </form>
+                {
+                    var userId = UserManager.GetUserId(User);
+                    <div class="media p-3">
+                        <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + PictureLogic.GetFolderWithFile(userId))"/>
+                        <div class="media-body textAlign">
+                            <form asp-controller="Posts" asp-action="Create" class="submitPost" role="form">
+                                @Html.Hidden("userId", Guid.Parse(userId))
+                                @Html.Hidden("targetId", Model.Id)
+                                <input type="text" name="postText" placeholder="Say something.."/>
+                                <button type="button" id="reviewButton" class="btn textButton"></button>
+                            </form>
+                        </div>
                     </div>
-                </div>
-        }
+                }
 
                 <div id="@Model.Id">
                     @Html.Partial("PartialViews/_PostsDisplay", Model.Posts)

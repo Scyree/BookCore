@@ -16,15 +16,19 @@ namespace ExploreBooks.Controllers
         private readonly IBookStateMiddleware _stateService;
         private readonly IUtilityService _activityService;
         private readonly IApplicationUserServices _service;
+        private readonly IApplicationFollowLogic _followLogic;
+        private readonly IApplicationBookLogic _bookLogic;
         private readonly IPostService _postService;
 
-        public UsersController(UserManager<ApplicationUser> userManager, IUtilityService activityService, IBookStateMiddleware stateService, IApplicationUserServices service, IPostService postService)
+        public UsersController(UserManager<ApplicationUser> userManager, IUtilityService activityService, IBookStateMiddleware stateService, IApplicationUserServices service, IPostService postService, IApplicationFollowLogic followLogic, IApplicationBookLogic bookLogic)
         {
             _userManager = userManager;
             _activityService = activityService;
             _stateService = stateService;
             _service = service;
             _postService = postService;
+            _followLogic = followLogic;
+            _bookLogic = bookLogic;
         }
         
         [HttpGet("{username}")]
@@ -38,6 +42,7 @@ namespace ExploreBooks.Controllers
             
             var model = new IndexViewModel
             {
+                Id = user.Id,
                 Username = user.User,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -49,13 +54,11 @@ namespace ExploreBooks.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost("Create")]
         public IActionResult Create(Guid bookId, string userId, string actionName)
         {
-            _service.ReadActions(bookId, userId, actionName);
-
-            //TempData["ReadAction"] = "Added the book to your " + actionName;
-
+            _bookLogic.ReadActions(bookId, userId, actionName);
+            
             return RedirectToAction("Details", "Books", new { @id = bookId });
         }
         
@@ -70,8 +73,9 @@ namespace ExploreBooks.Controllers
 
             var model = new LibraryViewModel
             {
+                Id = user.Id,
                 Username = user.User,
-                Books = _service.GetBooksOfAUser(user.Id).ToList()
+                Books = _bookLogic.GetBooksOfAUser(user.Id).ToList()
             };
 
             return View(model);
@@ -88,32 +92,32 @@ namespace ExploreBooks.Controllers
 
             user.Posts = _postService.GetAllPostsForTargetId(Guid.Parse(user.Id)).ToList();
             user.Books = _stateService.GetFavoriteBookStatesByUserId(Guid.Parse(user.Id)).ToList();
-            //var model = new AboutViewModel
-            //{
-            //    UserId = user.Id,
-            //    FirstName = user.FirstName,
-            //    LastName = user.LastName,
-            //    Country = user.Country,
-            //    Description = user.Description,
-            //    Posts = 
-            //};
 
             return View(user);
         }
 
+        [HttpPost("AddToFavorites")]
         public IActionResult AddToFavorites(Guid bookId, string userId)
         {
-            _service.AddToFavorites(bookId, userId);
+            _bookLogic.AddToFavorites(bookId, userId);
 
             return RedirectToAction("Details", "Books", new {@id = bookId});
         }
 
+        [HttpPost("RemoveFromFavorites")]
         public IActionResult RemoveFromFavorites(Guid bookId, string userId)
         {
-            _service.RemoveFromFavorites(bookId, userId);
+            _bookLogic.RemoveFromFavorites(bookId, userId);
 
             return RedirectToAction("Details", "Books", new { @id = bookId });
         }
-        
+
+        [HttpPost("FollowUser")]
+        public IActionResult FollowUser(string userId, string followedId)
+        {
+            _followLogic.FollowUser(userId, followedId);
+            
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

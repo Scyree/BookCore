@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Business.Interfaces;
@@ -22,14 +23,16 @@ namespace ExploreBooks.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly IApplicationUserServices _service;
+        private readonly IApplicationPictureLogic _pictureService;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender, ILogger<AccountController> logger, IApplicationUserServices service)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender, ILogger<AccountController> logger, IApplicationUserServices service, IApplicationPictureLogic pictureService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _service = service;
+            _pictureService = pictureService;
         }
 
         [TempData]
@@ -227,7 +230,7 @@ namespace ExploreBooks.Controllers
                     Folder = path
                 };
 
-                _service.CreatePicture(value);
+                _pictureService.CreatePicture(value);
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -337,7 +340,7 @@ namespace ExploreBooks.Controllers
                     Folder = path
                 };
 
-                _service.CreatePicture(value);
+                _pictureService.CreatePicture(value);
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
