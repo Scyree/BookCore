@@ -113,11 +113,15 @@ namespace ExploreBooks.Controllers
         }
 
         [HttpPost("FollowUser")]
-        public IActionResult FollowUser(string userId, string followedId)
+        public void FollowUser(string userId, string followedId)
         {
             _followLogic.FollowUser(userId, followedId);
-            
-            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost("UnfollowUser")]
+        public void UnfollowUser(string userId, string followedId)
+        {
+            _followLogic.UnfollowUser(userId, followedId);
         }
     }
 }

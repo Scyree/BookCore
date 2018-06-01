@@ -10,9 +10,9 @@
         <div class="col-md-3 col-3">
             @Html.Partial("_LeftContent", Model.Id)
         </div>
-        <div class="col-md-9 col-9 justify-content-center">
+        <div class="col-md-9 col-9 justify-content-center rightContent">
             @await Html.PartialAsync("_ProfileNav", Model.Username)
-
+            
             @{
                 foreach (var activity in Model.BookActivity)
                 {

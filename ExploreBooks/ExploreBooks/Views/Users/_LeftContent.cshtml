@@ -1,6 +1,9 @@
 ﻿@model string
 @inject IApplicationUserServices Service
 @inject IApplicationPictureLogic PictureService
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IApplicationFollowLogic FollowService
 
 @{
     var user = Service.GetApplicationUserById(Guid.Parse(Model));
@@ -10,10 +13,10 @@
     <link rel="stylesheet" href="~/css/Users/LeftContent.css" />
 </environment>
 
-<br/>
+<br />
 <div class="sticky-top">
     <div class="row justify-content-center">
-        <img class="rounded-circle imageContent" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(user.Id))"/>
+        <img class="rounded-circle imageContent" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(user.Id))" />
     </div>
     <div class="row justify-content-center">
         <div class="col"><hr /></div>
@@ -35,4 +38,34 @@
             <i class="fa fa-map-marker mr-2"></i>@user.Country
         </h6>
     </div>
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var userId = UserManager.GetUserId(User);
+        if (user.Id != userId)
+        {
+            <br />
+            <div class="row justify-content-center">
+                @if (FollowService.CheckIfAlreadyFollowed(userId, user.Id))
+                {
+                    <button type="submit" class="btn btn-secondary unfollowButton" onclick="UnfollowAction('@userId', '@user.Id')">
+                        <span class="followSpan">
+                            Following <i class="fa fa-check"></i>
+                        </span>
+                        <span class="unfollowSpan">
+                            Unfollow <i class="fa fa-times"></i>
+                        </span>
+                    </button>          
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-success followButton" onclick="FollowAction('@userId', '@user.Id')">Follow</button>
+                }
+            </div>
+        }
+    }
 </div>
+
+<environment include="Development">
+    <script src="~/js/Users/LeftContent.js"></script>
+</environment>

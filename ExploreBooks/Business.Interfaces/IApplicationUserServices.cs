@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Domain.Data;
-using Microsoft.AspNetCore.Http;
 
 namespace Business.Interfaces
 {
@@ -14,5 +12,6 @@ namespace Business.Interfaces
         void CreateApplicationUser(ApplicationUser applicationUser);
         void EditApplicationUser(ApplicationUser applicationUser);
         void DeleteApplicationUser(ApplicationUser applicationUser);
+        bool CheckIfUsernameAlreadyExists(string username);
     }
 }

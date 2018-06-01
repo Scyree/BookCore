@@ -23,7 +23,9 @@
                 <div class="modal-body mx-auto">
                     <div class="row justify-content-center">
                         <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div asp-validation-summary="All" class="text-danger">
+                                <li>@TempData["usernameExistsError"]</li>
+                            </div>
                             <div class="form-group row">
                                 <label class="col-4 col-md-4 col-form-label" asp-for="User"></label>
                                 <div class="col-8 col-md-8 ml-auto">
@@ -41,7 +43,7 @@
                             <div class="form-group row">
                                 <label class="col-4 col-md-4 col-form-label" asp-for="Password"></label>
                                 <div class="col-8 col-md-8 ml-auto">
-                                    <input asp-for="Password" class="form-control" />
+                                    <input asp-for="Password" class="form-control"/>
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </div>
                             </div>

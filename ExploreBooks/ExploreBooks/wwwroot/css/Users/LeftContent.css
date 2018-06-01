@@ -13,3 +13,27 @@
 .sticky-top {
     top: 7.5rem;
 }
+
+.followButton, .unfollowButton {
+    width: 70%;
+}
+
+.unfollowButton .unfollowSpan {
+    display: none;
+}
+
+.followButton:hover {
+    opacity: .9;
+}
+
+.unfollowButton:hover {
+    background-color: #660000;
+}
+
+.unfollowButton:hover .followSpan {
+    display: none;
+}
+
+.unfollowButton:hover .unfollowSpan {
+    display: inline;
+}

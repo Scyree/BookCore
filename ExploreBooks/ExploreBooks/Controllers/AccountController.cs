@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Business.Interfaces;
@@ -220,6 +221,13 @@ namespace ExploreBooks.Controllers
                 var path = "profile\\" + value;
                 var imageName = "profile.jpg";
 
+                if (_service.CheckIfUsernameAlreadyExists(model.User))
+                {
+                    TempData["usernameExistsError"] = "Username already exists";
+                    
+                    return View(model);
+                }
+
                 var user = new ApplicationUser
                 {
                     User = model.User,
@@ -227,7 +235,9 @@ namespace ExploreBooks.Controllers
                     Email = model.Email,
                     FirstName = model.User,
                     ImageName = imageName,
-                    Folder = path
+                    Folder = path,
+                    Description = "It's a mistery..",
+                    Country = "Somewhere on the internet"
                 };
 
                 _pictureService.CreatePicture(value);

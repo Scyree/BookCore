@@ -78,5 +78,10 @@ namespace Business.Services
         {
             _applicationRepository.DeleteApplicationUser(applicationUser);
         }
+
+        public bool CheckIfUsernameAlreadyExists(string username)
+        {
+            return _applicationRepository.GetAllApplicationUsers().Any(user => user.User == username);
+        }
     }
 }

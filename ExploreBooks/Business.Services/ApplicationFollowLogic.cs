@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Business.Interfaces;
 using Domain.Data;
 using Repository.Interfaces;
@@ -36,6 +37,25 @@ namespace Business.Services
                         var followUser = Domain.Data.FollowUser.CreateFollowUser(Guid.Parse(userId), Guid.Parse(followedId));
 
                         _followUserRepository.CreateFollowUser(followUser);
+                    }
+                }
+            }
+        }
+
+        public void UnfollowUser(string userId, string followedId)
+        {
+            if (userId != followedId)
+            {
+                var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
+                var followed = _applicationRepository.GetApplicationUserById(Guid.Parse(followedId));
+
+                if (user != null && followed != null)
+                {
+                    var followedContent = _followUserRepository.GetAllFollowUsers().SingleOrDefault(followUser => followUser.UserId == Guid.Parse(userId) && followUser.FollowId == Guid.Parse(followedId));
+
+                    if (followedContent != null)
+                    {
+                       _followUserRepository.DeleteFollowUser(followedContent);
                     }
                 }
             }
@@ -81,6 +101,11 @@ namespace Business.Services
             }
 
             return null;
+        }
+
+        public bool CheckIfAlreadyFollowed(string userId, string followedId)
+        {
+            return _followUserMiddleware.CheckIfAlreadyFollowed(Guid.Parse(userId), Guid.Parse(followedId));
         }
     }
 }
