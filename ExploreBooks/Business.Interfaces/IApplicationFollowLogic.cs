@@ -10,6 +10,7 @@ namespace Business.Interfaces
         int GetNumberOfFollowedPeople(string userId);
         int GetNumberOfFollowers(string userId);
         IReadOnlyList<FollowUser> GetFollowedPeople(string userId);
+        IReadOnlyList<FollowUser> GetFollowers(string userId);
         bool CheckIfAlreadyFollowed(string userId, string followedId);
     }
 }

@@ -5,7 +5,7 @@
     var activeValue = ViewContext.RouteData.Values["Action"].ToString();
     var indexValue = "nav-link";
     var libraryValue = "nav-link";
-    var aboutValue = "nav-link";
+    var socialValue = "nav-link";
 
     if (activeValue == "Index")
     {
@@ -17,9 +17,9 @@
         libraryValue += " active";
     }
 
-    if (activeValue == "About")
+    if (activeValue == "Social")
     {
-        aboutValue += " active";
+        socialValue += " active";
     }
 }
 
@@ -31,6 +31,6 @@
         <a class="@libraryValue" asp-route-username="@Model" asp-action="Library">Library</a>
     </li>
     <li class="nav-item">
-        <a class="@aboutValue" asp-route-username="@Model" asp-action="About">About</a>
+        <a class="@socialValue" asp-route-username="@Model" asp-action="Social">Social</a>
     </li>
 </ul>

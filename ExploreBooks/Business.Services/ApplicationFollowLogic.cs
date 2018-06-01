@@ -103,6 +103,20 @@ namespace Business.Services
             return null;
         }
 
+        public IReadOnlyList<FollowUser> GetFollowers(string userId)
+        {
+            var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
+
+            if (user != null)
+            {
+                var followers = _followUserMiddleware.GetAllFollowers(Guid.Parse(userId));
+
+                return followers;
+            }
+
+            return null;
+        }
+
         public bool CheckIfAlreadyFollowed(string userId, string followedId)
         {
             return _followUserMiddleware.CheckIfAlreadyFollowed(Guid.Parse(userId), Guid.Parse(followedId));

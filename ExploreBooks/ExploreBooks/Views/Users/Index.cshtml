@@ -25,6 +25,28 @@
                 }
             }
         </div>
+        @*
+        <div class="container border">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                <div class="media p-3">
+                    <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(userId))" />
+                    <div class="media-body textAlign">
+                        <form asp-controller="Posts" asp-action="Create" class="submitPost" role="form">
+                            @Html.Hidden("userId", Guid.Parse(userId))
+                            @Html.Hidden("targetId", Model.Id)
+                            <input type="text" name="postText" placeholder="Say something.." />
+                            <button type="button" id="reviewButton" class="btn textButton"></button>
+                        </form>
+                    </div>
+                </div>
+                }
+
+                <div id="@Model.Id">
+                    @Html.Partial("PartialViews/_PostsDisplay", Model.Posts)
+                </div>
+            </div>    
+        *@
     </div>
 </div>
 

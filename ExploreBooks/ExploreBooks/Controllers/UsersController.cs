@@ -81,8 +81,8 @@ namespace ExploreBooks.Controllers
             return View(model);
         }
 
-        [HttpGet("{username}/about")]
-        public IActionResult About(string username)
+        [HttpGet("{username}/social")]
+        public IActionResult Social(string username)
         {
             var user = _service.GetApplicationUserByUsername(username);
             if (user == null)

@@ -1,0 +1,51 @@
+﻿@model ApplicationUser
+@inject IApplicationUserServices Service
+@inject IUtilityService UtilityService
+@inject IApplicationFollowLogic FollowService
+@inject IApplicationPictureLogic PictureService
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewBag.Title = "Social";
+    Layout = "_Layout";
+    var userId = UserManager.GetUserId(User);
+}
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Social.css" />
+</environment>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 col-3">
+            @Html.Partial("_LeftContent", Model.Id)
+        </div>
+        <div class="col-md-9 col-9 rightContent">
+            @await Html.PartialAsync("_ProfileNav", Model.User)
+
+            <br />
+            <br />
+            <div class="row justify-content-center">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item" onclick="displayFollowed()">Following [@FollowService.GetNumberOfFollowedPeople(userId)]</li>
+                    <li class="breadcrumb-item" onclick="displayFollowers()">Followers [@FollowService.GetNumberOfFollowers(userId)]</li>
+                </ul>
+            </div>
+
+            <br />
+            <div class="container justify-content-center">
+                <div id="followers">
+                    @Html.Partial("_FollowersContent", userId)
+                </div>
+                <div id="followed">
+                    bAKAKA
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<environment include="Development">
+    <script src="~/js/Users/Social.js"></script>
+</environment>

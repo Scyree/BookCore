@@ -1,0 +1,27 @@
+﻿@model string
+@inject IApplicationFollowLogic FollowService
+
+@{
+    var followers = FollowService.GetFollowedPeople(Model);
+    <div class="row">
+        @for (var index = 0; index < followers.Count; ++index)
+        {
+            var checkIndex = index + 1;
+
+            <div class="card">
+                <img />
+                <div class="card-body">
+                    <h5 class="card-title">fee</h5>
+                    <p class="card-text">egge</p>
+                </div>
+            </div>
+
+            @followers[index].FollowId
+
+            if (checkIndex % 4 == 0)
+            {
+                <div class="w-100"></div>
+            }
+        }
+    </div>
+}

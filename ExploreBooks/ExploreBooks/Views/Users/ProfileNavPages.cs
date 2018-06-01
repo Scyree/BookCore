@@ -12,10 +12,14 @@ namespace ExploreBooks.Views.Users
 
         public static string Library => "Library";
 
+        public static string Social => "Social";
+
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
         
         public static string LibraryNavClass(ViewContext viewContext) => PageNavClass(viewContext, Library);
-        
+
+        public static string SocialNavClass(ViewContext viewContext) => PageNavClass(viewContext, Social);
+
         public static string PageNavClass(ViewContext viewContext, string page)
         {
             var activePage = viewContext.ViewData["ActivePage"] as string;
