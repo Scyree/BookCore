@@ -24,7 +24,7 @@
                     <div class="row justify-content-center">
                         <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
                             <div asp-validation-summary="All" class="text-danger">
-                                <li>@TempData["usernameExistsError"]</li>
+                                @TempData["usernameExistsError"]
                             </div>
                             <div class="form-group row">
                                 <label class="col-4 col-md-4 col-form-label" asp-for="User"></label>
