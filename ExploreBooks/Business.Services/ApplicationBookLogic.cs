@@ -128,5 +128,85 @@ namespace Business.Services
                 }
             }
         }
+
+        public int GetAllBooksNumber(string userId)
+        {
+            var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
+            var count = 0;
+
+            if (user != null)
+            {
+                count += _bookStateRepository.GetAllBookStates().Count(state => state.UserId == Guid.Parse(user.Id));
+
+                return count;
+            }
+
+            return count;
+        }
+
+        public int GetPlanToReadBooksNumber(string userId)
+        {
+            var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
+            var count = 0;
+
+            if (user != null)
+            {
+                count += _bookStateRepository.GetAllBookStates().Count(state => state.UserId == Guid.Parse(user.Id) && state.State == 1);
+
+                return count;
+            }
+
+            return count;
+        }
+
+        public int GetReadingBooksNumber(string userId)
+        {
+            var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
+            var count = 0;
+
+            if (user != null)
+            {
+                count += _bookStateRepository.GetAllBookStates().Count(state => state.UserId == Guid.Parse(user.Id) && state.State == 2);
+
+                return count;
+            }
+
+            return count;
+        }
+
+        public int GetReadBooksNumber(string userId)
+        {
+            var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
+            var count = 0;
+
+            if (user != null)
+            {
+                count += _bookStateRepository.GetAllBookStates().Count(state => state.UserId == Guid.Parse(user.Id) && state.State == 3);
+
+                return count;
+            }
+
+            return count;
+        }
+
+        public IReadOnlyList<Book> GetAllBooksBasedOnState(string userId, int givenState)
+        {
+            var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
+
+            if (user != null)
+            {
+                var bookStates = _bookStateRepository.GetAllBookStates().Where(state => state.UserId == Guid.Parse(userId) && state.State == givenState);
+                var books = new List<Book>();
+
+                foreach (var book in bookStates)
+                {
+                    books.Add(_bookService.GetBookById(book.TargetId));
+                }
+
+                return books;
+            }
+
+            return null;
+        }
     }
 }

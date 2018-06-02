@@ -1,4 +1,18 @@
-﻿a:hover {
+﻿.rightContent {
+    border-left: 1px solid #DEE2E6;
+}
+
+.breadcrumb {
+    background: transparent;
+    color: #4d3333;
+}
+
+.breadcrumb-item:hover {
+    color: #C0B2B2;
+    cursor: pointer;
+}
+
+a:hover {
     color: #4d3333;
     text-decoration: none;
     opacity: .9;
@@ -13,4 +27,16 @@
     right: 0;
     border-width: 0.4rem 0.4rem 0.4rem 0;
     border-right-color: #532D2D;
+}
+
+#planToRead {
+    display: none;
+}
+
+#reading {
+    display: none;
+}
+
+#read {
+    display: none;
 }

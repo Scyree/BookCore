@@ -1,4 +1,5 @@
 ﻿@model ExploreBooks.Models.UserViewModels.LibraryViewModel
+@inject IApplicationBookLogic BookService
 
 @{
     ViewData["Title"] = "Profile";
@@ -11,128 +12,39 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3 col-3">
-            @Html.Partial("_LeftContent", Model.Id)
+            @await Html.PartialAsync("_LeftContent", Model.Id)
         </div>
-        <div class="col-md-9 col-9 justify-content-center rightContent">
+        <div class="col-md-9 col-9 rightContent">
             @await Html.PartialAsync("_ProfileNav", Model.Username)
+
+            <br />
+            @await Html.PartialAsync("LibraryPages/_FavoritesContent")
             
-            @*<div class="container border">
-                <div class="row text-left">
-                    <div class="col-md-12 col-12">
-                        <h4 class="text-left">
-                            <i>
-                                Favorites
-                            </i>
-                        </h4>
-                    </div>
+            <br />
+            <br />
+            <div class="row justify-content-center">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item" onclick="displayAll()">All [@BookService.GetAllBooksNumber(Model.Id)]</li>
+                    <li class="breadcrumb-item" onclick="displayPlanToRead()">Plan to read [@BookService.GetPlanToReadBooksNumber(Model.Id)]</li>
+                    <li class="breadcrumb-item" onclick="displayReading()">Reading [@BookService.GetReadingBooksNumber(Model.Id)]</li>
+                    <li class="breadcrumb-item" onclick="displayRead()">Read [@BookService.GetReadBooksNumber(Model.Id)]</li>            
+                </ul>
+            </div>
+            <div class="container justify-content-center">
+                <div id="allBooks">
+                    @await Html.PartialAsync("LibraryPages/_AllBooksContent", Model.Id)
                 </div>
-                <div class="row">
-                    <div class="offset-1 col-10 col-md-10 favoritesDiv">
-                        @{
-                            var books = Model.Books.ToList();
-                            if (books.Count == 0)
-                            {
-                                <h4>
-                                    Ops! Seems like it's nothing here yet..
-                                </h4>
-                                <h4>
-                                    Start browsing <a asp-controller="Books" asp-action="Index"> here</a> !
-                                </h4>
-                            }
-                            else
-                            {
-                                <div class="row">
-                                    @for (var index = 0; index < books.Count; ++index)
-                                    {
-                                        var book = UtilityService.GetBookById(books[index].TargetId);
-                                        var displayInfo = "<h4>" + book.Title + "</h4><p>" + book.Description + "</p>";
-
-                                        <div class="col-md-3 col-3 favoriteBooks">
-                                            <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
-                                                <img class="rounded" src="@Url.Content("..\\..\\images\\" + book.Folder + "\\" + book.ImageName)"/>
-                                            </a>
-                                        </div>
-                                    }
-                                </div>
-
-                        @*<div class="row ">
-                            <div id="favoriteBooks" class="carousel" data-ride="carousel">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                            <div class="row">
-                                                <div class="col-md-3 col-3 favoriteBooks">
-                                                    <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" data-toggle="tooltip" data-placement="right" data-html="true" title="DA">
-                                                        <img class="rounded" src="@Url.Content("..\\..\\images\\" + book.Folder + "\\" + book.ImageName)" />
-                                                    </a>
-                                                </div>
-                                                @for (var index = 0; index < books.Count; ++index)
-                                                {
-                                                    var book = UtilityService.GetBookById(books[index].TargetId);
-                                                    var displayInfo = "<h4>" + book.Title + "</h4><p>" + book.Description + "</p>";
-                                                    var checkIndex = index + 1;
-                                                    var activeItem = " active";
-                                                    if (checkIndex > 4)
-                                                    {
-                                                        activeItem = "";
-                                                    }
-
-                                                    <div class="col-md-3 col-3 favoriteBooks">
-                                                        <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
-                                                            <img class="rounded" src="@Url.Content("..\\..\\images\\" + book.Folder + "\\" + book.ImageName)"/>
-                                                        </a>
-                                                    </div>
-                                                }
-                                            </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a class="carousel-control-prev" href="#favoriteBooks" role="button" data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-prev" href="#favoriteBooks" role="button" data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </div>
-                            }
-                        }
-                    </div>
+                <div id="planToRead">
+                    @await Html.PartialAsync("LibraryPages/_PlanToReadContent", Model.Id)
                 </div>
-            </div>*@
-
-            @{
-                var books = Model.Books.ToList();
-                <div class="row justify-content-center">
-                    @{
-                        if (books.Count == 0)
-                        {
-                            <h4>
-                                Ops! Seems like it's nothing here yet..
-                            </h4>
-                            <h4>
-                                Start browsing <a asp-controller="Books" asp-action="Index"> here</a> !
-                            </h4>
-                        }
-                    }
-                    @for (var index = 0; index < books.Count; ++index)
-                    {
-                        var checkIndex = index + 1;
-                        var displayInfo = "<h4>" + books[index].Title + "</h4><p>" + books[index].Description + "</p>";
-
-                        <div class="col-md-3 col-3">
-                            <a asp-controller="Books" asp-action="Details" asp-route-id="@books[index].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
-                                <img class="rounded" src="@Url.Content("..\\images\\" + books[index].Folder + "\\" + books[index].ImageName)"/>
-                            </a>
-                        </div>
-
-                        if (checkIndex % 4 == 0)
-                        {
-                            <div class="w-100"></div>
-                        }
-                    }
+                <div id="reading">
+                    @await Html.PartialAsync("LibraryPages/_ReadingContent", Model.Id)
                 </div>
-            }
+                <div id="read">
+                    @await Html.PartialAsync("LibraryPages/_ReadContent", Model.Id)
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -145,4 +57,5 @@
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
+    <script src="~/js/Users/Library.js"></script>
 </environment>

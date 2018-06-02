@@ -10,5 +10,10 @@ namespace Business.Interfaces
         IEnumerable<Book> GetBooksOfAUser(string userId);
         void AddToFavorites(Guid bookId, string userId);
         void RemoveFromFavorites(Guid bookId, string userId);
+        int GetAllBooksNumber(string userId);
+        int GetPlanToReadBooksNumber(string userId);
+        int GetReadingBooksNumber(string userId);
+        int GetReadBooksNumber(string userId);
+        IReadOnlyList<Book> GetAllBooksBasedOnState(string userId, int givenState);
     }
 }
