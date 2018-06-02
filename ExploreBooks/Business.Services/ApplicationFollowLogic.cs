@@ -100,7 +100,7 @@ namespace Business.Services
                 
                 foreach (var followedUser in followedUsers)
                 {
-                    followedPeople.Add(_applicationRepository.GetApplicationUserById(followedUser.UserId));
+                    followedPeople.Add(_applicationRepository.GetApplicationUserById(followedUser.FollowId));
                 }
 
                 return followedPeople;
