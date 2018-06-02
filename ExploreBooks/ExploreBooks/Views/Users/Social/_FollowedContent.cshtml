@@ -1,0 +1,38 @@
+﻿@model string
+@inject IApplicationFollowLogic FollowService
+@inject IApplicationPictureLogic PictureService
+
+@{
+    var followed = FollowService.GetFollowedPeople(Model);
+    <div class="row justify-content-center">
+        <div class="col"><hr /></div>
+        <div class="col-auto">
+            <h5>Following</h5>
+        </div>
+        <div class="col"><hr /></div>
+    </div>
+    <div class="row" id="socialRow">
+        @for (var index = 0; index < followed.Count; ++index)
+        {
+            var checkIndex = index + 1;
+            var displayInfo = "<h4>" + followed[index].FirstName + " " + followed[index].LastName + "</h4><p>" + followed[index].Description + "</p>";
+            <div class="col-md-3 col-3">
+                <div class="card">
+                    <a asp-action="Index" asp-route-username="@followed[index].User" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
+                        <div class="row justify-content-center">
+                            <img class="rounded-circle socialImage" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(followed[index].Id))" />
+                        </div>
+                        <div class="row justify-content-center">
+                            <h7>/@followed[index].User</h7>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            if (checkIndex % 4 == 0)
+            {
+                <div class="w-100"></div>
+            }
+        }
+    </div>
+}

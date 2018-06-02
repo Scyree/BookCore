@@ -7,6 +7,7 @@
         followers.style.display = "none";
     } else {
         followers.style.display = "none";
+        followed.style.display = "block";
     }
 }
 
@@ -19,5 +20,6 @@ function displayFollowed() {
         followed.style.display = "none";
     } else {
         followed.style.display = "none";
+        followers.style.display = "block";
     }
 }

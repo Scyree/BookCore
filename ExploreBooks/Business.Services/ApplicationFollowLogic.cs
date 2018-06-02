@@ -89,13 +89,19 @@ namespace Business.Services
             return count;
         }
 
-        public IReadOnlyList<FollowUser> GetFollowedPeople(string userId)
+        public IReadOnlyList<ApplicationUser> GetFollowedPeople(string userId)
         {
             var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
 
             if (user != null)
             {
-                var followedPeople = _followUserMiddleware.GetAllFollowedPeople(Guid.Parse(userId));
+                var followedUsers = _followUserMiddleware.GetAllFollowedPeople(Guid.Parse(userId));
+                var followedPeople = new List<ApplicationUser>();
+                
+                foreach (var followedUser in followedUsers)
+                {
+                    followedPeople.Add(_applicationRepository.GetApplicationUserById(followedUser.UserId));
+                }
 
                 return followedPeople;
             }
@@ -103,13 +109,19 @@ namespace Business.Services
             return null;
         }
 
-        public IReadOnlyList<FollowUser> GetFollowers(string userId)
+        public IReadOnlyList<ApplicationUser> GetFollowers(string userId)
         {
             var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
 
             if (user != null)
             {
-                var followers = _followUserMiddleware.GetAllFollowers(Guid.Parse(userId));
+                var followerUsers = _followUserMiddleware.GetAllFollowers(Guid.Parse(userId));
+                var followers = new List<ApplicationUser>();
+
+                foreach (var follower in followerUsers)
+                {
+                    followers.Add(_applicationRepository.GetApplicationUserById(follower.UserId));
+                }
 
                 return followers;
             }

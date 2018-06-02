@@ -13,7 +13,7 @@
 }
 
 <environment include="Development">
-    <link rel="stylesheet" href="~/css/Social.css" />
+    <link rel="stylesheet" href="~/css/Users/Social.css" />
 </environment>
 
 <div class="container">
@@ -36,10 +36,10 @@
             <br />
             <div class="container justify-content-center">
                 <div id="followers">
-                    @Html.Partial("_FollowersContent", userId)
+                    @Html.Partial("Social/_FollowedContent", userId)
                 </div>
                 <div id="followed">
-                    bAKAKA
+                    @Html.Partial("Social/_FollowersContent", userId)
                 </div>
             </div>
         </div>
@@ -47,5 +47,12 @@
 </div>
 
 <environment include="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
     <script src="~/js/Users/Social.js"></script>
 </environment>
