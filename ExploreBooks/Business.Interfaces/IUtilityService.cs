@@ -16,5 +16,6 @@ namespace Business.Interfaces
         Comment GetCommentById(Guid commentId);
         BookState GetBookStateById(Guid bookId, Guid userId);
         ApplicationUser GetApplicationUser(string userId);
+        string DisplayDate(DateTime date);
     }
 }

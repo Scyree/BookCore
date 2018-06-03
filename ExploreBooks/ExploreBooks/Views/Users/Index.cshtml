@@ -1,23 +1,27 @@
 ﻿@model ExploreBooks.Models.UserViewModels.IndexViewModel
-@inject IUtilityService Service
+@inject IUtilityService UtilityService
 
 @{
     ViewData["Title"] = "Profile";
 }
 
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Users/Activity.css" />
+</environment>
+
 <div class="container">
     <div class="row">
         <div class="col-md-3 col-3">
-            @Html.Partial("_LeftContent", Model.Id)
+            @await Html.PartialAsync("_LeftContent", Model.Id)
         </div>
-        <div class="col-md-9 col-9 justify-content-center rightContent">
+        <div class="col-md-9 col-9 rightContent">
             @await Html.PartialAsync("_ProfileNav", Model.Username)
             
             @{
                 foreach (var activity in Model.BookActivity)
                 {
-                    var book = Service.GetBookById(activity.TargetId);
-                    <h3>@activity.DateModified.Date.ToShortDateString()</h3>
+                    var book = UtilityService.GetBookById(activity.TargetId);
+                    <h3>@UtilityService.DisplayDate(activity.DateModified)</h3>
                     if (@book != null)
                     {
                         <h4>@book.Title</h4>

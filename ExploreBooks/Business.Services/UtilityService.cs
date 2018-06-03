@@ -129,5 +129,10 @@ namespace Business.Services
 
             return applicationUser;
         }
+
+        public string DisplayDate(DateTime date)
+        {
+            return "BAKA";
+        }
     }
 }

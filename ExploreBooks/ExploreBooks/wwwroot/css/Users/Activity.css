@@ -1,14 +1,4 @@
-﻿h4 {
-    color: #5c3d3d;
-    text-align: center;
-    font-size: 20px;
-}
-
-p {
-    color: #5c3d3d;
-}
-
-.profileDisplay {
+﻿.profileDisplay {
     color: #5c3d3d;
     font-size: 15px;
 }
@@ -26,16 +16,6 @@ input[readonly] {
     box-shadow: 0 0 0 0.2rem #d9d9d9;
 }
 
-.btn-link {
-    color: #5c3d3d;
-}
-
-.btn-link:hover {
-    text-decoration: none;
-    color: #333333;
-    opacity: 0.5;
-}
-
 .btn-save {
     color: #e8e4e4;
     background-color: #6b4747;
@@ -47,49 +27,13 @@ input[readonly] {
     opacity: 0.5;
 }
 
-a {
-    background-color: transparent;
-    color: #6b4747;
-}
-
-a:hover {
-    color: #b3b3b3;
-}
 
 .container {
     color: black;
 }
 
-img {
-    max-width: 90%;
-    max-height: 90%;
-    width: 90%;
-    height: 90%;
-}
-
 tbody {
     background-color: #CFD5D5;
-}
-
-p, h4, a {
-    color: #333;
-}
-
-a:hover {
-    color: #4d3333;
-    text-decoration: none;
-    opacity: 0.9;
-}
-
-.tooltip-inner, .tooltip-inner a, .tooltip-inner p, .tooltip-inner h4 {
-    background-color: #532D2D;
-    color: #CFD5D5;
-}
-
-.bs-tooltip-right .arrow::before, .bs-tooltip-auto[x-placement^="right"] .arrow::before {
-    right: 0;
-    border-width: 0.4rem 0.4rem 0.4rem 0;
-    border-right-color: #532D2D;
 }
 
 .infoBooks img {
@@ -135,8 +79,4 @@ a:hover {
     display: inline-block;
     border-right: 1px outset grey;
     border-top: 1px outset grey;
-}
-
-.rightContent {
-    border-left: 1px solid #DEE2E6;
 }

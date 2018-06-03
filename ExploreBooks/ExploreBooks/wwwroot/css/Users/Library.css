@@ -1,8 +1,4 @@
-﻿.rightContent {
-    border-left: 1px solid #DEE2E6;
-}
-
-.breadcrumb {
+﻿.breadcrumb {
     background: transparent;
     color: #4d3333;
 }
@@ -10,12 +6,6 @@
 .breadcrumb-item:hover {
     color: #C0B2B2;
     cursor: pointer;
-}
-
-a:hover {
-    color: #4d3333;
-    text-decoration: none;
-    opacity: .9;
 }
 
 .tooltip-inner, .tooltip-inner a, .tooltip-inner p, .tooltip-inner h4 {
@@ -50,4 +40,11 @@ a:hover {
 .arrowFavorite {
     font-size: 45px;
     color: #4d3333;
+}
+
+img {
+    max-width: 90%;
+    max-height: 90%;
+    width: 90%;
+    height: 90%;
 }

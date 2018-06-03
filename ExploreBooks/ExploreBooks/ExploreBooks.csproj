@@ -29,4 +29,8 @@
     <ProjectReference Include="..\Service.Services\Service.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Users\ActivityPages\" />
+  </ItemGroup>
+
 </Project>

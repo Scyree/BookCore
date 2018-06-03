@@ -1,0 +1,24 @@
+﻿h4 {
+    color: #5c3d3d;
+    text-align: center;
+    font-size: 20px;
+}
+
+p {
+    color: #5c3d3d;
+}
+
+a {
+    background-color: transparent;
+    color: #6b4747;
+}
+
+a:hover {
+    color: #4d3333;
+    text-decoration: none;
+    opacity: 0.9;
+}
+
+.rightContent {
+    border-left: 1px solid #DEE2E6;
+}
