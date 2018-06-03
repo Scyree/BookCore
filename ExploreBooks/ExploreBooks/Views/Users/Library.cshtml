@@ -18,9 +18,8 @@
             @await Html.PartialAsync("_ProfileNav", Model.Username)
 
             <br />
-            @await Html.PartialAsync("LibraryPages/_FavoritesContent")
+            @await Html.PartialAsync("LibraryPages/_FavoritesContent", Model.Id)
             
-            <br />
             <br />
             <div class="row justify-content-center">
                 <ul class="breadcrumb">
@@ -44,7 +43,6 @@
                     @await Html.PartialAsync("LibraryPages/_ReadContent", Model.Id)
                 </div>
             </div>
-
         </div>
     </div>
 </div>

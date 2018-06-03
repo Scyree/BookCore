@@ -15,5 +15,6 @@ namespace Business.Interfaces
         int GetReadingBooksNumber(string userId);
         int GetReadBooksNumber(string userId);
         IReadOnlyList<Book> GetAllBooksBasedOnState(string userId, int givenState);
+        IReadOnlyList<Book> GetFavoriteBooks(string userId);
     }
 }

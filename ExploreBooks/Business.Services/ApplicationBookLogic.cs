@@ -208,5 +208,25 @@ namespace Business.Services
 
             return null;
         }
+
+        public IReadOnlyList<Book> GetFavoriteBooks(string userId)
+        {
+            var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
+
+            if (user != null)
+            {
+                var bookStates = _bookStateRepository.GetAllBookStates().Where(state => state.UserId == Guid.Parse(userId) && state.IsFavorite);
+                var books = new List<Book>();
+
+                foreach (var book in bookStates)
+                {
+                    books.Add(_bookService.GetBookById(book.TargetId));
+                }
+
+                return books;
+            }
+
+            return null;
+        }
     }
 }

@@ -1,0 +1,62 @@
+﻿@model IReadOnlyList<Book>
+@inject IApplicationBookLogic BookService
+@inject IApplicationPictureLogic PictureService
+
+<div class="row ">
+    <div id="favoriteBooks" class="carousel carousel-fade" data-ride="carousel">
+        <div class="carousel-inner">
+            @{
+                var count = Model.Count;
+                var max = (count - 1) / 4;
+                for (var divNumber = 0; divNumber <= max; ++divNumber)
+                {
+                    var active = "";
+                    if (divNumber == 0)
+                    {
+                        active += " active";
+                    }
+
+                    if (divNumber == max)
+                    {
+                        var difference = count - 4 * divNumber;
+                        <div class="carousel-item @active">
+                            <div class="row justify-content-center">
+                                @for (var index = 0; index < difference; ++index)
+                                {
+                                    var currentIndex = index + 4 * divNumber;
+                                    <div class="col-md-3 col-3 favoriteBooks">
+                                        <a asp-controller="Books" asp-action="Details" asp-route-id="@Model[currentIndex].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@Model[currentIndex].Title">
+                                            <img class="ml-1 rounded" src="@Url.Content("..\\..\\images\\" + Model[currentIndex].Folder + "\\" + Model[currentIndex].ImageName)" />
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="carousel-item @active">
+                            <div class="row justify-content-center">
+                                @for (var index = 0; index < 4; ++index)
+                                {
+                                    var currentIndex = index + 4 * divNumber;
+                                    <div class="col-md-3 col-3 favoriteBooks">
+                                        <a asp-controller="Books" asp-action="Details" asp-route-id="@Model[currentIndex].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@Model[currentIndex].Title">
+                                            <img class="ml-1 rounded" src="@Url.Content("..\\..\\images\\" + Model[currentIndex].Folder + "\\" + Model[currentIndex].ImageName)" />
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+        <a class="carousel-control-prev" href="#favoriteBooks" role="button" data-slide="prev">
+            <i class="fa fa-caret-left arrowFavorite"></i>
+        </a>
+        <a class="carousel-control-next" href="#favoriteBooks" role="button" data-slide="next">
+            <i class="fa fa-caret-right arrowFavorite"></i>
+        </a>
+    </div>
+</div>

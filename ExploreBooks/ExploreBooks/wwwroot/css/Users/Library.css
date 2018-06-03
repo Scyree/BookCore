@@ -40,3 +40,14 @@ a:hover {
 #read {
     display: none;
 }
+
+.favoriteBooks {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 2px;
+}
+
+.arrowFavorite {
+    font-size: 45px;
+    color: #4d3333;
+}
