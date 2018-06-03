@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Comment>
 @inject IApplicationPictureLogic Service
 @inject ILikeService Likes
+@inject IUtilityService UtilityService
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -19,7 +20,7 @@
             </figcaption>
         </figure>
         <div class="media-body textAlign commentContent">
-            <h5>@Service.GetNameOfTheSpecifiedId(userCommentId) <small><i>on @comment.Date.ToShortDateString()</i></small></h5>
+            <h5>@Service.GetNameOfTheSpecifiedId(userCommentId) <small><i>@UtilityService.DisplayDate(comment.Date)</i></small></h5>
             <div>
                 @comment.Text
 

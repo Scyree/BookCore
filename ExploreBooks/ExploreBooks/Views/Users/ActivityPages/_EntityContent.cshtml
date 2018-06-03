@@ -1,0 +1,34 @@
+﻿@model BookState
+@inject IUtilityService UtilityService
+@inject IApplicationPictureLogic PictureService
+
+@{
+    var book = UtilityService.GetBookById(Model.TargetId);
+    var username = UtilityService.GetApplicationUser(Model.UserId.ToString()).User;  
+    <div class="row">
+        <div class="col-md-7 col-7">
+            <div class="row">
+                <div class="offset-1 col-4 col-md-4 text-right">
+                    <img class="rounded userPicture" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(Model.UserId.ToString()))" />
+                </div>
+                <div class="col-5 col-md-5">
+                    <h6>@username</h6>
+                    <small>
+                        <i>@UtilityService.DisplayDate(Model.DateModified)</i>
+                    </small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-3 col-9 col-md-9 text-muted action">
+                    <h6>Moved the book to <i>@UtilityService.ConvertStateToAction(Model.State)</i></h6>
+                </div>
+                <br/>
+            </div>
+        </div>
+        <div class="col-md-5 col-5 text-center">
+            <a asp-controller="Users" asp-action="Library" asp-route-username="@username" data-toggle="tooltip" data-placement="right" data-html="true" title="@book.Title">
+                <img class="rounded postedBook" src="@Url.Content("..\\..\\images\\" + book.Folder + "\\" + book.ImageName)" />
+            </a>
+        </div>
+    </div>
+}

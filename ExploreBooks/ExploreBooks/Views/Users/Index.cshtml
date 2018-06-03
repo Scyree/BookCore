@@ -7,6 +7,7 @@
 
 <environment include="Development">
     <link rel="stylesheet" href="~/css/Users/Activity.css" />
+    <link rel="stylesheet" href="~/css/PartialPosts.css" />
 </environment>
 
 <div class="container">
@@ -17,43 +18,19 @@
         <div class="col-md-9 col-9 rightContent">
             @await Html.PartialAsync("_ProfileNav", Model.Username)
             
-            @{
-                foreach (var activity in Model.BookActivity)
-                {
-                    var book = UtilityService.GetBookById(activity.TargetId);
-                    <h3>@UtilityService.DisplayDate(activity.DateModified)</h3>
-                    if (@book != null)
-                    {
-                        <h4>@book.Title</h4>
-                    }
-                }
-            }
+            <br />
+            @await Html.PartialAsync("ActivityPages/_ActivityContent", Model)
         </div>
-        @*
-        <div class="container border">
-                @if (SignInManager.IsSignedIn(User))
-                {
-                <div class="media p-3">
-                    <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(userId))" />
-                    <div class="media-body textAlign">
-                        <form asp-controller="Posts" asp-action="Create" class="submitPost" role="form">
-                            @Html.Hidden("userId", Guid.Parse(userId))
-                            @Html.Hidden("targetId", Model.Id)
-                            <input type="text" name="postText" placeholder="Say something.." />
-                            <button type="button" id="reviewButton" class="btn textButton"></button>
-                        </form>
-                    </div>
-                </div>
-                }
-
-                <div id="@Model.Id">
-                    @Html.Partial("PartialViews/_PostsDisplay", Model.Posts)
-                </div>
-            </div>    
-        *@
     </div>
 </div>
 
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-}
+<environment include="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <script src="~/js/Users/Activity.js"></script>
+</environment>

@@ -1,0 +1,55 @@
+﻿@model ExploreBooks.Models.UserViewModels.IndexViewModel
+@inject IUtilityService UtilityService
+@inject IApplicationPictureLogic PictureService
+@inject IPostService PostService
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<div class="container">
+    @{
+        foreach (var activity in Model.BookActivity)
+        {
+            <div class="row">
+                <div class="offset-1 col-md-10 col-10 border">
+                    @{
+                        var book = UtilityService.GetBookById(activity.TargetId);
+                        var userId = UserManager.GetUserId(User);
+                        var posts = PostService.GetAllPostsForTargetId(activity.Id);
+                        if (book != null)
+                        {
+                            @await Html.PartialAsync("ActivityPages/_EntityContent", activity)
+
+                            <div class="row justify-content-center">
+                                <div class="col"><hr /></div>
+                                <div class="col-auto">
+                                    <h6 class="displayActivityComment" onclick="displayComments('@activity.Id')">Comments</h6>
+                                </div>
+                                <div class="col"><hr /></div>
+                            </div>
+
+                            if (SignInManager.IsSignedIn(User))
+                            {
+                                <div class="media p-3">
+                                    <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(userId))" />
+                                    <div class="media-body textAlign">
+                                        <form asp-controller="Posts" asp-action="Create" class="submitPost" role="form">
+                                            @Html.Hidden("userId", Guid.Parse(userId))
+                                            @Html.Hidden("targetId", activity.Id)
+                                            <input type="text" name="postText" placeholder="Say something.." />
+                                            <button type="button" id="reviewButton" class="btn textButton"></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            }
+                            
+                            <div class="commentsActivity" id="@activity.Id">
+                                @await Html.PartialAsync("PartialViews/_PostsDisplay", posts)
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <br />
+        }
+    }
+</div>

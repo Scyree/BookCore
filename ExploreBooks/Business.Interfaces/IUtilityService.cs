@@ -17,5 +17,6 @@ namespace Business.Interfaces
         BookState GetBookStateById(Guid bookId, Guid userId);
         ApplicationUser GetApplicationUser(string userId);
         string DisplayDate(DateTime date);
+        string ConvertStateToAction(int state);
     }
 }

@@ -132,7 +132,59 @@ namespace Business.Services
 
         public string DisplayDate(DateTime date)
         {
-            return "BAKA";
+            var currentDate = DateTime.UtcNow;
+            var displayedText = "";
+
+            if ((currentDate - date).TotalSeconds < 60)
+            {
+                var difference = (int)(currentDate - date).TotalSeconds;
+                displayedText = difference + " seconds ago";
+
+                return displayedText;
+            }
+
+            if ((currentDate - date).TotalMinutes < 60)
+            {
+                var difference = (int)(currentDate - date).TotalMinutes;
+                displayedText = difference + " minutes ago";
+
+                return displayedText;
+            }
+
+            if ((currentDate - date).TotalHours < 24)
+            {
+                var difference = (int)(currentDate - date).TotalHours;
+                displayedText = difference + " hours ago";
+
+                return displayedText;
+            }
+
+            if ((currentDate - date).TotalDays > 365)
+            {
+                var difference = (int)(currentDate - date).TotalDays / 365 + 1;
+                displayedText = difference + " year/s ago";
+
+                return displayedText;
+            }
+
+            displayedText = date.Date.Day + "-" + date.Date.Month + " at " + date.Date.TimeOfDay.Hours;
+
+            return displayedText;
+        }
+
+        public string ConvertStateToAction(int state)
+        {
+            if (state == 1)
+            {
+                return "Plan to read";
+            }
+
+            if (state == 2)
+            {
+                return "Reading";
+            }
+
+            return "Read";
         }
     }
 }
