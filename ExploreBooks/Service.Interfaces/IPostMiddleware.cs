@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Domain.Data;
 
 namespace Service.Interfaces
@@ -7,5 +8,6 @@ namespace Service.Interfaces
     {
         IReadOnlyList<Post> GetPostsByDate();
         IReadOnlyList<Post> GetPostsBasedOnLikes();
+        void DeleteUserPosts(Guid userId);
     }
 }

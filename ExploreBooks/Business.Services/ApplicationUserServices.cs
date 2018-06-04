@@ -13,12 +13,20 @@ namespace Business.Services
         private readonly IApplicationUserRepository _applicationRepository;
         private readonly IPostService _postService;
         private readonly IFollowUserMiddleware _followUserMiddleware;
+        private readonly IPostMiddleware _postMiddleware;
+        private readonly IBookStateMiddleware _bookStateMiddleware;
+        private readonly ICommentMiddleware _commentMiddleware;
+        private readonly ILikeService _likeService;
 
-        public ApplicationUserServices(IApplicationUserRepository applicationRepository, IPostService postService, IFollowUserMiddleware followUserMiddleware)
+        public ApplicationUserServices(IApplicationUserRepository applicationRepository, IPostService postService, IFollowUserMiddleware followUserMiddleware, IPostMiddleware postMiddleware, IBookStateMiddleware bookStateMiddleware, ICommentMiddleware commentMiddleware, ILikeService likeService)
         {
             _applicationRepository = applicationRepository;
             _postService = postService;
             _followUserMiddleware = followUserMiddleware;
+            _postMiddleware = postMiddleware;
+            _bookStateMiddleware = bookStateMiddleware;
+            _commentMiddleware = commentMiddleware;
+            _likeService = likeService;
         }
 
         public IReadOnlyList<ApplicationUser> GetAllApplicationUsers()
@@ -73,10 +81,16 @@ namespace Business.Services
         {
             _applicationRepository.EditApplicationUser(applicationUser);
         }
-
+        
         public void DeleteApplicationUser(ApplicationUser applicationUser)
         {
-            _applicationRepository.DeleteApplicationUser(applicationUser);
+            var userId = Guid.Parse(applicationUser.Id);
+
+            _likeService.DeleteUserLikes(userId);
+            _followUserMiddleware.DeleteUserFollow(userId);
+            _postMiddleware.DeleteUserPosts(userId);
+            _bookStateMiddleware.DeleteUserStates(userId);
+            _commentMiddleware.DeleteUserComments(userId);
         }
 
         public bool CheckIfUsernameAlreadyExists(string username)

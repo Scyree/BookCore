@@ -124,5 +124,15 @@ namespace Business.Services
                 CheckIfExistsForDownvote(targetId, userId);
             }
         }
+
+        public void DeleteUserLikes(Guid userId)
+        {
+            var likes = _repository.GetAllLikes().Where(user => user.UserId == userId);
+
+            foreach (var like in likes)
+            {
+                _repository.DeleteLike(like);
+            }
+        }
     }
 }

@@ -30,5 +30,15 @@ namespace Service.Services
         {
             return _repository.GetAllFollowUsers().Any(user => user.UserId == userId && user.FollowId == followedId);
         }
+
+        public void DeleteUserFollow(Guid userId)
+        {
+            var followers = _repository.GetAllFollowUsers().Where(user => user.FollowId == userId || user.UserId == userId);
+
+            foreach (var follow in followers)
+            {
+                _repository.DeleteFollowUser(follow);
+            }
+        }
     }
 }

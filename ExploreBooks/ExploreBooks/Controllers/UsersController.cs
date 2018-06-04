@@ -2,31 +2,22 @@
 using System.Linq;
 using Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Data;
 using ExploreBooks.Models.UserViewModels;
-using Microsoft.AspNetCore.Identity;
-using Service.Interfaces;
 
 namespace ExploreBooks.Controllers
 {
     [Route("users")]
     public class UsersController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IBookStateMiddleware _stateService;
         private readonly IUtilityService _activityService;
         private readonly IApplicationUserServices _service;
         private readonly IApplicationFollowLogic _followLogic;
         private readonly IApplicationBookLogic _bookLogic;
-        private readonly IPostService _postService;
 
-        public UsersController(UserManager<ApplicationUser> userManager, IUtilityService activityService, IBookStateMiddleware stateService, IApplicationUserServices service, IPostService postService, IApplicationFollowLogic followLogic, IApplicationBookLogic bookLogic)
+        public UsersController(IUtilityService activityService, IApplicationUserServices service, IApplicationFollowLogic followLogic, IApplicationBookLogic bookLogic)
         {
-            _userManager = userManager;
             _activityService = activityService;
-            _stateService = stateService;
             _service = service;
-            _postService = postService;
             _followLogic = followLogic;
             _bookLogic = bookLogic;
         }

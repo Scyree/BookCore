@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Success";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Errors/UserNotFound.css" />
+</environment>
+
+<br />
+<br />
+<br />
+<br />
+<div class="row justify-content-center">
+    <h1>
+        Your account has been successfully deleted!
+    </h1>
+</div>
+<br />
+<br />
+<br />
+<div class="row justify-content-center">
+    <h3>
+        <i>
+            To make a new account, you'll have to register again!
+        </i>
+    </h3>
+</div>
+<br />
+<br />
+<br />
+<div class="row justify-content-center text-muted">
+    <h4>
+        <i>
+            You will be redirected in 3 seconds..
+        </i>
+    </h4>
+</div>
+
+<environment include="Development">
+    <script>
+        setTimeout(function() {
+            window.location.replace("..\\Home\\Index");
+        }, 3000);
+    </script>
+</environment>

@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "DeleteProfile";
+    ViewData.AddActivePage(ManageNavPages.DeleteProfile);
+}
+
+<div class="container">
+    <br />
+    <br />
+    <div class="row justify-content-center">
+        <h3 class="text-muted">
+            This area is dedicated if you want to fully delete your profile
+        </h3>
+    </div>
+    <br />
+    <div class="row justify-content-center">
+        <h4 class="text-muted">
+            (including posts, comments, likes etc.)
+        </h4>
+    </div>
+    <br />
+    <div class="row justify-content-center">
+        <h5 class="text-danger">
+            The profile will be deleted permanently
+        </h5>
+    </div>
+    <br />
+    <div class="row justify-content-center">
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteProfile"><i class="fa fa-eraser"></i> Delete it</button>
+    </div>
+</div>
+
+@await Html.PartialAsync("DeletePages/_ConfirmDelete")

@@ -32,5 +32,15 @@ namespace Service.Services
 
             return bookStates;
         }
+
+        public void DeleteUserStates(Guid userId)
+        {
+            var userStates = _repository.GetAllBookStates().Where(user => user.UserId == userId);
+
+            foreach (var state in userStates)
+            {
+                _repository.DeleteBookState(state);
+            }
+        }
     }
 }

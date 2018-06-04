@@ -53,7 +53,7 @@ namespace Service.Services
                 File.Delete(searchedPath);
             }
         }
-
+        
         public string GetPath(string folder, Guid value)
         {
             return Path.Combine(_env.WebRootPath, _imagePath + folder + "\\" + value);

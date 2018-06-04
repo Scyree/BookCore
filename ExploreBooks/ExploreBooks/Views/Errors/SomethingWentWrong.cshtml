@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "SomethingWentWrong";
+}
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Errors/UserNotFound.css" />
+</environment>
+
+<br />
+<br />
+<div class="row justify-content-center">
+    <h1>
+        This is embarrassing..
+    </h1>
+</div>
+<br />
+<br />
+<div class="row justify-content-center">
+    <h1>
+        Something it's not right and we couldn't display this page.. <i class="fa fa-frown-o"></i>
+    </h1>
+</div>
+
+@await Html.PartialAsync("_RedirectToMainPage")

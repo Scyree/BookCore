@@ -17,5 +17,6 @@ namespace Business.Interfaces
         int GetNumberOfLikes(Guid targetId);
         void Upvote(Guid targetId, Guid userId);
         void Downvote(Guid targetId, Guid userId);
+        void DeleteUserLikes(Guid userId);
     }
 }

@@ -14,9 +14,9 @@ namespace ExploreBooks.Views.Manage
 
         public static string ChangePicture => "ChangePicture";
 
-        public static string ExternalLogins => "ExternalLogins";
+        public static string DeleteProfile => "DeleteProfile";
 
-        public static string TwoFactorAuthentication => "TwoFactorAuthentication";
+        public static string ExternalLogins => "ExternalLogins";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
@@ -24,10 +24,10 @@ namespace ExploreBooks.Views.Manage
 
         public static string ChangePictureNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePicture);
 
-        public static string ExternalLoginsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ExternalLogins);
+        public static string DeleteProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, DeleteProfile);
 
-        public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
-    
+        public static string ExternalLoginsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ExternalLogins);
+        
         public static string PageNavClass(ViewContext viewContext, string page)
         {
             var activePage = viewContext.ViewData["ActivePage"] as string;

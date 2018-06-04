@@ -5,6 +5,7 @@
     var indexValue = "nav-link";
     var passwordValue = "nav-link";
     var pictureValue = "nav-link";
+    var deleteValue = "nav-link";
 
     if (activeValue == "Index")
     {
@@ -20,19 +21,27 @@
     {
         pictureValue += " active";
     }
+
+    if (activeValue == "DeleteProfile")
+    {
+        deleteValue += " active";
+    }
 }
 
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="@indexValue" asp-action="Index">Profile</a>
+        <a class="@indexValue" asp-action="Index"><i class="fa fa-user"></i> Profile</a>
     </li>
     <li class="nav-item">
-        <a class="@passwordValue" asp-action="ChangePassword">Password</a>
+        <a class="@passwordValue" asp-action="ChangePassword"><i class="fa fa-lock"></i> Password</a>
     </li>
     <li class="nav-item">
-        <a class="@pictureValue" asp-action="ChangePicture">Picture</a>
+        <a class="@pictureValue" asp-action="ChangePicture"><i class="fa fa-image"></i> Picture</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link disabled">Notifications</a>
+        <a class="@deleteValue" asp-action="DeleteProfile"><i class="fa fa-trash"></i> Delete</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link disabled"><i class="fa fa-bell"></i> Notifications</a>
     </li>
 </ul>

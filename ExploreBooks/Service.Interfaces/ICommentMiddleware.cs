@@ -8,5 +8,6 @@ namespace Service.Interfaces
     {
         IReadOnlyList<Comment> GetAllCommentsGivenPostId(Guid postId);
         IReadOnlyList<Comment> GetAllCommentsGivenPostIdSortedByDate(Guid postId);
+        void DeleteUserComments(Guid userId);
     }
 }

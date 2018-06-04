@@ -25,5 +25,15 @@ namespace Service.Services
         {
             return _repository.GetAllComments().Where(comments => comments.PostId == postId).OrderBy(comment => comment.Date).ToList();
         }
+
+        public void DeleteUserComments(Guid userId)
+        {
+            var comments = _repository.GetAllComments().Where(user => user.UserId == userId);
+
+            foreach (var comment in comments)
+            {
+                _repository.DeleteComment(comment);
+            }
+        }
     }
 }

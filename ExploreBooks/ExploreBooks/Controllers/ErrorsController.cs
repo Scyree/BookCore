@@ -19,5 +19,11 @@ namespace ExploreBooks.Controllers
         {
             return View();
         }
+
+        [HttpGet("SomethingWentWrong")]
+        public IActionResult SomethingWentWrong()
+        {
+            return View();
+        }
     }
 }

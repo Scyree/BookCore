@@ -1,0 +1,23 @@
+﻿<div class="modal fade" id="deleteProfile">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h3 class="modal-title mx-auto mw-100 text-danger">
+                    Are you sure about this?
+                </h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-6 text-right">
+                        <form asp-controller="Manage" asp-action="DeleteConfirmed" method="post">
+                            <button type="submit" class="btn btn-danger deleteButton"><i class="fa fa-user-times"></i> Yes</button>
+                        </form>
+                    </div>
+                    <div class="col-md-6 col-6 text-left">
+                        <button type="button" data-dismiss="modal" class="btn btn-success deleteButton"><i class="fa fa-shield"></i> No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

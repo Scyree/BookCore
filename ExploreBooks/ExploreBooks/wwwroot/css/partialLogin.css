@@ -9,6 +9,11 @@
     border: none;
 }
 
+.dropdown-item:active {
+    color: #b3b3b3;
+    background-color: transparent;
+}
+
 .btn-logout:hover {
     text-decoration: none;
 }
@@ -29,7 +34,7 @@
 .btn-logout:hover, .btn-logout:focus {
     color: #16181b;
     text-decoration: none;
-    background-color: #f8f9fa;
+    background-color: #B9B1B1;
     cursor: pointer;
 }
 
