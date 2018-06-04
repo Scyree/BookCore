@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Business.Interfaces;
 using Domain.Data;
-using ExploreBooks.Extensions;
 using ExploreBooks.Models.ManageViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,21 +10,20 @@ using Microsoft.Extensions.Logging;
 
 namespace ExploreBooks.Controllers
 {
+    [Authorize]
     [Route("[controller]/[action]")]
     public class ManageController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly IApplicationUserServices _service;
         private readonly IApplicationPictureLogic _pictureLogic;
 
-        public ManageController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender, ILogger<ManageController> logger, IApplicationUserServices service, IApplicationPictureLogic pictureLogic)
+        public ManageController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<ManageController> logger, IApplicationUserServices service, IApplicationPictureLogic pictureLogic)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailSender = emailSender;
             _logger = logger;
             _service = service;
             _pictureLogic = pictureLogic;
@@ -35,7 +33,6 @@ namespace ExploreBooks.Controllers
         public string StatusMessage { get; set; }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -61,7 +58,6 @@ namespace ExploreBooks.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(IndexViewModel model)
         {
@@ -107,7 +103,6 @@ namespace ExploreBooks.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> ChangePicture()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -127,7 +122,6 @@ namespace ExploreBooks.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePicture(ChangePictureViewModel model)
         {
@@ -159,7 +153,6 @@ namespace ExploreBooks.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendVerificationEmail(IndexViewModel model)
         {
@@ -173,18 +166,12 @@ namespace ExploreBooks.Controllers
             {
                 return RedirectToAction("SomethingWentWrong", "Errors");
             }
-
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-            var email = user.Email;
-            await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
-
+            
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> ChangePassword()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -204,7 +191,6 @@ namespace ExploreBooks.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
@@ -234,7 +220,6 @@ namespace ExploreBooks.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> SetPassword()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -255,7 +240,6 @@ namespace ExploreBooks.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SetPassword(SetPasswordViewModel model)
         {
@@ -282,9 +266,8 @@ namespace ExploreBooks.Controllers
 
             return RedirectToAction(nameof(SetPassword));
         }
-
-        [Authorize]
-        public async Task<IActionResult> DeleteProfile(Guid? id)
+        
+        public async Task<IActionResult> DeleteProfile()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -294,7 +277,8 @@ namespace ExploreBooks.Controllers
 
             return View();
         }
-        
+
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
@@ -307,14 +291,14 @@ namespace ExploreBooks.Controllers
             return RedirectToAction("RedirectAfterDelete");
         }
 
+        [AllowAnonymous]
         public IActionResult RedirectAfterDelete()
         {
             return View("DeletePages/RedirectAfterDelete");
         }
 
         #region Helpers
-
-        [Authorize]
+        
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
