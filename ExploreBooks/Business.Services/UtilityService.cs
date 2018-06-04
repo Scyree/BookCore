@@ -36,7 +36,7 @@ namespace Business.Services
                 bookActivity.Add(book);
             }
             
-            return bookActivity.ToList();
+            return bookActivity.OrderByDescending(activ => activ.DateModified).ToList();
         }
 
         public IReadOnlyList<BookState> GetFirstNBooksForUserId(string userId, int number)
@@ -159,6 +159,13 @@ namespace Business.Services
                 return displayedText;
             }
 
+            if ((currentDate - date).TotalHours < 48)
+            {
+                displayedText = "yesterday";
+
+                return displayedText;
+            }
+
             if ((currentDate - date).TotalDays > 365)
             {
                 var difference = (int)(currentDate - date).TotalDays / 365 + 1;
@@ -167,7 +174,7 @@ namespace Business.Services
                 return displayedText;
             }
 
-            displayedText = date.Date.Day + "-" + date.Date.Month + " at " + date.Date.TimeOfDay.Hours;
+            displayedText = ConvertIntToMonth(date.Month) + " " + date.Day + " at " + date.Hour + ":" + date.Minute;
 
             return displayedText;
         }
@@ -185,6 +192,37 @@ namespace Business.Services
             }
 
             return "Read";
+        }
+
+        private string ConvertIntToMonth(int givenMonth)
+        {
+            switch (givenMonth)
+            {
+                case 1:
+                    return "Jan";
+                case 2:
+                    return "Feb";
+                case 3:
+                    return "Mar";
+                case 4:
+                    return "Apr";
+                case 5:
+                    return "May";
+                case 6:
+                    return "Jun";
+                case 7:
+                    return "Jul";
+                case 8:
+                    return "Aug";
+                case 9:
+                    return "Sep";
+                case 10:
+                    return "Oct";
+                case 11:
+                    return "Nov";
+                default:
+                    return "Dec";
+            }
         }
     }
 }

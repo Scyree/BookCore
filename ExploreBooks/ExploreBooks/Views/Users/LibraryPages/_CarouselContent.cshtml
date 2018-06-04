@@ -2,12 +2,15 @@
 @inject IApplicationBookLogic BookService
 @inject IApplicationPictureLogic PictureService
 
+@{
+    var count = Model.Count;
+    var max = (count - 1) / 4;
+}
+
 <div class="row ">
     <div id="favoriteBooks" class="carousel carousel-fade" data-ride="carousel">
         <div class="carousel-inner">
             @{
-                var count = Model.Count;
-                var max = (count - 1) / 4;
                 for (var divNumber = 0; divNumber <= max; ++divNumber)
                 {
                     var active = "";
@@ -52,11 +55,17 @@
                 }
             }
         </div>
-        <a class="carousel-control-prev" href="#favoriteBooks" role="button" data-slide="prev">
-            <i class="fa fa-caret-left arrowFavorite"></i>
-        </a>
-        <a class="carousel-control-next" href="#favoriteBooks" role="button" data-slide="next">
-            <i class="fa fa-caret-right arrowFavorite"></i>
-        </a>
+        
+        @{
+            if (count > 4)
+            {
+                <a class="carousel-control-prev" href="#favoriteBooks" role="button" data-slide="prev">
+                    <i class="fa fa-caret-left arrowFavorite"></i>
+                </a>
+                <a class="carousel-control-next" href="#favoriteBooks" role="button" data-slide="next">
+                    <i class="fa fa-caret-right arrowFavorite"></i>
+                </a>
+            }
+        }
     </div>
 </div>
