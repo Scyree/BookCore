@@ -37,38 +37,26 @@ namespace ExploreBooks.Controllers
             var user = _service.GetApplicationUserByUsername(username);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return RedirectToAction("UserNotFound", "Errors");
             }
             
-            var model = new IndexViewModel
+            var model = new ActivityViewModel
             {
                 Id = user.Id,
                 Username = user.User,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Description = user.Description,
-                Country = user.Country,
                 BookActivity = _activityService.GetAllBooksForUserId(user.Id)
             };
 
             return View(model);
         }
 
-        [HttpPost("Create")]
-        public IActionResult Create(Guid bookId, string userId, string actionName)
-        {
-            _bookLogic.ReadActions(bookId, userId, actionName);
-            
-            return RedirectToAction("Details", "Books", new { @id = bookId });
-        }
-        
         [HttpGet("{username}/library")]
         public IActionResult Library(string username)
         {
             var user = _service.GetApplicationUserByUsername(username);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return RedirectToAction("UserNotFound", "Errors");
             }
 
             var model = new LibraryViewModel
@@ -87,15 +75,26 @@ namespace ExploreBooks.Controllers
             var user = _service.GetApplicationUserByUsername(username);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return RedirectToAction("UserNotFound", "Errors");
             }
+            
+            var model = new SocialViewModel
+            {
+                Id = user.Id,
+                Username = user.User
+            };
 
-            user.Posts = _postService.GetAllPostsForTargetId(Guid.Parse(user.Id)).ToList();
-            user.Books = _stateService.GetFavoriteBookStatesByUserId(Guid.Parse(user.Id)).ToList();
-
-            return View(user);
+            return View(model);
         }
 
+        [HttpPost("Create")]
+        public IActionResult Create(Guid bookId, string userId, string actionName)
+        {
+            _bookLogic.ReadActions(bookId, userId, actionName);
+            
+            return RedirectToAction("Details", "Books", new { @id = bookId });
+        }
+        
         [HttpPost("AddToFavorites")]
         public IActionResult AddToFavorites(Guid bookId, string userId)
         {

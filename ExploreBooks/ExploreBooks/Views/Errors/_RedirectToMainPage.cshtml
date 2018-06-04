@@ -1,0 +1,16 @@
+﻿
+<div class="row justify-content-center">
+    <h4>
+        <i>
+            You will be redirected in 3 seconds..
+        </i>
+    </h4>
+</div>
+
+<environment include="Development">
+    <script>
+        setTimeout(function() {
+            window.location.replace("Home/Index");
+        }, 3000);
+    </script>
+</environment>

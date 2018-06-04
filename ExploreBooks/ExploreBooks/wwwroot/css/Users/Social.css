@@ -2,6 +2,12 @@
     color: #333;
 }
 
+h4 {
+    color: #5c3d3d;
+    text-align: center;
+    font-size: 20px;
+}
+
 .breadcrumb {
     background: transparent;
     color: #4d3333;
@@ -25,21 +31,4 @@
 
 .socialRow {
     padding: 10px;
-}
-
-a:hover {
-    color: #4d3333;
-    text-decoration: none;
-    opacity: 0.9;
-}
-
-.tooltip-inner, .tooltip-inner a, .tooltip-inner p, .tooltip-inner h4 {
-    background-color: #532D2D;
-    color: #CFD5D5;
-}
-
-.bs-tooltip-right .arrow::before, .bs-tooltip-auto[x-placement^="right"] .arrow::before {
-    right: 0;
-    border-width: 0.4rem 0.4rem 0.4rem 0;
-    border-right-color: #532D2D;
 }

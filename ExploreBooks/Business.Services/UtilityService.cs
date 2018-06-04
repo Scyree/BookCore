@@ -154,7 +154,7 @@ namespace Business.Services
             if ((currentDate - date).TotalHours < 24)
             {
                 var difference = (int)(currentDate - date).TotalHours;
-                displayedText = difference + " hours ago";
+                displayedText = difference + " hour/s ago";
 
                 return displayedText;
             }

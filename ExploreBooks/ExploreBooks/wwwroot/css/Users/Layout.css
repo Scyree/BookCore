@@ -1,7 +1,5 @@
-﻿h4 {
-    color: #5c3d3d;
-    text-align: center;
-    font-size: 20px;
+﻿.rightContent {
+    border-left: 1px solid #DEE2E6;
 }
 
 a {
@@ -15,6 +13,13 @@ a:hover {
     opacity: 0.9;
 }
 
-.rightContent {
-    border-left: 1px solid #DEE2E6;
+.tooltip-inner, .tooltip-inner a, .tooltip-inner p, .tooltip-inner h4 {
+    background-color: #532D2D;
+    color: #CFD5D5;
+}
+
+.bs-tooltip-right .arrow::before, .bs-tooltip-auto[x-placement^="right"] .arrow::before {
+    right: 0;
+    border-width: 0.4rem 0.4rem 0.4rem 0;
+    border-right-color: #532D2D;
 }

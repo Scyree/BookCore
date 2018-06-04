@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "UserNotFound";
+}
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Errors/UserNotFound.css" />
+</environment>
+
+<br/>
+<br/>
+<div class="row justify-content-center">
+    <h1>
+        Halt, time traveler!
+    </h1>
+</div>
+<br/>
+<div class="row justify-content-center">
+    <h1>
+        <i class="fa fa-stop-circle biggerIcon"></i>
+    </h1>
+</div>
+<br/>
+<div class="row justify-content-center">
+    <h1>
+        This username doesn't exist.. yet.. <i class="fa fa-question"></i>
+    </h1>
+</div>
+
+@await Html.PartialAsync("_RedirectToMainPage")

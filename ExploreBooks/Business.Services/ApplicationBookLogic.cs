@@ -66,6 +66,7 @@ namespace Business.Services
                 else
                 {
                     searchedBook.State = value;
+                    searchedBook.DateModified = DateTime.UtcNow;
                     _bookStateRepository.EditBookState(searchedBook);
                 }
             }

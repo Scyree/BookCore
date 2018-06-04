@@ -13,5 +13,11 @@ namespace ExploreBooks.Controllers
         {
             return View("Index");
         }
+
+        [HttpGet("FutureMessage")]
+        public IActionResult UserNotFound()
+        {
+            return View();
+        }
     }
 }
