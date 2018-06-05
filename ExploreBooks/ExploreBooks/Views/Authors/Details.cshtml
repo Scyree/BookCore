@@ -1,7 +1,7 @@
 ﻿@model Author
 @inject IBookService Books
 @inject ILikeService Likes
-@inject IApplicationUserServices Service
+@inject IApplicationPictureLogic PictureService
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @{
@@ -9,79 +9,27 @@
 }
 
 <environment include="Development">
-    <link rel="stylesheet" href="~/css/Author.css" />
+    <link rel="stylesheet" href="~/css/Authors/Author.css" />
+    <link rel="stylesheet" href="~/css/PartialPosts.css" />
 </environment>
 
 <br />
 <br />
-
-<div class="container">
+<div class="container text-center">
     <div class="row">
-        <div class="col-md-3 col-3 infoAuthors">
-            <div class="col-md-12 col-12">
-                <div class="card card-body bg-light">
-                    <img class="rounded" id="imageDetails" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
-                </div>
-            </div>
+        <div class="col-md-3 col-3">
+            @await Html.PartialAsync("DetailsPages/_LeftContent", Model)
         </div>
-        <div class="col-md-9 col-9">
-            <div class="col-md-12 col-12">
-                <div class="row justify-content-center">
-                    <h2 style="font-style: italic">
-                        @Model.Name
-                    </h2>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 col-12">
-                        <div class="card card-body bg-light">
-                            <p>
-                                @Model.Description
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <br />
-                <br />
-                <div class="container border">
-                   
-                </div>
-                <div class="container border">
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        var userId = UserManager.GetUserId(User);
-                        <div class="media p-3">
-                            <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
-                            <div class="media-body textAlign">
-                                @using (Html.BeginForm("Create", "Comments", new { userId = Guid.Parse(userId), targetId = Model.Id }, FormMethod.Post, null, new { }))
-                                {
-                                    <input type="text" id="commentText" name="commentText" placeholder="Write a comment.." />
-                                    <button type="button" id="commentButton" class="btn textButton"></button>
-                                }
-                            </div>
-                        </div>
-                    }
-                    
-                </div>
+        <div class="col-md-7 col-7 rightContent">
+            <div class="row text-left ml-4">
+                <h3 class="displayName">
+                    @Model.Name
+                </h3>
             </div>
+            @await Html.PartialAsync("DetailsPages/_WrittenBooksContent", Model.Books.ToList())
+
+            <br/>
+            @await Html.PartialAsync("DetailsPages/_PostSection", Model)
         </div>
-    </div>
+   </div>
 </div>
-
-<script>
-    var checkUser = "@SignInManager.IsSignedIn(User)";
-
-    if (checkUser) {
-        var commentText = document.getElementById("commentText");
-
-        if (commentText) {
-            commentText.addEventListener("keyup",
-                function (event) {
-                    event.preventDefault();
-
-                    if (event.keyCode == 13) {
-                        document.getElementById("commentButton").click();
-                    }
-                });
-        }
-    }
-</script>

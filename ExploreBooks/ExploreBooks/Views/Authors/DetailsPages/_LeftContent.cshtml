@@ -1,0 +1,26 @@
+﻿@model Author
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Authors/LeftContent.css" />
+</environment>
+
+<br />
+<div class="sticky-top">
+    <div class="col-md-12 col-12">
+        <div class="row justify-content-center">
+            <img class="img-thumbnail imageContent" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)"/>
+        </div>
+        <br/>
+        <div class="row ml-3">
+            <h7 class="displayInfo">
+                SHORT DESCRIPTION
+            </h7>
+        </div>
+        <hr id="hrDetails"/>
+        <div class="row displayContent">
+            <h6 class="description">
+                @Model.Description
+            </h6>
+        </div>
+    </div>
+</div>

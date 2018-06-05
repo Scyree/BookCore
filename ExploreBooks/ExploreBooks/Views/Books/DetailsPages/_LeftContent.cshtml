@@ -1,0 +1,13 @@
+﻿@model Book
+@inject SignInManager<ApplicationUser> SignInManager
+
+<div class="container">
+    <div class="col-md-12 col-12">
+        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+            @await Html.PartialAsync("DetailsPages/_ReadActionsContent", Model.Id)
+        }
+    </div>
+</div>

@@ -1,0 +1,23 @@
+﻿@model List<GenreBook>
+@inject IGenreService GenreService
+
+@{
+    for (var index = 0; index < Model.Count; ++index)
+    {
+        var genreDisplay = GenreService.GetGenreById(Model[index].GenreId);
+        var checkIndex = index + 1;
+
+        <div class="col-md-2 col-2">
+            <a asp-controller="Books" asp-action="GetAllBooksForSpecifiedGenre" asp-route-genre="@genreDisplay.Text">
+                <span class="badge badge-pill genreBadge">
+                    @genreDisplay.Text
+                </span>
+            </a>
+        </div>
+
+        if (checkIndex % 6 == 0)
+        {
+            <div class="w-100"></div>
+        }
+    }
+}

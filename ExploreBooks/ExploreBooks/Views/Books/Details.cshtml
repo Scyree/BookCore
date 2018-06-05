@@ -1,7 +1,5 @@
 ﻿@model Book
-@inject IAuthorService Authors
-@inject IGenreService Genres
-@inject IApplicationPictureLogic Service
+@inject IApplicationPictureLogic PictureService
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject IUtilityService UtilityService
@@ -21,16 +19,7 @@
 <div class="container text-center">
     <div class="row">
         <div class="col-md-3 col-3">        
-            <div class="container">
-                <div class="col-md-12 col-12">
-                    <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
-
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        @Html.Partial("PartialViews/_BookReadActions", Model);
-                    }
-                </div>
-            </div>
+            @await Html.PartialAsync("DetailsPages/_LeftContent", Model)
         </div>
         <div class="col-md-6 col-6">
             <div class="col-md-12 col-12">
@@ -38,28 +27,7 @@
                     <h2 class="col-8 text-left" style="font-style: italic">
                         @Model.Title
                     </h2>
-                    <div class="col-4">
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            var user = UserManager.GetUserId(User);
-                            var checkFavorite = UtilityService.GetBookStateById(Model.Id, Guid.Parse(user));
-                            if (checkFavorite != null)
-                            {
-                                if (checkFavorite.IsFavorite)
-                                {
-                                    <button type="submit" class="btn btn-secondary" onclick="RemoveFavorite('@Model.Id', '@user')"><i class="fa fa-heart-o"></i></button>
-                                }
-                                else
-                                {
-                                    <button type="submit" class="btn btn-danger" onclick="AddFavorite('@Model.Id', '@user')"><i class="fa fa-heart"></i></button>
-                                }
-                            }
-                            else
-                            {
-                                <button type="submit" class="btn btn-danger" onclick="AddFavorite('@Model.Id', '@user')"><i class="fa fa-heart"></i></button>
-                            }
-                        }
-                    </div>
+                    @await Html.PartialAsync("DetailsPages/_AddFavoriteContent", Model.Id)
                 </div>
                 <div class="row">
                     <div class="col-md-12 col-12 text-left">
@@ -69,27 +37,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    @{
-                        var genres = Model.Genres.ToList();
-                        for (var index = 0; index < genres.Count; ++index)
-                        {
-                            var genreDisplay = Genres.GetGenreById(genres[index].GenreId);
-                            var checkIndex = index + 1;
-
-                            <div class="col-md-2 col-2">
-                                <a asp-controller="Books" asp-action="GetAllBooksForSpecifiedGenre" asp-route-genre="@genreDisplay.Text">                                       
-                                    <span class="badge badge-pill genreBadge">
-                                        @genreDisplay.Text
-                                    </span>
-                                </a>
-                            </div>
-
-                            if (checkIndex % 6 == 0)
-                            {
-                                <div class="w-100"></div>
-                            }
-                        }
-                    }
+                    @await Html.PartialAsync("DetailsPages/_GenresContent", Model.Genres.ToList())
                 </div>
                 <br />
                 <br />
@@ -136,7 +84,7 @@
                     {
                         var userId = UserManager.GetUserId(User);
                         <div class="media p-3">
-                            <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))"/>
+                            <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(userId))"/>
                             <div class="media-body textAlign">
                                 <form asp-controller="Posts" asp-action="Create" class="submitPost" role="form">
                                     @Html.Hidden("userId", Guid.Parse(userId))
@@ -155,90 +103,7 @@
             </div>
         </div>
         <div class="col-md-3 col-3">
-            <div class="row">
-                <div class="col-md-12 col-12">
-                    <div class="card card-body bg-light">
-                        <div class="row">
-                            <div class="col"><hr /></div>
-                            <div class="col-auto"><h6>Authors</h6></div>
-                            <div class="col"><hr /></div>
-                        </div>
-                        @{
-                            var authors = Model.Authors.ToList();
-                            var lastAuthor = Authors.GetAuthorById(authors[authors.Count - 1].AuthorId);
-                            for (var index = 0; index < authors.Count - 1; ++index)
-                            {
-                                var authorDisplay = Authors.GetAuthorById(authors[index].AuthorId);
-
-                                <a asp-controller="Authors" asp-action="Details" asp-route-id="@authorDisplay.Id"><h7>@authorDisplay.Name, </h7></a>
-                            }
-
-                            <a asp-controller="Authors" asp-action="Details" asp-route-id="@lastAuthor.Id">@lastAuthor.Name</a>
-                        }
-                    </div>
-                    <br />
-                    <br />
-                    <div class="card card-body bg-light">
-                        <div class="row">
-                            <div class="col"><hr /></div>
-                            <div class="col-auto"><h6>Details</h6></div>
-                            <div class="col"><hr /></div>
-                        </div>
-                        <p>
-                            @Html.DisplayFor(modelItem => Model.Details)
-                        </p>
-                    </div>
-                    <br />
-                    <br />
-                    <div class="card card-body bg-light">
-                        <div class="row">
-                            <div class="col"><hr /></div>
-                            <div class="col-auto"><h6>Actions</h6></div>
-                            <div class="col"><hr /></div>
-                        </div>
-                        <p>
-                            @{
-                                var recommendBook = "recommendBook" + @Model.Id;
-                            }
-                            <a asp-action="Edit" asp-route-id="@Model.Id"><i class="fa fa-edit"></i>Edit</a>
-                            <br/>
-                            @if (SignInManager.IsSignedIn(User))
-                            {
-                                <a href="#" data-toggle="modal" data-target="#@recommendBook">
-                                    <i class="fa fa-book"></i>Recommend a book
-                                </a>
-                                <br/>
-                            }
-                            <a asp-action="Index"><i class="fa fa-undo"></i> Search for others books</a>
-                            <br/>
-                            <a asp-controller="Authors" asp-action="Index"><i class="fa fa-users"></i> Search through authors..</a>
-                        </p>
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                           @Html.Partial("PartialViews/_RecommendABook", Model.Id)
-                        }
-                    </div>
-                </div>
-            </div>
-            <br />
-            <br />
-            <div class="row">
-                <div class="col-md-12 col-12">
-                    <div class="card card-body bg-light">
-                        <div class="row">
-                            <div class="col"><hr /></div>
-                            <div class="col-auto"><h6>Buy this book</h6></div>
-                            <div class="col"><hr /></div>
-                        </div>
-                        <p>
-                            <a href="#"><i class="fa fa-amazon"></i> amazon</a>
-                            <br />
-                            <a href="#"><i class="fa fa-google"></i> google</a>
-                            <br />
-                        </p>
-                    </div>
-                </div>
-            </div>
+            @await Html.PartialAsync("DetailsPages/_RightContent", Model)
         </div>
     </div>
 </div>

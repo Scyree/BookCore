@@ -1,0 +1,94 @@
+﻿@model Book
+@inject IAuthorService AuthorService
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<div class="row">
+    <div class="card card-body bg-light">
+        <div class="row">
+            <div class="col"><hr /></div>
+            <div class="col-auto"><h6>Authors</h6></div>
+            <div class="col"><hr /></div>
+        </div>
+        <div class="row justify-content-center">
+            @{
+                var authors = Model.Authors.ToList();
+                var lastAuthor = AuthorService.GetAuthorById(authors[authors.Count - 1].AuthorId);
+                for (var index = 0; index < authors.Count - 1; ++index)
+                {
+                    var authorDisplay = AuthorService.GetAuthorById(authors[index].AuthorId);
+
+                    <a asp-controller="Authors" asp-action="Details" asp-route-id="@authorDisplay.Id"><h7>@authorDisplay.Name, </h7></a>
+                }
+
+                <a asp-controller="Authors" asp-action="Details" asp-route-id="@lastAuthor.Id">@lastAuthor.Name</a>
+            }
+        </div>
+    </div>
+</div>
+<br />
+<div class="row justify-content-center">  
+    <div class="card card-body bg-light">
+        <div class="row">
+            <div class="col"><hr /></div>
+            <div class="col-auto"><h6>Details</h6></div>
+            <div class="col"><hr /></div>
+        </div>
+        <div class="row justify-content-center">
+            <p>
+                @Html.DisplayFor(modelItem => Model.Details)
+            </p>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="row justify-content-center">
+    <div class="card card-body bg-light">
+        <div class="row">
+            <div class="col"><hr /></div>
+            <div class="col-auto"><h6>Actions</h6></div>
+            <div class="col"><hr /></div>
+        </div>
+        <div class="row justify-content-center">
+            <p>
+                @{
+                    var recommendBook = "recommendBook" + @Model.Id;
+                }
+                <a asp-action="Edit" asp-route-id="@Model.Id"><i class="fa fa-edit"></i>Edit</a>
+                <br/>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a href="#" data-toggle="modal" data-target="#@recommendBook">
+                        <i class="fa fa-book"></i>Recommend a book
+                    </a>
+                    <br/>
+                }
+                <a asp-action="Index"><i class="fa fa-undo"></i> Search for others books</a>
+                <br/>
+                <a asp-controller="Authors" asp-action="Index"><i class="fa fa-users"></i> Search through authors..</a>
+            </p>
+        </div>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            @Html.Partial("PartialViews/_RecommendABook", Model.Id)
+        }
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="card card-body bg-light">
+        <div class="row">
+            <div class="col"><hr /></div>
+            <div class="col-auto"><h6>Buy this book</h6></div>
+            <div class="col"><hr /></div>
+        </div>
+        <div class="row justify-content-center">
+            <p>
+                <a href="#"><i class="fa fa-amazon"></i> amazon</a>
+                <br />
+                <a href="#"><i class="fa fa-google"></i> google</a>
+                <br />
+            </p>
+        </div>
+    </div>
+</div>

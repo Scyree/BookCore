@@ -1,12 +1,4 @@
-﻿.container {
-    color: black;
-}
-
-.container-fluid {
-    min-height: 100%;
-}
-
-img {
+﻿img {
     max-width: 90%;
     max-height: 90%;
     width: 90%;

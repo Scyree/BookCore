@@ -1,0 +1,36 @@
+﻿h4 {
+    color: #0d0d0d;
+}
+
+.imageContent {
+    max-width: 180px;
+    max-height: 240px;
+    width: 180px;
+    height: 240px;
+}
+
+.displayContent {
+    margin-left: 5px;
+    color: #0d0d0d;
+}
+
+.sticky-top {
+    top: 9rem;
+}
+
+.displayInfo {
+    color: #090911;
+}
+
+.description {
+    color: #090911;
+}
+
+#hrDetails {
+    padding: 0;
+    margin-top: 0;
+}
+
+#displayName {
+    color: #0f0b0b;
+}

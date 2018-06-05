@@ -1,0 +1,27 @@
+﻿@model Guid
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IUtilityService UtilityService
+
+<div class="col-4">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var user = UserManager.GetUserId(User);
+        var checkFavorite = UtilityService.GetBookStateById(Model, Guid.Parse(user));
+        if (checkFavorite != null)
+        {
+            if (checkFavorite.IsFavorite)
+            {
+                <button type="submit" class="btn btn-secondary" onclick="RemoveFavorite('@Model', '@user')"><i class="fa fa-heart-o"></i></button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-danger" onclick="AddFavorite('@Model', '@user')"><i class="fa fa-heart"></i></button>
+            }
+        }
+        else
+        {
+            <button type="submit" class="btn btn-danger" onclick="AddFavorite('@Model', '@user')"><i class="fa fa-heart"></i></button>
+        }
+    }
+</div>

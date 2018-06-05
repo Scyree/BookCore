@@ -5,19 +5,24 @@
 }
 
 <environment include="Development">
-    <link rel="stylesheet" href="~/css/Book.css" />
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="~/css/Authors/Author.css" />
 </environment>
 
 <br />
-
-<p>
-    <h4>
+<br />
+<div class="row justify-content-center">
+    <h3>
         Discover all authors
-    </h4>
-    <a asp-action="Create">..or add a new one</a>
-</p>
+    </h3>
+</div>
+<div class="row justify-content-center">
+    <h5>
+        <i>
+            <a asp-action="Create">..or add a new one</a>
+        </i>
+    </h5>
+</div>
+<br />
 <div class="container">
     @{
         var authors = Model.ToList();
@@ -29,7 +34,7 @@
 
                 <div class="col-md-3 col-3">
                     <a asp-action="Details" asp-route-id="@authors[index].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
-                        <img class="rounded" src="@Url.Content("images\\" + authors[index].Folder + "\\" + authors[index].ImageName)" />
+                        <img class="rounded indexImages" src="@Url.Content("images\\" + authors[index].Folder + "\\" + authors[index].ImageName)" />
                     </a>
                 </div>
 
@@ -41,9 +46,3 @@
         </div>
     }
 </div>
-
-<script>
-    $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-</script>
