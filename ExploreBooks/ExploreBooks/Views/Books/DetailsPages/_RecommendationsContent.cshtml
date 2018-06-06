@@ -81,18 +81,19 @@
                                         }
                                     }
                                 </div>
-
-                                if (count > 4)
-                                {
-                                    <a class="carousel-control-prev" href="#recommendedBooks" role="button" data-slide="prev">
-                                        <i class="fa fa-caret-left arrowRecommendedBooks"></i>
-                                    </a>
-                                    <a class="carousel-control-next" href="#recommendedBooks" role="button" data-slide="next">
-                                        <i class="fa fa-caret-right arrowRecommendedBooks"></i>
-                                    </a>
-                                }
                             }
                         </div>
+
+                        if (recommendedBooks.Count > 4)
+                        {
+                            <a class="carousel-control-prev" href="#recommendedBooks" role="button" data-slide="prev">
+                                <i class="fa fa-caret-left arrowRecommendedBooks"></i>
+                            </a>
+                            <a class="carousel-control-next" href="#recommendedBooks" role="button" data-slide="next">
+                                <i class="fa fa-caret-right arrowRecommendedBooks"></i>
+                            </a>
+                        }
+
                         if (recommendedBooks.Count == 0)
                         {
                             <div class="row">
