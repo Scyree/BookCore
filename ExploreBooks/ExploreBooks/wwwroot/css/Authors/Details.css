@@ -45,6 +45,7 @@ a:hover {
 
 #title {
     color: #4a2f37;
+    font-style: italic;
 }
 
 .displayFeedback {
@@ -54,7 +55,7 @@ a:hover {
 
 .displayFeedback:hover {
     font-style: italic;
-    color: #c0b2b2;
+    color: #84474e;
 }
 
 .communityFeedback {
@@ -67,4 +68,33 @@ a:hover {
     width: 150px;
     height: 220px;
     padding-bottom: 15px;
+}
+
+#books {
+    cursor: pointer;
+    color: #4a2f37;
+}
+
+#books:hover {
+    font-style: italic;
+    color: #84474e;
+}
+
+.displayAction {
+    color: #372329;
+}
+
+.displayNormalContent {
+    font-style: italic;
+    color: #372329;
+}
+
+.displayContent {
+    cursor: pointer;
+    color: #84474e !important;
+}
+
+.displayContent:hover {
+    font-style: italic;
+    color: #c0b2b2;
 }

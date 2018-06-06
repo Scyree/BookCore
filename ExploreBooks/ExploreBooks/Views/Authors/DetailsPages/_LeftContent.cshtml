@@ -5,20 +5,45 @@
 </environment>
 
 <br />
-<div class="card sticky-top border-0" id="leftContentCard">
+<div class="offset-1 col-md-10 col-10 sticky-top">
+    <div class="card border-0" id="leftContentCard">
         <div class="row justify-content-center">
             <img class="card-img-top imageContent" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
         </div>
         <br />
-        <div class="row ml-3">
-            <h7 class="displayInfo">
-                Description
-            </h7>
+        <div class="row">
+            <div class="card card-body">
+                <div class="row justify-content-center">
+                    <p class="displayNormalContent">
+                        ,,@Model.Description,,
+                    </p>
+                </div>
+            </div>
         </div>
-        <hr id="hrDetails" />
-        <div class="row displayContent">
-            <h6 class="description">
-                @Model.Description
-            </h6>
+        <br />
+        <div class="row justify-content-center">
+            <div class="card card-body">
+                <div class="row">
+                    <div class="col"><hr /></div>
+                    <div class="col-auto"><h6 class="displayAction">Actions</h6></div>
+                    <div class="col"><hr /></div>
+                </div>
+                <div class="row justify-content-center">
+                    <p>
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="displayContent">
+                            <i class="fa fa-edit"></i> Edit
+                        </a>
+                        <br/>
+                        <a asp-action="Index" class="displayContent">
+                            <i class="fa fa-undo"></i> Search for authors
+                        </a>
+                        <br/>
+                        <a asp-controller="Books" asp-action="Index" class="displayContent">
+                            <i class="fa fa-users"></i> Search through books
+                        </a>
+                    </p>
+                </div>
+            </div>
         </div>
+    </div>
 </div>

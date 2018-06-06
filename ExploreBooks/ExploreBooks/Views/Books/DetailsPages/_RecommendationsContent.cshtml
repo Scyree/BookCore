@@ -10,8 +10,8 @@
     <div class="row justify-content-center">
         <div class="col"><hr /></div>
         <div class="col-auto">
-            <h5 id="recommendation">
-                <a asp-controller="Recommendations" asp-action="GetAllRecommendations" asp-route-bookId="@Model.Id">
+            <h5>
+                <a asp-controller="Recommendations" asp-action="GetAllRecommendations" asp-route-bookId="@Model.Id" id="recommendation">
                     Recommendations
                 </a>
             </h5>

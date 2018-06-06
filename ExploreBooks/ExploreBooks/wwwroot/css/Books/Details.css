@@ -76,7 +76,7 @@ hr {
 
 .displayFeedback:hover {
     font-style: italic;
-    color: #c0b2b2;
+    color: #84474e;
 }
 
 #title {
@@ -91,5 +91,5 @@ hr {
 
 #recommendation:hover {
     font-style: italic;
-    color: #c0b2b2;
+    color: #84474e;
 }
