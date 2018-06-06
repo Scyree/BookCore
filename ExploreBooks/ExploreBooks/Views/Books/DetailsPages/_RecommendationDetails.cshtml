@@ -1,0 +1,68 @@
+﻿@model Recommendation
+@inject IApplicationUserServices Service
+@inject IUtilityService UtilityService
+@inject IApplicationPictureLogic PictureService
+
+@{
+    var recommendedDetails = "recommendedDetails" + Model.Id;
+    var recommendedBook = UtilityService.GetBookById(Model.BookRecommended);
+    var book = UtilityService.GetBookById(Model.BookId);
+    var user = UtilityService.GetApplicationUser(Model.UserId.ToString());
+}
+
+<div class="modal fade" id="@recommendedDetails">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <p class="modal-title mx-auto mw-100">
+                    <strong>
+                        Recommendation
+                    </strong>
+                </p>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-5 col-5 justify-content-center">
+                        <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id">
+                            <img class="rounded writtenBooks" src="@Url.Content("..\\..\\images\\" + book.Folder + "\\" + book.ImageName)" />
+                            <p class="recommendedBook">
+                                @book.Title
+                            </p>
+                        </a>
+                    </div>
+                    <div class="col-md-2 col-2">
+                        <i class="fa fa-angle-right compareBooks"></i>
+                        <br />
+                        <br />
+                        <h6 class="recommendationExplain">
+                            <span class="fa fa-quote-left"></span>
+                            @Model.Reason
+                            <i class="fa fa-quote-right"></i>
+                        </h6>
+                    </div>
+                    <div class="col-md-5 col-5 justify-content-center">
+                        <a asp-controller="Books" asp-action="Details" asp-route-id="@recommendedBook.Id">
+                            <img class="rounded writtenBooks" src="@Url.Content("..\\..\\images\\" + recommendedBook.Folder + "\\" + recommendedBook.ImageName)" />
+                            <p class="recommendedBook">
+                                @recommendedBook.Title
+                            </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-6 col-6 recommendedBy text-right">
+                    <i>Recommended by..</i>
+                </div>
+                <div class="col-md-6 col-6 justify-content-center">
+                    <a asp-controller="Users" asp-action="Index" asp-route-username="@user.User">
+                        <img class="rounded" id="recomPicture" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(user.Id))" />
+                        <p class="userProfile">
+                            @user.User
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,127 @@
+﻿.communityFeedback {
+    display: none;
+}
+
+img {
+    max-width: 90%;
+    max-height: 90%;
+    width: 90%;
+    height: 90%;
+}
+
+tbody {
+    background-color: #CFD5D5;
+}
+
+p, h4, a {
+    color: #333;
+}
+
+a:hover {
+    color: #4d3333;
+    text-decoration: none;
+    opacity: 0.9;
+}
+
+.tooltip-inner, .tooltip-inner a, .tooltip-inner p, .tooltip-inner h4 {
+    background-color: #532D2D;
+    color: #CFD5D5;
+}
+
+.bs-tooltip-right .arrow::before, .bs-tooltip-auto[x-placement^="right"] .arrow::before {
+    right: 0;
+    border-width: 0.4rem 0.4rem 0.4rem 0;
+    border-right-color: #532D2D;
+}
+
+.infoBooks img {
+    max-width: 90%;
+    max-height: 70%;
+    width: 90%;
+    height: 70%;
+}
+
+.likeAlign {
+    text-align: center;
+    margin-left: -0.8rem;
+}
+
+.textButton {
+    display: none;
+}
+
+.textAlign {
+    text-align: left;
+}
+
+.likeButton {
+    float: left;
+    display: inline-block;
+    border-right: 1px outset grey;
+    border: 1px outset grey;
+}
+
+.dislikeButton {
+    float: right;
+    display: inline-block;
+    border-right: 1px outset grey;
+    border-top: 1px outset grey;
+}
+
+hr {
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+}
+
+.titleDisplay {
+    display: inline-block;
+}
+
+.badge {
+    margin-top: 1rem;
+    width: 5rem;
+    height: 2rem;
+    text-align: center;
+    line-height: 1.3rem;
+}
+
+.progress {
+    height: 2rem;
+    font-size: 0.8vw;
+}
+
+.genreBadge {
+    background-color: #532D2D;
+    color: #C0B2B2;
+    font-size: 15px;
+}
+
+.genreBadge:hover {
+    background-color: #5d3b45;
+    color: #ac5358;
+    font-style: italic;
+}
+
+.displayFeedback {
+    cursor: pointer;
+    color: #4a2f37;
+}
+
+.displayFeedback:hover {
+    font-style: italic;
+    color: #c0b2b2;
+}
+
+#title {
+    color: #4a2f37;
+}
+
+#recommendation {
+    cursor: pointer;
+    color: #4a2f37;
+}
+
+#recommendation:hover {
+    font-style: italic;
+    color: #c0b2b2;
+}

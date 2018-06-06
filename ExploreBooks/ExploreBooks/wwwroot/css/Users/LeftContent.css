@@ -18,6 +18,17 @@
     top: 7.5rem;
 }
 
+#followButton {
+    background-color: #5d3b45;
+    color: #f2f2f2;
+}
+
+#followButton:hover {
+    background-color: #4a2f37;
+    color: #ac5358;
+    font-style: italic;
+}
+
 .followButton, .unfollowButton {
     width: 70%;
 }
@@ -26,12 +37,15 @@
     display: none;
 }
 
-.followButton:hover {
-    opacity: .9;
+.unfollowButton {
+    background-color: #35303b;
+    color: #f2f2f2;
 }
 
 .unfollowButton:hover {
     background-color: #660000;
+    color: #221011;
+    font-style: italic;
 }
 
 .unfollowButton:hover .followSpan {

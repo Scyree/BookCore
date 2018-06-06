@@ -7,7 +7,7 @@
     var max = (count - 1) / 4;
 }
 
-<div class="row ">
+<div class="row justify-content-center">
     <div id="favoriteBooks" class="carousel carousel-fade" data-ride="carousel">
         <div class="carousel-inner">
             @{
@@ -27,7 +27,7 @@
                                 @for (var index = 0; index < difference; ++index)
                                 {
                                     var currentIndex = index + 4 * divNumber;
-                                    <div class="col-md-3 col-3 favoriteBooks">
+                                    <div class="col-md col favoriteBooks">
                                         <a asp-controller="Books" asp-action="Details" asp-route-id="@Model[currentIndex].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@Model[currentIndex].Title">
                                             <img class="ml-1 rounded favoriteImages" src="@Url.Content("..\\..\\images\\" + Model[currentIndex].Folder + "\\" + Model[currentIndex].ImageName)" />
                                         </a>
@@ -43,7 +43,7 @@
                                 @for (var index = 0; index < 4; ++index)
                                 {
                                     var currentIndex = index + 4 * divNumber;
-                                    <div class="col-md-3 col-3 favoriteBooks">
+                                    <div class="col-md col favoriteBooks">
                                         <a asp-controller="Books" asp-action="Details" asp-route-id="@Model[currentIndex].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@Model[currentIndex].Title">
                                             <img class="ml-1 rounded favoriteImages" src="@Url.Content("..\\..\\images\\" + Model[currentIndex].Folder + "\\" + Model[currentIndex].ImageName)" />
                                         </a>

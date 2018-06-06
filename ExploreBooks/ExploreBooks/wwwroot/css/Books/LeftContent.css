@@ -1,0 +1,73 @@
+﻿h4 {
+    color: #0d0d0d;
+}
+
+.card-img-top {
+    width: 90%;
+}
+
+.displayContent {
+    color: #0d0d0d;
+}
+
+.sticky-top {
+    top: 6rem;
+}
+
+.displayInfo {
+    color: #090911;
+}
+
+#hrDetails {
+    padding: 0;
+    margin-top: 0;
+}
+
+#displayName {
+    color: #0f0b0b;
+}
+
+.actionColors {
+    background-color: #ffffff;
+}
+
+#leftContentCard {
+    background-color: #f1f1f1;
+}
+
+#planToReadButton {
+    background-color: #ac5358;
+    color: #f1f1f1;
+}
+
+#planToReadButton:hover {
+    background-color: #894246;
+    color: #221011;
+    font-style: italic;
+}
+
+#readingButton {
+    background-color: #84474e;
+    color: #f1f1f1;
+}
+
+#readingButton:hover {
+    background-color: #69383e;
+    color: #221011;
+    font-style: italic;
+}
+
+#readButton {
+    background-color: #5d3b45;
+    color: #f1f1f1;
+}
+
+#readButton:hover {
+    background-color: #4a2f37;
+    color: #ac5358;
+    font-style: italic;
+}
+
+.progress {
+    height: 38px;
+}

@@ -3,7 +3,11 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject IUtilityService UtilityService
 
-<div class="col-4">
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Books/Favorite.css" />
+</environment>
+
+<div class="col-1">
     @if (SignInManager.IsSignedIn(User))
     {
         var user = UserManager.GetUserId(User);
@@ -12,16 +16,22 @@
         {
             if (checkFavorite.IsFavorite)
             {
-                <button type="submit" class="btn btn-secondary" onclick="RemoveFavorite('@Model', '@user')"><i class="fa fa-heart-o"></i></button>
+                <button type="submit" class="btn rounded-circle" id="removeFavorite" onclick="RemoveFavorite('@Model', '@user')" data-toggle="tooltip" data-placement="right" title="Remove it from your favorite">
+                    <i class="fa fa-heart-o"></i>
+                </button>
             }
             else
             {
-                <button type="submit" class="btn btn-danger" onclick="AddFavorite('@Model', '@user')"><i class="fa fa-heart"></i></button>
+                <button type="submit" class="btn rounded-circle" id="addFavorite" onclick="AddFavorite('@Model', '@user')" data-toggle="tooltip" data-placement="right" title="Add to favorites">
+                    <i class="fa fa-heart"></i>
+                </button>
             }
         }
         else
         {
-            <button type="submit" class="btn btn-danger" onclick="AddFavorite('@Model', '@user')"><i class="fa fa-heart"></i></button>
+            <button type="submit" class="btn rounded-circle" id="addFavorite" onclick="AddFavorite('@Model', '@user')" data-toggle="tooltip" data-placement="right" title="Add to favorites">
+                <i class="fa fa-heart"></i>
+            </button>
         }
     }
 </div>

@@ -1,0 +1,21 @@
+﻿.actionColors {
+    background-color: #ffffff;
+}
+
+.displayAction {
+    color: #35303b;
+}
+
+.displayContent {
+    cursor: pointer;
+    color: #84474e;
+}
+
+.displayContent:hover {
+    font-style: italic;
+    color: #c0b2b2;
+}
+
+.displayNormalContent {
+    color: #84474e;
+}

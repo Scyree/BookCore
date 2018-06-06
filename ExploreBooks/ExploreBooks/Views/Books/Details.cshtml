@@ -9,101 +9,99 @@
 }
 
 <environment include="Development">
-    <link rel="stylesheet" href="~/css/Book.css" />
+    <link rel="stylesheet" href="~/css/Books/Details.css" />
     <link rel="stylesheet" href="~/css/PartialPosts.css" />
 </environment>
 
 <br />
 <br />
-
 <div class="container text-center">
     <div class="row">
         <div class="col-md-3 col-3">        
             @await Html.PartialAsync("DetailsPages/_LeftContent", Model)
         </div>
-        <div class="col-md-6 col-6">
-            <div class="col-md-12 col-12">
-                <div class="row">
-                    <h2 class="col-8 text-left" style="font-style: italic">
-                        @Model.Title
-                    </h2>
-                    @await Html.PartialAsync("DetailsPages/_AddFavoriteContent", Model.Id)
-                </div>
-                <div class="row">
-                    <div class="col-md-12 col-12 text-left">
-                        <p>
-                            @Model.Description
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    @await Html.PartialAsync("DetailsPages/_GenresContent", Model.Genres.ToList())
-                </div>
-                <br />
-                <br />
-                <div class="row text-center">
-                    <div class="col-md-12 col-12">
-                        <h4 style="font-style: italic">
-                            Statistics
-                        </h4>
-                        <span style="float: left;">
-                            87.3% found this book good
-                        </span>
-                        <span style="float: right;">
-                            Your rating: Very Good
-                        </span>
-                    </div>
-                </div>
-                <br />
-                <br />
-                <div class="row text-center">
-                    <div class="col-md-12 col-12">
-                        <h4 style="font-style: italic">
-                            <a asp-controller="Recommendations" asp-action="GetAllRecommendations" asp-route-bookId="@Model.Id">
-                                Recommendations
-                            </a>
-                        </h4>
-                    </div>
-                    <div>
-                        @Html.Partial("PartialViews/_RecommendedBooks", Model)
-                    </div>
-                </div>
-                <br />
-                <br />
-                <div class="row text-center">
-                    <div class="col-md-12 col-12">
-                        <h4>
-                            <i>
-                                Community's feedback
-                            </i>
-                        </h4>
-                    </div>
-                </div>
-                <div class="container border">
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        var userId = UserManager.GetUserId(User);
-                        <div class="media p-3">
-                            <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(userId))"/>
-                            <div class="media-body textAlign">
-                                <form asp-controller="Posts" asp-action="Create" class="submitPost" role="form">
-                                    @Html.Hidden("userId", Guid.Parse(userId))
-                                    @Html.Hidden("targetId", Model.Id)
-                                    <input type="text" name="postText" placeholder="Write a review.."/>
-                                    <button type="button" id="reviewButton" class="btn textButton"></button>
-                                </form>
-                            </div>
-                        </div>
-                    }
+        <div class="col-md-9 col-9">
+            <div class="container row">
+                <div class="col-md-8 col-8">
+                    <div class="row text-left">
+                        @await Html.PartialAsync("DetailsPages/_AddFavoriteContent", Model.Id)
 
-                    <div id="@Model.Id">
-                        @Html.Partial("PartialViews/_PostsDisplay", Model.Posts)
+                        <h2 class="col-8 text-left" id="title" style="font-style: italic">
+                            @Model.Title
+                        </h2>
                     </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12 col-12 text-left">
+                            <h6>
+                                <i>
+                                    @Model.Description
+                                </i>
+                            </h6>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row">
+                        @await Html.PartialAsync("DetailsPages/_GenresContent", Model.Genres.ToList())
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row text-center">
+                        <div class="col-md-12 col-12">
+                            <h5>
+                                Statistics
+                            </h5>
+                            <span style="float: left;">
+                                87.3% found this book good
+                            </span>
+                            <span style="float: right;">
+                                Your rating: Very Good
+                            </span>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+
+                    @await Html.PartialAsync("DetailsPages/_RecommendationsContent", Model)
+                </div>
+                <div class="col-md-4 col-4">
+                    @await Html.PartialAsync("DetailsPages/_RightContent", Model)
                 </div>
             </div>
-        </div>
-        <div class="col-md-3 col-3">
-            @await Html.PartialAsync("DetailsPages/_RightContent", Model)
+            <br />
+            <br />
+            @{
+                var communityFeedback = @Model.Id + "communityFeedback";
+            }
+            <div class="row justify-content-center">
+                <div class="col-4"><hr /></div>
+                <div class="col-auto">
+                    <h5 class="displayFeedback" onclick="displayCommunityFeedback('@communityFeedback')">Community's feedback</h5>
+                </div>
+                <div class="col-4"><hr /></div>
+            </div>
+            <div class="container border border-top-0 communityFeedback" id="@communityFeedback">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    var userId = UserManager.GetUserId(User);
+                    <div class="media p-3">
+                        <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(userId))" />
+                        <div class="media-body textAlign">
+                            <form asp-controller="Posts" asp-action="Create" class="submitPost" role="form">
+                                @Html.Hidden("userId", Guid.Parse(userId))
+                                @Html.Hidden("targetId", Model.Id)
+                                <input type="text" name="postText" placeholder="Write a review.." />
+                                <button type="button" id="reviewButton" class="btn textButton"></button>
+                            </form>
+                        </div>
+                    </div>
+                }
+
+                <div id="@Model.Id">
+                    @Html.Partial("PartialViews/_PostsDisplay", Model.Posts)
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -1,13 +1,20 @@
 ﻿@model Book
 @inject SignInManager<ApplicationUser> SignInManager
 
-<div class="container">
-    <div class="col-md-12 col-12">
-        <img class="rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Books/LeftContent.css" />
+</environment>
 
+<div class="card sticky-top border-0" id="leftContentCard">
+    <div class="row justify-content-center">
+        <img class="card-img-top rounded" src="@Url.Content("..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+    </div>
+    <div class="card-body actionColors">
         @if (SignInManager.IsSignedIn(User))
         {
-            @await Html.PartialAsync("DetailsPages/_ReadActionsContent", Model.Id)
+            <div class="row displayContent">
+                @await Html.PartialAsync("DetailsPages/_ReadActionsContent", Model.Id)
+            </div>
         }
     </div>
 </div>

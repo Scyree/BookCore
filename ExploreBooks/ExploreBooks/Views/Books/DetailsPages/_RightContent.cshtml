@@ -3,11 +3,15 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Books/RightContent.css" />
+</environment>
+
 <div class="row">
-    <div class="card card-body bg-light">
+    <div class="card card-body">
         <div class="row">
             <div class="col"><hr /></div>
-            <div class="col-auto"><h6>Authors</h6></div>
+            <div class="col-auto"><h6 class="displayAction">Authors</h6></div>
             <div class="col"><hr /></div>
         </div>
         <div class="row justify-content-center">
@@ -18,24 +22,30 @@
                 {
                     var authorDisplay = AuthorService.GetAuthorById(authors[index].AuthorId);
 
-                    <a asp-controller="Authors" asp-action="Details" asp-route-id="@authorDisplay.Id"><h7>@authorDisplay.Name, </h7></a>
+                    <a asp-controller="Authors" asp-action="Details" asp-route-id="@authorDisplay.Id">
+                        <h7 class="displayContent">@authorDisplay.Name, </h7>
+                    </a>
                 }
 
-                <a asp-controller="Authors" asp-action="Details" asp-route-id="@lastAuthor.Id">@lastAuthor.Name</a>
+                <a asp-controller="Authors" asp-action="Details" asp-route-id="@lastAuthor.Id">
+                    <h7 class="displayContent">
+                        @lastAuthor.Name
+                    </h7>
+                </a>
             }
         </div>
     </div>
 </div>
 <br />
 <div class="row justify-content-center">  
-    <div class="card card-body bg-light">
+    <div class="card card-body">
         <div class="row">
             <div class="col"><hr /></div>
-            <div class="col-auto"><h6>Details</h6></div>
+            <div class="col-auto"><h6 class="displayAction">Details</h6></div>
             <div class="col"><hr /></div>
         </div>
         <div class="row justify-content-center">
-            <p>
+            <p class="displayNormalContent">
                 @Html.DisplayFor(modelItem => Model.Details)
             </p>
         </div>
@@ -43,10 +53,10 @@
 </div>
 <br/>
 <div class="row justify-content-center">
-    <div class="card card-body bg-light">
+    <div class="card card-body">
         <div class="row">
             <div class="col"><hr /></div>
-            <div class="col-auto"><h6>Actions</h6></div>
+            <div class="col-auto"><h6 class="displayAction">Actions</h6></div>
             <div class="col"><hr /></div>
         </div>
         <div class="row justify-content-center">
@@ -54,18 +64,24 @@
                 @{
                     var recommendBook = "recommendBook" + @Model.Id;
                 }
-                <a asp-action="Edit" asp-route-id="@Model.Id"><i class="fa fa-edit"></i>Edit</a>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="displayContent">
+                    <i class="fa fa-edit"></i> Edit
+                </a>
                 <br/>
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <a href="#" data-toggle="modal" data-target="#@recommendBook">
-                        <i class="fa fa-book"></i>Recommend a book
+                    <a href="#" data-toggle="modal" data-target="#@recommendBook" class="displayContent">
+                        <i class="fa fa-book"></i> Recommend a book
                     </a>
                     <br/>
                 }
-                <a asp-action="Index"><i class="fa fa-undo"></i> Search for others books</a>
+                <a asp-action="Index" class="displayContent">
+                    <i class="fa fa-undo"></i> Search for others books
+                </a>
                 <br/>
-                <a asp-controller="Authors" asp-action="Index"><i class="fa fa-users"></i> Search through authors..</a>
+                <a asp-controller="Authors" asp-action="Index" class="displayContent">
+                    <i class="fa fa-users"></i> Search through authors..
+                </a>
             </p>
         </div>
         @if (SignInManager.IsSignedIn(User))
@@ -76,17 +92,21 @@
 </div>
 <br />
 <div class="row">
-    <div class="card card-body bg-light">
+    <div class="card card-body">
         <div class="row">
             <div class="col"><hr /></div>
-            <div class="col-auto"><h6>Buy this book</h6></div>
+            <div class="col-auto"><h6 class="displayAction">Buy this book</h6></div>
             <div class="col"><hr /></div>
         </div>
         <div class="row justify-content-center">
             <p>
-                <a href="#"><i class="fa fa-amazon"></i> amazon</a>
+                <a href="#" class="displayContent">
+                    <i class="fa fa-amazon"></i> amazon
+                </a>
                 <br />
-                <a href="#"><i class="fa fa-google"></i> google</a>
+                <a href="#" class="displayContent">
+                    <i class="fa fa-google"></i> google
+                </a>
                 <br />
             </p>
         </div>

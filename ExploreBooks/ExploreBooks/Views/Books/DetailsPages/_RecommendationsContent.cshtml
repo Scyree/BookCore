@@ -1,0 +1,135 @@
+﻿@model Book
+@inject IRecommendationService Service
+@inject IUtilityService UtilityService
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Books/Recommendations.css" />
+</environment>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col"><hr /></div>
+        <div class="col-auto">
+            <h5 id="recommendation">
+                <a asp-controller="Recommendations" asp-action="GetAllRecommendations" asp-route-bookId="@Model.Id">
+                    Recommendations
+                </a>
+            </h5>
+        </div>
+        <div class="col"><hr /></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-12 border border-top-0 border-bottom-0">
+            <div class="row justify-content-center">
+                @{
+                    var recommendedBooks = Service.GetAllRecommendationsForBookId(Model.Id);
+
+                    if (recommendedBooks != null)
+                    {
+                        <div id="recommendedBooks" class="carousel carousel-fade" data-ride="carousel">
+                            @{
+                                var count = recommendedBooks.Count;
+                                var max = (count - 1) / 4;
+   
+                                <div class="carousel-inner">
+                                    @for (var divNumber = 0; divNumber <= max; ++divNumber)
+                                    {
+                                        var active = "";
+                                        if (divNumber == 0)
+                                        {
+                                            active += " active";
+                                        }
+
+                                        if (divNumber == max)
+                                        {
+                                            var difference = count - 4 * divNumber;
+                                            <div class="carousel-item @active">
+                                                <div class="row justify-content-center">
+                                                    @for (var index = 0; index < difference; ++index)
+                                                    {
+                                                        var currentIndex = index + 4 * divNumber;
+                                                        var book = UtilityService.GetBookById(recommendedBooks[currentIndex].BookRecommended);
+                                                        var recommendedDetails = "recommendedDetails" + recommendedBooks[currentIndex].Id;
+
+                                                        <div class="col-md col recommendedBooks">
+                                                            <a data-toggle="modal" data-target="#@recommendedDetails">
+                                                                <img class="rounded writtenBooks" src="@Url.Content("..\\..\\images\\" + book.Folder + "\\" + book.ImageName)"/>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="carousel-item @active">
+                                                <div class="row justify-content-center">
+                                                    @for (var index = 0; index < 4; ++index)
+                                                    {
+                                                        var currentIndex = index + 4 * divNumber;
+                                                        var book = UtilityService.GetBookById(recommendedBooks[currentIndex].BookRecommended);
+                                                        var recommendedDetails = "recommendedDetails" + recommendedBooks[currentIndex].Id;
+
+                                                        <div class="col-md col recommendedBooks">
+                                                            <a data-toggle="modal" data-target="#@recommendedDetails">
+                                                                <img class="rounded writtenBooks" src="@Url.Content("..\\..\\images\\" + book.Folder + "\\" + book.ImageName)"/>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+
+                                if (count > 4)
+                                {
+                                    <a class="carousel-control-prev" href="#recommendedBooks" role="button" data-slide="prev">
+                                        <i class="fa fa-caret-left arrowRecommendedBooks"></i>
+                                    </a>
+                                    <a class="carousel-control-next" href="#recommendedBooks" role="button" data-slide="next">
+                                        <i class="fa fa-caret-right arrowRecommendedBooks"></i>
+                                    </a>
+                                }
+                            }
+                        </div>
+                        if (recommendedBooks.Count == 0)
+                        {
+                            <div class="row">
+                                <h5 class="text-muted">
+                                    No recommendations for now :(
+                                </h5>
+                            </div>
+                            <div class="row">
+                                <h6>
+                                    If you want to recommend a book, hit the link in the right!
+                                </h6>
+                            </div>
+                        }
+
+                        foreach (var book in recommendedBooks)
+                        {
+                            @await Html.PartialAsync("DetailsPages/_RecommendationDetails", book)
+                        }
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <h5 class="text-muted">
+                                No recommendations for now :(
+                            </h5>
+                        </div>
+                        <div class="row">
+                            <h6>
+                                If you want to recommend a book, hit the link in the right!
+                            </h6>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12"><hr /></div>
+    </div>
+</div>

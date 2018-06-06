@@ -48,7 +48,7 @@
             <div class="row justify-content-center">
                 @if (FollowService.CheckIfAlreadyFollowed(userId, user.Id))
                 {
-                    <button type="submit" class="btn btn-secondary unfollowButton" onclick="UnfollowAction('@userId', '@user.Id')">
+                    <button type="submit" class="btn unfollowButton" onclick="UnfollowAction('@userId', '@user.Id')">
                         <span class="followSpan">
                             Following <i class="fa fa-check"></i>
                         </span>
@@ -59,7 +59,7 @@
                 }
                 else
                 {
-                    <button type="submit" class="btn btn-success followButton" onclick="FollowAction('@userId', '@user.Id')">Follow</button>
+                    <button type="submit" class="btn followButton" id="followButton" onclick="FollowAction('@userId', '@user.Id')">Follow</button>
                 }
             </div>
         }

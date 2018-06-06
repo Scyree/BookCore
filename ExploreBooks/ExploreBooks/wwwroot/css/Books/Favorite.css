@@ -1,0 +1,19 @@
+﻿#addFavorite {
+    background-color: #ac5358;
+    color: #35303b;
+}
+
+#addFavorite:hover {
+    background-color: #673134;
+    color: #f2f2f2;
+}
+
+#removeFavorite {
+    background-color: #35303b;
+    color: #ac5358;
+}
+
+#removeFavorite:hover {
+    background-color: #858289;
+    color: #673134;
+}
