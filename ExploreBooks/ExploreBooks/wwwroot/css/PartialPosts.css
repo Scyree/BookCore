@@ -9,3 +9,7 @@
     width: 60px;
     height: 60px;
 }
+
+.commentsContent {
+    border-left: 2px solid #ac5358;
+}

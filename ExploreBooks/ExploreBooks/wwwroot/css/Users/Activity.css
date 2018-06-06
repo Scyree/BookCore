@@ -27,4 +27,10 @@
 
 .displayActivityComment {
     cursor: pointer;
+    color: #4a2f37;
+}
+
+.displayActivityComment:hover {
+    font-style: italic;
+    color: #c0b2b2;
 }
