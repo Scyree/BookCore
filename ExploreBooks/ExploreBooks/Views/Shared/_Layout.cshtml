@@ -87,6 +87,7 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/PostsDisplay.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/Books/Modify.js"></script>
         <script>
             function DeletePost(post, target) {
                 $.ajax({
@@ -119,7 +120,7 @@
                     }
                 });
             }
-            
+
             $(".submitPost").submit(function(e) {
                 e.preventDefault();
                 var user = this.userId.value;

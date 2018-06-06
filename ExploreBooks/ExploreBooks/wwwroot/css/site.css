@@ -41,15 +41,16 @@ input[type="file"] {
     cursor: pointer;
     display: inline-block;
     color: #e8e4e4;
-    background-color: #6b4747;
+    background-color: #5d3b45;
     padding: 4px 8px;
-    font-style: italic;
+    text-align: center;
 }
 
 .fileUpload:hover {
-    background-color: #b3b3b3;
+    background-color: #4a2f37;
     text-decoration: none;
-    opacity: 0.5;
+    font-style: italic;
+    color: #ac5358;
 }
 
 #navigationPicture {
@@ -74,5 +75,5 @@ input {
 }
 
 #logoPicture {
-    width: 150px;
+    width: 150px !important;
 }

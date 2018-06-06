@@ -3,5 +3,5 @@
 });
 
 $(".modal").on("hidden.bs.modal", function () {
-    window.location = "../Home";
+    window.location.replace(document.referrer);
 });

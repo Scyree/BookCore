@@ -1,62 +1,76 @@
 ﻿@model BookCreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add";
 }
 
 <environment include="Development">
-    <link rel="stylesheet" href="~/css/Book.css" />
+    <link rel="stylesheet" href="~/css/Books/Modify.css" />
 </environment>
 
-<h2>Create</h2>
-
-<h4>Book</h4>
-<hr />
 <div class="container">
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Create" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Authors" class="control-label"></label>
-                    <input asp-for="Authors" class="form-control" />
-                    <span asp-validation-for="Authors" class="text-danger"></span>
+    <div class="modal fade createModal" id="createBook">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h5 class="modal-title mx-auto mw-100" id="title">
+                        <strong>
+                            Add a new book
+                        </strong>
+                    </h5>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Genres" class="control-label"></label>
-                    <input asp-for="Genres" class="form-control" />
-                    <span asp-validation-for="Genres" class="text-danger"></span>
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <form asp-action="Create" enctype="multipart/form-data">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group row">
+                                <label class="col-4 col-md-4 col-form-label leftText" asp-for="Authors"></label>
+                                <div class="col-8 col-md-8 ml-auto">
+                                    <input asp-for="Authors" class="form-control" />
+                                    <span asp-validation-for="Authors" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-4 col-md-4 col-form-label leftText" asp-for="Genres"></label>
+                                <div class="col-8 col-md-8 ml-auto">
+                                    <input asp-for="Genres" class="form-control" />
+                                    <span asp-validation-for="Genres" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-4 col-md-4 col-form-label leftText" asp-for="Title"></label>
+                                <div class="col-8 col-md-8 ml-auto">
+                                    <input asp-for="Title" class="form-control" />
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-4 col-md-4 col-form-label leftText" asp-for="Description"></label>
+                                <div class="col-8 col-md-8 ml-auto">
+                                    <input asp-for="Description" class="form-control" />
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-4 col-md-4 col-form-label leftText" asp-for="Details"></label>
+                                <div class="col-8 col-md-8 ml-auto">
+                                    <input asp-for="Details" class="form-control" />
+                                    <span asp-validation-for="Details" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row justify-content-center">
+                                <label for="file" class="col-4 col-md-4 col-form-label fileUpload">
+                                    Upload file
+                                </label>
+                                <input type="file" id="file" asp-for="Image" class="form-control" />
+                            </div>
+                            <div class="form-group row justify-content-center">
+                                <button type="submit" id="addButton" class="btn btn-register">Add it!</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Title" class="control-label"></label>
-                    <input asp-for="Title" class="form-control" />
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Details" class="control-label"></label>
-                    <input asp-for="Details" class="form-control" />
-                    <span asp-validation-for="Details" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label for="file" class="control-label fileUpload">Upload file</label>
-                    <input type="file" id="file" asp-for="Image" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }

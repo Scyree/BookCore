@@ -8,7 +8,7 @@
 
 .displayContent {
     cursor: pointer;
-    color: #84474e;
+    color: #84474e !important;
 }
 
 .displayContent:hover {

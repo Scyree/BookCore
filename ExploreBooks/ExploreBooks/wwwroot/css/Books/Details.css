@@ -2,13 +2,6 @@
     display: none;
 }
 
-img {
-    max-width: 90%;
-    max-height: 90%;
-    width: 90%;
-    height: 90%;
-}
-
 tbody {
     background-color: #CFD5D5;
 }
@@ -65,9 +58,9 @@ hr {
 }
 
 .genreBadge {
-    background-color: #532D2D;
+    background-color: #4a2f37;
     color: #C0B2B2;
-    font-size: 15px;
+    font-size: 12px;
 }
 
 .genreBadge:hover {
@@ -88,6 +81,7 @@ hr {
 
 #title {
     color: #4a2f37;
+    font-style: italic;
 }
 
 #recommendation {

@@ -4,8 +4,8 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-    var recommendBook = "recommendBook" + @Model;
     var user = UserManager.GetUserId(User);
+    var recommendBook = "recommendBook" + @Model;
 }
 
 <div class="modal fade" id="@recommendBook">

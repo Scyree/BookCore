@@ -70,7 +70,7 @@
                 <br/>
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <a href="#" data-toggle="modal" data-target="#@recommendBook" class="displayContent">
+                    <a data-toggle="modal" data-target="#@recommendBook" class="displayContent">
                         <i class="fa fa-book"></i> Recommend a book
                     </a>
                     <br/>
@@ -86,7 +86,7 @@
         </div>
         @if (SignInManager.IsSignedIn(User))
         {
-            @Html.Partial("PartialViews/_RecommendABook", Model.Id)
+            @Html.Partial("DetailsPages/_RecommendABook", Model.Id)
         }
     </div>
 </div>
