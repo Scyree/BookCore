@@ -115,7 +115,7 @@
             var recommendation = $(this).find("input[name='recommendedBookId']").val();
             var reasonText = $(this).find("textarea[name='reason']").val();
             $.ajax({
-                url: "/Recommendations/RecommendABook",
+                url: "/Books/RecommendABook",
                 data: { bookId: book, userId: user, recommendedBookId: recommendation, reason: reasonText },
                 type: "POST",
                 success: function () {

@@ -12,12 +12,14 @@ namespace ExploreBooks.Controllers
         private readonly IBookService _service;
         private readonly IGenreService _genreService;
         private readonly IAuthorService _authorService;
+        private readonly IRecommendationService _recommendationService;
 
-        public BooksController(IBookService service, IGenreService genreService, IAuthorService authorService)
+        public BooksController(IBookService service, IGenreService genreService, IAuthorService authorService, IRecommendationService recommendationService)
         {
             _service = service;
             _genreService = genreService;
             _authorService = authorService;
+            _recommendationService = recommendationService;
         }
         
         public IActionResult Index()
@@ -45,6 +47,19 @@ namespace ExploreBooks.Controllers
             }
 
             return View(_authorService.GetBooksForSpecifiedAuthor(author));
+        }
+
+        [HttpGet, ActionName("recommendations")]
+        public IActionResult Recommendations(Guid bookId)
+        {
+            var book = _service.GetBookById(bookId);
+
+            if (book == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(_recommendationService.GetAllRecommendationsForBookId(bookId));
         }
 
         [HttpGet, ActionName("details")]
@@ -148,6 +163,12 @@ namespace ExploreBooks.Controllers
             _service.DeleteBook(id);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public void RecommendABook(Guid bookId, Guid userId, Guid recommendedBookId, string reason)
+        {
+            _recommendationService.MakeARecommendation(bookId, userId, recommendedBookId, reason);
         }
     }
 }
