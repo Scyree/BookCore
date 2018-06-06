@@ -34,38 +34,12 @@ a:hover {
     border-right-color: #532D2D;
 }
 
-.infoBooks img {
-    max-width: 90%;
-    max-height: 70%;
-    width: 90%;
-    height: 70%;
-}
-
-.likeAlign {
-    text-align: center;
-    margin-left: -0.8rem;
-}
-
 .textButton {
     display: none;
 }
 
 .textAlign {
     text-align: left;
-}
-
-.likeButton {
-    float: left;
-    display: inline-block;
-    border-right: 1px outset grey;
-    border: 1px outset grey;
-}
-
-.dislikeButton {
-    float: right;
-    display: inline-block;
-    border-right: 1px outset grey;
-    border-top: 1px outset grey;
 }
 
 hr {

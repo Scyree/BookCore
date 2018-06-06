@@ -9,7 +9,7 @@
 }
 
 <environment include="Development">
-    <link rel="stylesheet" href="~/css/Authors/Author.css" />
+    <link rel="stylesheet" href="~/css/Authors/Details.css" />
     <link rel="stylesheet" href="~/css/PartialPosts.css" />
 </environment>
 
@@ -20,9 +20,9 @@
         <div class="col-md-3 col-3">
             @await Html.PartialAsync("DetailsPages/_LeftContent", Model)
         </div>
-        <div class="col-md-7 col-7 rightContent">
+        <div class="col-md-9 col-9 rightContent">
             <div class="row text-left ml-4">
-                <h3 class="displayName">
+                <h3 id="title">
                     @Model.Name
                 </h3>
             </div>
@@ -31,5 +31,9 @@
             <br/>
             @await Html.PartialAsync("DetailsPages/_PostSection", Model)
         </div>
-   </div>
+    </div>
 </div>
+
+<environment include="Development">
+    <script src="~/js/Authors.js"></script>
+</environment>
