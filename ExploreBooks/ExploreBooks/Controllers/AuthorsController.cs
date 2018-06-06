@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ExploreBooks.Controllers
 {
+    [Route("authors/[action]")]
     public class AuthorsController : Controller
     {
         private readonly IAuthorService _service;
@@ -76,7 +77,6 @@ namespace ExploreBooks.Controllers
             }
 
             var authorEditModel = new AuthorEditModel(
-                author.Name,
                 author.Description
             );
 
@@ -86,14 +86,14 @@ namespace ExploreBooks.Controllers
         // POST: Authors/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Name, Description, Books, Image")] AuthorEditModel authorEditModel)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Description, Books, Image")] AuthorEditModel authorEditModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(authorEditModel);
             }
 
-            await _service.EditAuthor(id, authorEditModel.Image, authorEditModel.Name, authorEditModel.Description, authorEditModel.Books);
+            await _service.EditAuthor(id, authorEditModel.Image, authorEditModel.Description, authorEditModel.Books);
 
             return RedirectToAction(nameof(Index));
         }

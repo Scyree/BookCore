@@ -14,7 +14,7 @@
             @foreach (var genre in genres)
             {
                 <h6>
-                    <a asp-controller="Books" asp-action="GetAllBooksForSpecifiedGenre" asp-route-genre="@genre.Text">
+                    <a asp-controller="Books" asp-action="Genres" asp-route-genre="@genre.Text">
                         @genre.Text [@GenreService.GetNumberOfBooksForSpecifiedGenre(genre.Text)]
                     </a>
                 </h6>

@@ -26,6 +26,16 @@
                     @Model.Name
                 </h3>
             </div>
+            <div class="row justify-content-center">
+                <div class="col-4"><hr /></div>
+                <div class="col-auto">
+                    <a asp-controller="Books" asp-action="Authors" asp-route-author="@Model.Name">
+                        <h5 id="books">Books</h5>
+                    </a>
+                </div>
+                <div class="col-4"><hr /></div>
+            </div>
+
             @await Html.PartialAsync("DetailsPages/_WrittenBooksContent", Model.Books.ToList())
 
             <br/>

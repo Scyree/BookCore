@@ -40,7 +40,25 @@ namespace Business.Services
 
             return authors;
         }
-        
+
+        public IReadOnlyList<Book> GetBooksForSpecifiedAuthor(string givenAuthor)
+        {
+            var author = _authorRepository.GetAllAuthors().SingleOrDefault(auth => ModifyAuthorName(auth.Name) == ModifyAuthorName(givenAuthor));
+            var books = new List<Book>();
+
+            if (author != null)
+            {
+                author.Books = _authorBookService.GetAllAuthorBooksBasedOnAuthorId(author.Id).ToList();
+
+                foreach (var book in author.Books)
+                {
+                    books.Add(_bookService.GetBookById(book.BookId));
+                }
+            }
+            
+            return books;
+        }
+
         public async Task CreateAuthor(IFormFile image, string name, string description, string books)
         {
             var bookList = _bookService.GetBooks(books);
@@ -80,17 +98,12 @@ namespace Business.Services
             }
         }
 
-        public async Task EditAuthor(Guid id, IFormFile image, string name, string description, string books)
+        public async Task EditAuthor(Guid id, IFormFile image, string description, string books)
         {
             var authorToBeEdited = _authorRepository.GetAuthorById(id);
 
             if (authorToBeEdited != null)
             {
-                if (name != null)
-                {
-                    authorToBeEdited.Name = name;
-                }
-
                 if (description != null)
                 {
                     authorToBeEdited.Description = description;
@@ -143,6 +156,11 @@ namespace Business.Services
             }
 
             return null;
+        }
+
+        private string ModifyAuthorName(string author)
+        {
+            return author.Replace(" ", "").Replace("-", "").ToLower();
         }
     }
 }

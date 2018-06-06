@@ -19,7 +19,7 @@
     {
         var userId = UserManager.GetUserId(User);
         <div class="media p-3">
-            <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(userId))" />
+            <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\..\\" + PictureService.GetFolderWithFile(userId))" />
             <div class="media-body textAlign">
                 <form asp-controller="Posts" asp-action="Create" class="submitPost" role="form">
                     @Html.Hidden("userId", Guid.Parse(userId))

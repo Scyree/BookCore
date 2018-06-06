@@ -65,5 +65,10 @@ namespace Service.Services
 
             return bookList;
         }
+
+        public Book GetBookById(Guid bookId)
+        {
+            return _repository.GetBookById(bookId);
+        }
     }
 }

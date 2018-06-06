@@ -6,37 +6,27 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ExploreBooks.Controllers
 {
+    [Route("books/[action]")]
     public class BooksController : Controller
     {
         private readonly IBookService _service;
         private readonly IGenreService _genreService;
+        private readonly IAuthorService _authorService;
 
-        public BooksController(IBookService service, IGenreService genreService)
+        public BooksController(IBookService service, IGenreService genreService, IAuthorService authorService)
         {
             _service = service;
             _genreService = genreService;
+            _authorService = authorService;
         }
-
-        //public IActionResult Index(string number)
-        //{
-        //    if (number != null)
-        //    {
-        //        var value = Int32.Parse(number);
-
-        //        return View(_service.GetNextBooks(number));
-        //    }
-
-        //    return View(_service.GetNextBooks(0));
-        //}
-
-        // GET: Books
+        
         public IActionResult Index()
         {
             return View(_service.GetAllBooks());
         }
 
-        [HttpGet]
-        public IActionResult GetAllBooksForSpecifiedGenre(string genre)
+        [HttpGet, ActionName("genres")]
+        public IActionResult Genres(string genre)
         {
             if (genre == null)
             {
@@ -46,7 +36,18 @@ namespace ExploreBooks.Controllers
             return View(_genreService.GetBooksForSpecifiedGenre(genre));
         }
 
-        // GET: Books/Details
+        [HttpGet, ActionName("authors")]
+        public IActionResult Authors(string author)
+        {
+            if (author == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(_authorService.GetBooksForSpecifiedAuthor(author));
+        }
+
+        [HttpGet, ActionName("details")]
         public IActionResult Details(Guid? id)
         {
             if (id == null)
@@ -64,14 +65,13 @@ namespace ExploreBooks.Controllers
             return View(book);
         }
 
-        // GET: Books/Create
+        [HttpGet, ActionName("create")]
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: Books/Create
-        [HttpPost]
+        
+        [HttpPost, ActionName("create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Authors, Genres, Title, Description, Details, Image")] BookCreateModel bookCreateModel)
         {
@@ -85,7 +85,7 @@ namespace ExploreBooks.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Books/Edit
+        [HttpGet, ActionName("edit")]
         public IActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -108,9 +108,8 @@ namespace ExploreBooks.Controllers
 
             return View(bookEditModel);
         }
-
-        // POST: Books/Edit
-        [HttpPost]
+        
+        [HttpPost, ActionName("edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Authors, Genres, Description, Details, Image")] BookEditModel bookEditModel)
         {
@@ -124,7 +123,7 @@ namespace ExploreBooks.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Books/Delete
+        [HttpGet, ActionName("delete")]
         public IActionResult Delete(Guid? id)
         {
             if (id == null)
@@ -141,9 +140,8 @@ namespace ExploreBooks.Controllers
 
             return View(book);
         }
-
-        // POST: Books/Delete
-        [HttpPost, ActionName("Delete")]
+        
+        [HttpPost, ActionName("delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(Guid id)
         {
