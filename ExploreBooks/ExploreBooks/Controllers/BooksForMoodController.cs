@@ -2,92 +2,53 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Business.Interfaces;
+using ExploreBooks.Models.BooksForMoodViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExploreBooks.Controllers
 {
+    [Route("listOfBooks")]
     public class BooksForMoodController : Controller
     {
-        // GET: BooksForMood
+        private readonly IBooksForMoodService _booksForMoodService;
+
+        public BooksForMoodController(IBooksForMoodService booksForMoodService)
+        {
+            _booksForMoodService = booksForMoodService;
+        }
+        
+        [HttpGet, ActionName("Index")]
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: BooksForMood/Details/5
         //public ActionResult Details(int id)
         //{
         //    return View();
         //}
 
-        //// GET: BooksForMood/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+        [HttpGet("create"), ActionName("create")]
+        public ActionResult Create()
+        {
+            return View();
+        }
 
-        //// POST: BooksForMood/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add insert logic here
+        [HttpPost, ActionName("create")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind("Authors, Genres, Title, Description, Details, Image")] BooksForMoodCreateModel booksCreateModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(booksCreateModel);
+            }
 
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+            _booksForMoodService.CreateBooksForMood(Guid.Parse(booksCreateModel.UserId), booksCreateModel.Title, booksCreateModel.Description, booksCreateModel.Books);
 
-        //// GET: BooksForMood/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: BooksForMood/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add update logic here
-
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: BooksForMood/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: BooksForMood/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add delete logic here
-
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+            return RedirectToAction(nameof(Index));
+        }
+        
     }
 }

@@ -17,7 +17,7 @@ namespace Domain.Data
 
         public int Likes { get; set; }
 
-        public ICollection<Book> Books { get; set; }
+        public ICollection<BooksWithinBooksForMood> Books { get; set; }
 
         public ICollection<Post> Posts { get; set; }
 
@@ -27,7 +27,7 @@ namespace Domain.Data
             {
                 Id = Guid.NewGuid(),
                 Likes = 0,
-                Books = new List<Book>(),
+                Books = new List<BooksWithinBooksForMood>(),
                 Posts = new List<Post>()
             };
 

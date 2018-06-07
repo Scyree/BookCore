@@ -39,9 +39,23 @@ namespace Business.Services
                 applicationUser.Posts = _postService.GetAllPostsForTargetId(Guid.Parse(applicationUser.Id)).ToList();
             }
 
-            return _applicationRepository.GetAllApplicationUsers();
+            return applicationUsers;
         }
 
+        public IReadOnlyList<ApplicationUser> GetAllApplicationUsersWithinCountry(string userId)
+        {
+            var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
+            var applicationUsers = _applicationRepository.GetAllApplicationUsers().Where(ap => ModifyGivenName(ap.Country) == ModifyGivenName(user.Country) && ap.Id != userId).ToList();
+
+            foreach (var applicationUser in applicationUsers)
+            {
+                applicationUser.Following = _followUserMiddleware.GetAllFollowedPeople(Guid.Parse(applicationUser.Id)).ToList();
+                applicationUser.Posts = _postService.GetAllPostsForTargetId(Guid.Parse(applicationUser.Id)).ToList();
+            }
+
+            return applicationUsers;
+        }
+        
         public ApplicationUser GetApplicationUserByUsername(string username)
         {
             var applicationUser = _applicationRepository.GetAllApplicationUsers().SingleOrDefault(user => user.User == username);
@@ -96,6 +110,11 @@ namespace Business.Services
         public bool CheckIfUsernameAlreadyExists(string username)
         {
             return _applicationRepository.GetAllApplicationUsers().Any(user => user.User == username);
+        }
+
+        private string ModifyGivenName(string name)
+        {
+            return name.Replace(" ", "").Replace("-", "").ToLower();
         }
     }
 }

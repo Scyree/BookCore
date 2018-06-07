@@ -21,7 +21,13 @@ namespace ExploreBooks.Controllers
             _followLogic = followLogic;
             _bookLogic = bookLogic;
         }
-        
+
+        [HttpGet, ActionName("allusers")]
+        public IActionResult AllUsers()
+        {
+            return View(_service.GetAllApplicationUsers());
+        }
+
         [HttpGet("{username}")]
         public IActionResult Index(string username)
         {

@@ -7,6 +7,7 @@ namespace Business.Interfaces
     public interface IApplicationUserServices
     {
         IReadOnlyList<ApplicationUser> GetAllApplicationUsers();
+        IReadOnlyList<ApplicationUser> GetAllApplicationUsersWithinCountry(string userId);
         ApplicationUser GetApplicationUserByUsername(string username);
         ApplicationUser GetApplicationUserById(Guid id);
         void CreateApplicationUser(ApplicationUser applicationUser);

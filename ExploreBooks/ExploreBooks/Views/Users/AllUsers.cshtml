@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ApplicationUser>
+@inject IApplicationUserServices Service
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "AllUsers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Users/Social.css" />
+</environment>
+
+<br />
+<br />
+<div class="container">
+    <div class="row">
+        <div class="offset-1 col-md-10 col-10">
+            <div class="row justify-content-center">
+                <h4>
+                    You may want to meet people..
+                </h4>
+            </div>
+            <div class="row justify-content-center">
+                <ul class="breadcrumb">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li class="breadcrumb-item" onclick="displayCountry()">From your country</li>
+                        <li class="breadcrumb-item" onclick="displayWorld()">From world</li>
+                    }
+                </ul>
+            </div>
+            <div class="container justify-content-center">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    var userId = UserManager.GetUserId(User);
+                    <div id="country">
+                        <div class="row justify-content-center">
+                            <div class="col"><hr/></div>
+                            <div class="col-auto">
+                                <h5>From your country</h5>
+                            </div>
+                            <div class="col"><hr/></div>
+                        </div>
+
+                        @await Html.PartialAsync("AllUsersPages/_DisplayUsers", Service.GetAllApplicationUsersWithinCountry(userId))
+                    </div>
+                }
+                
+                <div id="world">
+                    <div class="row justify-content-center">
+                        <div class="col"><hr/></div>
+                        <div class="col-auto">
+                            <h5>From world</h5>
+                        </div>
+                        <div class="col"><hr/></div>
+                    </div>
+
+                    @await Html.PartialAsync("AllUsersPages/_DisplayUsers", Service.GetAllApplicationUsers())
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<environment include="Development">
+    <script src="~/js/Users/AllUsers.js"></script>
+</environment>

@@ -74,6 +74,7 @@ namespace ExploreBooks
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
             services.AddTransient<IFollowUserRepository, FollowUserRepository>();
+            services.AddTransient<IBooksWithinBooksForMoodRepository, BooksWithinBooksForMoodRepository>();
 
 
             // Application's services within service layer
@@ -98,6 +99,7 @@ namespace ExploreBooks
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IUtilityService, UtilityService>();
             services.AddTransient<IRecommendationService, RecommendationService>();
+            services.AddTransient<IBooksForMoodService, BooksForMoodService>();
 
             services.AddTransient<IApplicationUserServices, ApplicationUserServices>();
             services.AddTransient<IApplicationBookLogic, ApplicationBookLogic>();
