@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Domain.Data;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Business.Interfaces
 {
@@ -13,5 +14,6 @@ namespace Business.Interfaces
         Task EditBook(Guid id, IFormFile image, string description, string details, string genres, string authors);
         void DeleteBook(Guid id);
         Book GetBookById(Guid id);
+        List<SelectListItem> GetAllBooksForRecommendation(Guid bookId);
     }
 }

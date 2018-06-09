@@ -112,7 +112,7 @@
             e.preventDefault();
             var book = this.bookId.value;
             var user = this.userId.value;
-            var recommendation = $(this).find("input[name='recommendedBookId']").val();
+            var recommendation = this.recommendedBookId.value;
             var reasonText = $(this).find("textarea[name='reason']").val();
             $.ajax({
                 url: "/Books/RecommendABook",

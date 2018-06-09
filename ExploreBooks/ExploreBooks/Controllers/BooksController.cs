@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Business.Interfaces;
 using ExploreBooks.Models.BookViewModels;
@@ -164,11 +165,11 @@ namespace ExploreBooks.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
+        
         [HttpPost]
-        public void RecommendABook(Guid bookId, Guid userId, Guid recommendedBookId, string reason)
+        public void RecommendABook(Guid bookId, Guid userId, string recommendedBookId, string reason)
         {
-            _recommendationService.MakeARecommendation(bookId, userId, recommendedBookId, reason);
+            _recommendationService.MakeARecommendation(bookId, userId, Guid.Parse(recommendedBookId), reason);
         }
     }
 }

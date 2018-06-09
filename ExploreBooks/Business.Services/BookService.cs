@@ -5,6 +5,7 @@ using System.Linq;
 using Business.Interfaces;
 using Domain.Data;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Repository.Interfaces;
 using Service.Interfaces;
 
@@ -174,6 +175,23 @@ namespace Business.Services
             }
 
             return null;
+        }
+
+        public List<SelectListItem> GetAllBooksForRecommendation(Guid bookId)
+        {
+            var books = _bookRepository.GetAllBooks().Where(book => book.Id != bookId);
+            var bookList = new List<SelectListItem>();
+
+            foreach (var book in books)
+            {
+                bookList.Add(new SelectListItem
+                {
+                    Text = book.Title,
+                    Value = book.Id.ToString()
+                });
+            }
+
+            return bookList;
         }
     }
 }

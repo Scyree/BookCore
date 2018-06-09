@@ -19,3 +19,8 @@
 .displayNormalContent {
     color: #84474e;
 }
+
+.form-control input {
+    margin-left: 1rem;
+    width: 80% !important;
+}

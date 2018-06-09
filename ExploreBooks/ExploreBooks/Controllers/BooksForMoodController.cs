@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Business.Interfaces;
 using ExploreBooks.Models.BooksForMoodViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExploreBooks.Controllers
 {
-    [Route("listOfBooks")]
+    [Route("listOfBooks/[action]")]
     public class BooksForMoodController : Controller
     {
         private readonly IBooksForMoodService _booksForMoodService;
@@ -19,10 +15,10 @@ namespace ExploreBooks.Controllers
             _booksForMoodService = booksForMoodService;
         }
         
-        [HttpGet, ActionName("Index")]
+        [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            return View(_booksForMoodService.GetAllBooksForMoods());
         }
 
         //public ActionResult Details(int id)
@@ -30,15 +26,15 @@ namespace ExploreBooks.Controllers
         //    return View();
         //}
 
-        [HttpGet("create"), ActionName("create")]
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
-        [HttpPost, ActionName("create")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind("Authors, Genres, Title, Description, Details, Image")] BooksForMoodCreateModel booksCreateModel)
+        public ActionResult Create(BooksForMoodCreateModel booksCreateModel)
         {
             if (!ModelState.IsValid)
             {

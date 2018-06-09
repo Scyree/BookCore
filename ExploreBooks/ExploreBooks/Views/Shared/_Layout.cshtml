@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-select-1.13.0/css/bootstrap-select.css"/>
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -87,6 +88,7 @@
         <script src="~/js/PostsDisplay.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
         <script src="~/js/Books/Modify.js"></script>
+        <script src="~/lib/bootstrap-select-1.13.0/js/bootstrap-select.js"></script>
         <script>
             function DeletePost(post, target) {
                 $.ajax({
@@ -141,6 +143,7 @@
         <script>
             $(document).ready(function () {
                 $('[data-toggle="tooltip"]').tooltip();
+                $('.selectpicker').selectpicker();
             });
         </script>
     </environment>
