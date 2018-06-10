@@ -79,3 +79,14 @@ a:hover {
 .booksOverlap {
     margin-left: -5%;
 }
+
+.selectVote {
+    background-color: #ac5358;
+    color: #5d3b45;
+}
+
+.selectVote:hover {
+    background-color: #532d2d;
+    font-style: italic;
+    color: #84474e;
+}

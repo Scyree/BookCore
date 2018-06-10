@@ -1,0 +1,67 @@
+﻿@model BooksForMood
+@inject IUtilityService UtilityService
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject ILikeService LikeService
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Authors/LeftContent.css" />
+</environment>
+
+@{
+    var user = UtilityService.GetApplicationUser(Model.UserId.ToString());
+}
+<br />
+<div class="offset-1 col-md-10 col-10 sticky-top">
+    <div class="card border-0" id="leftContentCard">
+        <div class="row">
+            <div class="card card-body">
+                <div class="row justify-content-center">
+                    <p class="displayNormalContent">
+                        ,,@Model.Description,,
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+            var userId = UserManager.GetUserId(User);
+
+            <br />
+            <div class="row justify-content-center">
+                <div class="btn-group">
+                    <button type="submit" class="btn selectVote" onclick="Upvote(this.value, '@Guid.Parse(userId)')" value="@Model.Id"><i class="fa fa-arrow-up"></i></button>
+                    <input type="button" class="btn disabled" value="@LikeService.GetNumberOfLikes(Model.Id)"/>
+                    <button type="submit" class="btn selectVote" onclick="Downvote(this.value, '@Guid.Parse(userId)')" value="@Model.Id"><i class="fa fa-arrow-down"></i></button>
+                </div>
+            </div>
+        }
+        
+        <br />
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-6">
+                <p>Submitted by</p>
+            </div>
+            <div class="col-md-6 col-6">
+                <a asp-controller="Users" asp-action="Index" asp-route-username="@user.User">
+                    <img class="rounded" id="recomPicture" src="@Url.Content("..\\..\\..\\images\\" + user.Folder + "\\" + user.ImageName)" />
+                    <p class="userProfile">
+                        @user.User
+                    </p>
+                </a>
+            </div>
+        </div>
+        <br />
+        <div class="row justify-content-center">
+            <div class="card card-body">
+                <div class="row justify-content-center">
+                    <p>
+                        <a asp-controller="BooksForMood" asp-action="Index" class="displayContent">
+                            <i class="fa fa-undo"></i> Search for others lists
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
