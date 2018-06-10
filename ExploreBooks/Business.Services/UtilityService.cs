@@ -15,8 +15,9 @@ namespace Business.Services
         private readonly ICommentRepository _commentRepository;
         private readonly IBookStateRepository _stateRepository;
         private readonly IApplicationUserRepository _applicationUserRepository;
+        private readonly IRecommendationService _recommendationService;
 
-        public UtilityService(IBookRepository bookRepository, IAuthorRepository authorRepository, IPostRepository postRepository, ICommentRepository commentRepository, IBookStateRepository stateRepository, IApplicationUserRepository applicationUserRepository)
+        public UtilityService(IBookRepository bookRepository, IAuthorRepository authorRepository, IPostRepository postRepository, ICommentRepository commentRepository, IBookStateRepository stateRepository, IApplicationUserRepository applicationUserRepository, IRecommendationService recommendationService)
         {
             _bookRepository = bookRepository;
             _authorRepository = authorRepository;
@@ -24,6 +25,7 @@ namespace Business.Services
             _commentRepository = commentRepository;
             _stateRepository = stateRepository;
             _applicationUserRepository = applicationUserRepository;
+            _recommendationService = recommendationService;
         }
 
         public IReadOnlyList<BookState> GetAllBooksForUserId(string userId)
@@ -192,6 +194,48 @@ namespace Business.Services
             }
 
             return "Read";
+        }
+
+        public Guid GetRandomBookId()
+        {
+            var books = _bookRepository.GetAllBooks();
+            var random = new Random();
+            var index = random.Next(books.Count);
+
+            return books[index].Id;
+        }
+
+        public Guid GetRecommendedBookId(Guid userId)
+        {
+            var books = _stateRepository.GetAllBookStates().Where(state => state.UserId == userId).ToList();
+            var random = new Random();
+
+            if (books.Count > 0)
+            {
+                var count = 0;
+                var index = random.Next(books.Count);
+
+                while (count < 10)
+                {
+                    index = random.Next(books.Count);
+                    var recommandations = _recommendationService.GetAllRecommendationsForBookId(books[index].TargetId);
+
+                    if (recommandations.Count > 0)
+                    {
+                        var returnedIndex = random.Next(recommandations.Count);
+                        return recommandations[returnedIndex].BookId;
+                    }
+
+                    ++count;
+                }
+
+                var book = _bookRepository.GetBookById(books[index].TargetId);
+                var searchedBookByGenre = _bookRepository.GetAllBooks().SingleOrDefault(state => state.Genres.ToList()[0] == book.Genres.ToList()[0]);
+
+                return searchedBookByGenre.Id;
+            }
+            
+            return GetRandomBookId();
         }
 
         private string ConvertIntToMonth(int givenMonth)

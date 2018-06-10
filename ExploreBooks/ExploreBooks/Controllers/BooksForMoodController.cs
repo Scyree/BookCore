@@ -21,10 +21,23 @@ namespace ExploreBooks.Controllers
             return View(_booksForMoodService.GetAllBooksForMoods());
         }
 
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
+        [HttpGet, ActionName("details")]
+        public IActionResult Details(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var book = _booksForMoodService.GetBooksForMoodById(id.Value);
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return View(book);
+        }
 
         [HttpGet]
         public ActionResult Create()

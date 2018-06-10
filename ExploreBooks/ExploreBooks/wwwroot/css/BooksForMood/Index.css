@@ -1,0 +1,81 @@
+﻿#recomPicture {
+    max-width: 60px;
+    max-height: 60px;
+    width: 60px;
+    height: 60px;
+}
+
+tbody {
+    background-color: #CFD5D5;
+}
+
+p, h4, a {
+    color: #333;
+}
+
+a:hover {
+    color: #4d3333;
+    text-decoration: none;
+    opacity: 0.9;
+}
+
+.tooltip-inner, .tooltip-inner a, .tooltip-inner p, .tooltip-inner h4 {
+    background-color: #532D2D;
+    color: #CFD5D5;
+}
+
+.bs-tooltip-right .arrow::before, .bs-tooltip-auto[x-placement^="right"] .arrow::before {
+    right: 0;
+    border-width: 0.4rem 0.4rem 0.4rem 0;
+    border-right-color: #532D2D;
+}
+
+.likeAlign {
+    text-align: center;
+    margin-left: -0.8rem;
+}
+
+.textButton {
+    display: none;
+}
+
+.textAlign {
+    text-align: left;
+}
+
+.displayedBooks {
+    max-width: 140px;
+    max-height: 190px;
+    width: 140px;
+    height: 190px;
+    padding: 15px;
+}
+
+.displayCreator {
+    margin-top: 20px;
+}
+
+.submittedBy {
+    color: #4d3333;
+}
+
+.userProfile {
+    color: #5d3b45;
+}
+
+.userProfile:hover {
+    font-style: italic;
+    color: #84474e;
+}
+
+.displayedText {
+    color: #4d3333;
+}
+
+.submittedBy {
+    margin-top: 20px;
+}
+
+.booksOverlap {
+    margin-left: -5%;
+}

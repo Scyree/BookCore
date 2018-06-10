@@ -66,6 +66,24 @@ namespace Service.Services
             return bookList;
         }
 
+        public IReadOnlyList<Book> GetBooksForBooksForMood(string bookTitles)
+        {
+            var books = bookTitles.Split(",");
+            var bookList = new List<Book>();
+
+            foreach (var book in books)
+            {
+                var check = _repository.GetAllBooks().SingleOrDefault(searchedBook => searchedBook.Title == book);
+
+                if (check != null)
+                {
+                    bookList.Add(check);
+                }
+            }
+
+            return bookList;
+        }
+
         public Book GetBookById(Guid bookId)
         {
             return _repository.GetBookById(bookId);

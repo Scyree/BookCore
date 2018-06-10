@@ -8,5 +8,6 @@ namespace Business.Interfaces
     {
         IReadOnlyList<BooksForMood> GetAllBooksForMoods();
         void CreateBooksForMood(Guid userId, string title, string description, string books);
+        BooksForMood GetBooksForMoodById(Guid id);
     }
 }

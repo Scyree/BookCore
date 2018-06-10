@@ -1,0 +1,35 @@
+﻿@model BooksForMood
+@inject IUtilityService UtilityService
+@inject IApplicationPictureLogic PictureService
+@inject ILikeService LikeService
+
+<div class="container">
+    @{
+        <div class="row justify-content-center">
+            <a asp-action="details" asp-route-id="@Model.Id">
+                <h3 class="displayedText">@Model.Title</h3>
+            </a>
+        </div>
+        <div class="row justify-content-center">
+            <h6>
+                <i class="fa fa-thumbs-up"></i> (@LikeService.GetNumberOfLikes(Model.Id))
+            </h6>
+        </div>
+        <div class="row displayCreator">
+            @{
+                var user = UtilityService.GetApplicationUser(Model.UserId.ToString());
+            }
+            <div class="col-md-6 col-6 text-right">
+                <h5 class="submittedBy">Submitted by:</h5>
+            </div>
+            <div class="col-md-6 col-6 justify-content-center">
+                <a asp-controller="Users" asp-action="Index" asp-route-username="@user.User">
+                    <img class="rounded" id="recomPicture" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(user.Id))"/>
+                    <p class="userProfile">
+                        @user.User
+                    </p>
+                </a>
+            </div>
+        </div>
+    }
+</div>

@@ -10,5 +10,6 @@ namespace Service.Interfaces
         Book CheckBook(string bookTitle);
         IReadOnlyList<Book> GetBooks(string bookTitles);
         Book GetBookById(Guid bookId);
+        IReadOnlyList<Book> GetBooksForBooksForMood(string bookTitles);
     }
 }

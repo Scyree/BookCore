@@ -5,34 +5,47 @@
 }
 
 <environment include="Development">
-    <link rel="stylesheet" href="~/css/Books/Book.css" />
+    <link rel="stylesheet" href="~/css/BooksForMood/Index.css" />
 </environment>
 
 <br />
 <br />
 <div class="row justify-content-center">
     <h3>
-        Browse through all books
+        Browse through list of books
     </h3>
 </div>
 <div class="row justify-content-center">
     <h5>
         <i>
-            <a asp-action="Create">..or add a new one</a>
+            <a asp-action="Create">..or create a new one</a>
         </i>
     </h5>
 </div>
 <br />
-<div class="container">
-    @{
-        var books = Model.ToList();
-        <div class="row">
-            @for (var index = 0; index < books.Count; ++index)
+<br />
+<div class="container justify-content-center">
+    <div class="offset-1 col-md-10 col-10">
+        @{
+            var booksForMood = Model.ToList();
+            for (var index = 0; index < booksForMood.Count; ++index)
             {
-                <p>
-                    @books[index].Title facut de @books[index].UserId
-                </p>
+                var books = booksForMood[index].Books;
+
+                <div class="row border-top border-bottom">
+                    <div class="col-md-6 col-6 justify-content-center">
+                        <br />
+                        @await Html.PartialAsync("IndexPages/_DisplayBooksContent", books)
+                        <br />
+                    </div>
+                
+                    <div class="col-md-6 col-6">
+                        <br />
+                        @await Html.PartialAsync("IndexPages/_CreatorContent", booksForMood[index])
+                    </div>
+                </div>
+                <br />
             }
-        </div>
-    }
+        }
+    </div>
 </div>

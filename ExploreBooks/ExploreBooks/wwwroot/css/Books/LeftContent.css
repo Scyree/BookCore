@@ -71,3 +71,8 @@
 .progress {
     height: 38px;
 }
+
+#leftContentImage {
+    max-width: 250px;
+    max-height: 456px;
+}

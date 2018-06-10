@@ -40,13 +40,14 @@
 
                     <div class="col-md-3 col-3">
                         <a data-toggle="modal" data-target="#@recommendedDetails">
-                            <img class="rounded" src="@Url.Content("..\\..\\..\\images\\" + book.Folder + "\\" + book.ImageName)" />
+                            <img class="rounded" id="bookImage" src="@Url.Content("..\\..\\..\\images\\" + book.Folder + "\\" + book.ImageName)" />
                         </a>
                     </div>
 
                     if (checkIndex % 4 == 0)
                     {
                         <div class="w-100"></div>
+                        <br />
                     }
                     
                     @await Html.PartialAsync("DetailsPages/_RecommendationDetails", books[index])

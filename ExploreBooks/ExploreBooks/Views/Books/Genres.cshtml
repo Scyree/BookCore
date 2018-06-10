@@ -34,13 +34,14 @@
 
                 <div class="col-md-3 col-3">
                     <a asp-action="Details" asp-route-id="@books[index].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
-                        <img class="rounded" src="@Url.Content("..\\..\\..\\images\\" + books[index].Folder + "\\" + books[index].ImageName)" />
+                        <img class="rounded" id="bookImage" src="@Url.Content("..\\..\\..\\images\\" + books[index].Folder + "\\" + books[index].ImageName)" />
                     </a>
                 </div>
 
                 if (checkIndex % 4 == 0)
                 {
                     <div class="w-100"></div>
+                    <br />
                 }
             }
         </div>

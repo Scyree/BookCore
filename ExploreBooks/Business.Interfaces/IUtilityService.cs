@@ -18,5 +18,7 @@ namespace Business.Interfaces
         ApplicationUser GetApplicationUser(string userId);
         string DisplayDate(DateTime date);
         string ConvertStateToAction(int state);
+        Guid GetRandomBookId();
+        Guid GetRecommendedBookId(Guid userId);
     }
 }

@@ -38,7 +38,7 @@ namespace Business.Services
 
         public void CreateBooksForMood(Guid userId, string title, string description, string books)
         {
-            var bookList = _bookService.GetBooks(books);
+            var bookList = _bookService.GetBooksForBooksForMood(books);
 
             var bookForMood = BooksForMood.CreateBooksForMood(
                 userId,
@@ -57,6 +57,21 @@ namespace Business.Services
 
                 _bookRepository.CreateBooksWithinBooksForMood(bookWithinList);
             }
+        }
+
+        public BooksForMood GetBooksForMoodById(Guid id)
+        {
+            var book = _booksForMoodRepository.GetBooksForMoodById(id);
+
+            if (book != null)
+            {
+                book.Books = _bookRepository.GetAllBooksWithinBooksForMood().Where(mood => mood.BooksForMoodId == book.Id).ToList();
+                book.Posts = _postService.GetAllPosts().Where(post => post.TargetId == book.Id).ToList();
+
+                return book;
+            }
+
+            return null;
         }
     }
 }
