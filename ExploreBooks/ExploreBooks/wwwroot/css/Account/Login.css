@@ -1,8 +1,4 @@
-﻿body {
-    background-color: #ffffff;
-}
-
-.modal-header {
+﻿.modal-header {
     background-color: #ffffff;
     color: #5c3d3d;
     text-align: center;
@@ -59,17 +55,6 @@
     text-decoration: none;
 }
 
-.btn-login {
-    color: #e8e4e4;
-    background-color: #6b4747;
-}
-
-.btn-login:hover {
-    background-color: #b3b3b3;
-    text-decoration: none;
-    opacity: 0.5;
-}
-
 .displayOption {
     display: inline;
     margin-left: -0.8rem;
@@ -85,4 +70,23 @@ input {
 
 .form-control {
     margin-left: -0.4rem;
+}
+
+#loginButton {
+    background-color: #5d3b45;
+    color: #f1f1f1;
+}
+
+#loginButton:hover {
+    background-color: #4a2f37;
+    color: #ac5358;
+}
+
+#registerOption {
+    cursor: pointer;
+    color: #4a2f37;
+}
+
+#registerOption:hover {
+    color: #84474e;
 }

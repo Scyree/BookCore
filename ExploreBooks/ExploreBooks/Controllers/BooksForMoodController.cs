@@ -39,13 +39,13 @@ namespace ExploreBooks.Controllers
             return View(book);
         }
 
-        [HttpGet]
+        [HttpGet, ActionName("create")]
         public ActionResult Create()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("create")]
         [ValidateAntiForgeryToken]
         public ActionResult Create(BooksForMoodCreateModel booksCreateModel)
         {

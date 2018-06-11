@@ -15,14 +15,13 @@ namespace ExploreBooks.Controllers
         {
             _service = service;
         }
-
-        // GET: Authors
+        
         public IActionResult Index()
         {
             return View(_service.GetAllAuthors());
         }
 
-        // GET: Authors/Details
+        [HttpGet, ActionName("details")]
         public IActionResult Details(Guid? id)
         {
             if (id == null)
@@ -40,14 +39,13 @@ namespace ExploreBooks.Controllers
             return View(author);
         }
 
-        // GET: Authors/Create
+        [HttpGet, ActionName("create")]
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: Authors/Create
-        [HttpPost]
+        
+        [HttpPost, ActionName("create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name, Description, Books, Image")] AuthorCreateModel authorCreateModel)
         {
@@ -61,7 +59,7 @@ namespace ExploreBooks.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Authors/Edit
+        [HttpGet, ActionName("edit")]
         public IActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -83,8 +81,7 @@ namespace ExploreBooks.Controllers
             return View(authorEditModel);
         }
 
-        // POST: Authors/Edit
-        [HttpPost]
+        [HttpPost, ActionName("edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Description, Books, Image")] AuthorEditModel authorEditModel)
         {
@@ -98,7 +95,7 @@ namespace ExploreBooks.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Authors/Delete
+        [HttpGet, ActionName("delete")]
         public IActionResult Delete(Guid? id)
         {
             if (id == null)
@@ -116,8 +113,7 @@ namespace ExploreBooks.Controllers
             return View(author);
         }
 
-        // POST: Authors/Delete
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(Guid id)
         {

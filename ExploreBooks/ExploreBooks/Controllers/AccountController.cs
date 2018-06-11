@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace ExploreBooks.Controllers
 {
     [Authorize]
-    [Route("[controller]/[action]")]
+    [Route("account/[action]")]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

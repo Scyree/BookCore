@@ -13,3 +13,7 @@
 .commentsContent {
     border-left: 2px solid #ac5358;
 }
+
+.textButton {
+    display: none;
+}

@@ -102,7 +102,7 @@ namespace ExploreBooks.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet]
+        [HttpGet, ActionName("changePicture")]
         public async Task<IActionResult> ChangePicture()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -121,7 +121,7 @@ namespace ExploreBooks.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("changePicture")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePicture(ChangePictureViewModel model)
         {
@@ -152,7 +152,7 @@ namespace ExploreBooks.Controllers
             return RedirectToAction(nameof(ChangePicture));
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("sendVerificationEmail")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendVerificationEmail(IndexViewModel model)
         {
@@ -171,7 +171,7 @@ namespace ExploreBooks.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet]
+        [HttpGet, ActionName("changePassword")]
         public async Task<IActionResult> ChangePassword()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -190,7 +190,7 @@ namespace ExploreBooks.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("changePassword")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
@@ -219,7 +219,7 @@ namespace ExploreBooks.Controllers
             return RedirectToAction(nameof(ChangePassword));
         }
 
-        [HttpGet]
+        [HttpGet, ActionName("setPassword")]
         public async Task<IActionResult> SetPassword()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -239,7 +239,7 @@ namespace ExploreBooks.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("setPassword")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SetPassword(SetPasswordViewModel model)
         {
@@ -267,6 +267,7 @@ namespace ExploreBooks.Controllers
             return RedirectToAction(nameof(SetPassword));
         }
         
+        [HttpGet, ActionName("deleteProfile")]
         public async Task<IActionResult> DeleteProfile()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -279,7 +280,7 @@ namespace ExploreBooks.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost, ActionName("deleteConfirmed")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var user = await _userManager.GetUserAsync(User);

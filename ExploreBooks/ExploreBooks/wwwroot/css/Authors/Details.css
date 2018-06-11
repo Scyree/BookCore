@@ -2,10 +2,6 @@
     border-left: 1px solid #DEE2E6;
 }
 
-p, h4, a {
-    color: #333;
-}
-
 a:hover {
     color: #4d3333;
     text-decoration: none;
@@ -21,19 +17,6 @@ a:hover {
     right: 0;
     border-width: 0.4rem 0.4rem 0.4rem 0;
     border-right-color: #532D2D;
-}
-
-.textButton {
-    display: none;
-}
-
-.textAlign {
-    text-align: left;
-}
-
-.arrowWrittenBooks {
-    font-size: 45px;
-    color: #4d3333;
 }
 
 .indexImages {

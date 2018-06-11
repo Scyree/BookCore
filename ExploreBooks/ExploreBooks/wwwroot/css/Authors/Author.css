@@ -1,9 +1,18 @@
-﻿.rightContent {
-    border-left: 1px solid #DEE2E6;
+﻿#title {
+    color: #4d3333;
 }
 
-p, h4, a {
-    color: #333;
+#addOption {
+    cursor: pointer;
+    color: #4a2f37;
+}
+
+#addOption:hover {
+    color: #84474e;
+}
+
+.rightContent {
+    border-left: 1px solid #DEE2E6;
 }
 
 a:hover {
@@ -21,26 +30,6 @@ a:hover {
     right: 0;
     border-width: 0.4rem 0.4rem 0.4rem 0;
     border-right-color: #532D2D;
-}
-
-.textButton {
-    display: none;
-}
-
-.writtenBooks {
-    max-width: 120px;
-    max-height: 170px;
-    width: 120px;
-    height: 170px;
-}
-
-.textAlign {
-    text-align: left;
-}
-
-.arrowWrittenBooks {
-    font-size: 45px;
-    color: #4d3333;
 }
 
 .indexImages {
