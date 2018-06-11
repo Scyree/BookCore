@@ -62,7 +62,7 @@
         var target = this.commentId.value;
         var comment = $(this).find("textarea[name='commentText']").val();
         $.ajax({
-            url: "/Comments/Edit",
+            url: "/CommunityFeedback/EditComment",
             data: { commentId: target, commentEdited: comment },
             type: "POST",
             success: function () {

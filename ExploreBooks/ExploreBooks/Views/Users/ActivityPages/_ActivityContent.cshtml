@@ -34,7 +34,7 @@
                                     <div class="media p-3">
                                         <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\..\\" + PictureService.GetFolderWithFile(userId))" />
                                         <div class="media-body textAlign">
-                                            <form asp-controller="Posts" asp-action="Create" class="submitPost" role="form">
+                                            <form asp-controller="CommunityFeedback" asp-action="CreatePost" class="submitPost" role="form">
                                                 @Html.Hidden("userId", Guid.Parse(userId))
                                                 @Html.Hidden("targetId", activity.Id)
                                                 <input type="text" name="postText" placeholder="Say something.." />

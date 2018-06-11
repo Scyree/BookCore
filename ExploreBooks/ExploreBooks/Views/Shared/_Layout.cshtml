@@ -88,11 +88,11 @@
         <script>
             function DeletePost(post, target) {
                 $.ajax({
-                    url: "/Posts/Delete",
+                    url: "/CommunityFeedback/DeletePost",
                     data: { id: post },
                     type: "POST",
                     success: function () {
-                        var result = "@Url.Action("GetAllPostsForTargetId", "Posts")?targetId=" + target;
+                        var result = "@Url.Action("GetAllPostsForTargetId", "CommunityFeedback")?targetId=" + target;
                         var deleteModal = "#deleteModal" + post;
                         $("#" + target).load(result);
                         $(".modal-backdrop").remove();
@@ -104,11 +104,11 @@
 
             function DeleteComment(target, post) {
                 $.ajax({
-                    url: "/Comments/Delete",
+                    url: "/CommunityFeedback/DeleteComment",
                     data: { id: target },
                     type: "POST",
                     success: function () {
-                        var result = "@Url.Action("GetAllCommentsForPostId", "Comments")?postId=" + post;
+                        var result = "@Url.Action("GetAllCommentsForPostId", "CommunityFeedback")?postId=" + post;
                         var deleteModal = "#deleteModal" + target;
                         $("#" + post).load(result);
                         $(".modal-backdrop").remove();
@@ -124,11 +124,11 @@
                 var target = this.targetId.value;
                 var post = $(this).find("input[name='postText']").val();
                 $.ajax({
-                    url: "/Posts/Create",
+                    url: "/CommunityFeedback/CreatePost",
                     data: { userId: user, targetId: target, postText: post },
                     type: "POST",
                     success: function() {
-                        var result = "@Url.Action("GetAllPostsForTargetId", "Posts")?targetId=" + target;
+                        var result = "@Url.Action("GetAllPostsForTargetId", "CommunityFeedback")?targetId=" + target;
                         $("#" + target).load(result);
                         $(".submitPost").trigger("reset");
                         $(":focus").blur();
