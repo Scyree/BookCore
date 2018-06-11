@@ -1,8 +1,8 @@
 ﻿#recomPicture {
-    max-width: 60px;
-    max-height: 60px;
-    width: 60px;
-    height: 60px;
+    max-width: 30px;
+    max-height: 30px;
+    width: 30px;
+    height: 30px;
 }
 
 tbody {
@@ -101,4 +101,39 @@ a:hover {
 
 .displayCreator {
     margin-top: 50px;
+}
+
+.writtenBooks {
+    max-width: 150px;
+    max-height: 220px;
+    width: 150px;
+    height: 220px;
+    padding-bottom: 15px;
+}
+
+.rightContent {
+    border-left: 1px solid #DEE2E6;
+}
+
+#title {
+    color: #4a2f37;
+    font-style: italic;
+}
+
+.displayFeedback {
+    cursor: pointer;
+    color: #4a2f37;
+}
+
+.displayFeedback:hover {
+    font-style: italic;
+    color: #84474e;
+}
+
+.communityFeedback {
+    display: none;
+}
+
+#books {
+    color: #4a2f37;
 }

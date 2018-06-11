@@ -54,10 +54,12 @@
                 </div>
                 <div class="col-md-6 col-6 justify-content-center">
                     <a asp-controller="Users" asp-action="Index" asp-route-username="@user.User">
-                        <img class="rounded" id="recomPicture" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(user.Id))" />
-                        <p class="userProfile">
-                            @user.User
-                        </p>
+                        <figure class="profile">
+                            <img class="rounded" id="recomPicture" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(user.Id))" />
+                            <figcaption class="userProfile">
+                                @user.User
+                            </figcaption>
+                        </figure>
                     </a>
                 </div>
             </div>

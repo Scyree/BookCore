@@ -30,8 +30,4 @@
     <ProjectReference Include="..\Service.Services\Service.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\js\BooksForMood\" />
-  </ItemGroup>
-
 </Project>

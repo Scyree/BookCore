@@ -7,38 +7,54 @@
     var userId = UserManager.GetUserId(User);
 }
 
-<h2>Create</h2>
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Books/Modify.css" />
+</environment>
 
-<h4>BooksForMood</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @Html.Hidden("UserId", userId)
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+<div class="container">
+    <div class="modal fade createModal" id="createBook">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h5 class="modal-title mx-auto mw-100" id="title">
+                        <strong>
+                            Add a new book
+                        </strong>
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <form asp-action="Create" enctype="multipart/form-data">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            @Html.Hidden("UserId", userId)
+                            <div class="form-group row">
+                                <label class="col-4 col-md-4 col-form-label leftText" asp-for="Title"></label>
+                                <div class="col-8 col-md-8 ml-auto">
+                                    <input asp-for="Title" class="form-control" />
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-4 col-md-4 col-form-label leftText" asp-for="Description"></label>
+                                <div class="col-8 col-md-8 ml-auto">
+                                    <input asp-for="Description" class="form-control" />
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-4 col-md-4 col-form-label leftText" asp-for="Books"></label>
+                                <div class="col-8 col-md-8 ml-auto">
+                                    <input asp-for="Books" class="form-control" />
+                                    <span asp-validation-for="Books" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row justify-content-center">
+                                <button type="submit" id="addButton" class="btn btn-register">Add it!</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Books" class="control-label"></label>
-                <input asp-for="Books" class="form-control" />
-                <span asp-validation-for="Books" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

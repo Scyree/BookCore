@@ -1,0 +1,19 @@
+﻿#title {
+    color: #4a2f37;
+    font-style: italic;
+}
+
+.leftText {
+    color: #341c1f;
+}
+
+#addButton {
+    background-color: #5d3b45;
+    color: #f1f1f1;
+}
+
+#addButton:hover {
+    background-color: #4a2f37;
+    color: #ac5358;
+    font-style: italic;
+}

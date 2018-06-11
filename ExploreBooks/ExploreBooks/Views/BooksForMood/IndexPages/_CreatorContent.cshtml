@@ -3,33 +3,35 @@
 @inject IApplicationPictureLogic PictureService
 @inject ILikeService LikeService
 
-<div class="container">
+<div class="container leftContent creatorContainer">
     @{
         <div class="row justify-content-center">
             <a asp-action="details" asp-route-id="@Model.Id">
-                <h3 class="displayedText">@Model.Title</h3>
+                <h2 class="displayedText">@Model.Title</h2>
             </a>
         </div>
         <div class="row justify-content-center">
             <h6>
-                <i class="fa fa-thumbs-up"></i> (@LikeService.GetNumberOfLikes(Model.Id))
+                (@LikeService.GetNumberOfLikes(Model.Id)) vote/s
             </h6>
         </div>
         <div class="row displayCreator">
             @{
                 var user = UtilityService.GetApplicationUser(Model.UserId.ToString());
             }
-            <div class="col-md-6 col-6 text-right">
+            <div class="offset-2 col-md-6 col-6 text-right">
                 <h5 class="submittedBy">Submitted by:</h5>
             </div>
-            <div class="col-md-6 col-6 justify-content-center">
+            <div class="col-md-4 col-4 text-center">
                 <a asp-controller="Users" asp-action="Index" asp-route-username="@user.User">
-                    <img class="rounded" id="recomPicture" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(user.Id))"/>
-                    <p class="userProfile">
-                        @user.User
-                    </p>
+                    <figure class="profile">
+                        <img class="mr-0 rounded" id="recomPicture" src="@Url.Content("..\\..\\" + PictureService.GetFolderWithFile(user.Id))" />
+                        <figcaption class="userProfile">
+                            @user.User
+                        </figcaption>
+                    </figure>
                 </a>
             </div>
-        </div>
+       </div>
     }
 </div>

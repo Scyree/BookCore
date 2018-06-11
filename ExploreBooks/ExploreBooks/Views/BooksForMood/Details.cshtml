@@ -5,9 +5,8 @@
 }
 
 <environment include="Development">
-    <link rel="stylesheet" href="~/css/Authors/Details.css" />
     <link rel="stylesheet" href="~/css/PartialPosts.css" />
-    <link rel="stylesheet" href="~/css/BooksForMood/Index.css" />
+    <link rel="stylesheet" href="~/css/BooksForMood/Details.css" />
 </environment>
 
 <br />
@@ -18,11 +17,6 @@
             @await Html.PartialAsync("DetailsPages/_LeftContent", Model)
         </div>
         <div class="col-md-9 col-9 rightContent">
-            <div class="row text-left ml-4">
-                <h3 id="title">
-                    @Model.Title
-                </h3>
-            </div>
             <div class="row justify-content-center">
                 <div class="col-4"><hr /></div>
                 <div class="col-auto">

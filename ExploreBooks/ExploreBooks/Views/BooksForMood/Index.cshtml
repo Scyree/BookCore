@@ -33,15 +33,15 @@
                 var books = booksForMood[index].Books;
 
                 <div class="row border-top border-bottom">
-                    <div class="col-md-6 col-6 justify-content-center">
-                        <br />
-                        @await Html.PartialAsync("IndexPages/_DisplayBooksContent", books)
-                        <br />
-                    </div>
-                
                     <div class="col-md-6 col-6">
                         <br />
                         @await Html.PartialAsync("IndexPages/_CreatorContent", booksForMood[index])
+                    </div>
+
+                    <div class="col-md-6 col-6 justify-content-center">
+                        <br/>
+                        @await Html.PartialAsync("IndexPages/_DisplayBooksContent", books)
+                        <br/>
                     </div>
                 </div>
                 <br />
