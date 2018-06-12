@@ -1,0 +1,64 @@
+﻿@model Book
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IChapterService ChapterService
+
+<div class="row justify-content-center">
+    @{
+        var numberOfPeople = @ChapterService.GetAllChaptersForBook(Model.Id).Count;
+    }
+    @if (numberOfPeople == 0)
+    {
+        <h6>All the chapters were loved equally by people</h6>
+    }
+    else
+    {
+        <h6>
+            Chapters loved by @ChapterService.GetAllChaptersForBook(Model.Id).Count people are: @ChapterService.GetChaptersAverageForBook(Model.Id)
+        </h6>
+    }
+</div>
+<br />
+<div class="row">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <div class="offset-1 col-md-5 col-5 text-right">
+            <h6 id="displayUserChapters">
+                Your chapters:
+            </h6>
+        </div>
+        <div class="col-md-6 col-6">
+            <div class="btn-toolbar modifyChapters">
+                @{
+                    var userId = UserManager.GetUserId(User);
+                    if (ChapterService.CheckIfUserRecommendedChaptersForBook(Guid.Parse(userId), Model.Id))
+                    {
+                        <div id="displayedChapters">
+                            <h5>@ChapterService.GetUserChaptersForBook(Guid.Parse(userId), Model.Id).Chapters</h5>
+                        </div>
+                        <div class="input-group">
+                            <div id="modifyChapters" class="text-left">
+                                <form asp-controller="Users" asp-action="ChapterBook" class="submitChapter" role="form">
+                                    @Html.Hidden("bookId", Model.Id)
+                                    @Html.Hidden("userId", Guid.Parse(userId))
+                                    <input type="text" name="chapters" class="w-75" placeholder="Your chapters.." />
+                                    <button type="submit" class="btn" id="acceptButton"><i class="fa fa-check"></i></button>
+                                </form>
+                            </div>
+                            <button type="button" class="ml-1 btn" id="modifyButton" onclick="DisplayChaptersModify()"><i class="fa fa-pencil"></i></button>
+                        </div>
+                    }
+                    else
+                    {
+                        <form asp-controller="Users" asp-action="ChapterBook" class="submitChapter" role="form">
+                            @Html.Hidden("bookId", Model.Id)
+                            @Html.Hidden("userId", Guid.Parse(userId))
+                            <input type="text" name="chapters" placeholder="Your chapters.." />
+                            <button type="submit" class="btn" id="acceptButton"><i class="fa fa-check"></i></button>
+                        </form>
+                    }
+                }
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,38 @@
+﻿@model Book
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Books/Statistics.css" />
+</environment>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-4"><hr /></div>
+        <div class="col-auto">
+            <h5 id="statistics" class="text-center">
+                Statistics
+            </h5>
+        </div>
+        <div class="col-4"><hr /></div>
+    </div>
+    <div class="row justify-content-center">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item" onclick="displayRating()">Rating</li>
+            <li class="breadcrumb-item" onclick="displayChapters()">Chapters</li>
+        </ul>
+    </div>
+    <div class="container justify-content-center">
+        <div id="rating">
+            @await Html.PartialAsync("DetailsPages/_RatingContent", Model)
+        </div>
+        <div id="chapters">
+            @await Html.PartialAsync("DetailsPages/_ChapterContent")
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-11"><hr /></div>
+    </div>
+</div>
+
+<environment include="Development">
+    <script src="~/js/Books/Statistics.js"></script>
+</environment>

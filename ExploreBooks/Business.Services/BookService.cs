@@ -20,9 +20,10 @@ namespace Business.Services
         private readonly IWorkingWithFiles _fileManagement;
         private readonly IGenreService _genreService;
         private readonly IPostService _postService;
+        private readonly IRatingService _ratingService;
         private readonly string _folder;
 
-        public BookService(IBookRepository bookRepository, IWorkingWithFiles fileManagement, IGenreService genreService, IGenreBookMiddleware genreBookService, IAuthorMiddleware authorService, IAuthorBookMiddleware authorBookService, IPostService postService)
+        public BookService(IBookRepository bookRepository, IWorkingWithFiles fileManagement, IGenreService genreService, IGenreBookMiddleware genreBookService, IAuthorMiddleware authorService, IAuthorBookMiddleware authorBookService, IPostService postService, IRatingService ratingService)
         {
             _bookRepository = bookRepository;
             _fileManagement = fileManagement;
@@ -31,6 +32,7 @@ namespace Business.Services
             _authorService = authorService;
             _authorBookService = authorBookService;
             _postService = postService;
+            _ratingService = ratingService;
             _folder = "books";
         }
         
@@ -43,6 +45,7 @@ namespace Business.Services
                 book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(book.Id).ToList();
                 book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(book.Id).ToList();
                 book.Posts = _postService.GetAllPosts().Where(post => post.TargetId == book.Id).ToList();
+                book.Ratings = _ratingService.GetAllRatingsForBook(book.Id).ToList();
             }
 
             return books;
@@ -170,6 +173,7 @@ namespace Business.Services
                 book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(id).ToList();
                 book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(id).ToList();
                 book.Posts = _postService.GetAllPosts().Where(post => post.TargetId == id).ToList();
+                book.Ratings = _ratingService.GetAllRatingsForBook(book.Id).ToList();
 
                 return book;
             }

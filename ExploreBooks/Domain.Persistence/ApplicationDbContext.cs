@@ -32,6 +32,7 @@ namespace Domain.Persistence
         public DbSet<BookState> BookStates { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Rating> Ratings { get; set; }
+        public DbSet<Chapter> Chapters { get; set; }
         public DbSet<Recommendation> Recommendations { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Like> Likes { get; set; }

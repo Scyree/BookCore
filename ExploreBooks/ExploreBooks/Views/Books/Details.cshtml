@@ -48,17 +48,7 @@
                     <br />
                     <br />
                     <div class="row text-center">
-                        <div class="col-md-12 col-12">
-                            <h5>
-                                Statistics
-                            </h5>
-                            <span style="float: left;">
-                                87.3% found this book good
-                            </span>
-                            <span style="float: right;">
-                                Your rating: Very Good
-                            </span>
-                        </div>
+                        @await Html.PartialAsync("DetailsPages/_StatisticsContent", Model)
                     </div>
                     <br />
                     <br />

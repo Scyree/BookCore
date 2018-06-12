@@ -1,0 +1,58 @@
+﻿@model Book
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IRatingService RatingService
+
+<div class="row justify-content-center">
+    @{
+        var numberOfPeople = @RatingService.GetAllRatingsForBook(Model.Id).Count;       
+    }
+    @if (numberOfPeople == 0)
+    {
+        <h6>Seems like no one rated this book yet</h6>  
+    }
+    else
+    {
+        <h6>
+            @RatingService.GetRatingsAverageForBook(Model.Id) / 5 - score given by @numberOfPeople people
+        </h6>
+    }
+</div>
+<br />
+<div class="row">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <div class="offset-2 col-md-4 col-4 text-right">
+            <h6 id="displayUserRating">
+                Your rating: 
+            </h6>
+        </div>
+        <div class="col-md-6 col-6 text-left">
+            <div class="btn-toolbar">
+                @{
+                    var userId = UserManager.GetUserId(User);
+                    if (RatingService.CheckIfUserRatedThisBook(Guid.Parse(userId), Model.Id))
+                    {
+                        var rate = RatingService.GetUserRatingForBook(Guid.Parse(userId), Model.Id).Rate;
+                        @Html.DropDownList("ratingBook", RatingService.GetRatingList(), RatingService.ConvertRateToText(rate), new
+                        {
+                            @class = "form-control w-50",
+                            id = "ratingValue",
+                            onchange = "DisplaySaveOption()"
+                        })
+                    }
+                    else
+                    {
+                        @Html.DropDownList("ratingBook", RatingService.GetRatingList(), null, new
+                        {
+                            @class = "form-control w-50",
+                            @id = "ratingValue",
+                            onchange = "DisplaySaveOption()"
+                        })
+                    }
+                }
+                <button type="submit" class="ml-2 btn" id="acceptButton" onclick="RateBook('@Model.Id', '@Guid.Parse(userId)')"><i class="fa fa-check"></i></button>
+            </div>
+        </div>
+    }
+</div>

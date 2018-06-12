@@ -135,6 +135,21 @@
                     }
                 });
             });
+
+            $(".submitChapter").submit(function (e) {
+                e.preventDefault();
+                var user = this.userId.value;
+                var book = this.bookId.value;
+                var chapter = $(this).find("input[name='chapters']").val();
+                $.ajax({
+                    url: "/Users/ChapterBook",
+                    data: { bookId: book, userId: user, chapters: chapter },
+                    type: "POST",
+                    success: function () {
+                        location.reload();
+                    }
+                });
+            });
         </script>
         <script>
             $(document).ready(function () {

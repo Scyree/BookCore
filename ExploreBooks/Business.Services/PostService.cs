@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 using Business.Interfaces;
 using Domain.Data;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Repository.Interfaces;
 using Service.Interfaces;
 
@@ -26,21 +25,7 @@ namespace Business.Services
         {
             return _postService.GetPostsBasedOnLikes().Take(number).ToList();
         }
-
-        public List<SelectListItem> GetRatingList()
-        {
-            var ratingList = new List<SelectListItem>
-            {
-                new SelectListItem { Text = "5 - Very good", Value = "5" },
-                new SelectListItem { Text = "4 - Good", Value = "4" },
-                new SelectListItem { Text = "3 - Normal", Value = "3" },
-                new SelectListItem { Text = "2 - Not impressed", Value = "2" },
-                new SelectListItem { Text = "1 - Hate it", Value = "1"}
-            };
-
-            return ratingList;
-        }
-
+        
         public IReadOnlyList<Post> GetAllPostsForTargetId(Guid targetId)
         {
             var posts = _postService.GetPostsByDate().Where(post => post.TargetId == targetId).ToList();
