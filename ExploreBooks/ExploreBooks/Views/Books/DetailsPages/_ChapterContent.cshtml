@@ -36,12 +36,12 @@
                         <div id="displayedChapters">
                             <h5>@ChapterService.GetUserChaptersForBook(Guid.Parse(userId), Model.Id).Chapters</h5>
                         </div>
-                        <div class="input-group">
-                            <div id="modifyChapters" class="text-left">
+                        <div class="input-group justify-content-center">
+                            <div id="modifyChapters">
                                 <form asp-controller="Users" asp-action="ChapterBook" class="submitChapter" role="form">
                                     @Html.Hidden("bookId", Model.Id)
                                     @Html.Hidden("userId", Guid.Parse(userId))
-                                    <input type="text" name="chapters" class="w-75" placeholder="Your chapters.." />
+                                    <input type="text" name="chapters" class="text-center w-75" placeholder="Your chapters.." />
                                     <button type="submit" class="btn" id="acceptButton"><i class="fa fa-check"></i></button>
                                 </form>
                             </div>
