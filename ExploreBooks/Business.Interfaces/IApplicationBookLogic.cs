@@ -6,10 +6,13 @@ namespace Business.Interfaces
 {
     public interface IApplicationBookLogic
     {
+        bool CheckIfBookStateExists(Guid bookId, string userId);
         void ReadActions(Guid bookId, string userId, string actionName);
         IEnumerable<Book> GetBooksOfAUser(string userId);
         void AddToFavorites(Guid bookId, string userId);
         void RemoveFromFavorites(Guid bookId, string userId);
+        void ModifyBookPages(Guid bookId, string userId, string number);
+        string GetNumberOfPages(Guid bookId, string userId);
         int GetAllBooksNumber(string userId);
         int GetPlanToReadBooksNumber(string userId);
         int GetReadingBooksNumber(string userId);

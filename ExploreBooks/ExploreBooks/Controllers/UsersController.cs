@@ -112,6 +112,14 @@ namespace ExploreBooks.Controllers
             return RedirectToAction("Details", "Books", new { @id = bookId });
         }
 
+        [HttpPost("ModifyBookPages")]
+        public IActionResult ModifyBookPages(Guid bookId, string userId, string numberOfPages)
+        {
+            _bookLogic.ModifyBookPages(bookId, userId, numberOfPages);
+
+            return RedirectToAction("Details", "Books", new { @id = bookId });
+        }
+
         [HttpPost("AddToFavorites")]
         public IActionResult AddToFavorites(Guid bookId, string userId)
         {

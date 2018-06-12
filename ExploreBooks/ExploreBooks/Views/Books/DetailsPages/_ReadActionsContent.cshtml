@@ -10,10 +10,27 @@
 <div class="card card-body">
     @if (checkBookState != null)
     {
+        var totalPages = Int32.Parse(checkBookState.NumberOfPages) * 100 / Int32.Parse(UtilityService.GetBookById(Model).Pages);
+        var planToRead = totalPages;
+        var reading = totalPages;
+        var read = totalPages;
+        if (planToRead == 0)
+        {
+            planToRead = 25;
+        }
+        if (reading == 0)
+        {
+            reading = 70;
+        }
+        if (read == 0)
+        {
+            read = 100;
+        }
+
         if (checkBookState.State == 1)
         {
             <div class="progress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" id="planToReadButton" style="width: 25%">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" id="planToReadButton" style="width: @planToRead%">
                     <i>On your <a href="#">plan to read</a></i>
                 </div>
             </div>
@@ -27,7 +44,7 @@
             <button type="submit" class="btn" id="planToReadButton" onclick="ReadAction('@Model', '@user', 'Plan to read')">Plan to read</button>
             <br />
             <div class="progress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" id="readingButton" style="width: 70%">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" id="readingButton" style="width: @reading%">
                     <i>On your <a href="#">reading</a> list..</i>
                 </div>
             </div>
@@ -41,7 +58,7 @@
             <button type="submit" class="btn" id="readingButton" onclick="ReadAction('@Model', '@user', 'Reading')">Reading</button>
             <br />
             <div class="progress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" id="readButton" style="width: 100%">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" id="readButton" style="width: @read%">
                     <i>On your <a href="#">read</a> list..</i>
                 </div>
             </div>

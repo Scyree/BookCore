@@ -53,7 +53,7 @@
                         <form asp-controller="Users" asp-action="ChapterBook" class="submitChapter" role="form">
                             @Html.Hidden("bookId", Model.Id)
                             @Html.Hidden("userId", Guid.Parse(userId))
-                            <input type="text" name="chapters" placeholder="Your chapters.." />
+                            <input type="text" name="chapters" class="text-center" placeholder="Your chapters.." />
                             <button type="submit" class="btn" id="acceptButton"><i class="fa fa-check"></i></button>
                         </form>
                     }

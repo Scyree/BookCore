@@ -16,6 +16,8 @@ namespace Domain.Data
 
         public bool IsFavorite { get; set; }
 
+        public string NumberOfPages { get; set; }
+
         public DateTime DateModified { get; set; }
 
         public static BookState CreateBookState(Guid userId, Guid targetId)
@@ -25,6 +27,7 @@ namespace Domain.Data
                 Id = Guid.NewGuid(),
                 State = 0,
                 IsFavorite = false,
+                NumberOfPages = "0",
                 DateModified = DateTime.UtcNow
             };
 

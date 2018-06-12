@@ -150,6 +150,21 @@
                     }
                 });
             });
+
+            $(".submitUserProgress").submit(function (e) {
+                e.preventDefault();
+                var user = this.userId.value;
+                var book = this.bookId.value;
+                var pages = $(this).find("input[name='pages']").val();
+                $.ajax({
+                    url: "/Users/ModifyBookPages",
+                    data: { bookId: book, userId: user, numberOfPages: pages },
+                    type: "POST",
+                    success: function () {
+                        location.reload();
+                    }
+                });
+            });
         </script>
         <script>
             $(document).ready(function () {

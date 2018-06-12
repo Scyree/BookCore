@@ -1,0 +1,33 @@
+﻿#userProgress {
+    color: #4a2f37;
+}
+
+.modifyPages {
+    margin-left: -1.5rem;
+}
+
+#modifyButton {
+    background-color: #69383e;
+    color: #f1f1f1;
+}
+
+#modifyButton:hover {
+    color: #ac5358;
+}
+
+#displayUserProgress {
+    margin-top: 7px;
+}
+
+#modifyPages {
+    display: none;
+    margin-top: 3px;
+}
+
+#currentPages {
+    margin-top: 3px;
+}
+
+#acceptButton {
+    display: none;
+}

@@ -42,6 +42,7 @@
                     </div>
                     <br />
                     <br />
+
                     <div class="row">
                         @await Html.PartialAsync("DetailsPages/_GenresContent", Model.Genres.ToList())
                     </div>
@@ -51,6 +52,9 @@
                         @await Html.PartialAsync("DetailsPages/_StatisticsContent", Model)
                     </div>
                     <br />
+                    <div class="row">
+                        @await Html.PartialAsync("DetailsPages/_UserProgress", Model)
+                    </div>
                     <br />
 
                     @await Html.PartialAsync("DetailsPages/_RecommendationsContent", Model)

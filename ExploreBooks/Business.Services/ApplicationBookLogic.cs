@@ -23,6 +23,18 @@ namespace Business.Services
             _bookService = bookService;
         }
 
+        public bool CheckIfBookStateExists(Guid bookId, string userId)
+        {
+            var searchedBook = _stateService.CheckIfBookAlreadyExists(bookId, Guid.Parse(userId));
+
+            if (searchedBook == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private int ConvertAction(string actionName)
         {
             if (actionName == "Plan to read")
@@ -61,12 +73,32 @@ namespace Business.Services
                     );
 
                     searchedBook.State = value;
+
+                    if (value == 3)
+                    {
+                        searchedBook.NumberOfPages = book.Pages;
+                    }
+                    if (value == 1)
+                    {
+                        searchedBook.NumberOfPages = "0";
+                    }
+
                     _bookStateRepository.CreateBookState(searchedBook);
                 }
                 else
                 {
                     searchedBook.State = value;
                     searchedBook.DateModified = DateTime.UtcNow;
+
+                    if (value == 3)
+                    {
+                        searchedBook.NumberOfPages = book.Pages;
+                    }
+                    if (value == 1)
+                    {
+                        searchedBook.NumberOfPages = "0";
+                    }
+
                     _bookStateRepository.EditBookState(searchedBook);
                 }
             }
@@ -128,6 +160,67 @@ namespace Business.Services
                     _bookStateRepository.EditBookState(searchedBook);
                 }
             }
+        }
+
+        public void ModifyBookPages(Guid bookId, string userId, string number)
+        {
+            var book = _bookService.GetBookById(bookId);
+            var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
+            
+            if (book != null && user != null)
+            {
+                var searchedBook = _stateService.CheckIfBookAlreadyExists(bookId, Guid.Parse(userId));
+
+                if (searchedBook == null)
+                {
+                    searchedBook = BookState.CreateBookState(
+                        Guid.Parse(userId),
+                        bookId
+                    );
+
+                    searchedBook.State = 2;
+                    searchedBook.NumberOfPages = number;
+
+                    if (Int32.Parse(number) >= Int32.Parse(book.Pages))
+                    {
+                        searchedBook.State = 3;
+                        searchedBook.NumberOfPages = book.Pages;
+                    }
+
+                    _bookStateRepository.CreateBookState(searchedBook);
+                }
+                else
+                {
+                    searchedBook.NumberOfPages = number;
+                    searchedBook.State = 2;
+
+                    if (Int32.Parse(number) >= Int32.Parse(book.Pages))
+                    {
+                        searchedBook.State = 3;
+                        searchedBook.NumberOfPages = book.Pages;
+                    }
+
+                    _bookStateRepository.EditBookState(searchedBook);
+                }
+            }
+        }
+
+        public string GetNumberOfPages(Guid bookId, string userId)
+        {
+            var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
+            var book = _bookService.GetBookById(bookId);
+
+            if (book != null && user != null)
+            {
+                var searchedBook = _stateService.CheckIfBookAlreadyExists(bookId, Guid.Parse(userId));
+
+                if (searchedBook != null)
+                {
+                    return searchedBook.NumberOfPages;
+                }
+            }
+
+            return null;
         }
 
         public int GetAllBooksNumber(string userId)

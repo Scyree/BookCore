@@ -13,6 +13,8 @@ namespace Domain.Data
 
         public string Description { get; set; }
 
+        public string Pages { get; set; }
+
         public string Folder { get; set; }
 
         public string ImageName { get; set; }
@@ -41,6 +43,7 @@ namespace Domain.Data
                 Authors = new List<AuthorBook>(),
                 Genres = new List<GenreBook>(),
                 Posts = new List<Post>(),
+                Pages = "1",
                 Recommandations = new List<Recommendation>(),
                 BuyingSites = new List<BuyingSite>(),
                 Ratings = new List<Rating>(),
