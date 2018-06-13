@@ -15,10 +15,17 @@ namespace ExploreBooks.Controllers
         {
             _service = service;
         }
-        
-        public IActionResult Index()
+
+        public IActionResult Index(string pageNumber)
         {
-            return View(_service.GetAllAuthors());
+            var value = 0;
+
+            if (pageNumber != null)
+            {
+                value = Int32.Parse(pageNumber);
+            }
+
+            return View(_service.GetFirstNAuthors(value));
         }
 
         [HttpGet, ActionName("details")]

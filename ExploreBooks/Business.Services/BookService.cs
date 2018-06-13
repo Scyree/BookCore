@@ -50,7 +50,22 @@ namespace Business.Services
 
             return books;
         }
-        
+
+        public IReadOnlyList<Book> GetFirstNBooks(int count)
+        {
+            var books = _bookRepository.GetAllBooks().OrderByDescending(book => book.Title).Skip(count).Take(2).ToList();
+
+            foreach (var book in books)
+            {
+                book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(book.Id).ToList();
+                book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(book.Id).ToList();
+                book.Posts = _postService.GetAllPosts().Where(post => post.TargetId == book.Id).ToList();
+                book.Ratings = _ratingService.GetAllRatingsForBook(book.Id).ToList();
+            }
+
+            return books;
+        }
+
         public async Task CreateBook(IFormFile image, string title, string description, string details, string authors, string genres)
         {
             var genresList = _genreService.GetGenres(genres);

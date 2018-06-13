@@ -10,6 +10,7 @@ namespace Business.Interfaces
     public interface IBookService
     {
         IReadOnlyList<Book> GetAllBooks();
+        IReadOnlyList<Book> GetFirstNBooks(int count);
         Task CreateBook(IFormFile image, string title, string description, string details, string authors, string genres);
         Task EditBook(Guid id, IFormFile image, string description, string details, string genres, string authors);
         void DeleteBook(Guid id);

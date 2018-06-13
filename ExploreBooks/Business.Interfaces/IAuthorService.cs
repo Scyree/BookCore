@@ -9,6 +9,7 @@ namespace Business.Interfaces
     public interface IAuthorService
     {
         IReadOnlyList<Author> GetAllAuthors();
+        IReadOnlyList<Author> GetFirstNAuthors(int count);
         IReadOnlyList<Book> GetBooksForSpecifiedAuthor(string givenAuthor);
         Task CreateAuthor(IFormFile image, string name, string description, string books);
         Task EditAuthor(Guid id, IFormFile image, string description, string books);

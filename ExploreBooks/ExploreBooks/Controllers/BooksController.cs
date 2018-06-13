@@ -22,9 +22,16 @@ namespace ExploreBooks.Controllers
             _recommendationService = recommendationService;
         }
         
-        public IActionResult Index()
+        public IActionResult Index(string pageNumber)
         {
-            return View(_service.GetAllBooks());
+            var value = 0;
+
+            if (pageNumber != null)
+            {
+                value = Int32.Parse(pageNumber);
+            }
+            
+            return View(_service.GetFirstNBooks(value));
         }
 
         [HttpGet, ActionName("genres")]

@@ -41,6 +41,18 @@ namespace Business.Services
             return authors;
         }
 
+        public IReadOnlyList<Author> GetFirstNAuthors(int count)
+        {
+            var authors = _authorRepository.GetAllAuthors().OrderByDescending(author => author.Name).Skip(count).Take(2).ToList();
+
+            foreach (var author in authors)
+            {
+                author.Books = _authorBookService.GetAllAuthorBooksBasedOnAuthorId(author.Id).ToList();
+            }
+
+            return authors;
+        }
+
         public IReadOnlyList<Book> GetBooksForSpecifiedAuthor(string givenAuthor)
         {
             var author = _authorRepository.GetAllAuthors().SingleOrDefault(auth => ModifyAuthorName(auth.Name) == ModifyAuthorName(givenAuthor));

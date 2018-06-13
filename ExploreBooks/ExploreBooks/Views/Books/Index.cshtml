@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Book>
+@inject IBookService BookService
 
 @{
     ViewData["Title"] = "Index";
@@ -46,4 +47,30 @@
             }
         </div>
     }
+    <br />
+    <div class="row justify-content-center">
+        <form asp-action="Index">
+            <ul class="pagination">
+                @{
+                    for (var index = 0; index < BookService.GetAllBooks().Count; ++index)
+                    {
+                        if (index % 2 == 0)
+                        {
+                            var firstValue = index / 2 * 50 + 1;
+                            if (index == 0)
+                            {
+                                firstValue = 1;
+                            }
+
+                            var secondValue = firstValue + 49;
+
+                            <li class="page-item">
+                                <button type="submit" name="pageNumber" class="btn" value="@index">@firstValue - @secondValue</button>
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+        </form>
+    </div>
 </div>
