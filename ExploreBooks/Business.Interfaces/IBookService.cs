@@ -9,6 +9,7 @@ namespace Business.Interfaces
 {
     public interface IBookService
     {
+        IReadOnlyList<Book> SearchBooks(string text);
         IReadOnlyList<Book> GetAllBooks();
         IReadOnlyList<Book> GetFirstNBooks(int count);
         Task CreateBook(IFormFile image, string title, string description, string details, string authors, string genres);

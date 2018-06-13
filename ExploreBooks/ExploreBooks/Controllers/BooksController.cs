@@ -34,6 +34,17 @@ namespace ExploreBooks.Controllers
             return View(_service.GetFirstNBooks(value));
         }
 
+        [HttpGet, ActionName("search")]
+        public IActionResult Search(string searchOption)
+        {
+            if (searchOption == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(_service.SearchBooks(searchOption));
+        }
+
         [HttpGet, ActionName("genres")]
         public IActionResult Genres(string genre)
         {

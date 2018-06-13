@@ -1,0 +1,36 @@
+﻿.displayDivWithSearchOptions {
+    display: none;
+}
+
+#noResult {
+    display: none;
+}
+
+#searchOptions {
+    list-style-type: none;
+}
+
+#searchOptions li {
+    margin-left: -1.5rem;
+}
+
+.searchImage {
+    max-width: 25px;
+    max-height: 40px;
+    width: 25px;
+    height: 40px;
+}
+
+.searchForum.dropdown-toggle::after {
+    display: none;
+}
+
+a {
+    color: #333;
+}
+
+a:hover {
+    color: #4d3333;
+    text-decoration: none;
+    opacity: 0.9;
+}

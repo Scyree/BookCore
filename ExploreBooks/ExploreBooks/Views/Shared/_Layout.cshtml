@@ -54,17 +54,10 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <form class="form-inline searchForum">
-                            <div class="input-group" id="searchBar">
-                                <input type="text" class="form-control border border-right-0" placeholder="Search for authors, books..." aria-label="Search" id="searchOption"/>
-                                <div class="input-group-append">
-                                    <span class="input-group-text" id="searchIcon">
-                                        <i class="fa fa-search "></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </form>
+                    <li class="nav-item dropdown">
+                        @{
+                            @await Html.PartialAsync("NavigationViews/_SearchContent")
+                        }
                     </li>
                 </ul>
             

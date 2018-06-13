@@ -35,7 +35,22 @@ namespace Business.Services
             _ratingService = ratingService;
             _folder = "books";
         }
-        
+
+        public IReadOnlyList<Book> SearchBooks(string text)
+        {
+            var books = _bookRepository.GetAllBooks().Where(book => book.Title.ToLower().Contains(text.ToLower())).ToList();
+
+            foreach (var book in books)
+            {
+                book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(book.Id).ToList();
+                book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(book.Id).ToList();
+                book.Posts = _postService.GetAllPosts().Where(post => post.TargetId == book.Id).ToList();
+                book.Ratings = _ratingService.GetAllRatingsForBook(book.Id).ToList();
+            }
+
+            return books;
+        }
+
         public IReadOnlyList<Book> GetAllBooks()
         {
             var books = _bookRepository.GetAllBooks();
