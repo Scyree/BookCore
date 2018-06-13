@@ -1,4 +1,3 @@
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Business.Interfaces;
 
@@ -6,10 +5,12 @@ namespace ExploreBooks.Extensions
 {
     public static class EmailSenderExtensions
     {
-        public static Task SendEmailConfirmationAsync(this IEmailSender emailSender, string email, string link)
+        public static Task SendEmailConfirmationAsync(this IEmailSender emailSender, string email)
         {
-            return emailSender.SendEmailAsync(email, "Confirm your email",
-                $"Please confirm your account by clicking this link: <a href='{HtmlEncoder.Default.Encode(link)}'>link</a>");
+            return emailSender.SendEmailAsync(email, "Hello there!",
+                $"\tHello and welcome!\n" +
+                $"You received this mail as a confirmation for your registering to ExploreBooks!\n" +
+                $"Enjoy and share a great experience with it!");
         }
     }
 }

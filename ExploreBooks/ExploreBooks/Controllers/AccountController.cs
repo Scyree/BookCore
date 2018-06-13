@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Business.Interfaces;
 using Domain.Data;
+using ExploreBooks.Extensions;
 using ExploreBooks.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -18,14 +19,16 @@ namespace ExploreBooks.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly IApplicationUserServices _service;
         private readonly IApplicationPictureLogic _pictureService;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<AccountController> logger, IApplicationUserServices service, IApplicationPictureLogic pictureService)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender, ILogger<AccountController> logger, IApplicationUserServices service, IApplicationPictureLogic pictureService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailSender = emailSender;
             _logger = logger;
             _service = service;
             _pictureService = pictureService;
@@ -106,10 +109,10 @@ namespace ExploreBooks.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
-                    
                     await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _emailSender.SendEmailConfirmationAsync(model.Email);
                     _logger.LogInformation("User created a new account with password.");
+
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
@@ -208,7 +211,9 @@ namespace ExploreBooks.Controllers
                     if (result.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
+                        await _emailSender.SendEmailConfirmationAsync(model.Email);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+
                         return RedirectToLocal(returnUrl);
                     }
                 }
