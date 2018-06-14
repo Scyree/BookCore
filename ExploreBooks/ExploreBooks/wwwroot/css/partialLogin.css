@@ -60,3 +60,7 @@
 #readNotifications {
     margin-left: -1rem;
 }
+
+#newNotification {
+    display: none;
+}

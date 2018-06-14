@@ -37,3 +37,13 @@ function readNotifications(user) {
         }
     });
 }
+
+$(document).ready(function () {
+    var listOfElements = document.getElementById("displayNotifications");
+    var elements = listOfElements.getElementsByTagName("li");
+
+    if (elements.length > 1) {
+        var newNotification = document.getElementById("newNotification");
+        newNotification.style.display = "inline-block";
+    }
+})
