@@ -44,3 +44,19 @@
     background-color: transparent;
     outline: none;
 }
+
+#notificationNotice.dropdown-toggle::after {
+    display: none;
+}
+
+#displayNotifications {
+    list-style-type: none;
+}
+
+#displayNotifications li {
+    margin-left: -1.5rem;
+}
+
+#readNotifications {
+    margin-left: -1rem;
+}

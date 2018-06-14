@@ -13,12 +13,14 @@ namespace Business.Services
         private readonly IFollowUserMiddleware _followUserMiddleware;
         private readonly IFollowUserRepository _followUserRepository;
         private readonly IApplicationUserRepository _applicationRepository;
+        private readonly INotificationRepository _notificationRepository;
 
-        public ApplicationFollowLogic(IApplicationUserRepository applicationRepository, IFollowUserRepository followUserRepository, IFollowUserMiddleware followUserMiddleware)
+        public ApplicationFollowLogic(IApplicationUserRepository applicationRepository, IFollowUserRepository followUserRepository, IFollowUserMiddleware followUserMiddleware, INotificationRepository notificationRepository)
         {
             _applicationRepository = applicationRepository;
             _followUserRepository = followUserRepository;
             _followUserMiddleware = followUserMiddleware;
+            _notificationRepository = notificationRepository;
         }
 
         public void FollowUser(string userId, string followedId)
@@ -35,8 +37,10 @@ namespace Business.Services
                     if (!checkIfAlreadyFollowed)
                     {
                         var followUser = Domain.Data.FollowUser.CreateFollowUser(Guid.Parse(userId), Guid.Parse(followedId));
+                        var notification = Notification.CreateNotification(Guid.Parse(followedId), user.User + " started following you!");
 
                         _followUserRepository.CreateFollowUser(followUser);
+                        _notificationRepository.CreateNotification(notification);
                     }
                 }
             }
@@ -55,7 +59,10 @@ namespace Business.Services
 
                     if (followedContent != null)
                     {
-                       _followUserRepository.DeleteFollowUser(followedContent);
+                        var notification = Notification.CreateNotification(Guid.Parse(followedId), user.User + " has unfollowed you!");
+
+                        _notificationRepository.CreateNotification(notification);
+                        _followUserRepository.DeleteFollowUser(followedContent);
                     }
                 }
             }

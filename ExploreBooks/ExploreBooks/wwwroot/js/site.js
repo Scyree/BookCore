@@ -26,3 +26,14 @@
         }
     }
 }
+
+function readNotifications(user) {
+    $.ajax({
+        url: "/Users/DeleteNotifications",
+        data: { userId: user },
+        type: "POST",
+        success: function () {
+            location.reload();
+        }
+    });
+}

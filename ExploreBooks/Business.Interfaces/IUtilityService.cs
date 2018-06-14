@@ -20,5 +20,7 @@ namespace Business.Interfaces
         string ConvertStateToAction(int state);
         Guid GetRandomBookId();
         Guid GetRecommendedBookId(Guid userId);
+        IReadOnlyList<Notification> GetAllNotificationsForUser(string userId);
+        void DeleteAllNotificationsForUser(string userId);
     }
 }

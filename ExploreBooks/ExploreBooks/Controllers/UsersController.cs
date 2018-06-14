@@ -147,5 +147,11 @@ namespace ExploreBooks.Controllers
         {
             _followLogic.UnfollowUser(userId, followedId);
         }
+
+        [HttpPost("DeleteNotifications")]
+        public void DeleteNotifications(string userId)
+        {
+            _activityService.DeleteAllNotificationsForUser(userId);
+        }
     }
 }

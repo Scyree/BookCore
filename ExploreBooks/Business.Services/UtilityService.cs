@@ -4,6 +4,7 @@ using System.Linq;
 using Business.Interfaces;
 using Domain.Data;
 using Repository.Interfaces;
+using Service.Interfaces;
 
 namespace Business.Services
 {
@@ -16,8 +17,9 @@ namespace Business.Services
         private readonly IBookStateRepository _stateRepository;
         private readonly IApplicationUserRepository _applicationUserRepository;
         private readonly IRecommendationService _recommendationService;
+        private readonly INotificationMiddleware _notificationMiddleware;
 
-        public UtilityService(IBookRepository bookRepository, IAuthorRepository authorRepository, IPostRepository postRepository, ICommentRepository commentRepository, IBookStateRepository stateRepository, IApplicationUserRepository applicationUserRepository, IRecommendationService recommendationService)
+        public UtilityService(IBookRepository bookRepository, IAuthorRepository authorRepository, IPostRepository postRepository, ICommentRepository commentRepository, IBookStateRepository stateRepository, IApplicationUserRepository applicationUserRepository, IRecommendationService recommendationService, INotificationMiddleware notificationMiddleware)
         {
             _bookRepository = bookRepository;
             _authorRepository = authorRepository;
@@ -26,6 +28,7 @@ namespace Business.Services
             _stateRepository = stateRepository;
             _applicationUserRepository = applicationUserRepository;
             _recommendationService = recommendationService;
+            _notificationMiddleware = notificationMiddleware;
         }
 
         public IReadOnlyList<BookState> GetAllBooksForUserId(string userId)
@@ -236,6 +239,16 @@ namespace Business.Services
             }
             
             return GetRandomBookId();
+        }
+
+        public IReadOnlyList<Notification> GetAllNotificationsForUser(string userId)
+        {
+            return _notificationMiddleware.GetAllNotificationsForUser(userId).OrderByDescending(notification => notification.Date).ToList();
+        }
+
+        public void DeleteAllNotificationsForUser(string userId)
+        {
+            _notificationMiddleware.DeleteAllNotificationsForUser(userId);
         }
 
         private string ConvertIntToMonth(int givenMonth)

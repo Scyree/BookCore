@@ -1,5 +1,6 @@
 @inject IApplicationPictureLogic Service
 @inject IApplicationUserServices UserService
+@inject IUtilityService UtilityService
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -10,8 +11,42 @@
 @if (SignInManager.IsSignedIn(User))
 {
     var userId = UserManager.GetUserId(User);
-
     <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="notificationNotice" data-toggle="dropdown" href="#">
+                <i class="fa fa-bell"></i>
+            </a>
+            <div class="dropdown-menu">
+                <ul id="displayNotifications">
+                    @{
+                        var notifications = UtilityService.GetAllNotificationsForUser(userId);
+                        if (notifications.Count > 0)
+                        {
+                            foreach (var notification in notifications)
+                            {
+                                <li>
+                                    <h6>
+                                        <i class="fa fa-exclamation-circle"></i> @notification.Content
+                                    </h6>
+                                </li>
+                            }
+
+                            <li>
+                                <h6 class="text-center" id="readNotifications">
+                                    <a onclick="readNotifications('@userId')" href="#">Read all (@notifications.Count)</a>
+                                </h6>                             
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <h6>No new notification at this moment</h6>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                 @{
@@ -21,7 +56,7 @@
                     }
                     else
                     {
-                        <img class="rounded" id="navigationPicture" src="@Url.Content("..\\..\\..\\" + Service.GetFolderWithFile(userId))" />
+                        <img class="rounded" id="navigationPicture" src="@Url.Content("..\\..\\..\\" + Service.GetFolderWithFile(userId))"/>
                     }
 
                     <span>@Service.GetNameOfTheSpecifiedId(userId)</span>

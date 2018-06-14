@@ -76,6 +76,7 @@ namespace ExploreBooks
             services.AddTransient<IFollowUserRepository, FollowUserRepository>();
             services.AddTransient<IBooksWithinBooksForMoodRepository, BooksWithinBooksForMoodRepository>();
             services.AddTransient<IChapterRepository, ChapterRepository>();
+            services.AddTransient<INotificationRepository, NotificationRepository>();
 
 
             // Application's services within service layer
@@ -88,6 +89,7 @@ namespace ExploreBooks
             services.AddTransient<IWorkingWithFiles, WorkingWithFiles>();
             services.AddTransient<IBookStateMiddleware, BookStateMiddleware>();
             services.AddTransient<IFollowUserMiddleware, FollowUserMiddleware>();
+            services.AddTransient<INotificationMiddleware, NotificationMiddleware>();
 
 
             // Application's services within business layer
