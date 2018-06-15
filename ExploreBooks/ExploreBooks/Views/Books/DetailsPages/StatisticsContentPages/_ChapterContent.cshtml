@@ -9,11 +9,11 @@
     }
     @if (numberOfPeople == 0)
     {
-        <h6>All the chapters were loved equally by people</h6>
+        <h6 class="actionLink">All the chapters were loved equally by people</h6>
     }
     else
     {
-        <h6>
+        <h6 class="actionLink">
             Chapters loved by @ChapterService.GetAllChaptersForBook(Model.Id).Count people are: @ChapterService.GetChaptersAverageForBook(Model.Id)
         </h6>
     }

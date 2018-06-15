@@ -13,7 +13,7 @@
     var userId = UserManager.GetUserId(User);
     <ul class="navbar-nav">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="notificationNotice" data-toggle="dropdown" href="#">
+            <a class="nav-link dropdown-toggle" id="notificationNotice" data-toggle="dropdown">
                 <i class="fa fa-bell"></i>
                 <i class="fa fa-exclamation" id="newNotification"></i>
             </a>
@@ -33,15 +33,15 @@
                             }
 
                             <li>
-                                <h6 class="text-center" id="readNotifications">
-                                    <a onclick="readNotifications('@userId')" href="#">Read all (@notifications.Count)</a>
+                                <h6 class="text-center actionLink" id="readNotifications">
+                                    <a onclick="readNotifications('@userId')">Read all (@notifications.Count)</a>
                                 </h6>
                             </li>
                         }
                         else
                         {
                             <li>
-                                <h6>No new notifications at this moment</h6>
+                                <h6 class="actionLink">No new notifications at this moment</h6>
                             </li>
                         }
                     }
@@ -49,7 +49,7 @@
             </div>
         </li>
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown">
                 @{
                     if (Service.CheckIfHasProfilePicture(userId))
                     {
@@ -57,7 +57,7 @@
                     }
                     else
                     {
-                        <img class="rounded" id="navigationPicture" src="@Url.Content("..\\..\\..\\" + Service.GetFolderWithFile(userId))"/>
+                        <img class="rounded" id="userNavigationPicture" src="@Url.Content("~/" + Service.GetFolderWithFile(userId))"/>
                     }
 
                     <span>@Service.GetNameOfTheSpecifiedId(userId)</span>
@@ -67,7 +67,6 @@
                 <a class="dropdown-item" asp-area="" asp-controller="Users" asp-route-username="@UserService.GetApplicationUserById(Guid.Parse(userId)).User" asp-action="Index">Profile</a>
                 <a class="dropdown-item" asp-area="" asp-controller="Books" asp-action="Index">Explore</a>
                 <a class="dropdown-item" asp-area="" asp-controller="BooksForMood" asp-action="Index">Community</a>
-                <a class="dropdown-item disabled" asp-area="">Announcements</a>
 
                 <div class="dropdown-divider"></div>
 

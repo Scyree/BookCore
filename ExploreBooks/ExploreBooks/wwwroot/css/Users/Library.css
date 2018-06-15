@@ -1,14 +1,4 @@
-﻿.breadcrumb {
-    background: transparent;
-    color: #4d3333;
-}
-
-.breadcrumb-item:hover {
-    color: #C0B2B2;
-    cursor: pointer;
-}
-
-#planToRead {
+﻿#planToRead {
     display: none;
 }
 

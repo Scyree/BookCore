@@ -10,7 +10,7 @@
             <br/>
             <div class="row">
                 <div class="offset-1 col-4 col-md-4 text-right">
-                    <img class="rounded userPicture" src="@Url.Content("..\\..\\..\\" + PictureService.GetFolderWithFile(Model.UserId.ToString()))"/>
+                    <img class="rounded userPicture" src="@Url.Content("~/" + PictureService.GetFolderWithFile(Model.UserId.ToString()))"/>
                 </div>
                 <div class="col-5 col-md-5">
                     <h6>@username</h6>
@@ -29,7 +29,7 @@
         <div class="col-md-5 col-5 text-left">
             <br/>
             <a asp-controller="Users" asp-action="Library" asp-route-username="@username" data-toggle="tooltip" data-placement="right" data-html="true" title="@book.Title">
-                <img class="rounded postedBook" src="@Url.Content("..\\..\\..\\images\\" + book.Folder + "\\" + book.ImageName)"/>
+                <img class="rounded postedBook" src="@Url.Content("~/images/" + book.Folder + "/" + book.ImageName)"/>
             </a>
         </div>
     </div>

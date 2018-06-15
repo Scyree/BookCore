@@ -10,18 +10,13 @@
 
 <br />
 <br />
+<br />
 <div class="row justify-content-center">
-    <h3>
-        Browse through all books
+    <h3 class="actionLink">
+        Browse through all books written by this author
     </h3>
 </div>
-<div class="row justify-content-center">
-    <h5>
-        <i>
-            <a asp-action="Create">..or add a new one</a>
-        </i>
-    </h5>
-</div>
+<br />
 <br />
 <div class="container">
     @{
@@ -34,7 +29,7 @@
 
                 <div class="col-md-3 col-3">
                     <a asp-action="Details" asp-route-id="@books[index].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
-                        <img class="rounded" src="@Url.Content("..\\..\\..\\images\\" + books[index].Folder + "\\" + books[index].ImageName)" />
+                        <img class="rounded" id="bookImage" src="@Url.Content("~/images/" + books[index].Folder + "/" + books[index].ImageName)" />
                     </a>
                 </div>
 
@@ -46,3 +41,4 @@
         </div>
     }
 </div>
+<br />

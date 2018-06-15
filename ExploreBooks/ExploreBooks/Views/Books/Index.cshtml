@@ -11,8 +11,9 @@
 
 <br />
 <br />
+<br />
 <div class="row justify-content-center">
-    <h3>
+    <h3 class="actionLink">
         Browse through all books
     </h3>
 </div>
@@ -23,6 +24,7 @@
         </i>
     </h5>
 </div>
+<br />
 <br />
 <div class="container">
     @{
@@ -35,7 +37,7 @@
 
                 <div class="col-md-3 col-3">
                     <a asp-action="Details" asp-route-id="@books[index].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
-                        <img class="rounded" id="bookImage" src="@Url.Content("..\\..\\..\\images\\" + books[index].Folder + "\\" + books[index].ImageName)"/>
+                        <img class="rounded" id="bookImage" src="@Url.Content("~/images/" + books[index].Folder + "/" + books[index].ImageName)"/>
                     </a>
                 </div>
 
@@ -47,6 +49,8 @@
             }
         </div>
     }
+    <br />
+    <br />
     <br />
     <div class="row justify-content-center">
         <form asp-action="Index">
@@ -65,7 +69,7 @@
                             var secondValue = firstValue + 49;
 
                             <li class="page-item">
-                                <button type="submit" name="pageNumber" class="btn" value="@index">@firstValue - @secondValue</button>
+                                <button type="submit" name="pageNumber" class="btn actionButton" value="@index">@firstValue - @secondValue</button>
                             </li>
                         }
                     }

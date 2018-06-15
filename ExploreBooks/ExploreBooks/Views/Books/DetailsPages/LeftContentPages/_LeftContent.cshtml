@@ -7,13 +7,13 @@
 
 <div class="card sticky-top border-0" id="leftContentCard">
     <div class="row justify-content-center">
-        <img class="card-img-top rounded" id="leftContentImage" src="@Url.Content("..\\..\\..\\images\\" + Model.Folder + "\\" + Model.ImageName)" />
+        <img class="card-img-top rounded" id="leftContentImage" src="@Url.Content("~/images/" + Model.Folder + "/" + Model.ImageName)" />
     </div>
     <div class="card-body actionColors">
         @if (SignInManager.IsSignedIn(User))
         {
             <div class="row displayContent">
-                @await Html.PartialAsync("DetailsPages/_ReadActionsContent", Model.Id)
+                @await Html.PartialAsync("DetailsPages/LeftContentPages/_ReadActionsContent", Model.Id)
             </div>
         }
     </div>

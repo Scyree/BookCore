@@ -7,7 +7,7 @@
 
 <environment include="Development">
     <link rel="stylesheet" href="~/css/ModalStyle.css" />
-    <link rel="stylesheet" href="~/css/PartialComments.css" />
+    <link rel="stylesheet" href="~/css/CommunityFeedback/PartialComments.css" />
     <script src="~/lib/jquery/dist/jquery.js"></script>
 </environment>
 
@@ -23,7 +23,7 @@
     var deleteModal = "deleteModal" + @post.Id;
     <div class="media p-3 border-top border-bottom">
         <figure class="profile">
-            <img class="mr-0 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\..\\" + Service.GetFolderWithFile(userPostId))" />
+            <img class="mr-0 mt-2 rounded" id="reviewPicture" src="@Url.Content("~/" + Service.GetFolderWithFile(userPostId))" />
             <figcaption class="mr-3 btn disabled voteStats">
                 <input type="button" class="btn btn-outline-dark disabled border-0 numberOfVotes" id="@likes" value="@Likes.GetNumberOfLikes(post.Id)"/>votes
             </figcaption>
@@ -67,7 +67,7 @@
             {
                 <div id="@comment" style="display: none;">
                     <div class="media p-2">
-                        <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\" + Service.GetFolderWithFile(userId))" />
+                        <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("~/" + Service.GetFolderWithFile(userId))" />
                         <div class="media-body textAlign">
                             <form asp-controller="CommunityFeedback" asp-action="CreateComment" class="submitComment" role="form">
                                 @Html.Hidden("userId", Guid.Parse(userId))

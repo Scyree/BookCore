@@ -11,7 +11,7 @@
     <div class="card card-body">
         <div class="row">
             <div class="col"><hr /></div>
-            <div class="col-auto"><h6 class="displayAction">Authors</h6></div>
+            <div class="col-auto"><h6 class="actionLink">Authors</h6></div>
             <div class="col"><hr /></div>
         </div>
         <div class="row justify-content-center">
@@ -41,7 +41,7 @@
     <div class="card card-body">
         <div class="row">
             <div class="col"><hr /></div>
-            <div class="col-auto"><h6 class="displayAction">Details</h6></div>
+            <div class="col-auto"><h6 class="actionLink">Details</h6></div>
             <div class="col"><hr /></div>
         </div>
         <div class="row justify-content-center">
@@ -56,7 +56,7 @@
     <div class="card card-body">
         <div class="row">
             <div class="col"><hr /></div>
-            <div class="col-auto"><h6 class="displayAction">Actions</h6></div>
+            <div class="col-auto"><h6 class="actionLink">Actions</h6></div>
             <div class="col"><hr /></div>
         </div>
         <div class="row justify-content-center">
@@ -86,7 +86,7 @@
         </div>
         @if (SignInManager.IsSignedIn(User))
         {
-            @Html.Partial("DetailsPages/_RecommendABook", Model.Id)
+            @Html.Partial("DetailsPages/RightContentPages/_RecommendABook", Model.Id)
         }
     </div>
 </div>
@@ -95,7 +95,7 @@
     <div class="card card-body">
         <div class="row">
             <div class="col"><hr /></div>
-            <div class="col-auto"><h6 class="displayAction">Buy this book</h6></div>
+            <div class="col-auto"><h6 class="actionLink">Read this book</h6></div>
             <div class="col"><hr /></div>
         </div>
         <div class="row justify-content-center">

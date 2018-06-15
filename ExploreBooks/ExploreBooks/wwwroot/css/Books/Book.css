@@ -5,31 +5,6 @@
     height: 280px;
 }
 
-tbody {
-    background-color: #CFD5D5;
-}
-
-p, h4, a {
-    color: #333;
-}
-
-a:hover {
-    color: #4d3333;
-    text-decoration: none;
-    opacity: 0.9;
-}
-
-.tooltip-inner, .tooltip-inner a, .tooltip-inner p, .tooltip-inner h4 {
-    background-color: #532D2D;
-    color: #CFD5D5;
-}
-
-.bs-tooltip-right .arrow::before, .bs-tooltip-auto[x-placement^="right"] .arrow::before {
-    right: 0;
-    border-width: 0.4rem 0.4rem 0.4rem 0;
-    border-right-color: #532D2D;
-}
-
 .infoBooks img {
     max-width: 90%;
     max-height: 70%;
@@ -48,20 +23,6 @@ a:hover {
 
 .textAlign {
     text-align: left;
-}
-
-.likeButton {
-    float: left;
-    display: inline-block;
-    border-right: 1px outset grey;
-    border: 1px outset grey;
-}
-
-.dislikeButton {
-    float: right;
-    display: inline-block;
-    border-right: 1px outset grey;
-    border-top: 1px outset grey;
 }
 
 hr {

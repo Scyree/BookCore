@@ -8,7 +8,7 @@
     <div class="row justify-content-center">
         <div class="col-4"><hr /></div>
         <div class="col-auto">
-            <h5 id="statistics" class="text-center">
+            <h5 class="text-center actionLink">
                 Statistics
             </h5>
         </div>
@@ -22,10 +22,10 @@
     </div>
     <div class="container justify-content-center">
         <div id="rating">
-            @await Html.PartialAsync("DetailsPages/_RatingContent", Model)
+            @await Html.PartialAsync("DetailsPages/StatisticsContentPages/_RatingContent", Model)
         </div>
         <div id="chapters">
-            @await Html.PartialAsync("DetailsPages/_ChapterContent")
+            @await Html.PartialAsync("DetailsPages/StatisticsContentPages/_ChapterContent")
         </div>
     </div>
     <div class="row justify-content-center">

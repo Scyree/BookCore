@@ -1,0 +1,80 @@
+﻿@inject IUtilityService UtilityService
+
+@{
+    var popularBooks = UtilityService.GetMostPopularBooks();
+    var count = popularBooks.Count;
+    var max = (count - 1) / 4;
+}
+
+<div class="offset-1 col-md-10 col-10">
+    <div class="row justify-content-center">
+        <div class="col"><hr /></div>
+        <div class="col-auto">
+            <h5 class="actionLink">
+                <a asp-controller="Books" asp-action="Index">
+                    Most popular books
+                </a>
+            </h5>
+        </div>
+        <div class="col"><hr /></div>
+    </div>
+    <div class="row justify-content-center border-bottom">
+        <div id="popularBooks" class="carousel carousel-fade" data-ride="carousel">
+            <div class="carousel-inner">
+                @for (var divNumber = 0; divNumber <= max; ++divNumber)
+                {
+                    var active = "";
+                    if (divNumber == 0)
+                    {
+                        active += " active";
+                    }
+
+                    if (divNumber == max)
+                    {
+                        var difference = count - 4 * divNumber;
+                        <div class="carousel-item @active">
+                            <div class="row justify-content-center">
+                                @for (var index = 0; index < difference; ++index)
+                                {
+                                    var currentIndex = index + 4 * divNumber;
+                                    <div class="col-md col displayedBooks">
+                                        <a asp-controller="Books" asp-action="Details" asp-route-id="@popularBooks[currentIndex].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@popularBooks[currentIndex].Title">
+                                            <img class="rounded" id="bookImage" src="@Url.Content("~/images/" + popularBooks[currentIndex].Folder + "/" + popularBooks[currentIndex].ImageName)" />
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="carousel-item @active">
+                            <div class="row justify-content-center">
+                                @for (var index = 0; index < 4; ++index)
+                                {
+                                    var currentIndex = index + 4 * divNumber;
+                                    <div class="col-md col displayedBooks">
+                                        <a asp-controller="Books" asp-action="Details" asp-route-id="@popularBooks[currentIndex].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@popularBooks[currentIndex].Title">
+                                            <img class="rounded" id="bookImage" src="@Url.Content("~/images/" + popularBooks[currentIndex].Folder + "/" + popularBooks[currentIndex].ImageName)" />
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        @{
+            if (count > 4)
+            {
+                <a class="carousel-control-prev" href="#popularBooks" role="button" data-slide="prev">
+                    <i class="fa fa-caret-left arrowNext"></i>
+                </a>
+                <a class="carousel-control-next" href="#popularBooks" role="button" data-slide="next">
+                    <i class="fa fa-caret-right arrowNext"></i>
+                </a>
+            }
+        }
+    </div>
+</div>

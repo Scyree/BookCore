@@ -1,0 +1,128 @@
+﻿body {
+    background-color: #f2f2f2;
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#userNavigationPicture {
+    width: 30px;
+    height: 30px;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: #B9B1B1 !important;
+}
+
+#logoPicture {
+    width: 150px !important;
+}
+
+a {
+    cursor: pointer;
+    color: #4a2f37;
+}
+
+a:hover {
+    color: #84474e;
+    text-decoration: none;
+}
+
+.tooltip-inner, .tooltip-inner a, .tooltip-inner p, .tooltip-inner h4 {
+    background-color: #532D2D;
+    color: #CFD5D5;
+}
+
+.bs-tooltip-right .arrow::before, .bs-tooltip-auto[x-placement^="right"] .arrow::before {
+    right: 0;
+    border-width: 0.4rem 0.4rem 0.4rem 0;
+    border-right-color: #532D2D;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.fileUpload {
+    cursor: pointer;
+    display: inline-block;
+    color: #e8e4e4;
+    background-color: #5d3b45;
+    padding: 4px 8px;
+    text-align: center;
+}
+
+.fileUpload:hover {
+    background-color: #4a2f37;
+    text-decoration: none;
+    color: #ac5358;
+}
+
+input {
+    font-style: italic;
+}
+
+.actionLink {
+    cursor: pointer;
+    color: #4a2f37; 
+}
+
+.actionLink:hover {
+    color: #84474e;
+    text-decoration: none;
+}
+
+.actionButton {
+    background-color: #5d3b45;
+    color: #f1f1f1;
+}
+
+.actionButton:hover {
+    background-color: #4a2f37;
+    color: #ac5358;
+}
+
+.yesButton {
+    background-color: #84474e;
+    color: #f1f1f1;
+}
+
+.yesButton:hover {
+    background-color: #69383e;
+    color: #221011;
+}
+
+.noButton {
+    color: #4a2f37;
+}
+
+.noButton:hover {
+    color: #84474e;
+}
+
+.breadcrumb {
+    background: transparent;
+    cursor: pointer;
+    color: #4d3333;
+}
+
+.breadcrumb-item:hover {
+    color: #ac5358;
+    text-decoration: none;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem #d9d9d9;
+}
+
+.displayText {
+    color: #84474e;
+}
+
+.generalFooter {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

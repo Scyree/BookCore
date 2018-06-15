@@ -26,36 +26,6 @@ input[readonly] {
     box-shadow: 0 0 0 0.2rem #d9d9d9;
 }
 
-.btn-link {
-    color: #5c3d3d;
-}
-
-.btn-link:hover {
-    text-decoration: none;
-    color: #333333;
-    opacity: 0.5;
-}
-
-.btn-save {
-    color: #e8e4e4;
-    background-color: #6b4747;
-}
-
-.btn-save:hover {
-    background-color: #b3b3b3;
-    text-decoration: none;
-    opacity: 0.5;
-}
-
-a {
-    background-color: transparent;
-    color: #6b4747;
-}
-
-a:hover {
-    color: #b3b3b3;
-}
-
 .changePicture {
     max-width: 20%;
     max-height: 20%;

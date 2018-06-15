@@ -7,7 +7,7 @@
     <div class="row justify-content-center">
         <div class="col"><hr /></div>
         <div class="col-auto">
-            <h5>Following</h5>
+            <h5 class="actionLink">Following</h5>
         </div>
         <div class="col"><hr /></div>
     </div>
@@ -20,7 +20,7 @@
                 <div class="card">
                     <a asp-action="Index" asp-route-username="@followed[index].User" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
                         <div class="row justify-content-center">
-                            <img class="rounded-circle socialImage" src="@Url.Content("..\\..\\..\\" + PictureService.GetFolderWithFile(followed[index].Id))" />
+                            <img class="rounded-circle socialImage" src="@Url.Content("~/" + PictureService.GetFolderWithFile(followed[index].Id))" />
                         </div>
                         <div class="row justify-content-center">
                             <h7>/@followed[index].User</h7>

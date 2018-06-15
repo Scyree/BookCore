@@ -10,21 +10,22 @@
 
 <environment include="Development">
     <link rel="stylesheet" href="~/css/Books/Details.css" />
-    <link rel="stylesheet" href="~/css/PartialPosts.css" />
+    <link rel="stylesheet" href="~/css/CommunityFeedback/PartialPosts.css" />
 </environment>
 
+<br />
 <br />
 <br />
 <div class="container text-center">
     <div class="row">
         <div class="col-md-3 col-3">        
-            @await Html.PartialAsync("DetailsPages/_LeftContent", Model)
+            @await Html.PartialAsync("DetailsPages/LeftContentPages/_LeftContent", Model)
         </div>
         <div class="col-md-9 col-9">
             <div class="container row">
                 <div class="col-md-8 col-8">
                     <div class="row text-left">
-                        @await Html.PartialAsync("DetailsPages/_AddFavoriteContent", Model.Id)
+                        @await Html.PartialAsync("DetailsPages/AddFavoriteContentPages/_AddFavoriteContent", Model.Id)
 
                         <h2 class="col-8 text-left" id="title">
                             @Model.Title
@@ -44,23 +45,23 @@
                     <br />
 
                     <div class="row">
-                        @await Html.PartialAsync("DetailsPages/_GenresContent", Model.Genres.ToList())
+                        @await Html.PartialAsync("DetailsPages/GenresContentPages/_GenresContent", Model.Genres.ToList())
                     </div>
                     <br />
                     <br />
                     <div class="row text-center">
-                        @await Html.PartialAsync("DetailsPages/_StatisticsContent", Model)
+                        @await Html.PartialAsync("DetailsPages/StatisticsContentPages/_StatisticsContent", Model)
                     </div>
                     <br />
                     <div class="row">
-                        @await Html.PartialAsync("DetailsPages/_UserProgress", Model)
+                        @await Html.PartialAsync("DetailsPages/StatisticsContentPages/_UserProgress", Model)
                     </div>
                     <br />
 
-                    @await Html.PartialAsync("DetailsPages/_RecommendationsContent", Model)
+                    @await Html.PartialAsync("DetailsPages/RecommendationsContentPages/_RecommendationsContent", Model)
                 </div>
                 <div class="col-md-4 col-4">
-                    @await Html.PartialAsync("DetailsPages/_RightContent", Model)
+                    @await Html.PartialAsync("DetailsPages/RightContentPages/_RightContent", Model)
                 </div>
             </div>
             <br />

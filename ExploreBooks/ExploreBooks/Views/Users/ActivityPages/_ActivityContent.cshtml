@@ -10,7 +10,7 @@
         foreach (var activity in Model.BookActivity)
         {
             <div class="row">
-                <div class="offset-1 col-md-8 col-8 border">
+                <div class="offset-1 col-md-10 col-10 border">
                     @{
                         var book = UtilityService.GetBookById(activity.TargetId);
                         var userId = UserManager.GetUserId(User);
@@ -23,7 +23,7 @@
                             <div class="row justify-content-center">
                                 <div class="col"><hr /></div>
                                 <div class="col-auto">
-                                    <h6 class="displayActivityComment" onclick="displayComments('@commentsActivity')">Comments</h6>
+                                    <h6 class="actionLink" onclick="displayComments('@commentsActivity')">Comments</h6>
                                 </div>
                                 <div class="col"><hr /></div>
                             </div>
@@ -32,12 +32,12 @@
                                 @if (SignInManager.IsSignedIn(User))
                                 {
                                     <div class="media p-3">
-                                        <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\..\\" + PictureService.GetFolderWithFile(userId))" />
+                                        <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("~/" + PictureService.GetFolderWithFile(userId))" />
                                         <div class="media-body textAlign">
                                             <form asp-controller="CommunityFeedback" asp-action="CreatePost" class="submitPost" role="form">
                                                 @Html.Hidden("userId", Guid.Parse(userId))
                                                 @Html.Hidden("targetId", activity.Id)
-                                                <input type="text" name="postText" placeholder="Say something.." />
+                                                <input type="text" name="postText" placeholder="Say something.." autocomplete="off" />
                                                 <button type="button" id="reviewButton" class="btn textButton"></button>
                                             </form>
                                         </div>

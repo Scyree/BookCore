@@ -10,7 +10,7 @@
 <div class="row justify-content-center">
     <div class="col-3"><hr /></div>
     <div class="col-auto">
-        <h5 class="displayFeedback" onclick="displayCommunityFeedback('@communityFeedback')">Community's feedback</h5>
+        <h5 class="actionLink" onclick="displayCommunityFeedback('@communityFeedback')">Community's feedback</h5>
     </div>
     <div class="col-3"><hr /></div>
 </div>
@@ -19,7 +19,7 @@
     {
         var userId = UserManager.GetUserId(User);
         <div class="media p-3">
-            <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("..\\..\\..\\" + PictureService.GetFolderWithFile(userId))" />
+            <img class="mr-3 rounded" id="reviewPicture" src="@Url.Content("~/" + PictureService.GetFolderWithFile(userId))" />
             <div class="media-body textAlign">
                 <form asp-controller="CommunityFeedback" asp-action="CreatePost" class="submitPost" role="form">
                     @Html.Hidden("userId", Guid.Parse(userId))

@@ -10,14 +10,15 @@
 
 <environment include="Development">
     <link rel="stylesheet" href="~/css/Authors/Details.css" />
-    <link rel="stylesheet" href="~/css/PartialPosts.css" />
+    <link rel="stylesheet" href="~/css/CommunityFeedback/PartialPosts.css" />
 </environment>
 
 <br />
 <br />
-<div class="container text-center">
+<br />
+<div class="container">
     <div class="row">
-        <div class="col-md-3 col-3">
+        <div class="col-md-3 col-3 text-center">
             @await Html.PartialAsync("DetailsPages/_LeftContent", Model)
         </div>
         <div class="col-md-9 col-9 rightContent">
@@ -26,11 +27,12 @@
                     @Model.Name
                 </h3>
             </div>
+            <br />
             <div class="row justify-content-center">
                 <div class="col-4"><hr /></div>
                 <div class="col-auto">
                     <a asp-controller="Books" asp-action="Authors" asp-route-author="@Model.Name">
-                        <h5 id="books">Books</h5>
+                        <h5 class="actionLink">Books</h5>
                     </a>
                 </div>
                 <div class="col-4"><hr /></div>

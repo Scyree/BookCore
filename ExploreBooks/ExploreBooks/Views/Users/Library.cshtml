@@ -19,14 +19,14 @@
 
             <br />
             @await Html.PartialAsync("LibraryPages/_FavoritesContent", Model.Id)
-            
+
             <br />
             <div class="row justify-content-center">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item" onclick="displayAll()">All [@BookService.GetAllBooksNumber(Model.Id)]</li>
                     <li class="breadcrumb-item" onclick="displayPlanToRead()">Plan to read [@BookService.GetPlanToReadBooksNumber(Model.Id)]</li>
                     <li class="breadcrumb-item" onclick="displayReading()">Reading [@BookService.GetReadingBooksNumber(Model.Id)]</li>
-                    <li class="breadcrumb-item" onclick="displayRead()">Read [@BookService.GetReadBooksNumber(Model.Id)]</li>            
+                    <li class="breadcrumb-item" onclick="displayRead()">Read [@BookService.GetReadBooksNumber(Model.Id)]</li>
                 </ul>
             </div>
             <div class="container justify-content-center">

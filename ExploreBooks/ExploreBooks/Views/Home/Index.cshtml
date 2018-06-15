@@ -1,24 +1,45 @@
-﻿
+﻿@inject IGenreService GenreService
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/Home/Index.css" />
+</environment>
+
 <br />
 <br />
 <div class="container">
     <br />
-    <div class="row justify-content-center">
+    <div class="row">
         @await Html.PartialAsync("StartupPages/_AnnouncementsContent")
     </div>
-    <br/>
-    <br/>
+    <br />
+    <div class="row">
+        <div class="offset-2 col-md-8 col-8 border-top border-bottom">
+            <ul class="breadcrumb justify-content-center">
+                @{
+                    var genres = GenreService.GetAllGenres();
+                    foreach (var genre in genres)
+                    {
+                        <li class="breadcrumb-item actionLink">
+                            <a asp-controller="Books" asp-action="Genres" asp-route-genre="@genre.Text">
+                                @genre.Text [@GenreService.GetNumberOfBooksForSpecifiedGenre(genre.Text)]
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        @await Html.PartialAsync("StartupPages/_MostPopularBooksContent")
+    </div>
+    <br />
     <div class="row">
         @await Html.PartialAsync("StartupPages/_GeneralPresentationContent")
     </div>
-    <br/>
-    <br/>
-    <div class="row">
-        @await Html.PartialAsync("StartupPages/_LatestBooksContent")
-    </div>
+    <br />
 </div>

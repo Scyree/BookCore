@@ -12,7 +12,7 @@
 <br />
 <div class="row justify-content-center">
     <h3>
-        Browse through all books
+        Browse through all searched books
     </h3>
 </div>
 <br />
@@ -30,7 +30,7 @@
 
                     <div class="col-md-3 col-3">
                         <a asp-action="Details" asp-route-id="@books[index].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@displayInfo">
-                            <img class="rounded" id="bookImage" src="@Url.Content("..\\..\\..\\images\\" + books[index].Folder + "\\" + books[index].ImageName)" />
+                            <img class="rounded" id="bookImage" src="@Url.Content("~/images/" + books[index].Folder + "/" + books[index].ImageName)" />
                         </a>
                     </div>
 

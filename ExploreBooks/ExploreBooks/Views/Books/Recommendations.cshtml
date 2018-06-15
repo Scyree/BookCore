@@ -13,18 +13,13 @@
 
 <br />
 <br />
+<br />
 <div class="row justify-content-center">
-    <h3>
-        Browse through all books
+    <h3 class="actionLink">
+        Browse through all recommendations
     </h3>
 </div>
-<div class="row justify-content-center">
-    <h5>
-        <i>
-            <a asp-action="Create">..or add a new one</a>
-        </i>
-    </h5>
-</div>
+<br />
 <br />
 <div class="container">
     @{
@@ -40,7 +35,7 @@
 
                     <div class="col-md-3 col-3">
                         <a data-toggle="modal" data-target="#@recommendedDetails">
-                            <img class="rounded" id="bookImage" src="@Url.Content("..\\..\\..\\images\\" + book.Folder + "\\" + book.ImageName)" />
+                            <img class="rounded" id="bookImage" src="@Url.Content("~/images/" + book.Folder + "/" + book.ImageName)" />
                         </a>
                     </div>
 
@@ -50,15 +45,16 @@
                         <br />
                     }
                     
-                    @await Html.PartialAsync("DetailsPages/_RecommendationDetails", books[index])
+                    @await Html.PartialAsync("DetailsPages/RecommendationsContentPages/_RecommendationDetails", books[index])
                 }
             </div>
         }
         else
         {
-            <h5>
+            <h5 class="actionLink">
                 For the moment there are no recommendations!
             </h5>
         }
     }
 </div>
+<br />

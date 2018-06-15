@@ -14,7 +14,7 @@
     var deleteModal = "deleteModal" + @comment.Id;
     <div class="media p-2">
         <figure class="profile">
-            <img class="mr-0 mt-2 rounded" id="reviewPicture" src="@Url.Content("..\\..\\..\\" + Service.GetFolderWithFile(userCommentId))" />
+            <img class="mr-0 mt-2 rounded" id="reviewPicture" src="@Url.Content("~/" + Service.GetFolderWithFile(userCommentId))" />
             <figcaption class="mr-3 btn disabled voteStats">
                 <input type="button" class="btn btn-outline-dark disabled border-0 numberOfVotes" id="@likes" value="@Likes.GetNumberOfLikes(comment.Id)" />votes
             </figcaption>
