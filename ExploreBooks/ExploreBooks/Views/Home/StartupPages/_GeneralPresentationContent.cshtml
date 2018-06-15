@@ -1,0 +1,46 @@
+﻿@inject IGenreService GenreService
+
+<div class="offset-1 col-md-8 col-8">
+    <div class="row">
+        <div class="offset-1 col-md-5 col-5 border-top border-right border-bottom text-center">
+            <h5>
+                <i class="fa fa-bookmark"></i> Track & share your feelings towards your latest book
+            </h5>
+            <h6>
+                By simply searching for a book, tracking your progress for it and share your experience via Community's feedback
+            </h6>
+        </div>
+        <div class="col-md-5 col-5 border-top border-bottom text-center">
+            <h5>
+                <i class="fa fa-book"></i> Discover your new favorite book
+            </h5>
+            <h6>
+                All thanks to the possibility to get a recommendation based on your history or better...by searching through "List of books"
+            </h6>
+        </div>
+    </div>
+    <br />
+    <div class="row justify-content-center">
+        <div class="offset-1 col-md-10 col-10 offset-1">
+            <h5>
+                ..and you can follow your new found favorite-reader, ExploreBooks - it's all about the community's interaction!
+            </h5>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-11"><hr /></div>
+    </div>
+</div>
+<div class="col-md-2 col-2 border">
+    @{
+        var genres = GenreService.GetAllGenres();
+        foreach (var genre in genres)
+        {
+            <h6>
+                <a asp-controller="Books" asp-action="Genres" asp-route-genre="@genre.Text">
+                    @genre.Text [@GenreService.GetNumberOfBooksForSpecifiedGenre(genre.Text)]
+                </a>
+            </h6>
+        }
+    }
+</div>

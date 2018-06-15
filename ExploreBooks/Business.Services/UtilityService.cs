@@ -251,6 +251,34 @@ namespace Business.Services
             _notificationMiddleware.DeleteAllNotificationsForUser(userId);
         }
 
+        public IReadOnlyList<Book> GetMostPopularBooks()
+        {
+            var numberOfAppearences = new Dictionary<Guid, int>();
+            var books = _bookRepository.GetAllBooks();
+            var listOfBooks = new List<Book>();
+
+            foreach (var book in books)
+            {
+                var count = _stateRepository.GetAllBookStates().Count(state => state.TargetId == book.Id);
+
+                numberOfAppearences.Add(book.Id, count);
+            }
+
+            foreach (var appearence in numberOfAppearences.OrderByDescending(app => app.Value))
+            {
+                var book = _bookRepository.GetBookById(appearence.Key);
+
+                listOfBooks.Add(book);
+            }
+
+            if (listOfBooks.Count > 8)
+            {
+                return listOfBooks.Take(8).ToList();
+            }
+
+            return listOfBooks;
+        }
+
         private string ConvertIntToMonth(int givenMonth)
         {
             switch (givenMonth)

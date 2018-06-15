@@ -22,5 +22,6 @@ namespace Business.Interfaces
         Guid GetRecommendedBookId(Guid userId);
         IReadOnlyList<Notification> GetAllNotificationsForUser(string userId);
         void DeleteAllNotificationsForUser(string userId);
+        IReadOnlyList<Book> GetMostPopularBooks();
     }
 }

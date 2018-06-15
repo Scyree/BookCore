@@ -44,7 +44,10 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link disabled" asp-area="" asp-controller="Home" asp-action="Index">Announcements</a>
+                        @{
+                            @inject IUtilityService UtilityService
+                        }
+                        <a class="nav-link" asp-area="" asp-controller="Books" asp-action="Details" asp-route-id="@UtilityService.GetRandomBookId()">Random book</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Find me a book</a>

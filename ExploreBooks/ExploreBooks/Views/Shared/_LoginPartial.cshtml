@@ -35,7 +35,7 @@
                             <li>
                                 <h6 class="text-center" id="readNotifications">
                                     <a onclick="readNotifications('@userId')" href="#">Read all (@notifications.Count)</a>
-                                </h6>                             
+                                </h6>
                             </li>
                         }
                         else
@@ -93,3 +93,7 @@ else
         </li>
     </ul>
 }
+
+<environment include="Development">
+    <script src="~/js/Users/Notifications.js"></script>
+</environment>
