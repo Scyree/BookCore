@@ -23,5 +23,6 @@ namespace Business.Interfaces
         IReadOnlyList<Notification> GetAllNotificationsForUser(string userId);
         void DeleteAllNotificationsForUser(string userId);
         IReadOnlyList<Book> GetMostPopularBooks();
+        void AddNews(string content);
     }
 }

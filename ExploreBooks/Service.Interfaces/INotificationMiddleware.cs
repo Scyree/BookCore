@@ -7,5 +7,6 @@ namespace Service.Interfaces
     {
         IReadOnlyList<Notification> GetAllNotificationsForUser(string userId);
         void DeleteAllNotificationsForUser(string userId);
+        void CreateNotification(Notification notification);
     }
 }

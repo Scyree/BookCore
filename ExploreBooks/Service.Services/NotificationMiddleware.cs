@@ -30,5 +30,10 @@ namespace Service.Services
                 _repository.DeleteNotification(notification);
             }
         }
+
+        public void CreateNotification(Notification notification)
+        {
+            _repository.CreateNotification(notification);
+        }
     }
 }

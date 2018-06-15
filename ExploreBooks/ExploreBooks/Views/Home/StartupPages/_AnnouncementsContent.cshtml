@@ -1,4 +1,61 @@
-﻿<div class="offset-2 col-md-8 col-8 border text-center actionLink">
+﻿@inject IApplicationPictureLogic Service
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    var announcement = TempData["Announcement"];
+}
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/ModalStyle.css" />
+</environment>
+
+<div class="offset-2 col-md-8 col-8 border text-center actionLink">
     <h3><i class="fa fa-exclamation-circle"></i> Important general announcement</h3>
-    <h6>The first version of the site will run shortly..</h6>
+    @if (announcement != null)
+    {
+        <h4>,,@announcement,,</h4>
+    }
 </div>
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var user = UserManager.GetUserId(User);
+    <div class="col-md-2 col-2">
+        <a data-toggle="modal" data-target="#createNews" class="displayContent">
+            <h1 class="actionLink">
+                <i class="fa fa-plus-square"></i>
+            </h1>
+        </a>
+    </div>
+    <div class="modal fade" id="createNews">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <p class="modal-title mx-auto mw-100">
+                        <strong>
+                            Add an announcement
+                        </strong>
+                    </p>
+                </div>
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <form asp-controller="Home" asp-action="CreateNews" role="form" method="post">
+                            <div class="form-group row">
+                                <div class="col-4 col-md-4">
+                                    <img class="rounded" id="editPicture" src="@Url.Content("~/" + Service.GetFolderWithFile(user))" />
+                                </div>
+                                <div class="col-8 col-md-8">
+                                    <textarea type="text" class="form-control" name="content"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn actionButton">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -278,6 +278,18 @@ namespace Business.Services
 
             return listOfBooks;
         }
+        
+        public void AddNews(string content)
+        {
+            var users = _applicationUserRepository.GetAllApplicationUsers();
+
+            foreach (var user in users)
+            {
+                var notification = Notification.CreateNotification(Guid.Parse(user.Id), content);
+
+                _notificationMiddleware.CreateNotification(notification);
+            }
+        }
 
         private string ConvertIntToMonth(int givenMonth)
         {
