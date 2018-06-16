@@ -43,7 +43,7 @@ namespace Business.Services
 
         public IReadOnlyList<Author> GetFirstNAuthors(int count)
         {
-            var authors = _authorRepository.GetAllAuthors().OrderByDescending(author => author.Name).Skip(count).Take(2).ToList();
+            var authors = _authorRepository.GetAllAuthors().OrderByDescending(author => author.Name).Skip(count).Take(10).ToList();
 
             foreach (var author in authors)
             {

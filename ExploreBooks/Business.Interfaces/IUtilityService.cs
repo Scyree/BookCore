@@ -24,5 +24,6 @@ namespace Business.Interfaces
         void DeleteAllNotificationsForUser(string userId);
         IReadOnlyList<Book> GetMostPopularBooks();
         void AddNews(string content);
+        Guid GetBestRatedBooks();
     }
 }

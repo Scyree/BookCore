@@ -18,8 +18,10 @@ namespace Business.Services
         private readonly IApplicationUserRepository _applicationUserRepository;
         private readonly IRecommendationService _recommendationService;
         private readonly INotificationMiddleware _notificationMiddleware;
+        private readonly IGenreBookRepository _genreBookRepository;
+        private readonly IRatingService _ratingService;
 
-        public UtilityService(IBookRepository bookRepository, IAuthorRepository authorRepository, IPostRepository postRepository, ICommentRepository commentRepository, IBookStateRepository stateRepository, IApplicationUserRepository applicationUserRepository, IRecommendationService recommendationService, INotificationMiddleware notificationMiddleware)
+        public UtilityService(IBookRepository bookRepository, IAuthorRepository authorRepository, IPostRepository postRepository, ICommentRepository commentRepository, IBookStateRepository stateRepository, IApplicationUserRepository applicationUserRepository, IRecommendationService recommendationService, INotificationMiddleware notificationMiddleware, IGenreBookRepository genreBookRepository, IRatingService ratingService)
         {
             _bookRepository = bookRepository;
             _authorRepository = authorRepository;
@@ -29,6 +31,8 @@ namespace Business.Services
             _applicationUserRepository = applicationUserRepository;
             _recommendationService = recommendationService;
             _notificationMiddleware = notificationMiddleware;
+            _genreBookRepository = genreBookRepository;
+            _ratingService = ratingService;
         }
 
         public IReadOnlyList<BookState> GetAllBooksForUserId(string userId)
@@ -232,13 +236,38 @@ namespace Business.Services
                     ++count;
                 }
 
-                var book = _bookRepository.GetBookById(books[index].TargetId);
-                var searchedBookByGenre = _bookRepository.GetAllBooks().SingleOrDefault(state => state.Genres.ToList()[0] == book.Genres.ToList()[0]);
+                var searchedGenres = _genreBookRepository.GetAllGenreBooksBasedOnBookId(books[index].TargetId);
 
-                return searchedBookByGenre.Id;
+                if (searchedGenres.Count > 0)
+                {
+                    index = random.Next(searchedGenres.Count);
+                    var searchedBookByGenre =
+                        _genreBookRepository.GetAllGenreBooksBasedOnGenreId(searchedGenres[index].GenreId);
+
+                    return searchedBookByGenre[0].BookId;
+                }
             }
-            
-            return GetRandomBookId();
+
+            return GetBestRatedBooks();
+        }
+
+        public Guid GetBestRatedBooks()
+        {
+            var books = _bookRepository.GetAllBooks();
+            var savedData = new Dictionary<Book, double>();
+            var bookList = new List<Book>();
+
+            foreach (var book in books)
+            {
+                savedData.Add(book, _ratingService.GetRatingsAverageForBook(book.Id));
+            }
+
+            foreach (var book in savedData.OrderByDescending(value => value.Value))
+            {
+                bookList.Add(book.Key);
+            }
+
+            return bookList[0].Id;
         }
 
         public IReadOnlyList<Notification> GetAllNotificationsForUser(string userId)

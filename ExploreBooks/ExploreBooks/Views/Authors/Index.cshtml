@@ -55,9 +55,9 @@
                 @{
                     for (var index = 0; index < AuthorService.GetAllAuthors().Count; ++index)
                     {
-                        if (index % 2 == 0)
+                        if (index % 10 == 0)
                         {
-                            var firstValue = index / 2 * 50 + 1;
+                            var firstValue = index / 10 * 50 + 1;
                             if (index == 0)
                             {
                                 firstValue = 1;

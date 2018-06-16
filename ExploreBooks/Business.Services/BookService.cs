@@ -68,7 +68,7 @@ namespace Business.Services
 
         public IReadOnlyList<Book> GetFirstNBooks(int count)
         {
-            var books = _bookRepository.GetAllBooks().OrderByDescending(book => book.Title).Skip(count).Take(2).ToList();
+            var books = _bookRepository.GetAllBooks().OrderByDescending(book => book.Title).Skip(count).Take(10).ToList();
 
             foreach (var book in books)
             {

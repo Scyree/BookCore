@@ -35,6 +35,7 @@ namespace Business.Services
         {
             var chapters = GetAllChaptersForBook(bookId);
             var numberOfChapters = new int[24];
+            var chaptersDictionary = new Dictionary<int, int>();
 
             for (var index = 0; index < 24; ++index)
             {
@@ -58,9 +59,14 @@ namespace Business.Services
 
             for (var index = 0; index < 24; ++index)
             {
-                if (numberOfChapters[index] >= 1)
+                chaptersDictionary.Add(index, numberOfChapters[index]);
+            }
+
+            foreach (var chapter in chaptersDictionary.OrderByDescending(value => value.Value))
+            {
+                if (chapter.Value >= 1)
                 {
-                    recommendedChapters += index + ", ";
+                    recommendedChapters += chapter.Key + ", ";
                 }
             }
 
