@@ -37,7 +37,7 @@
     </div>
 </div>
 <br />
-<div class="row justify-content-center">  
+<div class="row justify-content-center">
     <div class="card card-body">
         <div class="row">
             <div class="col"><hr /></div>
@@ -51,7 +51,7 @@
         </div>
     </div>
 </div>
-<br/>
+<br />
 <div class="row justify-content-center">
     <div class="card card-body">
         <div class="row">
@@ -67,18 +67,18 @@
                 <a asp-action="Edit" asp-route-id="@Model.Id" class="displayContent">
                     <i class="fa fa-edit"></i> Edit
                 </a>
-                <br/>
+                <br />
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <a data-toggle="modal" data-target="#@recommendBook" class="displayContent">
                         <i class="fa fa-book"></i> Recommend a book
                     </a>
-                    <br/>
+                    <br />
                 }
                 <a asp-action="Index" class="displayContent">
                     <i class="fa fa-undo"></i> Search for others books
                 </a>
-                <br/>
+                <br />
                 <a asp-controller="Authors" asp-action="Index" class="displayContent">
                     <i class="fa fa-users"></i> Search through authors..
                 </a>
@@ -95,20 +95,15 @@
     <div class="card card-body">
         <div class="row">
             <div class="col"><hr /></div>
-            <div class="col-auto"><h6 class="actionLink">Read this book</h6></div>
+            <div class="col-auto">
+                <h6 class="actionLink">
+                    <a data-toggle="modal" data-target="#readBook" class="displayContent">
+                        Read this book
+                    </a>
+                </h6>
+            </div>
             <div class="col"><hr /></div>
-        </div>
-        <div class="row justify-content-center">
-            <p>
-                <a class="displayContent">
-                    <i class="fa fa-amazon"></i> amazon
-                </a>
-                <br />
-                <a class="displayContent">
-                    <i class="fa fa-google"></i> google
-                </a>
-                <br />
-            </p>
         </div>
     </div>
 </div>
+@Html.Partial("DetailsPages/RightContentPages/_ReadBook")

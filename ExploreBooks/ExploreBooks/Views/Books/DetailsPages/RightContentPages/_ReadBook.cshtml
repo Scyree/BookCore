@@ -1,0 +1,21 @@
+﻿<environment include="Development">
+    <link rel="stylesheet" href="~/css/Books/ReadBook.css" />
+</environment>
+
+<div class="modal fade" id="readBook">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="addText">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(function() {
+        $("#addText").load("/books/10001-h/10001-h.htm");
+    });
+</script>
