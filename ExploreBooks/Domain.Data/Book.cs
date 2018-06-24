@@ -13,40 +13,35 @@ namespace Domain.Data
 
         public string Description { get; set; }
 
-        public string Pages { get; set; }
+        public int Pages { get; set; }
 
         public string Folder { get; set; }
 
         public string ImageName { get; set; }
 
-        public ICollection<AuthorBook> Authors { get; set; }
-
-        public virtual ICollection<GenreBook> Genres { get; set; }
-
-        public ICollection<Post> Posts { get; set; }
-        
         public string Details { get; set; }
-
-        public ICollection<Recommendation> Recommandations { get; set; }
-
-        public ICollection<BuyingSite> BuyingSites { get; set; }
 
         public double FinalRate { get; set; }
 
-        public ICollection<Rating> Ratings { get; set; } 
+        public ICollection<AuthorBook> Authors { get; set; }
+
+        public ICollection<GenreBook> Genres { get; set; }
+
+        public ICollection<Post> Posts { get; set; }
+
+        public ICollection<Recommendation> Recommandations { get; set; }
 
         public static Book CreateBook(string title, string description, string folder, string imageName, string details)
         {
+            var random = new Random();
             var instance = new Book
             {
                 Id = Guid.NewGuid(),
                 Authors = new List<AuthorBook>(),
                 Genres = new List<GenreBook>(),
                 Posts = new List<Post>(),
-                Pages = "1",
+                Pages = random.Next(250) + 1,
                 Recommandations = new List<Recommendation>(),
-                BuyingSites = new List<BuyingSite>(),
-                Ratings = new List<Rating>(),
                 FinalRate = 0.0
             };
 

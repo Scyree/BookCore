@@ -5,7 +5,7 @@ namespace Service.Interfaces
 {
     public interface INotificationMiddleware
     {
-        IReadOnlyList<Notification> GetAllNotificationsForUser(string userId);
+        List<Notification> GetAllNotificationsForUser(string userId);
         void DeleteAllNotificationsForUser(string userId);
         void CreateNotification(Notification notification);
     }

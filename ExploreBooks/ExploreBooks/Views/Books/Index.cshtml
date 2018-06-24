@@ -55,23 +55,21 @@
     <div class="row justify-content-center">
         <form asp-action="Index">
             <ul class="pagination">
-                @{
-                    for (var index = 0; index < BookService.GetAllBooks().Count; ++index)
+                @for (var index = 0; index < BookService.GetAllBooks().Count; ++index)
+                {
+                    if (index % 12 == 0)
                     {
-                        if (index % 10 == 0)
+                        var firstValue = index / 10 * 12 + 1;
+                        if (index == 0)
                         {
-                            var firstValue = index / 10 * 50 + 1;
-                            if (index == 0)
-                            {
-                                firstValue = 1;
-                            }
-
-                            var secondValue = firstValue + 49;
-
-                            <li class="page-item">
-                                <button type="submit" name="pageNumber" class="btn actionButton" value="@index">@firstValue - @secondValue</button>
-                            </li>
+                            firstValue = 1;
                         }
+
+                        var secondValue = firstValue + 11;
+
+                        <li class="page-item">
+                            <button type="submit" name="pageNumber" class="btn actionButton" value="@index">@firstValue - @secondValue</button>
+                        </li>
                     }
                 }
             </ul>

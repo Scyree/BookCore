@@ -7,6 +7,6 @@ namespace Service.Interfaces
     {
         Author GetAuthorInfoByDetails(string name, string description);
         Author CheckAuthor(string description);
-        IReadOnlyList<Author> GetAuthors(string description);
+        List<Author> GetAuthors(string description);
     }
 }

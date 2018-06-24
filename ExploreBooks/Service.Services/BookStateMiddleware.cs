@@ -15,27 +15,35 @@ namespace Service.Services
         {
             _repository = repository;
         }
-        
+
+        public List<BookState> GetAllStatesThatRatedThisBook(Guid bookId)
+        {
+            return _repository.GetAllBookStatesForBook(bookId).Where(state => state.Rate != 0).ToList();
+        }
+
+        public List<BookState> GetAllStatesChaptersForThisBook(Guid bookId)
+        {
+            return _repository.GetAllBookStatesForBook(bookId).Where(state => state.Chapters != null).ToList();
+        }
+
         public BookState CheckIfBookAlreadyExists(Guid bookId, Guid userId)
         {
-            return _repository.GetAllBookStates().SingleOrDefault(state => state.TargetId == bookId && state.UserId == userId);
+            return _repository.GetBookStateByBookAndUser(bookId, userId);
         }
 
-        public IReadOnlyList<BookState> GetAllBookStatesByUserId(Guid userId)
+        public List<BookState> GetAllBookStatesByUserId(Guid userId)
         {
-            return _repository.GetAllBookStates().Where(state => state.UserId == userId).ToList();
+            return _repository.GetAllBookStatesByUserId(userId);
         }
 
-        public IReadOnlyList<BookState> GetFavoriteBookStatesByUserId(Guid userId)
+        public List<BookState> GetFavoriteBookStatesByUserId(Guid userId)
         {
-            var bookStates = _repository.GetAllBookStates().Where(state => state.UserId == userId && state.IsFavorite).ToList();
-
-            return bookStates;
+            return _repository.GetFavoriteBookStatesByUserId(userId);
         }
 
         public void DeleteUserStates(Guid userId)
         {
-            var userStates = _repository.GetAllBookStates().Where(user => user.UserId == userId);
+            var userStates = _repository.GetAllBookStatesForUserId(userId);
 
             foreach (var state in userStates)
             {

@@ -6,8 +6,8 @@ namespace Service.Interfaces
 {
     public interface IPostMiddleware
     {
-        IReadOnlyList<Post> GetPostsByDate();
-        IReadOnlyList<Post> GetPostsBasedOnLikes();
+        List<Post> GetPostsByDate();
+        List<Post> GetPostsBasedOnLikes();
         void DeleteUserPosts(Guid userId);
     }
 }

@@ -9,9 +9,9 @@ namespace Domain.Data
         [Key]
         public Guid Id { get; set; }
 
-        public ICollection<GenreBook> Books { get; set; }
-
         public string Text { get; set; }
+
+        public ICollection<GenreBook> Books { get; set; }
 
         public static Genre CreateGenre(string text)
         {

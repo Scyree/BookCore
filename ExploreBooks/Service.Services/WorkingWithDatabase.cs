@@ -16,17 +16,17 @@ namespace Service.Services
         private readonly IWorkingWithFiles _fileManagement;
         private readonly IAuthorBookMiddleware _authorBookService;
         private readonly IGenreBookMiddleware _genreBookService;
-        private readonly IGenreRepository _genreRepository;
+        private readonly IGenreMiddleware _genreMiddleware;
         private readonly IAuthorMiddleware _authorMiddleware;
 
-        public WorkingWithDatabase(IHostingEnvironment env, IBookRepository bookRepository, IWorkingWithFiles fileManagement, IAuthorBookMiddleware authorBookService, IGenreBookMiddleware genreBookService, IGenreRepository genreRepository, IAuthorMiddleware authorMiddleware)
+        public WorkingWithDatabase(IHostingEnvironment env, IBookRepository bookRepository, IWorkingWithFiles fileManagement, IAuthorBookMiddleware authorBookService, IGenreBookMiddleware genreBookService, IGenreMiddleware genreMiddleware, IAuthorMiddleware authorMiddleware)
         {
             _env = env;
             _bookRepository = bookRepository;
             _fileManagement = fileManagement;
             _authorBookService = authorBookService;
             _genreBookService = genreBookService;
-            _genreRepository = genreRepository;
+            _genreMiddleware = genreMiddleware;
             _authorMiddleware = authorMiddleware;
         }
         
@@ -47,77 +47,61 @@ namespace Service.Services
 
         }
 
+        public List<string> GetTextfileForBook(Guid bookId)
+        {
+            var book = _bookRepository.GetBookById(bookId);
+            var fileName = "";
+            var path = Path.Combine(_env.WebRootPath, "images/" + book.Folder);
+            var files = Directory.GetFiles(path);
+
+            foreach (var file in files)
+            {
+                var extension = Path.GetExtension(file);
+
+                if (extension == ".txt")
+                {
+                    fileName = file;
+                }
+            }
+
+            var content = File.ReadLines(fileName).ToList();
+
+            return content;
+        }
+
         private void CreateForSpecificBook(string title, string givenAuthor, string details, string file)
         {
-            var checkIfBookAlreadyExists = _bookRepository.GetAllBooks().SingleOrDefault(book => book.Title == title);
+            var checkIfBookAlreadyExists = _bookRepository.GetBookBasedOnTitle(title);
 
             if (checkIfBookAlreadyExists == null)
             {
-                var genre = CheckGenre(GetRandomGenre());
+                var genre = _genreMiddleware.CheckGenre(_genreMiddleware.GetRandomGenre());
                 var author = _authorMiddleware.CheckAuthor(givenAuthor);
                 var _folder = "books";
                 var value = Guid.NewGuid();
                 var path = _folder + "\\" + value;
                 var imageName = _folder + ".jpg";
-                var textContent = File.ReadAllLines(file).ToList();
+                var textContent = File.ReadAllLines(file).Skip(20).ToList();
                 var fileName = value + ".txt";
                 var destiantionPath = Path.Combine(_env.WebRootPath, "images\\" + path);
 
                 _fileManagement.CopyFile(_folder, value);
+                File.WriteAllLines(destiantionPath + "\\" + fileName, textContent);
 
                 var book = Book.CreateBook(
                     title,
                     "No description for this book at the moment..",
                     path,
                     imageName,
-                    "There are mysteries surrounding this book.."
+                    details
                 );
 
+                book.Pages = textContent.Count / 35;
+
                 _bookRepository.CreateBook(book);
-                
                 _genreBookService.CheckGenreBook(genre.Id, book.Id);
                 _authorBookService.CheckAuthorBook(author.Id, book.Id);
-
-                File.WriteAllLines(destiantionPath + "\\" + fileName, textContent.Skip(20));
             }
-        }
-
-        public Genre CheckGenre(string description)
-        {
-            var check = _genreRepository.GetAllGenres().SingleOrDefault(genre => genre.Text == description);
-
-            if (check == null)
-            {
-                var genre = Genre.CreateGenre(description);
-                _genreRepository.CreateGenre(genre);
-
-                return genre;
-            }
-
-            return check;
-        }
-        
-        private string GetRandomGenre()
-        {
-            var random = new Random();
-            var genresList = new List<string>
-            {
-                "SF",
-                "Tragedy",
-                "Fantasy",
-                "Mythology",
-                "Adventure",
-                "Mystery",
-                "Romance",
-                "Action",
-                "Thriller",
-                "Adventure"
-            };
-
-            var index = random.Next(0, genresList.Count - 1);
-
-            return genresList[index];
-
         }
     }
 }

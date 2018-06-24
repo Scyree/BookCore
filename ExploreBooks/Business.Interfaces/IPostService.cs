@@ -6,9 +6,9 @@ namespace Business.Interfaces
 {
     public interface IPostService
     {
-        IReadOnlyList<Post> GetOnlyFirstNumberOfPosts(int number);
-        IReadOnlyList<Post> GetAllPostsForTargetId(Guid targetId);
-        IReadOnlyList<Post> GetAllPosts(); 
+        List<Post> GetOnlyFirstNumberOfPosts(int number);
+        List<Post> GetAllPostsForTargetId(Guid targetId);
+        List<Post> GetAllPosts(); 
         void CreatePost(Guid userId, Guid targetId, string description);
         void EditPost(Guid id, string description);
         void DeletePost(Guid id);

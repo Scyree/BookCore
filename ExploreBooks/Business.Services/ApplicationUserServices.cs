@@ -29,7 +29,7 @@ namespace Business.Services
             _likeService = likeService;
         }
 
-        public IReadOnlyList<ApplicationUser> GetAllApplicationUsers()
+        public List<ApplicationUser> GetAllApplicationUsers()
         {
             var applicationUsers = _applicationRepository.GetAllApplicationUsers();
 
@@ -42,7 +42,7 @@ namespace Business.Services
             return applicationUsers;
         }
 
-        public IReadOnlyList<ApplicationUser> GetAllApplicationUsersWithinCountry(string userId)
+        public List<ApplicationUser> GetAllApplicationUsersWithinCountry(string userId)
         {
             var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
             var applicationUsers = _applicationRepository.GetAllApplicationUsers().Where(ap => ModifyGivenName(ap.Country) == ModifyGivenName(user.Country) && ap.Id != userId).ToList();

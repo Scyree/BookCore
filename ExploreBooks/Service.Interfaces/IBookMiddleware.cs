@@ -8,8 +8,8 @@ namespace Service.Interfaces
     {
         Book GetBookInfoByDetails(string title, string description);
         Book CheckBook(string bookTitle);
-        IReadOnlyList<Book> GetBooks(string bookTitles);
         Book GetBookById(Guid bookId);
-        IReadOnlyList<Book> GetBooksForBooksForMood(string bookTitles);
+        List<Book> GetBooks(string bookTitles);
+        List<Book> GetBooksForBookList(string bookTitles);
     }
 }

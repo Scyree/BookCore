@@ -6,7 +6,10 @@ namespace Repository.Interfaces
 {
     public interface ICommentRepository
     {
-        IReadOnlyList<Comment> GetAllComments();
+        List<Comment> GetAllCommentsGivenPostId(Guid postId);
+        List<Comment> GetAllCommentsGivenPostIdSortedByDate(Guid postId);
+        List<Comment> GetAllComments();
+        List<Comment> GetAllCommentsForUserId(Guid userId);
         Comment GetCommentById(Guid id);
         void CreateComment(Comment comment);
         void EditComment(Comment comment);

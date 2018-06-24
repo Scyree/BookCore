@@ -6,8 +6,8 @@ namespace Business.Interfaces
 {
     public interface ICommentService
     {
-        IReadOnlyList<Comment> GetAllComentsForThePostGivenCommentId(Guid commentId);
-        IReadOnlyList<Comment> GetAllComments(Guid postId);
+        List<Comment> GetAllComentsForThePostGivenCommentId(Guid commentId);
+        List<Comment> GetAllComments(Guid postId);
         void CreateComment(Guid userId, Guid postId, string text);
         void EditComment(Guid id, string text);
         void DeleteComment(Guid id);

@@ -16,19 +16,19 @@ namespace Service.Services
             _repository = repository;
         }
         
-        public IReadOnlyList<Comment> GetAllCommentsGivenPostId(Guid postId)
+        public List<Comment> GetAllCommentsGivenPostId(Guid postId)
         {
-            return _repository.GetAllComments().Where(comments => comments.PostId == postId).ToList();
+            return _repository.GetAllCommentsGivenPostId(postId);
         }
 
-        public IReadOnlyList<Comment> GetAllCommentsGivenPostIdSortedByDate(Guid postId)
+        public List<Comment> GetAllCommentsGivenPostIdSortedByDate(Guid postId)
         {
-            return _repository.GetAllComments().Where(comments => comments.PostId == postId).OrderBy(comment => comment.Date).ToList();
+            return _repository.GetAllCommentsGivenPostIdSortedByDate(postId);
         }
 
         public void DeleteUserComments(Guid userId)
         {
-            var comments = _repository.GetAllComments().Where(user => user.UserId == userId);
+            var comments = _repository.GetAllCommentsForUserId(userId);
 
             foreach (var comment in comments)
             {

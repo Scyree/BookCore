@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace ExploreBooks.Controllers
 {
     [Route("listOfBooks/[action]")]
-    public class BooksForMoodController : Controller
+    public class BookListsController : Controller
     {
-        private readonly IBooksForMoodService _booksForMoodService;
+        private readonly IBookListService _booksForMoodService;
 
-        public BooksForMoodController(IBooksForMoodService booksForMoodService)
+        public BookListsController(IBookListService booksForMoodService)
         {
             _booksForMoodService = booksForMoodService;
         }
@@ -18,7 +18,7 @@ namespace ExploreBooks.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View(_booksForMoodService.GetAllBooksForMoods());
+            return View(_booksForMoodService.GetAllBookLists());
         }
 
         [HttpGet, ActionName("details")]
@@ -29,7 +29,7 @@ namespace ExploreBooks.Controllers
                 return NotFound();
             }
 
-            var book = _booksForMoodService.GetBooksForMoodById(id.Value);
+            var book = _booksForMoodService.GetBookListById(id.Value);
 
             if (book == null)
             {
@@ -54,7 +54,7 @@ namespace ExploreBooks.Controllers
                 return View(booksCreateModel);
             }
 
-            _booksForMoodService.CreateBooksForMood(Guid.Parse(booksCreateModel.UserId), booksCreateModel.Title, booksCreateModel.Description, booksCreateModel.Books);
+            _booksForMoodService.CreateBookList(Guid.Parse(booksCreateModel.UserId), booksCreateModel.Title, booksCreateModel.Description, booksCreateModel.Books);
 
             return RedirectToAction(nameof(Index));
         }

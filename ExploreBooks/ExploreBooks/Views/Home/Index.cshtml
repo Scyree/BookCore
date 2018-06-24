@@ -1,4 +1,4 @@
-﻿@inject IGenreService GenreService
+﻿@inject IGenreMiddleware GenreService
 
 @{
     ViewData["Title"] = "Home Page";
@@ -20,8 +20,7 @@
         <div class="offset-2 col-md-8 col-8 border-top border-bottom">
             <ul class="breadcrumb justify-content-center">
                 @{
-                    var genres = GenreService.GetAllGenres();
-                    foreach (var genre in genres)
+                    foreach (var genre in GenreService.GetAllGenres())
                     {
                         <li class="breadcrumb-item actionLink">
                             <a asp-controller="Books" asp-action="Genres" asp-route-genre="@genre.Text">

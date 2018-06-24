@@ -1,4 +1,4 @@
-﻿@model BooksForMood
+﻿@model BookList
 @inject IUtilityService UtilityService
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -54,7 +54,7 @@
                     <a onclick="Downvote('@Model.Id', '@Guid.Parse(userId)')" class="displayContent"><i class="fa fa-arrow-down"></i> Downvote</a>
                 }
                 <br/>
-                <a asp-controller="BooksForMood" asp-action="Index" class="displayContent">
+                <a asp-controller="BookLists" asp-action="Index" class="displayContent">
                     <i class="fa fa-undo"></i> Search for others lists
                 </a>
             </p>

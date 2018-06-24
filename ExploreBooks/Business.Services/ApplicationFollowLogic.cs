@@ -96,7 +96,7 @@ namespace Business.Services
             return count;
         }
 
-        public IReadOnlyList<ApplicationUser> GetFollowedPeople(string userId)
+        public List<ApplicationUser> GetFollowedPeople(string userId)
         {
             var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
 
@@ -116,7 +116,7 @@ namespace Business.Services
             return null;
         }
 
-        public IReadOnlyList<ApplicationUser> GetFollowers(string userId)
+        public List<ApplicationUser> GetFollowers(string userId)
         {
             var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
 

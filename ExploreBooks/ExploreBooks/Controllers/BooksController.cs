@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Business.Interfaces;
 using ExploreBooks.Models.BookViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Service.Interfaces;
 
 namespace ExploreBooks.Controllers
 {
@@ -10,11 +11,11 @@ namespace ExploreBooks.Controllers
     public class BooksController : Controller
     {
         private readonly IBookService _service;
-        private readonly IGenreService _genreService;
+        private readonly IGenreMiddleware _genreService;
         private readonly IAuthorService _authorService;
         private readonly IRecommendationService _recommendationService;
 
-        public BooksController(IBookService service, IGenreService genreService, IAuthorService authorService, IRecommendationService recommendationService)
+        public BooksController(IBookService service, IGenreMiddleware genreService, IAuthorService authorService, IRecommendationService recommendationService)
         {
             _service = service;
             _genreService = genreService;

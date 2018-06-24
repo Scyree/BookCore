@@ -16,7 +16,7 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<ApplicationUser> GetAllApplicationUsers()
+        public List<ApplicationUser> GetAllApplicationUsers()
         {
             return _databaseService.Users.ToList();
         }

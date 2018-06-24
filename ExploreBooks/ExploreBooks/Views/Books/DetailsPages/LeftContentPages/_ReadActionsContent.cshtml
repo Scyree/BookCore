@@ -10,7 +10,7 @@
 <div class="card card-body">
     @if (checkBookState != null)
     {
-        var totalPages = Int32.Parse(checkBookState.NumberOfPages) * 100 / Int32.Parse(UtilityService.GetBookById(Model).Pages);
+        var totalPages = checkBookState.NumberOfPages * 100 / UtilityService.GetBookById(Model).Pages;
         var planToRead = totalPages;
         var reading = totalPages;
         var read = totalPages;

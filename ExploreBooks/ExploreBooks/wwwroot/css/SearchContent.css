@@ -25,11 +25,11 @@
     display: none;
 }
 
-.displayDivWithSearchOptions {
+#displayDivWithSearchOptions {
     display: none;
 }
 
-.displayDivWithSearchOptions.dropdown-menu.drop-item {
+#displayDivWithSearchOptions.dropdown-menu.drop-item {
     width: 500px;
 }
 

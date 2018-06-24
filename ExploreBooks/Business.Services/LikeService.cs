@@ -16,7 +16,7 @@ namespace Business.Services
             _repository = repository;
         }
 
-        public IReadOnlyList<Like> GetAllLikes()
+        public List<Like> GetAllLikes()
         {
             return _repository.GetAllLikes();
         }
@@ -83,7 +83,7 @@ namespace Business.Services
 
         public void Upvote(Guid targetId, Guid userId)
         {
-            var likeToBeEdited = GetAllLikes().FirstOrDefault(like => like.UserId == userId && like.TargetId == targetId);
+            var likeToBeEdited = _repository.GetLikeForUserAndTarget(userId, targetId);
 
             if (likeToBeEdited != null)
             {
@@ -105,7 +105,7 @@ namespace Business.Services
 
         public void Downvote(Guid targetId, Guid userId)
         {
-            var likeToBeEdited = GetAllLikes().FirstOrDefault(like => like.UserId == userId && like.TargetId == targetId);
+            var likeToBeEdited = _repository.GetLikeForUserAndTarget(userId, targetId);
 
             if (likeToBeEdited != null)
             {
@@ -127,7 +127,7 @@ namespace Business.Services
 
         public void DeleteUserLikes(Guid userId)
         {
-            var likes = _repository.GetAllLikes().Where(user => user.UserId == userId);
+            var likes = _repository.GetAllLikesForUserId(userId);
 
             foreach (var like in likes)
             {

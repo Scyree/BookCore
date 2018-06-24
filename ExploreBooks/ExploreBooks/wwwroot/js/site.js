@@ -7,7 +7,7 @@
         var elements = listOfElements.getElementsByTagName("li");
         var count = 0;
 
-        displayDivWithSearchOptions.style.display = "";
+        displayDivWithSearchOptions.style.display = "block";
         for (var index = 0; index < elements.length; ++index) {
             var link = elements[index].getElementsByTagName("a")[0].innerHTML;
            

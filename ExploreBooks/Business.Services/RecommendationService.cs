@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Business.Interfaces;
 using Domain.Data;
 using Repository.Interfaces;
@@ -16,32 +15,26 @@ namespace Business.Services
             _repository = repository;
         }
 
-        public IReadOnlyList<Recommendation> GetAllRecommendationsForBookId(Guid bookId)
+        public List<Recommendation> GetAllRecommendationsForBookId(Guid bookId)
         {
-            var recommendations = _repository.GetAllRecommendations().Where(recommendation => recommendation.BookId == bookId).ToList();
-
-            return recommendations;
+            return _repository.GetAllRecommendationsForBookId(bookId);
         }
 
-        public IReadOnlyList<Recommendation> GetAllRecommendationsMadeByUser(Guid userId)
+        public List<Recommendation> GetAllRecommendationsMadeByUser(Guid userId)
         {
-            var recommendations = _repository.GetAllRecommendations().Where(recommendation => recommendation.UserId == userId).ToList();
-
-            return recommendations;
+            return _repository.GetAllRecommendationsMadeByUser(userId);
         }
 
         public Recommendation GetRecommendation(Guid bookId, Guid recommendedBook, Guid userId)
         {
-            var recommendation = _repository.GetAllRecommendations().SingleOrDefault(recom => recom.BookRecommended == recommendedBook && recom.BookId == bookId && recom.UserId == userId);
-
-            return recommendation;
+            return _repository.GetRecommendation(bookId, recommendedBook, userId);
         }
 
         public void MakeARecommendation(Guid bookId, Guid userId, Guid recommendedBook, string reason)
         {
             if (reason != null)
             {
-                var checkIfAlreadyRecommended = _repository.GetAllRecommendations().SingleOrDefault(recom => recom.UserId == userId && recom.BookId == bookId);
+                var checkIfAlreadyRecommended = _repository.CheckIfAlreadyRecommended(bookId, recommendedBook, userId);
 
                 if (checkIfAlreadyRecommended == null)
                 {

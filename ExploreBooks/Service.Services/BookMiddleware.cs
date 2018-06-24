@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using Domain.Data;
 using Repository.Interfaces;
@@ -27,7 +26,7 @@ namespace Service.Services
         
         public Book CheckBook(string bookTitle)
         {
-            var check = _repository.GetAllBooks().SingleOrDefault(book => book.Title == bookTitle);
+            var check = _repository.GetBookBasedOnTitle(bookTitle);
 
             if (check == null)
             {
@@ -53,7 +52,7 @@ namespace Service.Services
             return check;
         }
 
-        public IReadOnlyList<Book> GetBooks(string bookTitles)
+        public List<Book> GetBooks(string bookTitles)
         {
             var books = bookTitles.Split(",");
             var bookList = new List<Book>();
@@ -66,14 +65,14 @@ namespace Service.Services
             return bookList;
         }
 
-        public IReadOnlyList<Book> GetBooksForBooksForMood(string bookTitles)
+        public List<Book> GetBooksForBookList(string bookTitles)
         {
             var books = bookTitles.Split(",");
             var bookList = new List<Book>();
 
             foreach (var book in books)
             {
-                var check = _repository.GetAllBooks().SingleOrDefault(searchedBook => searchedBook.Title == book);
+                var check = _repository.GetBookBasedOnTitle(book);
 
                 if (check != null)
                 {

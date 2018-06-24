@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Data
 {
-    public class BooksForMood
+    public class BookList
     {
         [Key]
         public Guid Id { get; set; }
@@ -17,33 +17,30 @@ namespace Domain.Data
 
         public int Likes { get; set; }
 
-        public ICollection<BooksWithinBooksForMood> Books { get; set; }
+        public ICollection<BookListContent> Books { get; set; }
 
         public ICollection<Post> Posts { get; set; }
 
-        public static BooksForMood CreateBooksForMood(Guid userId, string title, string description)//, int likes, List<Book> books, List<Comment> comments)
+        public static BookList CreateBookList(Guid userId, string title, string description)
         {
-            var instance = new BooksForMood
+            var instance = new BookList
             {
                 Id = Guid.NewGuid(),
                 Likes = 0,
-                Books = new List<BooksWithinBooksForMood>(),
+                Books = new List<BookListContent>(),
                 Posts = new List<Post>()
             };
 
-            instance.UpdateBooksForMood(userId, title, description);//, likes, books, comments);
+            instance.UpdateBookList(userId, title, description);
 
             return instance;
         }
 
-        private void UpdateBooksForMood(Guid userId, string title, string description)//, int likes, List<Book> books, List<Comment> comments)
+        private void UpdateBookList(Guid userId, string title, string description)
         {
             UserId = userId;
             Title = title;
             Description = description;
-            //Likes = likes;
-            //Books = books;
-            //Comments = comments;
         }
     }
 }

@@ -6,8 +6,8 @@ namespace Service.Interfaces
 {
     public interface ICommentMiddleware
     {
-        IReadOnlyList<Comment> GetAllCommentsGivenPostId(Guid postId);
-        IReadOnlyList<Comment> GetAllCommentsGivenPostIdSortedByDate(Guid postId);
+        List<Comment> GetAllCommentsGivenPostId(Guid postId);
+        List<Comment> GetAllCommentsGivenPostIdSortedByDate(Guid postId);
         void DeleteUserComments(Guid userId);
     }
 }

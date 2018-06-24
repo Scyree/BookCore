@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BooksForMood>
+﻿@model IEnumerable<BookList>
 
 @{
     ViewData["Title"] = "Index";
@@ -28,15 +28,15 @@
 <div class="container justify-content-center">
     <div class="offset-1 col-md-10 col-10">
         @{
-            var booksForMood = Model.ToList();
-            for (var index = 0; index < booksForMood.Count; ++index)
+            var bookList = Model.ToList();
+            for (var index = 0; index < bookList.Count; ++index)
             {
-                var books = booksForMood[index].Books;
+                var books = bookList[index].Books;
 
                 <div class="row border-top border-bottom">
                     <div class="col-md-6 col-6">
                         <br />
-                        @await Html.PartialAsync("IndexPages/_CreatorContent", booksForMood[index])
+                        @await Html.PartialAsync("IndexPages/_CreatorContent", bookList[index])
                     </div>
 
                     <div class="col-md-6 col-6 justify-content-center">

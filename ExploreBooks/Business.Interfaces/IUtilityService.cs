@@ -6,10 +6,12 @@ namespace Business.Interfaces
 {
     public interface IUtilityService
     {
-        IReadOnlyList<BookState> GetAllBooksForUserId(string userId);
-        IReadOnlyList<BookState> GetFirstNBooksForUserId(string userId, int number);
-        IReadOnlyList<Post> GetAllPostsForUser(string userId);
-        IReadOnlyList<Post> GetFirstNPostsForUserId(string userId, int number);
+        List<BookState> GetAllBooksForUserId(string userId);
+        List<BookState> GetFirstNBooksForUserId(string userId, int number);
+        List<Post> GetAllPostsForUser(string userId);
+        List<Post> GetFirstNPostsForUserId(string userId, int number);
+        List<Book> GetMostPopularBooks();
+        List<Notification> GetAllNotificationsForUser(string userId);
         Book GetBookById(Guid id);
         Author GetAuthorById(Guid id);
         Post GetPostById(Guid id);
@@ -20,9 +22,7 @@ namespace Business.Interfaces
         string ConvertStateToAction(int state);
         Guid GetRandomBookId();
         Guid GetRecommendedBookId(Guid userId);
-        IReadOnlyList<Notification> GetAllNotificationsForUser(string userId);
         void DeleteAllNotificationsForUser(string userId);
-        IReadOnlyList<Book> GetMostPopularBooks();
         void AddNews(string content);
         Guid GetBestRatedBooks();
     }

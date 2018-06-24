@@ -18,7 +18,7 @@ namespace Business.Services
             _commentRepository = commentRepository;
         }
 
-        public IReadOnlyList<Comment> GetAllComentsForThePostGivenCommentId(Guid commentId)
+        public List<Comment> GetAllComentsForThePostGivenCommentId(Guid commentId)
         {
             var post = _commentRepository.GetCommentById(commentId);
 
@@ -30,7 +30,7 @@ namespace Business.Services
             return null;
         }
 
-        public IReadOnlyList<Comment> GetAllComments(Guid postId)
+        public List<Comment> GetAllComments(Guid postId)
         {
             return _commentService.GetAllCommentsGivenPostIdSortedByDate(postId);
         }

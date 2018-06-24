@@ -16,9 +16,24 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<FollowUser> GetAllFollowUsers()
+        public List<FollowUser> GetAllFollowedPeople(Guid userId)
+        {
+            return _databaseService.FollowUsers.Where(user => user.UserId == userId).ToList();
+        }
+
+        public List<FollowUser> GetAllFollowers(Guid userId)
+        {
+            return _databaseService.FollowUsers.Where(user => user.FollowId == userId).ToList();
+        }
+
+        public List<FollowUser> GetAllFollowUsers()
         {
             return _databaseService.FollowUsers.ToList();
+        }
+        
+        public List<FollowUser> GetAllFollowUsersWhereUserIdAppears(Guid userId)
+        {
+            return _databaseService.FollowUsers.Where(user => user.FollowId == userId || user.UserId == userId).ToList();
         }
 
         public FollowUser GetFollowUserById(Guid id)

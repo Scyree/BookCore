@@ -6,7 +6,10 @@ namespace Repository.Interfaces
 {
     public interface IFollowUserRepository
     {
-        IReadOnlyList<FollowUser> GetAllFollowUsers();
+        List<FollowUser> GetAllFollowedPeople(Guid userId);
+        List<FollowUser> GetAllFollowers(Guid userId);
+        List<FollowUser> GetAllFollowUsers();
+        List<FollowUser> GetAllFollowUsersWhereUserIdAppears(Guid userId);
         FollowUser GetFollowUserById(Guid id);
         void CreateFollowUser(FollowUser followUser);
         void EditFollowUser(FollowUser followUser);

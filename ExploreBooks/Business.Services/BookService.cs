@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Linq;
 using Business.Interfaces;
 using Domain.Data;
 using Microsoft.AspNetCore.Http;
@@ -17,13 +16,12 @@ namespace Business.Services
         private readonly IAuthorMiddleware _authorService;
         private readonly IAuthorBookMiddleware _authorBookService;
         private readonly IGenreBookMiddleware _genreBookService;
+        private readonly IGenreMiddleware _genreService;
         private readonly IWorkingWithFiles _fileManagement;
-        private readonly IGenreService _genreService;
         private readonly IPostService _postService;
-        private readonly IRatingService _ratingService;
         private readonly string _folder;
 
-        public BookService(IBookRepository bookRepository, IWorkingWithFiles fileManagement, IGenreService genreService, IGenreBookMiddleware genreBookService, IAuthorMiddleware authorService, IAuthorBookMiddleware authorBookService, IPostService postService, IRatingService ratingService)
+        public BookService(IBookRepository bookRepository, IWorkingWithFiles fileManagement, IGenreMiddleware genreService, IGenreBookMiddleware genreBookService, IAuthorMiddleware authorService, IAuthorBookMiddleware authorBookService, IPostService postService)
         {
             _bookRepository = bookRepository;
             _fileManagement = fileManagement;
@@ -32,52 +30,34 @@ namespace Business.Services
             _authorService = authorService;
             _authorBookService = authorBookService;
             _postService = postService;
-            _ratingService = ratingService;
             _folder = "books";
         }
 
-        public IReadOnlyList<Book> SearchBooks(string text)
+        public List<Book> SearchBooks(string text)
         {
-            var books = _bookRepository.GetAllBooks().Where(book => book.Title.ToLower().Contains(text.ToLower())).ToList();
+            var books = _bookRepository.GetAllBooksContainingTheTitle(text);
 
             foreach (var book in books)
             {
-                book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(book.Id).ToList();
-                book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(book.Id).ToList();
-                book.Posts = _postService.GetAllPosts().Where(post => post.TargetId == book.Id).ToList();
-                book.Ratings = _ratingService.GetAllRatingsForBook(book.Id).ToList();
+                book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(book.Id);
+                book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(book.Id);
+                book.Posts = _postService.GetAllPostsForTargetId(book.Id);
             }
 
             return books;
         }
 
-        public IReadOnlyList<Book> GetAllBooks()
+        public List<Book> GetAllBooks()
         {
             var books = _bookRepository.GetAllBooks();
-
-            foreach (var book in books)
-            {
-                book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(book.Id).ToList();
-                book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(book.Id).ToList();
-                book.Posts = _postService.GetAllPosts().Where(post => post.TargetId == book.Id).ToList();
-                book.Ratings = _ratingService.GetAllRatingsForBook(book.Id).ToList();
-            }
-
+            
             return books;
         }
 
-        public IReadOnlyList<Book> GetFirstNBooks(int count)
+        public List<Book> GetFirstNBooks(int count)
         {
-            var books = _bookRepository.GetAllBooks().OrderByDescending(book => book.Title).Skip(count).Take(10).ToList();
-
-            foreach (var book in books)
-            {
-                book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(book.Id).ToList();
-                book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(book.Id).ToList();
-                book.Posts = _postService.GetAllPosts().Where(post => post.TargetId == book.Id).ToList();
-                book.Ratings = _ratingService.GetAllRatingsForBook(book.Id).ToList();
-            }
-
+            var books = _bookRepository.GetFirstNBooks(count, 12);
+            
             return books;
         }
 
@@ -200,10 +180,9 @@ namespace Business.Services
 
             if (book != null)
             {
-                book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(id).ToList();
-                book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(id).ToList();
-                book.Posts = _postService.GetAllPosts().Where(post => post.TargetId == id).ToList();
-                book.Ratings = _ratingService.GetAllRatingsForBook(book.Id).ToList();
+                book.Authors = _authorBookService.GetAllAuthorBooksBasedOnBookId(id);
+                book.Genres = _genreBookService.GetAllGenreBooksBasedOnBookId(id);
+                book.Posts = _postService.GetAllPostsForTargetId(book.Id);
 
                 return book;
             }
@@ -213,7 +192,7 @@ namespace Business.Services
 
         public List<SelectListItem> GetAllBooksForRecommendation(Guid bookId)
         {
-            var books = _bookRepository.GetAllBooks().Where(book => book.Id != bookId);
+            var books = _bookRepository.GetAllBooksExcept(bookId);
             var bookList = new List<SelectListItem>();
 
             foreach (var book in books)

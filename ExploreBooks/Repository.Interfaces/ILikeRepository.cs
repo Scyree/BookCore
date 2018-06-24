@@ -6,7 +6,9 @@ namespace Repository.Interfaces
 {
     public interface ILikeRepository
     {
-        IReadOnlyList<Like> GetAllLikes();
+        List<Like> GetAllLikes();
+        List<Like> GetAllLikesForUserId(Guid userId);
+        Like GetLikeForUserAndTarget(Guid userId, Guid targetId);
         Like GetLikeById(Guid id);
         void CreateLike(Like like);
         void EditLike(Like like);

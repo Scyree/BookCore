@@ -9,8 +9,8 @@ namespace Business.Interfaces
         void UnfollowUser(string userId, string followedId);
         int GetNumberOfFollowedPeople(string userId);
         int GetNumberOfFollowers(string userId);
-        IReadOnlyList<ApplicationUser> GetFollowedPeople(string userId);
-        IReadOnlyList<ApplicationUser> GetFollowers(string userId);
+        List<ApplicationUser> GetFollowedPeople(string userId);
+        List<ApplicationUser> GetFollowers(string userId);
         bool CheckIfAlreadyFollowed(string userId, string followedId);
     }
 }

@@ -26,12 +26,12 @@ namespace Service.Services
             }
         }
 
-        public IReadOnlyList<GenreBook> GetAllGenreBooksBasedOnBookId(Guid bookId)
+        public List<GenreBook> GetAllGenreBooksBasedOnBookId(Guid bookId)
         {
             return _repository.GetAllGenreBooksBasedOnBookId(bookId);
         }
 
-        public IReadOnlyList<GenreBook> GetAllGenreBooksBasedOnGenreId(Guid genreId)
+        public List<GenreBook> GetAllGenreBooksBasedOnGenreId(Guid genreId)
         {
             return _repository.GetAllGenreBooksBasedOnGenreId(genreId);
         }

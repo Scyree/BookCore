@@ -16,9 +16,14 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<Genre> GetAllGenres()
+        public List<Genre> GetAllGenres()
         {
-            return _databaseService.Genres.ToList();
+            return _databaseService.Genres.OrderBy(genre => genre.Text).ToList();
+        }
+
+        public Genre GetGenreBasedOnText(string text)
+        {
+            return _databaseService.Genres.SingleOrDefault(genre => genre.Text == text);
         }
 
         public Genre GetGenreById(Guid id)

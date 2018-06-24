@@ -7,7 +7,7 @@ namespace Business.Interfaces
     public interface ILikeService
     {
         //From Repository
-        IReadOnlyList<Like> GetAllLikes();
+        List<Like> GetAllLikes();
         Like GetLikeById(Guid id);
         void CreateLike(Like like);
         void EditLike(Like like);

@@ -16,7 +16,11 @@ namespace Domain.Data
 
         public bool IsFavorite { get; set; }
 
-        public string NumberOfPages { get; set; }
+        public int NumberOfPages { get; set; }
+
+        public string Chapters { get; set; }
+
+        public int Rate { get; set; }
 
         public DateTime DateModified { get; set; }
 
@@ -27,7 +31,8 @@ namespace Domain.Data
                 Id = Guid.NewGuid(),
                 State = 0,
                 IsFavorite = false,
-                NumberOfPages = "0",
+                NumberOfPages = 0,
+                Rate = 0,
                 DateModified = DateTime.UtcNow
             };
 

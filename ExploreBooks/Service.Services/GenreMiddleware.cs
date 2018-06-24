@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Business.Interfaces;
 using Domain.Data;
 using Repository.Interfaces;
 using Service.Interfaces;
 
-namespace Business.Services
+namespace Service.Services
 {
-    public class GenreService : IGenreService
+    public class GenreMiddleware : IGenreMiddleware
     {
         private readonly IGenreRepository _repository;
         private readonly IGenreBookMiddleware _genreBookMiddleware;
         private readonly IBookRepository _bookRepository;
 
-        public GenreService(IGenreRepository repository, IGenreBookMiddleware genreBookMiddleware, IBookRepository bookRepository)
+        public GenreMiddleware(IGenreRepository repository, IGenreBookMiddleware genreBookMiddleware, IBookRepository bookRepository)
         {
             _repository = repository;
             _genreBookMiddleware = genreBookMiddleware;
@@ -23,7 +21,7 @@ namespace Business.Services
 
         public Genre CheckGenre(string description)
         {
-            var check = _repository.GetAllGenres().SingleOrDefault(genre => genre.Text == description);
+            var check = _repository.GetGenreBasedOnText(description);
 
             if (check == null)
             {
@@ -36,7 +34,12 @@ namespace Business.Services
             return check;
         }
 
-        public IReadOnlyList<Genre> GetGenres(string description)
+        public Genre GetGenreById(Guid genreId)
+        {
+            return _repository.GetGenreById(genreId);
+        }
+
+        public List<Genre> GetGenres(string description)
         {
             var bruteGenre = description.Replace(" ", "");
             var genres = bruteGenre.Split(",");
@@ -50,50 +53,54 @@ namespace Business.Services
             return genreList;
         }
 
-        public Genre GetGenreById(Guid id)
+        public List<Book> GetBooksForSpecifiedGenre(string text)
         {
-            return _repository.GetGenreById(id);
-        }
-
-        public IReadOnlyList<Book> GetBooksForSpecifiedGenre(string text)
-        {
-            var searchedGenre = _repository.GetAllGenres().SingleOrDefault(genre => genre.Text == text);
+            var searchedGenre = _repository.GetGenreBasedOnText(text);
             var books = new List<Book>();
 
             if (searchedGenre != null)
             {
                 var genreBooks = _genreBookMiddleware.GetAllGenreBooksBasedOnGenreId(searchedGenre.Id);
-                
+
                 foreach (var genreBook in genreBooks)
                 {
                     books.Add(_bookRepository.GetBookById(genreBook.BookId));
                 }
-
-
-                return books;
             }
 
-            return null;
+            return books;
         }
 
         public int GetNumberOfBooksForSpecifiedGenre(string text)
         {
-            var searchedGenre = _repository.GetAllGenres().SingleOrDefault(genre => genre.Text == text);
-            var count = 0;
-
-            if (searchedGenre != null)
-            {
-                count += _genreBookMiddleware.GetAllGenreBooksBasedOnGenreId(searchedGenre.Id).Count;
-                
-                return count;
-            }
-
-            return count;
+            return GetBooksForSpecifiedGenre(text).Count;
         }
 
-        public IReadOnlyList<Genre> GetAllGenres()
+        public List<Genre> GetAllGenres()
         {
-            return _repository.GetAllGenres().OrderBy(genre => genre.Text).ToList();
+            return _repository.GetAllGenres();
+        }
+
+        public string GetRandomGenre()
+        {
+            var random = new Random();
+            var genresList = new List<string>
+            {
+                "SF",
+                "Tragedy",
+                "Fantasy",
+                "Mythology",
+                "Adventure",
+                "Mystery",
+                "Romance",
+                "Action",
+                "Thriller",
+                "Adventure"
+            };
+
+            var index = random.Next(0, genresList.Count - 1);
+
+            return genresList[index];
         }
     }
 }

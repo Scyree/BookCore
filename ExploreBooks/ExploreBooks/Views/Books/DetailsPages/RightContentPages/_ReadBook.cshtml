@@ -1,4 +1,11 @@
-﻿<environment include="Development">
+﻿@model Book
+@inject IWorkingWithDatabase GetContent
+
+@{
+    var content = GetContent.GetTextfileForBook(Model.Id);
+}
+
+<environment include="Development">
     <link rel="stylesheet" href="~/css/Books/ReadBook.css" />
 </environment>
 
@@ -7,15 +14,28 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div id="addText">
+                    @for (var index = 0; index < content.Count; index += 35)
+                    {
+                        var number = index / 35 + 1;
+                        <div id="pageDisplay" class="rounded">
+                            @for (var line = 35 * (number - 1); line < 35 * number; ++line)
+                            {
+                                if (content.ElementAtOrDefault(line) != null)
+                                {
+                                    <p>
+                                        @content.ElementAt(line)
+                                    </p>
+                                }
+                            }
+
+                            <br/>
+                            <p>
+                                @number
+                            </p>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script>
-    $(function() {
-        $("#addText").load("/books/10001-h/10001-h.htm");
-    });
-</script>

@@ -16,9 +16,19 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<Like> GetAllLikes()
+        public List<Like> GetAllLikes()
         {
             return _databaseService.Likes.ToList();
+        }
+
+        public List<Like> GetAllLikesForUserId(Guid userId)
+        {
+            return _databaseService.Likes.Where(user => user.UserId == userId).ToList();
+        }
+
+        public Like GetLikeForUserAndTarget(Guid userId, Guid targetId)
+        {
+            return _databaseService.Likes.FirstOrDefault(like => like.UserId == userId && like.TargetId == targetId);
         }
 
         public Like GetLikeById(Guid id)

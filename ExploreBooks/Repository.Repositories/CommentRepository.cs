@@ -15,10 +15,25 @@ namespace Repository.Repositories
         {
             _databaseService = databaseService;
         }
-        
-        public IReadOnlyList<Comment> GetAllComments()
+
+        public List<Comment> GetAllCommentsGivenPostId(Guid postId)
+        {
+            return _databaseService.Comments.Where(comments => comments.PostId == postId).ToList();
+        }
+
+        public List<Comment> GetAllCommentsGivenPostIdSortedByDate(Guid postId)
+        {
+            return _databaseService.Comments.Where(comments => comments.PostId == postId).OrderBy(comment => comment.Date).ToList();
+        }
+
+        public List<Comment> GetAllComments()
         {
             return _databaseService.Comments.ToList();
+        }
+
+        public List<Comment> GetAllCommentsForUserId(Guid userId)
+        {
+            return _databaseService.Comments.Where(user => user.UserId == userId).ToList();
         }
 
         public Comment GetCommentById(Guid id)

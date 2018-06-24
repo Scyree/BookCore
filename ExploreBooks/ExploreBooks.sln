@@ -13,25 +13,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04. Business", "04. Busines
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05. Application", "05. Application", "{414955FE-5C4E-4A8D-BB66-952BB84827A3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06. Test", "06. Test", "{A8825E1C-0A89-4C07-B122-94105561012E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Data", "Domain.Data\Domain.Data.csproj", "{40B54C8D-BCBC-475B-B207-FF00DFC81F7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Data", "Domain.Data\Domain.Data.csproj", "{40B54C8D-BCBC-475B-B207-FF00DFC81F7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Persistence", "Domain.Persistence\Domain.Persistence.csproj", "{D0D4801A-00BC-4C8C-A44A-9333894F3FCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Persistence", "Domain.Persistence\Domain.Persistence.csproj", "{D0D4801A-00BC-4C8C-A44A-9333894F3FCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository.Interfaces", "Repository.Interfaces\Repository.Interfaces.csproj", "{474524CB-02AD-413B-B0CE-ABC1C6242144}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.Interfaces", "Repository.Interfaces\Repository.Interfaces.csproj", "{474524CB-02AD-413B-B0CE-ABC1C6242144}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository.Repositories", "Repository.Repositories\Repository.Repositories.csproj", "{C6B7247E-4D50-4702-9189-D532B94A45C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.Repositories", "Repository.Repositories\Repository.Repositories.csproj", "{C6B7247E-4D50-4702-9189-D532B94A45C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.Interfaces", "Service.Interfaces\Service.Interfaces.csproj", "{3C2C639F-0EF3-4682-AE20-E55CA0CE3D78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Interfaces", "Service.Interfaces\Service.Interfaces.csproj", "{3C2C639F-0EF3-4682-AE20-E55CA0CE3D78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.Services", "Service.Services\Service.Services.csproj", "{381CC0B9-0CEF-42CD-91AA-DF4909E504FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Services", "Service.Services\Service.Services.csproj", "{381CC0B9-0CEF-42CD-91AA-DF4909E504FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business.Interfaces", "Business.Interfaces\Business.Interfaces.csproj", "{564B4AE3-35FC-42C2-A322-6F16E7A61640}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.Interfaces", "Business.Interfaces\Business.Interfaces.csproj", "{564B4AE3-35FC-42C2-A322-6F16E7A61640}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business.Services", "Business.Services\Business.Services.csproj", "{6349F7FD-8D0C-4C69-B7F6-AE5F20EA8A23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.Services", "Business.Services\Business.Services.csproj", "{6349F7FD-8D0C-4C69-B7F6-AE5F20EA8A23}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExploreBooks", "ExploreBooks\ExploreBooks.csproj", "{C8DEC889-62E9-4D4D-BC9E-AD240596023C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExploreBooks", "ExploreBooks\ExploreBooks.csproj", "{C8DEC889-62E9-4D4D-BC9E-AD240596023C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -16,9 +16,19 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<Post> GetAllPosts()
+        public List<Post> GetAllPosts()
         {
-            return _databaseService.Posts.ToList();
+            return _databaseService.Posts.OrderByDescending(post => post.Date).ToList();
+        }
+
+        public List<Post> GetAllPostsForUserId(Guid userId)
+        {
+            return _databaseService.Posts.Where(user => user.UserId == userId).ToList();
+        }
+
+        public List<Post> GetAllPostsForTargetId(Guid targetId)
+        {
+            return _databaseService.Posts.Where(post => post.TargetId == targetId).ToList();
         }
 
         public Post GetPostById(Guid id)

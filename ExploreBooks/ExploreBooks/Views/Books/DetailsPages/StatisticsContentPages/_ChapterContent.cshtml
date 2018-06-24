@@ -1,11 +1,12 @@
 ﻿@model Book
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-@inject IChapterService ChapterService
+@inject IBookStateMiddleware StateMiddleware
+@inject IApplicationBookLogic BookService
 
 <div class="row justify-content-center">
     @{
-        var numberOfPeople = @ChapterService.GetAllChaptersForBook(Model.Id).Count;
+        var numberOfPeople = StateMiddleware.GetAllStatesChaptersForThisBook(Model.Id).Count;
     }
     @if (numberOfPeople == 0)
     {
@@ -14,7 +15,7 @@
     else
     {
         <h6 class="actionLink">
-            Chapters loved by @ChapterService.GetAllChaptersForBook(Model.Id).Count people are: @ChapterService.GetChaptersAverageForBook(Model.Id)
+            Chapters loved by @numberOfPeople people are: @BookService.GetChaptersAverageForBook(Model.Id)
         </h6>
     }
 </div>
@@ -31,10 +32,10 @@
             <div class="btn-toolbar modifyChapters">
                 @{
                     var userId = UserManager.GetUserId(User);
-                    if (ChapterService.CheckIfUserRecommendedChaptersForBook(Guid.Parse(userId), Model.Id))
+                    if (BookService.CheckIfUserRecommendedChaptersForBook(Guid.Parse(userId), Model.Id))
                     {
                         <div id="displayedChapters">
-                            <h5>@ChapterService.GetUserChaptersForBook(Guid.Parse(userId), Model.Id).Chapters</h5>
+                            <h5>@BookService.GetUserChaptersForBook(Guid.Parse(userId), Model.Id)</h5>
                         </div>
                         <div class="input-group justify-content-center">
                             <div id="modifyChapters">

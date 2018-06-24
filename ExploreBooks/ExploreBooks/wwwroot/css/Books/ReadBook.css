@@ -1,9 +1,14 @@
-﻿.modal-dialog {
+﻿#readBook .modal-dialog {
     overflow-y: initial !important;
 }
 
-.modal-body {
+#readBook .modal-body {
     overflow-y: auto;
     width: 600px;
     height: 800px;
+    background-color: #333;
+}
+
+#pageDisplay {
+    background-color: #f7f7f7;
 }

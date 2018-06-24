@@ -13,17 +13,13 @@ namespace ExploreBooks.Controllers
         private readonly IApplicationUserServices _service;
         private readonly IApplicationFollowLogic _followLogic;
         private readonly IApplicationBookLogic _bookLogic;
-        private readonly IRatingService _ratingService;
-        private readonly IChapterService _chapterService;
 
-        public UsersController(IUtilityService activityService, IApplicationUserServices service, IApplicationFollowLogic followLogic, IApplicationBookLogic bookLogic, IRatingService ratingService, IChapterService chapterService)
+        public UsersController(IUtilityService activityService, IApplicationUserServices service, IApplicationFollowLogic followLogic, IApplicationBookLogic bookLogic)
         {
             _activityService = activityService;
             _service = service;
             _followLogic = followLogic;
             _bookLogic = bookLogic;
-            _ratingService = ratingService;
-            _chapterService = chapterService;
         }
 
         [HttpGet, ActionName("allusers")]
@@ -99,7 +95,7 @@ namespace ExploreBooks.Controllers
         [HttpPost("RateBook")]
         public IActionResult RateBook(Guid bookId, string userId, double value)
         {
-            _ratingService.RateBook(bookId, userId, value);
+            _bookLogic.RateBook(bookId, userId, value);
 
             return RedirectToAction("Details", "Books", new { @id = bookId });
         }
@@ -107,7 +103,7 @@ namespace ExploreBooks.Controllers
         [HttpPost("ChapterBook")]
         public IActionResult ChapterBook(Guid bookId, string userId, string chapters)
         {
-            _chapterService.ChapterBook(bookId, userId, chapters);
+            _bookLogic.ChapterBook(bookId, userId, chapters);
 
             return RedirectToAction("Details", "Books", new { @id = bookId });
         }

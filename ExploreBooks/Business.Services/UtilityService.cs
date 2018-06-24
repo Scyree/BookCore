@@ -19,9 +19,8 @@ namespace Business.Services
         private readonly IRecommendationService _recommendationService;
         private readonly INotificationMiddleware _notificationMiddleware;
         private readonly IGenreBookRepository _genreBookRepository;
-        private readonly IRatingService _ratingService;
 
-        public UtilityService(IBookRepository bookRepository, IAuthorRepository authorRepository, IPostRepository postRepository, ICommentRepository commentRepository, IBookStateRepository stateRepository, IApplicationUserRepository applicationUserRepository, IRecommendationService recommendationService, INotificationMiddleware notificationMiddleware, IGenreBookRepository genreBookRepository, IRatingService ratingService)
+        public UtilityService(IBookRepository bookRepository, IAuthorRepository authorRepository, IPostRepository postRepository, ICommentRepository commentRepository, IBookStateRepository stateRepository, IApplicationUserRepository applicationUserRepository, IRecommendationService recommendationService, INotificationMiddleware notificationMiddleware, IGenreBookRepository genreBookRepository)
         {
             _bookRepository = bookRepository;
             _authorRepository = authorRepository;
@@ -32,10 +31,9 @@ namespace Business.Services
             _recommendationService = recommendationService;
             _notificationMiddleware = notificationMiddleware;
             _genreBookRepository = genreBookRepository;
-            _ratingService = ratingService;
         }
 
-        public IReadOnlyList<BookState> GetAllBooksForUserId(string userId)
+        public List<BookState> GetAllBooksForUserId(string userId)
         {
             var books = _stateRepository.GetAllBookStates().Where(state => state.UserId.ToString() == userId);
             var bookActivity = new List<BookState>();
@@ -48,7 +46,7 @@ namespace Business.Services
             return bookActivity.OrderByDescending(activ => activ.DateModified).ToList();
         }
 
-        public IReadOnlyList<BookState> GetFirstNBooksForUserId(string userId, int number)
+        public List<BookState> GetFirstNBooksForUserId(string userId, int number)
         {
             var books = _stateRepository.GetAllBookStates().Where(state => state.UserId.ToString() == userId);
             var bookActivity = new List<BookState>();
@@ -66,7 +64,7 @@ namespace Business.Services
             return bookActivity.Take(number).ToList();
         }
 
-        public IReadOnlyList<Post> GetAllPostsForUser(string userId)
+        public List<Post> GetAllPostsForUser(string userId)
         {
             var posts = _postRepository.GetAllPosts().Where(post => post.UserId.ToString() == userId);
             var postActivity = new List<Post>();
@@ -79,7 +77,7 @@ namespace Business.Services
             return postActivity;
         }
 
-        public IReadOnlyList<Post> GetFirstNPostsForUserId(string userId, int number)
+        public List<Post> GetFirstNPostsForUserId(string userId, int number)
         {
             var posts = _postRepository.GetAllPosts().Where(post => post.UserId.ToString() == userId);
             var postActivity = new List<Post>();
@@ -206,10 +204,16 @@ namespace Business.Services
         public Guid GetRandomBookId()
         {
             var books = _bookRepository.GetAllBooks();
-            var random = new Random();
-            var index = random.Next(books.Count);
 
-            return books[index].Id;
+            if (books.Count > 0)
+            {
+                var random = new Random();
+                var index = random.Next(books.Count);
+
+                return books[index].Id;
+            }
+
+            return Guid.Empty;
         }
 
         public Guid GetRecommendedBookId(Guid userId)
@@ -247,7 +251,7 @@ namespace Business.Services
                     return searchedBookByGenre[0].BookId;
                 }
             }
-
+            
             return GetBestRatedBooks();
         }
 
@@ -255,22 +259,21 @@ namespace Business.Services
         {
             var books = _bookRepository.GetAllBooks();
             var savedData = new Dictionary<Book, double>();
-            var bookList = new List<Book>();
 
-            foreach (var book in books)
+            if (books.Count > 0)
             {
-                savedData.Add(book, _ratingService.GetRatingsAverageForBook(book.Id));
+                foreach (var book in books)
+                {
+                    savedData.Add(book, book.FinalRate);
+                }
+
+                return savedData.OrderByDescending(value => value.Value).FirstOrDefault().Key.Id;
             }
 
-            foreach (var book in savedData.OrderByDescending(value => value.Value))
-            {
-                bookList.Add(book.Key);
-            }
-
-            return bookList[0].Id;
+            return Guid.Empty;
         }
 
-        public IReadOnlyList<Notification> GetAllNotificationsForUser(string userId)
+        public List<Notification> GetAllNotificationsForUser(string userId)
         {
             return _notificationMiddleware.GetAllNotificationsForUser(userId).OrderByDescending(notification => notification.Date).ToList();
         }
@@ -280,7 +283,7 @@ namespace Business.Services
             _notificationMiddleware.DeleteAllNotificationsForUser(userId);
         }
 
-        public IReadOnlyList<Book> GetMostPopularBooks()
+        public List<Book> GetMostPopularBooks()
         {
             var numberOfAppearences = new Dictionary<Guid, int>();
             var books = _bookRepository.GetAllBooks();
@@ -288,7 +291,7 @@ namespace Business.Services
 
             foreach (var book in books)
             {
-                var count = _stateRepository.GetAllBookStates().Count(state => state.TargetId == book.Id);
+                var count = _stateRepository.GetAllBookStatesForBook(book.Id).Count;
 
                 numberOfAppearences.Add(book.Id, count);
             }

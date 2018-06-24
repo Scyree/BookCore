@@ -16,9 +16,14 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<Notification> GetAllNotifications()
+        public List<Notification> GetAllNotifications()
         {
             return _databaseService.Notifications.ToList();
+        }
+
+        public List<Notification> GetAllNotificationsForUser(Guid userId)
+        {
+            return _databaseService.Notifications.Where(user => user.UserId == userId).ToList();
         }
 
         public Notification GetNotificationById(Guid id)

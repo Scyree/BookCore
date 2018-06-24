@@ -6,7 +6,9 @@ namespace Repository.Interfaces
 {
     public interface IAuthorRepository
     {
-        IReadOnlyList<Author> GetAllAuthors();
+        List<Author> GetAllAuthors();
+        List<Author> GetFirstNAuthors(int skipNumber, int takeNumber);
+        Author GetAuthorBasedOnName(string name);
         Author GetAuthorById(Guid id);
         Author GetAuthorInfoByDetails(string name, string description);
         void CreateAuthor(Author author);

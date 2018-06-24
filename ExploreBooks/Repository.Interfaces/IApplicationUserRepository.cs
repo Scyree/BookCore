@@ -6,7 +6,7 @@ namespace Repository.Interfaces
 {
     public interface IApplicationUserRepository
     {
-        IReadOnlyList<ApplicationUser> GetAllApplicationUsers();
+        List<ApplicationUser> GetAllApplicationUsers();
         ApplicationUser GetApplicationUserById(Guid id);
         void CreateApplicationUser(ApplicationUser applicationUser);
         void EditApplicationUser(ApplicationUser applicationUser);

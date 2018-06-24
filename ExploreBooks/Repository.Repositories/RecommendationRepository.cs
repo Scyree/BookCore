@@ -16,11 +16,26 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public IReadOnlyList<Recommendation> GetAllRecommendations()
+        public List<Recommendation> GetAllRecommendationsForBookId(Guid bookId)
+        {
+            return _databaseService.Recommendations.Where(recommendation => recommendation.BookId == bookId).ToList();
+        }
+
+        public List<Recommendation> GetAllRecommendationsMadeByUser(Guid userId)
+        {
+            return _databaseService.Recommendations.Where(recommendation => recommendation.UserId == userId).ToList();
+        }
+
+        public List<Recommendation> GetAllRecommendations()
         {
             return _databaseService.Recommendations.ToList();
         }
 
+        public Recommendation GetRecommendation(Guid bookId, Guid recommendedBook, Guid userId)
+        {
+            return _databaseService.Recommendations.SingleOrDefault(recom => recom.BookRecommended == recommendedBook && recom.BookId == bookId && recom.UserId == userId);
+        }
+        
         public Recommendation GetRecommendationById(Guid id)
         {
             return _databaseService.Recommendations.SingleOrDefault(recommendation => recommendation.Id == id);
@@ -45,6 +60,11 @@ namespace Repository.Repositories
             _databaseService.Recommendations.Remove(recommendation);
 
             _databaseService.SaveChanges();
+        }
+
+        public Recommendation CheckIfAlreadyRecommended(Guid bookId, Guid recommendedBook, Guid userId)
+        {
+            return _databaseService.Recommendations.SingleOrDefault(recom => recom.UserId == userId && recom.BookId == bookId);
         }
     }
 }

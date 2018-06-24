@@ -12,39 +12,39 @@ namespace Business.Services
     {
         private readonly IPostMiddleware _postService;
         private readonly IPostRepository _postRepository;
-        private readonly ICommentService _commentService;
+        private readonly ICommentRepository _commentRepository;
 
-        public PostService(IPostMiddleware postService, IPostRepository postRepository, ICommentService commentService)
+        public PostService(IPostMiddleware postService, IPostRepository postRepository, ICommentRepository commentRepository)
         {
             _postService = postService;
             _postRepository = postRepository;
-            _commentService = commentService;
+            _commentRepository = commentRepository;
         }
         
-        public IReadOnlyList<Post> GetOnlyFirstNumberOfPosts(int number)
+        public List<Post> GetOnlyFirstNumberOfPosts(int number)
         {
-            return _postService.GetPostsBasedOnLikes().Take(number).ToList();
+            return _postService.GetPostsByDate().Take(number).ToList();
         }
         
-        public IReadOnlyList<Post> GetAllPostsForTargetId(Guid targetId)
+        public List<Post> GetAllPostsForTargetId(Guid targetId)
         {
-            var posts = _postService.GetPostsByDate().Where(post => post.TargetId == targetId).ToList();
+            var posts = _postRepository.GetAllPostsForTargetId(targetId);
 
             foreach (var post in posts)
             {
-                post.Comments = _commentService.GetAllComments(post.Id).ToList();
+                post.Comments = _commentRepository.GetAllCommentsGivenPostIdSortedByDate(post.Id);
             }
 
             return posts;
         }
 
-        public IReadOnlyList<Post> GetAllPosts()
+        public List<Post> GetAllPosts()
         {
             var posts = _postService.GetPostsByDate();
 
             foreach (var post in posts)
             {
-                post.Comments = _commentService.GetAllComments(post.Id).ToList();
+                post.Comments = _commentRepository.GetAllCommentsGivenPostIdSortedByDate(post.Id);
             }
 
             return posts;
@@ -90,20 +90,5 @@ namespace Business.Services
         {
             return _postRepository.GetPostById(postId);
         }
-
-        //private void DeleteNegativePosts(Guid postId)
-        //{
-        //    if (GetNumberOfLikes(postId) <= -20)
-        //    {
-        //        var likeList = _likeService.GetAllLikes().Where(likes => likes.TargetId == postId).ToList();
-
-        //        foreach (var like in likeList)
-        //        {
-        //            _likeService.DeleteLike(like);
-        //        }
-
-        //        _PostService.DeletePost(_postService.GetPostById(postId));
-        //    }
-        //}
     }
 }

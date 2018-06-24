@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Business.Interfaces;
 using Domain.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Repository.Interfaces;
 using Service.Interfaces;
 
@@ -13,9 +14,9 @@ namespace Business.Services
         private readonly IApplicationUserRepository _applicationRepository;
         private readonly IBookStateRepository _bookStateRepository;
         private readonly IBookStateMiddleware _stateService;
-        private readonly IBookService _bookService;
+        private readonly IBookRepository _bookService;
 
-        public ApplicationBookLogic(IApplicationUserRepository applicationRepository, IBookStateRepository bookStateRepository, IBookStateMiddleware stateService, IBookService bookService)
+        public ApplicationBookLogic(IApplicationUserRepository applicationRepository, IBookStateRepository bookStateRepository, IBookStateMiddleware stateService, IBookRepository bookService)
         {
             _applicationRepository = applicationRepository;
             _bookStateRepository = bookStateRepository;
@@ -80,7 +81,7 @@ namespace Business.Services
                     }
                     if (value == 1)
                     {
-                        searchedBook.NumberOfPages = "0";
+                        searchedBook.NumberOfPages = 0;
                     }
 
                     _bookStateRepository.CreateBookState(searchedBook);
@@ -96,7 +97,7 @@ namespace Business.Services
                     }
                     if (value == 1)
                     {
-                        searchedBook.NumberOfPages = "0";
+                        searchedBook.NumberOfPages = 0;
                     }
 
                     _bookStateRepository.EditBookState(searchedBook);
@@ -104,9 +105,9 @@ namespace Business.Services
             }
         }
 
-        public IEnumerable<Book> GetBooksOfAUser(string userId)
+        public List<Book> GetBooksOfAUser(string userId)
         {
-            var books = _bookStateRepository.GetAllBookStates().Where(state => state.UserId.ToString() == userId);
+            var books = _bookStateRepository.GetAllBookStatesByUserId(Guid.Parse(userId));
             var searchedBooks = new List<Book>();
 
             foreach (var book in books)
@@ -166,7 +167,7 @@ namespace Business.Services
         {
             var book = _bookService.GetBookById(bookId);
             var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
-            
+
             if (book != null && user != null)
             {
                 var searchedBook = _stateService.CheckIfBookAlreadyExists(bookId, Guid.Parse(userId));
@@ -179,9 +180,9 @@ namespace Business.Services
                     );
 
                     searchedBook.State = 2;
-                    searchedBook.NumberOfPages = number;
+                    searchedBook.NumberOfPages = Int32.Parse(number);
 
-                    if (Int32.Parse(number) >= Int32.Parse(book.Pages))
+                    if (Int32.Parse(number) >= book.Pages)
                     {
                         searchedBook.State = 3;
                         searchedBook.NumberOfPages = book.Pages;
@@ -191,10 +192,10 @@ namespace Business.Services
                 }
                 else
                 {
-                    searchedBook.NumberOfPages = number;
+                    searchedBook.NumberOfPages = Int32.Parse(number);
                     searchedBook.State = 2;
 
-                    if (Int32.Parse(number) >= Int32.Parse(book.Pages))
+                    if (Int32.Parse(number) >= book.Pages)
                     {
                         searchedBook.State = 3;
                         searchedBook.NumberOfPages = book.Pages;
@@ -216,7 +217,7 @@ namespace Business.Services
 
                 if (searchedBook != null)
                 {
-                    return searchedBook.NumberOfPages;
+                    return searchedBook.NumberOfPages.ToString();
                 }
             }
 
@@ -230,9 +231,7 @@ namespace Business.Services
 
             if (user != null)
             {
-                count += _bookStateRepository.GetAllBookStates().Count(state => state.UserId == Guid.Parse(user.Id));
-
-                return count;
+                count += _bookStateRepository.GetAllBookStatesByUserId(Guid.Parse(userId)).Count;
             }
 
             return count;
@@ -245,9 +244,7 @@ namespace Business.Services
 
             if (user != null)
             {
-                count += _bookStateRepository.GetAllBookStates().Count(state => state.UserId == Guid.Parse(user.Id) && state.State == 1);
-
-                return count;
+                count += _bookStateRepository.GetAllBookStatesForUserAndAction(Guid.Parse(userId), 1).Count;
             }
 
             return count;
@@ -260,9 +257,7 @@ namespace Business.Services
 
             if (user != null)
             {
-                count += _bookStateRepository.GetAllBookStates().Count(state => state.UserId == Guid.Parse(user.Id) && state.State == 2);
-
-                return count;
+                count += _bookStateRepository.GetAllBookStatesForUserAndAction(Guid.Parse(userId), 2).Count;
             }
 
             return count;
@@ -275,21 +270,19 @@ namespace Business.Services
 
             if (user != null)
             {
-                count += _bookStateRepository.GetAllBookStates().Count(state => state.UserId == Guid.Parse(user.Id) && state.State == 3);
-
-                return count;
+                count += _bookStateRepository.GetAllBookStatesForUserAndAction(Guid.Parse(userId), 3).Count;
             }
 
             return count;
         }
 
-        public IReadOnlyList<Book> GetAllBooksBasedOnState(string userId, int givenState)
+        public List<Book> GetAllBooksBasedOnState(string userId, int givenState)
         {
             var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
 
             if (user != null)
             {
-                var bookStates = _bookStateRepository.GetAllBookStates().Where(state => state.UserId == Guid.Parse(userId) && state.State == givenState);
+                var bookStates = _bookStateRepository.GetAllBookStatesForUserAndAction(Guid.Parse(userId), givenState);
                 var books = new List<Book>();
 
                 foreach (var book in bookStates)
@@ -303,13 +296,13 @@ namespace Business.Services
             return null;
         }
 
-        public IReadOnlyList<Book> GetFavoriteBooks(string userId)
+        public List<Book> GetFavoriteBooks(string userId)
         {
             var user = _applicationRepository.GetApplicationUserById(Guid.Parse(userId));
 
             if (user != null)
             {
-                var bookStates = _bookStateRepository.GetAllBookStates().Where(state => state.UserId == Guid.Parse(userId) && state.IsFavorite);
+                var bookStates = _bookStateRepository.GetFavoriteBookStatesByUserId(Guid.Parse(userId));
                 var books = new List<Book>();
 
                 foreach (var book in bookStates)
@@ -321,6 +314,178 @@ namespace Business.Services
             }
 
             return null;
+        }
+    
+        public bool CheckIfUserRatedThisBook(Guid userId, Guid bookId)
+        {
+            var state = _bookStateRepository.GetBookStateByBookAndUser(bookId, userId);
+
+            if (state != null)
+            {
+                return state.Rate != 0;
+            }
+
+            return false;
+        }
+
+        public double GetUserRatingForBook(Guid userId, Guid bookId)
+        {
+            return _bookStateRepository.GetBookStateByBookAndUser(bookId, userId).Rate;
+        }
+        
+        public double GetRatingsAverageForBook(Guid bookId)
+        {
+            var rates = _bookStateRepository.GetAllBookStatesForBook(bookId);
+            var average = 5.0;
+
+            if (rates.Count > 0)
+            {
+                var sum = 0.0;
+
+                foreach (var rate in rates)
+                {
+                    sum += rate.Rate;
+                }
+
+                average = sum / rates.Count;
+            }
+
+            return Math.Round(average, 2);
+        }
+
+        public List<SelectListItem> GetRatingList()
+        {
+            var ratingList = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "5 - Very good", Value = "5" },
+                new SelectListItem { Text = "4 - Good", Value = "4" },
+                new SelectListItem { Text = "3 - Normal", Value = "3" },
+                new SelectListItem { Text = "2 - Not impressed", Value = "2" },
+                new SelectListItem { Text = "1 - Hate it", Value = "1"}
+            };
+
+            return ratingList;
+        }
+
+        public string ConvertRateToText(double rate)
+        {
+            switch (rate)
+            {
+                case 1:
+                    return "Hate it";
+                case 2:
+                    return "Not impressed";
+                case 3:
+                    return "Normal";
+                case 4:
+                    return "Good";
+                default:
+                    return "Very good";
+            }
+        }
+
+        public void RateBook(Guid bookId, string userId, double value)
+        {
+            var bookState = _bookStateRepository.GetBookStateByBookAndUser(bookId, Guid.Parse(userId));
+
+            if (bookState != null)
+            {
+                var editedBook = _bookService.GetBookById(bookId);
+                bookState.Rate = Convert.ToInt32(value);
+                _bookStateRepository.EditBookState(bookState);
+
+                editedBook.FinalRate = GetRatingsAverageForBook(bookId);
+                _bookService.EditBook(editedBook);
+            }
+            else
+            {
+                var book = BookState.CreateBookState(Guid.Parse(userId), bookId);
+                var editedBook = _bookService.GetBookById(bookId);
+                book.Rate = Convert.ToInt32(value);
+                book.State = 2;
+                _bookStateRepository.CreateBookState(book);
+
+                editedBook.FinalRate = GetRatingsAverageForBook(bookId);
+                _bookService.EditBook(editedBook);
+            }
+        }
+
+        public bool CheckIfUserRecommendedChaptersForBook(Guid userId, Guid bookId)
+        {
+            var state = _bookStateRepository.GetBookStateByBookAndUser(bookId, userId);
+
+            if (state != null)
+            {
+                return state.Chapters != null;
+            }
+
+            return false;
+        }
+
+        public string GetUserChaptersForBook(Guid userId, Guid bookId)
+        {
+            return _bookStateRepository.GetBookStateByBookAndUser(bookId, userId).Chapters;
+        }
+        
+        public string GetChaptersAverageForBook(Guid bookId)
+        {
+            var chapters = _stateService.GetAllStatesChaptersForThisBook(bookId);
+            var numberOfChapters = new int[24];
+            var chaptersDictionary = new Dictionary<int, int>();
+
+            for (var index = 0; index < 24; ++index)
+            {
+                numberOfChapters[index] = 0;
+            }
+
+            if (chapters.Count > 0)
+            {
+                foreach (var chapter in chapters)
+                {
+                    var dividedChapters = chapter.Chapters.Split(",");
+
+                    foreach (var dividedChapter in dividedChapters)
+                    {
+                        ++numberOfChapters[Int32.Parse(dividedChapter)];
+                    }
+                }
+            }
+
+            var recommendedChapters = "";
+
+            for (var index = 0; index < 24; ++index)
+            {
+                chaptersDictionary.Add(index, numberOfChapters[index]);
+            }
+
+            foreach (var chapter in chaptersDictionary.OrderByDescending(value => value.Value))
+            {
+                if (chapter.Value >= 1)
+                {
+                    recommendedChapters += chapter.Key + ", ";
+                }
+            }
+
+            return recommendedChapters;
+        }
+
+        public void ChapterBook(Guid bookId, string userId, string chapters)
+        {
+            var bookState = _bookStateRepository.GetBookStateByBookAndUser(bookId, Guid.Parse(userId));
+
+            if (bookState != null)
+            {
+                bookState.Chapters = chapters;
+                _bookStateRepository.EditBookState(bookState);
+            }
+            else
+            {
+                var book = BookState.CreateBookState(Guid.Parse(userId), bookId);
+                bookState.Chapters = chapters;
+                book.State = 2;
+
+                _bookStateRepository.CreateBookState(book);
+            }
         }
     }
 }

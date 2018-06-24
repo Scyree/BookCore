@@ -6,8 +6,8 @@ namespace Business.Interfaces
 {
     public interface IRecommendationService
     {
-        IReadOnlyList<Recommendation> GetAllRecommendationsForBookId(Guid bookId);
-        IReadOnlyList<Recommendation> GetAllRecommendationsMadeByUser(Guid userId);
+        List<Recommendation> GetAllRecommendationsForBookId(Guid bookId);
+        List<Recommendation> GetAllRecommendationsMadeByUser(Guid userId);
         Recommendation GetRecommendation(Guid bookId, Guid recommendedBook, Guid userId);
         void MakeARecommendation(Guid bookId, Guid userId, Guid recommendedBook, string reason);
     }

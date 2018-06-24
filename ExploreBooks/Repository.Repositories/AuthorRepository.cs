@@ -16,14 +16,24 @@ namespace Repository.Repositories
             _databaseService = databaseService;
         }
 
-        public Author GetAuthorInfoByDetails(string name, string description)
+        public Author GetAuthorBasedOnName(string name)
         {
-            return _databaseService.Authors.SingleOrDefault(author => author.Name == name && author.Description == description);
+            return _databaseService.Authors.FirstOrDefault(author => author.Name.Replace(" ", "").Replace("-", "").ToLower() == name);
         }
 
-        public IReadOnlyList<Author> GetAllAuthors()
+        public Author GetAuthorInfoByDetails(string name, string description)
+        {
+            return _databaseService.Authors.FirstOrDefault(author => author.Name == name && author.Description == description);
+        }
+
+        public List<Author> GetAllAuthors()
         {
             return _databaseService.Authors.ToList();
+        }
+
+        public List<Author> GetFirstNAuthors(int skipNumber, int takeNumber)
+        {
+            return _databaseService.Authors.OrderByDescending(author => author.Name).Skip(skipNumber).Take(takeNumber).ToList();
         }
 
         public Author GetAuthorById(Guid id)

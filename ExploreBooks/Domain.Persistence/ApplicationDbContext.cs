@@ -23,21 +23,18 @@ namespace Domain.Persistence
         }
 
         public DbSet<Author> Authors { get; set; }
-        public DbSet<Book> Books { get; set; }
-        public DbSet<BooksForMood> BooksForMoods { get; set; }
-        public DbSet<BuyingSite> BuyingSites { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<Notification> Notifications { get; set; }
-        public DbSet<FollowUser> FollowUsers { get; set; }
-        public DbSet<BooksWithinBooksForMood> BooksWithinBooksForMoods { get; set; }
-        public DbSet<BookState> BookStates { get; set; }
-        public DbSet<Genre> Genres { get; set; }
-        public DbSet<Rating> Ratings { get; set; }
-        public DbSet<Chapter> Chapters { get; set; }
-        public DbSet<Recommendation> Recommendations { get; set; }
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<Like> Likes { get; set; }
         public DbSet<AuthorBook> AuthorBooks { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<BookList> BookLists { get; set; }
+        public DbSet<BookListContent> BookListContents { get; set; }
+        public DbSet<BookState> BookStates { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<FollowUser> FollowUsers { get; set; }
+        public DbSet<Genre> Genres { get; set; }
         public DbSet<GenreBook> GenreBooks { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Recommendation> Recommendations { get; set; }
     }
 }

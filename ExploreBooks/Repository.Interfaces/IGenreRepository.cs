@@ -6,7 +6,8 @@ namespace Repository.Interfaces
 {
     public interface IGenreRepository
     {
-        IReadOnlyList<Genre> GetAllGenres();
+        List<Genre> GetAllGenres();
+        Genre GetGenreBasedOnText(string text);
         Genre GetGenreById(Guid id);
         void CreateGenre(Genre genre);
         void EditGenre(Genre genre);

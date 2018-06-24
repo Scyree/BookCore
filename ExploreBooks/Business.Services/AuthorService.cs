@@ -29,33 +29,23 @@ namespace Business.Services
             _folder = "authors";
         }
 
-        public IReadOnlyList<Author> GetAllAuthors()
+        public List<Author> GetAllAuthors()
         {
             var authors = _authorRepository.GetAllAuthors();
+            
+            return authors;
+        }
 
-            foreach (var author in authors)
-            {
-                author.Books = _authorBookService.GetAllAuthorBooksBasedOnAuthorId(author.Id).ToList();
-            }
+        public List<Author> GetFirstNAuthors(int count)
+        {
+            var authors = _authorRepository.GetFirstNAuthors(count, 12);
 
             return authors;
         }
 
-        public IReadOnlyList<Author> GetFirstNAuthors(int count)
+        public List<Book> GetBooksForSpecifiedAuthor(string givenAuthor)
         {
-            var authors = _authorRepository.GetAllAuthors().OrderByDescending(author => author.Name).Skip(count).Take(10).ToList();
-
-            foreach (var author in authors)
-            {
-                author.Books = _authorBookService.GetAllAuthorBooksBasedOnAuthorId(author.Id).ToList();
-            }
-
-            return authors;
-        }
-
-        public IReadOnlyList<Book> GetBooksForSpecifiedAuthor(string givenAuthor)
-        {
-            var author = _authorRepository.GetAllAuthors().SingleOrDefault(auth => ModifyAuthorName(auth.Name) == ModifyAuthorName(givenAuthor));
+            var author = _authorRepository.GetAuthorBasedOnName(ModifyAuthorName(givenAuthor));
             var books = new List<Book>();
 
             if (author != null)

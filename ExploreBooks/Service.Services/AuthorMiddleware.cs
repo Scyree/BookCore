@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using Domain.Data;
 using Repository.Interfaces;
@@ -27,7 +26,7 @@ namespace Service.Services
         
         public Author CheckAuthor(string description)
         {
-            var check = _repository.GetAllAuthors().SingleOrDefault(author => author.Name == description);
+            var check = _repository.GetAuthorBasedOnName(description);
 
             if (check == null)
             {
@@ -52,7 +51,7 @@ namespace Service.Services
             return check;
         }
 
-        public IReadOnlyList<Author> GetAuthors(string description)
+        public List<Author> GetAuthors(string description)
         {
             var authors = description.Split(",");
             var authorList = new List<Author>();

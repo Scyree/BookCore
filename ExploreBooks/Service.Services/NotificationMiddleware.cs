@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Domain.Data;
 using Repository.Interfaces;
 using Service.Interfaces;
@@ -16,9 +15,9 @@ namespace Service.Services
             _repository = repository;
         }
 
-        public IReadOnlyList<Notification> GetAllNotificationsForUser(string userId)
+        public List<Notification> GetAllNotificationsForUser(string userId)
         {
-            return _repository.GetAllNotifications().Where(user => user.UserId == Guid.Parse(userId)).ToList();
+            return _repository.GetAllNotificationsForUser(Guid.Parse(userId));
         }
 
         public void DeleteAllNotificationsForUser(string userId)

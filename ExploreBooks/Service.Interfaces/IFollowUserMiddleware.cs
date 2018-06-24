@@ -6,8 +6,8 @@ namespace Service.Interfaces
 {
     public interface IFollowUserMiddleware
     {
-        IReadOnlyList<FollowUser> GetAllFollowedPeople(Guid userId);
-        IReadOnlyList<FollowUser> GetAllFollowers(Guid userId);
+        List<FollowUser> GetAllFollowedPeople(Guid userId);
+        List<FollowUser> GetAllFollowers(Guid userId);
         bool CheckIfAlreadyFollowed(Guid userId, Guid followedId);
         void DeleteUserFollow(Guid userId);
     }

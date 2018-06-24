@@ -16,14 +16,14 @@ namespace Service.Services
             _repository = repository;
         }
 
-        public IReadOnlyList<FollowUser> GetAllFollowedPeople(Guid userId)
+        public List<FollowUser> GetAllFollowedPeople(Guid userId)
         {
-           return _repository.GetAllFollowUsers().Where(user => user.UserId == userId).ToList();
+            return _repository.GetAllFollowedPeople(userId);
         }
 
-        public IReadOnlyList<FollowUser> GetAllFollowers(Guid userId)
+        public List<FollowUser> GetAllFollowers(Guid userId)
         {
-            return _repository.GetAllFollowUsers().Where(user => user.FollowId == userId).ToList();
+            return _repository.GetAllFollowers(userId);
         }
 
         public bool CheckIfAlreadyFollowed(Guid userId, Guid followedId)
@@ -33,7 +33,7 @@ namespace Service.Services
 
         public void DeleteUserFollow(Guid userId)
         {
-            var followers = _repository.GetAllFollowUsers().Where(user => user.FollowId == userId || user.UserId == userId);
+            var followers = _repository.GetAllFollowUsersWhereUserIdAppears(userId);
 
             foreach (var follow in followers)
             {

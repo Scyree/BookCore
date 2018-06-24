@@ -6,7 +6,9 @@ namespace Repository.Interfaces
 {
     public interface IPostRepository
     {
-        IReadOnlyList<Post> GetAllPosts();
+        List<Post> GetAllPosts();
+        List<Post> GetAllPostsForUserId(Guid userId);
+        List<Post> GetAllPostsForTargetId(Guid targetId);
         Post GetPostById(Guid id);
         void CreatePost(Post post);
         void EditPost(Post post);

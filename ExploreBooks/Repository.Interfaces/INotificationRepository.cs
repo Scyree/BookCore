@@ -6,7 +6,8 @@ namespace Repository.Interfaces
 {
     public interface INotificationRepository
     {
-        IReadOnlyList<Notification> GetAllNotifications();
+        List<Notification> GetAllNotifications();
+        List<Notification> GetAllNotificationsForUser(Guid userId);
         Notification GetNotificationById(Guid id);
         void CreateNotification(Notification notification);
         void EditNotification(Notification notification);

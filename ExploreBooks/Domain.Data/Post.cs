@@ -17,9 +17,9 @@ namespace Domain.Data
 
         public ICollection<Like> Likes { get; set; }
 
-        public DateTime Date { get; set; }
-
         public ICollection<Comment> Comments { get; set; }
+
+        public DateTime Date { get; set; }
 
         public static Post CreatePost(string description, Guid userId, Guid targetId)
         {
@@ -27,8 +27,8 @@ namespace Domain.Data
             {
                 Id = Guid.NewGuid(),
                 Likes = new List<Like>(),
-                Date = DateTime.UtcNow,
-                Comments = new List<Comment>()
+                Comments = new List<Comment>(),
+                Date = DateTime.UtcNow
             };
 
             instance.UpdatePost(description, userId, targetId);

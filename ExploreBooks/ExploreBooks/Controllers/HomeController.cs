@@ -27,14 +27,14 @@ namespace ExploreBooks.Controllers
         {
             TempData["Announcement"] = content;
             _utilityService.AddNews(content);
-            _service.PopulateTextFiles();
+            //_service.PopulateTextFiles();
 
             return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return RedirectToAction("Index");
         }
     }
 }

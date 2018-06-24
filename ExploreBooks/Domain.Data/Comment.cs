@@ -15,9 +15,9 @@ namespace Domain.Data
 
         public string Text { get; set; }
 
-        public ICollection<Like> Likes { get; set; }
-
         public DateTime Date { get; set; }
+
+        public ICollection<Like> Likes { get; set; }
 
         public static Comment CreateComment(Guid userId, Guid postId, string text)
         {

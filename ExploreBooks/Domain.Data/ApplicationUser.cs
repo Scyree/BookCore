@@ -26,7 +26,7 @@ namespace Domain.Data
 
         public ICollection<Recommendation> Recommandations { get; set; }
 
-        public ICollection<BooksForMood> BooksForMoods { get; set; }
+        public ICollection<BookList> BookList { get; set; }
 
         public ICollection<FollowUser> Following { get; set; }
 
