@@ -90,6 +90,7 @@ namespace ExploreBooks
             services.AddTransient<IBookStateMiddleware, BookStateMiddleware>();
             services.AddTransient<IFollowUserMiddleware, FollowUserMiddleware>();
             services.AddTransient<INotificationMiddleware, NotificationMiddleware>();
+            services.AddTransient<IWorkingWithDatabase, WorkingWithDatabase>();
 
 
             // Application's services within business layer
