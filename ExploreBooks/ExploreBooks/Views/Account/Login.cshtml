@@ -38,14 +38,6 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="form-check">
-                                    <label class="form-check-label col-form-label" asp-for="RememberMe">
-                                        <input type="checkbox" asp-for="RememberMe"/>
-                                        @Html.DisplayNameFor(m => m.RememberMe)
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <button type="submit" class="btn" id="loginButton">Login</button>
                             </div>
                         </form>
@@ -95,12 +87,10 @@
                         <div class="row text-center">
                             <div class="col-md col">
                                 <strong>
-                                    <a class="footer text-muted" href="#">Forgot password</a>
-                                </strong>
-                            </div>
-                            <div class="col-md col">
-                                <strong>
-                                    <a class="footer" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" id="registerOption">Register here</a>
+                                    <h7 class="footer text-muted">
+                                        Don't have an account?
+                                        <a class="footer" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" id="registerOption">Register here</a>
+                                    </h7>
                                 </strong>
                             </div>
                         </div>
