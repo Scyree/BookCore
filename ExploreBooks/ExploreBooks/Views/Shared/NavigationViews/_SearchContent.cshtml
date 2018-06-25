@@ -15,8 +15,8 @@
     </div>
 </form>
 
-<div class="dropdown-menu" id="displayDivWithSearchOptions">
-    <ul id="searchOptions">
+<div id="displayDivWithSearchOptions">
+    <ul id="searchOptions" class="dropdown-menu">
         @foreach (var book in BookService.GetAllBooks())
         {
             <li>
@@ -25,8 +25,11 @@
                 </a>
             </li>
         }
+
+        <li>
+            <h7 id="noResult" class="ml-2">
+                No results found :(
+            </h7>
+        </li>
     </ul>
-    <h7 id="noResult" class="ml-2">
-        No results found :(
-    </h7>
 </div>

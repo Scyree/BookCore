@@ -113,7 +113,7 @@ namespace Business.Services
             }
         }
 
-        public async Task EditBook(Guid id, IFormFile image, string description, string details, string genres, string authors)
+        public async Task EditBook(Guid id, IFormFile image, string description, string details)
         {
             var bookToBeEdited = _bookRepository.GetBookById(id);
 
@@ -128,27 +128,7 @@ namespace Business.Services
                 {
                     bookToBeEdited.Details = details;
                 }
-
-                if (genres != null)
-                {
-                    var genresList = _genreService.GetGenres(genres);
-
-                    foreach (var genre in genresList)
-                    {
-                        _genreBookService.CheckGenreBook(genre.Id, id);
-                    }
-                }
-
-                if (authors != null)
-                {
-                    var authorList = _authorService.GetAuthors(authors);
-
-                    foreach (var author in authorList)
-                    {
-                        _authorBookService.CheckAuthorBook(author.Id, id);
-                    }
-                }
-
+                
                 if (image != null)
                 {
                     var path = bookToBeEdited.Folder;

@@ -82,7 +82,8 @@ namespace ExploreBooks.Controllers
             }
 
             var authorEditModel = new AuthorEditModel(
-                author.Description
+                author.Description,
+                author.Id
             );
 
             return View(authorEditModel);
@@ -90,14 +91,14 @@ namespace ExploreBooks.Controllers
 
         [HttpPost, ActionName("edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Description, Books, Image")] AuthorEditModel authorEditModel)
+        public async Task<IActionResult> Edit([Bind("AuthorId, Description, Books, Image")] AuthorEditModel authorEditModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(authorEditModel);
             }
 
-            await _service.EditAuthor(id, authorEditModel.Image, authorEditModel.Description, authorEditModel.Books);
+            await _service.EditAuthor(authorEditModel.AuthorId, authorEditModel.Image, authorEditModel.Description, authorEditModel.Books);
 
             return RedirectToAction(nameof(Index));
         }

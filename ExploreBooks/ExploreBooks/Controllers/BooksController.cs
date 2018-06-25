@@ -137,7 +137,8 @@ namespace ExploreBooks.Controllers
 
             var bookEditModel = new BookEditModel(
                 book.Description,
-                book.Details
+                book.Details,
+                book.Id
             );
 
             return View(bookEditModel);
@@ -145,14 +146,14 @@ namespace ExploreBooks.Controllers
         
         [HttpPost, ActionName("edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Authors, Genres, Description, Details, Image")] BookEditModel bookEditModel)
+        public async Task<IActionResult> Edit([Bind("BookId, Description, Details, Image")] BookEditModel bookEditModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(bookEditModel);
             }
 
-            await _service.EditBook(id, bookEditModel.Image, bookEditModel.Description, bookEditModel.Details, bookEditModel.Genres, bookEditModel.Authors);
+            await _service.EditBook(bookEditModel.BookId, bookEditModel.Image, bookEditModel.Description, bookEditModel.Details);
 
             return RedirectToAction(nameof(Index));
         }

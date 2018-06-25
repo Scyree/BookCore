@@ -25,24 +25,8 @@
     display: none;
 }
 
-#displayDivWithSearchOptions {
-    display: none;
-}
-
-#displayDivWithSearchOptions.dropdown-menu.drop-item {
-    width: 500px;
-}
-
 #noResult {
     display: none;
-}
-
-#searchOptions {
-    list-style-type: none;
-}
-
-#searchOptions li {
-    margin-left: -1.5rem;
 }
 
 .searchImage {

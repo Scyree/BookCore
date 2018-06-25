@@ -40,7 +40,15 @@ namespace Service.Services
 
             if (Directory.Exists(searchedPath))
             {
-                Directory.Delete(searchedPath, true);
+                foreach (var file in Directory.GetFiles(searchedPath))
+                {
+                    var extension = Path.GetExtension(file);
+
+                    if (extension != ".txt")
+                    {
+                        File.Delete(file);
+                    }
+                }
             }
         }
 

@@ -62,19 +62,18 @@ namespace Service.Services
                 if (extension == ".txt")
                 {
                     fileName = file;
+                    var content = File.ReadLines(fileName).ToList();
+
+                    foreach (var line in content)
+                    {
+                        if (line.Length > 0)
+                        {
+                            displayedContent.Add(line);
+                        }
+                    }
                 }
             }
-
-            var content = File.ReadLines(fileName).ToList();
-
-            foreach (var line in content)
-            {
-                if (line.Length > 0)
-                {
-                    displayedContent.Add(line);
-                }
-            }
-
+            
             return displayedContent;
         }
 

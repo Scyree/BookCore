@@ -22,7 +22,8 @@
                 <div class="modal-body">
                     <div class="row justify-content-center">
                         <form asp-action="Edit" enctype="multipart/form-data">
-                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            @Html.Hidden("AuthorId", Model.AuthorId)
                             <div class="form-group row">
                                 <label class="col-4 col-md-4 col-form-label leftText" asp-for="Description"></label>
                                 <div class="col-8 col-md-8 ml-auto">
