@@ -17,8 +17,7 @@
         <h4>,,@announcement,,</h4>
     }
 </div>
-
-@if (SignInManager.IsSignedIn(User))
+@if (User.IsInRole("Administrator") || User.IsInRole("Owner"))
 {
     var user = UserManager.GetUserId(User);
     <div class="col-md-2 col-2">

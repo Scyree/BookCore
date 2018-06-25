@@ -30,10 +30,13 @@
                 </div>
                 <div class="row justify-content-center">
                     <p>
-                        <a asp-action="Edit" asp-route-id="@Model.Id" class="displayContent">
-                            <i class="fa fa-edit"></i> Edit
-                        </a>
-                        <br/>
+                        @if (User.IsInRole("Administrator") || User.IsInRole("Owner"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="displayContent">
+                                <i class="fa fa-edit"></i> Edit
+                            </a>
+                            <br/>
+                        }                    
                         <a asp-action="Index" class="displayContent">
                             <i class="fa fa-undo"></i> Search for authors
                         </a>

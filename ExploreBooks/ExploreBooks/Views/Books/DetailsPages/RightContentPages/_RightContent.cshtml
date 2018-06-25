@@ -64,10 +64,13 @@
                 @{
                     var recommendBook = "recommendBook" + @Model.Id;
                 }
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="displayContent">
-                    <i class="fa fa-edit"></i> Edit
-                </a>
-                <br />
+                @if (User.IsInRole("Administrator") || User.IsInRole("Owner"))
+                {
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="displayContent">
+                        <i class="fa fa-edit"></i> Edit
+                    </a>
+                    <br/>
+                }
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <a data-toggle="modal" data-target="#@recommendBook" class="displayContent">

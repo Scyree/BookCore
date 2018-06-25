@@ -1,7 +1,6 @@
-﻿using System.Diagnostics;
-using Business.Interfaces;
+﻿using Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using ExploreBooks.Models;
+using Microsoft.AspNetCore.Authorization;
 using Service.Interfaces;
 
 namespace ExploreBooks.Controllers
@@ -23,6 +22,7 @@ namespace ExploreBooks.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Owner, Administrator")]
         public IActionResult CreateNews(string content)
         {
             TempData["Announcement"] = content;

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Business.Interfaces;
 using ExploreBooks.Models.BookViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
 
@@ -100,13 +101,15 @@ namespace ExploreBooks.Controllers
         }
 
         [HttpGet, ActionName("create")]
+        [Authorize(Roles = "Owner, Administrator")]
         public IActionResult Create()
         {
             return View();
         }
-        
-        [HttpPost, ActionName("create")]
+
         [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("create")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> Create([Bind("Authors, Genres, Title, Description, Details, Image")] BookCreateModel bookCreateModel)
         {
             if (!ModelState.IsValid)
@@ -120,6 +123,7 @@ namespace ExploreBooks.Controllers
         }
 
         [HttpGet, ActionName("edit")]
+        [Authorize(Roles = "Owner, Administrator")]
         public IActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -143,9 +147,10 @@ namespace ExploreBooks.Controllers
 
             return View(bookEditModel);
         }
-        
-        [HttpPost, ActionName("edit")]
+
         [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("edit")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> Edit([Bind("BookId, Description, Details, Image")] BookEditModel bookEditModel)
         {
             if (!ModelState.IsValid)
@@ -159,6 +164,7 @@ namespace ExploreBooks.Controllers
         }
 
         [HttpGet, ActionName("delete")]
+        [Authorize(Roles = "Owner")]
         public IActionResult Delete(Guid? id)
         {
             if (id == null)
@@ -175,9 +181,10 @@ namespace ExploreBooks.Controllers
 
             return View(book);
         }
-        
-        [HttpPost, ActionName("delete")]
+
         [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("delete")]
+        [Authorize(Roles = "Owner")]
         public IActionResult DeleteConfirmed(Guid id)
         {
             _service.DeleteBook(id);

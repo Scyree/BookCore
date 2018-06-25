@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Service.Services;
 
 namespace ExploreBooks.Controllers
 {
@@ -107,13 +108,19 @@ namespace ExploreBooks.Controllers
 
                 _pictureService.CreatePicture(value);
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    await _emailSender.SendEmailConfirmationAsync(model.Email);
-                    _logger.LogInformation("User created a new account with password.");
+                    var insertRole = await _userManager.AddToRoleAsync(user, UserRoles.User.ToString());
 
-                    return RedirectToLocal(returnUrl);
+                    if (insertRole.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        await _emailSender.SendEmailConfirmationAsync(model.Email);
+                        _logger.LogInformation("User created a new account with password.");
+
+                        return RedirectToLocal(returnUrl);
+                    }
                 }
                 AddErrors(result);
             }
@@ -207,16 +214,22 @@ namespace ExploreBooks.Controllers
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
-                    result = await _userManager.AddLoginAsync(user, info);
-                    if (result.Succeeded)
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        await _emailSender.SendEmailConfirmationAsync(model.Email);
-                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                    var insertRole = await _userManager.AddToRoleAsync(user, UserRoles.User.ToString());
 
-                        return RedirectToLocal(returnUrl);
+                    if (insertRole.Succeeded)
+                    {
+                        result = await _userManager.AddLoginAsync(user, info);
+                        if (result.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            await _emailSender.SendEmailConfirmationAsync(model.Email);
+                            _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+
+                            return RedirectToLocal(returnUrl);
+                        }
                     }
                 }
+
                 AddErrors(result);
             }
 
