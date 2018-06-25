@@ -1,6 +1,7 @@
-﻿@model BooksForMoodCreateModel
+﻿@model BookListCreateModel
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IBookService BookService
 
 @{
     ViewData["Title"] = "Add";
@@ -24,27 +25,41 @@
                 </div>
                 <div class="modal-body">
                     <div class="row justify-content-center">
+                        @{
+                            var books = BookService.GetAllBooks();
+                        }
                         <form asp-action="Create" enctype="multipart/form-data">
                             <div asp-validation-summary="All" class="text-danger"></div>
                             @Html.Hidden("UserId", userId)
                             <div class="form-group row">
                                 <label class="col-4 col-md-4 col-form-label leftText" asp-for="Title"></label>
                                 <div class="col-8 col-md-8 ml-auto">
-                                    <input asp-for="Title" class="form-control" />
+                                    <input asp-for="Title" class="form-control"/>
                                     <span asp-validation-for="Title" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-4 col-md-4 col-form-label leftText" asp-for="Description"></label>
                                 <div class="col-8 col-md-8 ml-auto">
-                                    <input asp-for="Description" class="form-control" />
+                                    <input asp-for="Description" class="form-control"/>
                                     <span asp-validation-for="Description" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-4 col-md-4 col-form-label leftText" asp-for="Books"></label>
                                 <div class="col-8 col-md-8 ml-auto">
-                                    <input asp-for="Books" class="form-control" />
+                                    <div class="form-group">
+                                        <div class="col-11 col-md-11">
+                                            @Html.DropDownList("Books", new SelectList(books, "Id", "Title"), null, new
+                                            {
+                                                @class = "form-control selectpicker",
+                                                name = "Books",
+                                                id = "Books",
+                                                multiple = "multiple",
+                                                data_live_search = "true"
+                                            })
+                                        </div>
+                                    </div>
                                     <span asp-validation-for="Books" class="text-danger"></span>
                                 </div>
                             </div>

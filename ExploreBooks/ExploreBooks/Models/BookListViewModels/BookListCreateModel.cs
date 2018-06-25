@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace ExploreBooks.Models.BooksForMoodViewModels
+namespace ExploreBooks.Models.BookListViewModels
 {
-    public class BooksForMoodCreateModel
+    public class BookListCreateModel
     {
         [Required(ErrorMessage = "A title is required.")]
         public string Title { get; set; }
@@ -12,6 +13,6 @@ namespace ExploreBooks.Models.BooksForMoodViewModels
         public string UserId { get; set; }
 
         [Required(ErrorMessage = "At least one book is required.")]
-        public string Books { get; set; }
+        public List<string> Books { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using Business.Interfaces;
-using ExploreBooks.Models.BooksForMoodViewModels;
+using ExploreBooks.Models.BookListViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExploreBooks.Controllers
@@ -47,13 +47,13 @@ namespace ExploreBooks.Controllers
 
         [HttpPost, ActionName("create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(BooksForMoodCreateModel booksCreateModel)
+        public ActionResult Create(BookListCreateModel booksCreateModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(booksCreateModel);
             }
-
+            
             _booksForMoodService.CreateBookList(Guid.Parse(booksCreateModel.UserId), booksCreateModel.Title, booksCreateModel.Description, booksCreateModel.Books);
 
             return RedirectToAction(nameof(Index));

@@ -36,26 +36,42 @@ namespace Business.Services
             return books;
         }
 
-        public void CreateBookList(Guid userId, string title, string description, string books)
+        public void CreateBookList(Guid userId, string title, string description, List<string> books)
         {
-            var bookList = _bookService.GetBooksForBookList(books);
+            var bookList = new List<Book>();
 
-            var bookForMood = BookList.CreateBookList(
-                userId,
-                title,
-                description
-            );
-
-            _bookListRepository.CreateBookList(bookForMood);
-
-            foreach (var book in bookList)
+            if (userId.ToString() != null)
             {
-                var bookWithinList = BookListContent.Create(
-                    bookForMood.Id,
-                    book.Id
+                foreach (var book in books)
+                {
+                    if (book != null)
+                    {
+                        var correctBook = _bookService.GetBookById(Guid.Parse(book));
+
+                        if (correctBook != null)
+                        {
+                            bookList.Add(correctBook);
+                        }
+                    }
+                }
+
+                var bookForMood = BookList.CreateBookList(
+                    userId,
+                    title,
+                    description
                 );
 
-                _bookRepository.CreateBookListContent(bookWithinList);
+                _bookListRepository.CreateBookList(bookForMood);
+
+                foreach (var book in bookList)
+                {
+                    var bookWithinList = BookListContent.Create(
+                        bookForMood.Id,
+                        book.Id
+                    );
+
+                    _bookRepository.CreateBookListContent(bookWithinList);
+                }
             }
         }
 
