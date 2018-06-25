@@ -17,6 +17,7 @@
                     @for (var index = 0; index < content.Count; index += 35)
                     {
                         var number = index / 35 + 1;
+                        var count = 0;
                         <div id="pageDisplay" class="rounded">
                             @for (var line = 35 * (number - 1); line < 35 * number; ++line)
                             {

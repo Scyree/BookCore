@@ -20,13 +20,13 @@
             <div class="col-4"><hr /></div>
         </div>
         <div class="row justify-content-center">
-            <div class="offset-1 col-md-5 col-5 text-right">
+            <div class="offset-2 col-md-4 col-4 text-right">
                 <h6 id="displayUserProgress">
                     Number of pages:
                 </h6>
             </div>
             <div class="col-md-6 col-6">
-                <div class="btn-toolbar modifyPages">
+                <div class="form-inline modifyPages">
                     @{
                         var userId = UserManager.GetUserId(User);
                         if (BookService.CheckIfBookStateExists(Model.Id, userId))

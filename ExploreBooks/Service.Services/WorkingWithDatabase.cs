@@ -53,6 +53,7 @@ namespace Service.Services
             var fileName = "";
             var path = Path.Combine(_env.WebRootPath, "images/" + book.Folder);
             var files = Directory.GetFiles(path);
+            var displayedContent = new List<string>();
 
             foreach (var file in files)
             {
@@ -66,7 +67,15 @@ namespace Service.Services
 
             var content = File.ReadLines(fileName).ToList();
 
-            return content;
+            foreach (var line in content)
+            {
+                if (line.Length > 0)
+                {
+                    displayedContent.Add(line);
+                }
+            }
+
+            return displayedContent;
         }
 
         private void CreateForSpecificBook(string title, string givenAuthor, string details, string file)
@@ -82,11 +91,20 @@ namespace Service.Services
                 var path = _folder + "\\" + value;
                 var imageName = _folder + ".jpg";
                 var textContent = File.ReadAllLines(file).Skip(20).ToList();
+                var displayedContent = new List<string>();
                 var fileName = value + ".txt";
                 var destiantionPath = Path.Combine(_env.WebRootPath, "images\\" + path);
 
                 _fileManagement.CopyFile(_folder, value);
                 File.WriteAllLines(destiantionPath + "\\" + fileName, textContent);
+
+                foreach (var line in textContent)
+                {
+                    if (line.Length > 0)
+                    {
+                        displayedContent.Add(line);
+                    }
+                }
 
                 var book = Book.CreateBook(
                     title,
@@ -96,7 +114,7 @@ namespace Service.Services
                     details
                 );
 
-                book.Pages = textContent.Count / 35;
+                book.Pages = displayedContent.Count / 35;
 
                 _bookRepository.CreateBook(book);
                 _genreBookService.CheckGenreBook(genre.Id, book.Id);

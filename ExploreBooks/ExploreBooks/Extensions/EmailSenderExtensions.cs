@@ -9,7 +9,7 @@ namespace ExploreBooks.Extensions
         {
             return emailSender.SendEmailAsync(email, "Hello there!",
                 $"\tHello and welcome!\n" +
-                $"You received this mail as a confirmation for your registering to ExploreBooks!\n" +
+                $"You received this mail as a confirmation for your registration to ExploreBooks!\n" +
                 $"Enjoy and share a great experience with it!");
         }
     }

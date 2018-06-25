@@ -23,13 +23,13 @@
 <div class="row">
     @if (SignInManager.IsSignedIn(User))
     {
-        <div class="offset-2 col-md-4 col-4 text-right">
+        <div class="offset-2 col-md-3 col-3 text-right">
             <h6 id="displayUserRating">
                 Your rating: 
             </h6>
         </div>
-        <div class="col-md-6 col-6 text-left">
-            <div class="btn-toolbar">
+        <div class="col-md-7 col-7">
+            <div class="form-inline text-left">
                 @{
                     var userId = UserManager.GetUserId(User);
                     if (BookService.CheckIfUserRatedThisBook(Guid.Parse(userId), Model.Id))
@@ -37,7 +37,7 @@
                         var rate = BookService.GetUserRatingForBook(Guid.Parse(userId), Model.Id);
                         @Html.DropDownList("ratingBook", BookService.GetRatingList(), BookService.ConvertRateToText(rate), new
                         {
-                            @class = "form-control w-50",
+                            @class = "form-control w-auto",
                             id = "ratingValue",
                             onchange = "DisplaySaveOption()"
                         })
@@ -46,7 +46,7 @@
                     {
                         @Html.DropDownList("ratingBook", BookService.GetRatingList(), null, new
                         {
-                            @class = "form-control w-50",
+                            @class = "form-control w-auto",
                             @id = "ratingValue",
                             onchange = "DisplaySaveOption()"
                         })

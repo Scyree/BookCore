@@ -3,13 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link id="titleImage" rel="icon" href="/exploreBooksIcon.png"/>
     <title>@ViewData["Title"] - ExploreBooks</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/Layout.css" />
+        <link id="normal" rel="stylesheet" href="~/css/Layout.css" />
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
-        <link rel="stylesheet" href="~/lib/bootstrap-select-1.13.0/css/bootstrap-select.css"/>
+        <link rel="stylesheet" href="~/lib/bootstrap-select-1.13.0/css/bootstrap-select.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -22,7 +23,7 @@
     <nav class="navbar navbar-expand-lg bg-primary navbar-dark fixed-top">
         <div class="container">
             <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">
-                <img id="logoPicture" src="@Url.Content("~/images/logo.png")" />
+                <img id="logoPicture" src="@Url.Content("~/images/ExploreBooks.png")"/>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDropdown" aria-expanded="false">
                 <span class="navbar-toggler-icon"></span>
@@ -56,7 +57,7 @@
                         }
                     </li>
                 </ul>
-            
+
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
@@ -65,7 +66,6 @@
         <br />
         <br />
         @RenderBody()
-        <br />
     </div>
     <div class="generalFooter">
         <div class="container">
