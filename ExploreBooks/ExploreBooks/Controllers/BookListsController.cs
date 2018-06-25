@@ -26,14 +26,14 @@ namespace ExploreBooks.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("ObjectNotFound", "Errors");
             }
 
             var book = _booksForMoodService.GetBookListById(id.Value);
 
             if (book == null)
             {
-                return NotFound();
+                return RedirectToAction("ObjectNotFound", "Errors");
             }
 
             return View(book);

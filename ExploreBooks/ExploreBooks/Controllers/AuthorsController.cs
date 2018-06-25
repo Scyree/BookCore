@@ -34,7 +34,7 @@ namespace ExploreBooks.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("ObjectNotFound", "Errors");
             }
 
             var author = _service.GetAuthorById(id.Value);
@@ -75,14 +75,14 @@ namespace ExploreBooks.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("ObjectNotFound", "Errors");
             }
 
             var author = _service.GetAuthorById(id.Value);
 
             if (author == null)
             {
-                return NotFound();
+                return RedirectToAction("ObjectNotFound", "Errors");
             }
 
             var authorEditModel = new AuthorEditModel(
@@ -114,14 +114,14 @@ namespace ExploreBooks.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("ObjectNotFound", "Errors");
             }
 
             var author = _service.GetAuthorById(id.Value);
 
             if (author == null)
             {
-                return NotFound();
+                return RedirectToAction("ObjectNotFound", "Errors");
             }
 
             return View(author);

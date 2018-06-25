@@ -87,14 +87,14 @@ namespace ExploreBooks.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("ObjectNotFound", "Errors");
             }
 
             var book = _service.GetBookById(id.Value);
 
             if (book == null)
             {
-                return NotFound();
+                return RedirectToAction("ObjectNotFound", "Errors");
             }
 
             return View(book);
@@ -128,14 +128,14 @@ namespace ExploreBooks.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("ObjectNotFound", "Errors");
             }
 
             var book = _service.GetBookById(id.Value);
 
             if (book == null)
             {
-                return NotFound();
+                return RedirectToAction("ObjectNotFound", "Errors");
             }
 
 
@@ -169,14 +169,14 @@ namespace ExploreBooks.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("ObjectNotFound", "Errors");
             }
 
             var book = _service.GetBookById(id.Value);
 
             if (book == null)
             {
-                return NotFound();
+                return RedirectToAction("ObjectNotFound", "Errors");
             }
 
             return View(book);

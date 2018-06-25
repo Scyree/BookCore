@@ -9,7 +9,7 @@ namespace ExploreBooks.Controllers
             return View();
         }
 
-        public IActionResult Error(string Id)
+        public IActionResult Error(string id)
         {
             return View("Index");
         }
@@ -22,6 +22,12 @@ namespace ExploreBooks.Controllers
 
         [HttpGet("SomethingWentWrong")]
         public IActionResult SomethingWentWrong()
+        {
+            return View();
+        }
+
+        [HttpGet("ObjectNotFound")]
+        public IActionResult ObjectNotFound()
         {
             return View();
         }
