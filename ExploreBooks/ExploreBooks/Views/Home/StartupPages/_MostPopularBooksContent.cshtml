@@ -53,7 +53,7 @@
                                 @for (var index = 0; index < 4; ++index)
                                 {
                                     var currentIndex = index + 4 * divNumber;
-                                    <div class="col-md col displayedBooks">
+                                    <div class="col-md-3 col-3 displayedBooks">
                                         <a asp-controller="Books" asp-action="Details" asp-route-id="@popularBooks[currentIndex].Id" data-toggle="tooltip" data-placement="right" data-html="true" title="@popularBooks[currentIndex].Title">
                                             <img class="rounded" id="bookImage" src="@Url.Content("~/images/" + popularBooks[currentIndex].Folder + "/" + popularBooks[currentIndex].ImageName)" />
                                         </a>

@@ -45,3 +45,9 @@
     padding-top: 0.1rem;
     padding-right: 0.2rem;
 }
+
+@media screen and (min-width: 767px) and (max-width: 990px) {
+    .commentContent i {
+        font-size: 10px !important;
+    }
+}

@@ -106,3 +106,9 @@ tbody {
 #books {
     color: #4a2f37;
 }
+
+@media screen and (max-width: 1000px) {
+    figcaption {
+        font-size: 5px !important;
+    }
+}

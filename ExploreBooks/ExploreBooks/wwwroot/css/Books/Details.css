@@ -57,3 +57,123 @@ hr {
 #recommendation:hover {
     color: #84474e;
 }
+
+@media screen and (min-width: 611px) and (max-width: 766px) {
+    #leftContentImage {
+        max-width: 70% !important;
+        max-height: 70% !important;
+        width: 70% !important;
+        height: 70% !important;
+    }
+
+    .writtenBooks {
+        max-width: 50px !important;
+        max-height: 100px !important;
+        width: 50px !important;
+        height: 100px !important;
+    }
+
+    h5 {
+        font-size: 15px !important;
+    }
+
+    #displayUserProgress, #displayUserRating, #displayUserChapters {
+        font-size: 10px !important;
+    }
+
+    .submitChapter input {
+        width: 80% !important;
+    }
+}
+
+@media screen and (min-width: 767px) and (max-width: 990px) {
+    #leftContentImage {
+        max-width: 70% !important;
+        max-height: 70% !important;
+        width: 70% !important;
+        height: 70% !important;
+    }
+
+    .writtenBooks {
+        max-width: 50px !important;
+        max-height: 100px !important;
+        width: 50px !important;
+        height: 100px !important;
+    }
+
+    h5 {
+        font-size: 15px !important;
+    }
+
+    #displayUserProgress, #displayUserRating, #displayUserChapters {
+        font-size: 10px !important;
+    }
+
+    .submitChapter input {
+        width: 80% !important;
+    }
+}
+
+@media screen and (min-width: 351px) and (max-width: 766px) {
+    #leftContentImage {
+        max-width: 70% !important;
+        max-height: 70% !important;
+        width: 70% !important;
+        height: 70% !important;
+    }
+
+    .writtenBooks {
+        max-width: 50px !important;
+        max-height: 100px !important;
+        width: 50px !important;
+        height: 100px !important;
+    }
+
+    h5 {
+        font-size: 15px !important;
+    }
+
+    #displayUserProgress, #displayUserRating, #displayUserChapters {
+        font-size: 10px !important;
+    }
+
+    .submitChapter input {
+        width: 80% !important;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    #leftContentImage {
+        max-width: 70% !important;
+        max-height: 70% !important;
+        width: 70% !important;
+        height: 70% !important;
+    }
+
+    .writtenBooks {
+        max-width: 50px !important;
+        max-height: 100px !important;
+        width: 50px !important;
+        height: 100px !important;
+    }
+
+    h5 {
+        font-size: 5px !important;
+    }
+
+    #displayUserProgress, #displayUserRating, #displayUserChapters {
+        font-size: 10px !important;
+    }
+
+    .submitChapter input {
+        width: 80% !important;
+    }
+
+    .fa {
+        font-size: 5px !important;
+    }
+
+    .btn {
+        width: 20px !important;
+    }
+}

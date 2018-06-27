@@ -17,3 +17,35 @@
 .textButton {
     display: none;
 }
+
+@media screen and (min-width: 767px) and (max-width: 990px) {
+    .profile {
+        max-width: 70% !important;
+        max-height: 70% !important;
+        width: 70% !important;
+        height: 70% !important;
+    }
+}
+
+@media screen and (min-width: 501px) and (max-width: 766px) {
+    .profile {
+        max-width: 70% !important;
+        max-height: 70% !important;
+        width: 70% !important;
+        height: 70% !important;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .profile {
+        max-width: 30% !important;
+        max-height: 30% !important;
+        width: 30% !important;
+        height: 30% !important;
+    }
+
+    .commentContent, .postContent {
+        display: none;
+    }
+
+}

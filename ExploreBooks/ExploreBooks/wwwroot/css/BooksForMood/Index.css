@@ -81,3 +81,68 @@ tbody {
 .displayCreator {
     margin-top: 50px;
 }
+
+@media screen and (max-width: 610px) {
+    .displayedBooks {
+        max-width: 50px !important;
+        max-height: 65px !important;
+        width: 50px !important;
+        height: 65px !important;
+    }
+}
+
+@media screen and (min-width: 611px) and (max-width: 766px) {
+    #leftContentImage {
+        max-width: 70% !important;
+        max-height: 70% !important;
+        width: 70% !important;
+        height: 70% !important;
+    }
+
+    .writtenBooks {
+        max-width: 50px !important;
+        max-height: 100px !important;
+        width: 50px !important;
+        height: 100px !important;
+    }
+
+    h5 {
+        font-size: 15px !important;
+    }
+
+    #displayUserProgress, #displayUserRating, #displayUserChapters {
+        font-size: 10px !important;
+    }
+
+    .submitChapter input {
+        width: 80% !important;
+    }
+}
+
+@media screen and (min-width: 767px) and (max-width: 990px) {
+    #leftContentImage {
+        max-width: 70% !important;
+        max-height: 70% !important;
+        width: 70% !important;
+        height: 70% !important;
+    }
+
+    .writtenBooks {
+        max-width: 50px !important;
+        max-height: 100px !important;
+        width: 50px !important;
+        height: 100px !important;
+    }
+
+    h5 {
+        font-size: 15px !important;
+    }
+
+    #displayUserProgress, #displayUserRating, #displayUserChapters {
+        font-size: 10px !important;
+    }
+
+    .submitChapter input {
+        width: 80% !important;
+    }
+}

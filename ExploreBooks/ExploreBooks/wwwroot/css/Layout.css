@@ -149,3 +149,139 @@ input {
 #displayDivWithSearchOptions.dropdown-menu.drop-item {
     width: 500px;
 }
+
+
+@media screen and (min-width: 767px) and (max-width: 1000px) {
+    .fa {
+        font-size: 12px !important;
+    }
+
+    #addToFavorite {
+        max-width: 80% !important;
+        max-height: 80% !important;
+        width: 80% !important;
+        height: 80% !important;
+    }
+}
+
+@media screen and (min-width: 611px) and (max-width: 766px) {
+    .fa {
+        font-size: 12px !important;
+    }
+
+    #addToFavorite {
+        max-width: 80% !important;
+        max-height: 80% !important;
+        width: 80% !important;
+        height: 80% !important;
+    }
+
+    #title {
+        font-size: 1.2em;
+    }
+
+    #ratingValue {
+        max-width: 80% !important;
+        max-height: 80% !important;
+        width: 80% !important;
+        height: 80% !important;
+    }
+
+}
+
+@media screen and (max-width: 610px) {
+    img {
+        max-width: 80% !important;
+        max-height: 80% !important;
+        width: 80% !important;
+        height: 80% !important;
+    }
+
+    #reviewPicture {
+        max-width: 20% !important;
+        max-height: 20% !important;
+        width: 20% !important;
+        height: 20% !important;
+    }
+
+    body {
+        font-size: 0.2em;
+    }
+
+    h1, h2, h3, h4, h5, h6, h7, p {
+        font-size: 0.4em;
+    }
+
+    hr {
+        margin-left: 0.1em;
+        margin-right: 0.1em;
+    }
+
+    #title {
+        font-size: 10px;
+    }
+
+    #removeFavorite, #addFavorite, #ratingValue {
+        max-width: 90% !important;
+        max-height: 90% !important;
+        width: 90% !important;
+        height: 90% !important;
+        font-size: 12px !important;
+    }
+
+    .btn {
+        max-width: 30% !important;
+        max-height: 30% !important;
+        width: 30% !important;
+        height: 30% !important;
+    }
+
+    .fa {
+        font-size: 12px !important;
+    }
+
+    .searchImage {
+        max-width: 20% !important;
+        max-height: 20% !important;
+        width: 20% !important;
+        height: 20% !important;
+    }
+
+    .postContent, .commentContent {
+        max-width: 90% !important;
+        max-height: 90% !important;
+        width: 90% !important;
+        height: 90% !important;
+        font-size: 10px !important;
+    }
+
+    #planToReadButton, #readButton, #readingButton, #modifyButton, #modifyChapters {
+        margin-left: -1rem !important;
+        font-size: 5px !important;
+    }
+
+    .userPicture {
+        max-width: 70% !important;
+        max-height: 50% !important;
+        width: 70% !important;
+        height: 50% !important;
+    }
+
+    .postContent {
+        margin-left: -5rem;
+    }
+
+    #userNavigationPicture {
+        max-width: 40px !important;
+        max-height: 40px !important;
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .changePicture {
+        max-width: 80px !important;
+        max-height: 80px !important;
+        width: 80px !important;
+        height: 80px !important;
+    }
+}
