@@ -197,6 +197,10 @@ input {
         height: 80% !important;
     }
 
+    .modal-title {
+        font-size: 15px !important;
+    }
+
     #reviewPicture {
         max-width: 20% !important;
         max-height: 20% !important;

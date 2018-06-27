@@ -14,7 +14,7 @@
 }
 
 @media screen and (max-width: 370px) {
-    .modal-body {
+    #readBook .modal-body {
         overflow-y: auto;
         width: 300px !important;
         height: 600px !important;
@@ -23,7 +23,7 @@
 }
 
 @media screen and (min-width: 371px) and (max-width: 490px) {
-    .modal-body {
+    #readBook .modal-body {
         overflow-y: auto;
         width: 440px !important;
         height: 600px !important;
@@ -36,7 +36,7 @@
 }
 
 @media screen and (min-width: 491px) and (max-width: 576px) {
-    .modal-body {
+    #readBook .modal-body {
         overflow-y: auto;
         width: 510px !important;
         height: 600px !important;
@@ -49,7 +49,7 @@
 }
 
 @media screen and (min-width: 577px) and (max-width: 710px) {
-    .modal-body {
+    #readBook .modal-body {
         overflow-y: auto;
         width: 500px !important;
         height: 600px !important;
