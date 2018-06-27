@@ -51,3 +51,8 @@ hr {
     background-color: #532D2D;
     color: #C0B2B2;
 }
+
+#searchOptions {
+    list-style-type: none;
+    margin-left: -1rem !important;
+}
